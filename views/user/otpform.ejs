@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shopEazy</title>
+	<!-- Bootstrap 5 CDN Link -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom CSS Link -->
+	<link rel="stylesheet" href="assets/style.css">
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			const inputs = document.querySelectorAll('.otp_input input');
+			const hiddenOtpInput = document.getElementById('otp');
+			const hiddenEmailInput = document.getElementById('email');
+	
+			inputs.forEach((input, index) => {
+				input.addEventListener('input', function() {
+					if (this.value.length === 1 && index < inputs.length - 1) {
+						inputs[index + 1].focus();
+					}
+					updateHiddenInput();
+				});
+			});
+	
+			function updateHiddenInput() {
+				let otpValue = '';
+				inputs.forEach(input => {
+					otpValue += input.value;
+				});
+				hiddenOtpInput.value = otpValue;
+	
+				// Optionally set email if known or retrieve dynamically
+				// hiddenEmailInput.value = 'example@example.com'; // Set email dynamically if needed
+			}
+		});
+	</script>
+	
+	
+</head>
+<body>
+    <section class="wrapper">
+		<div class="container mt-5 pt-2">
+			<div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 text-center pt-5">
+				<div class="logo">
+					<img decoding="async" src="assets/newimages/logo.png" class="img-fluid" alt="logo">
+				</div>
+				<form action="" method="POST" class="rounded bg-white shadow p-5">
+					<h3 class="text-dark fw-bolder fs-4 mb-2">OTP Verification</h3>
+					<div class="fw-normal text-muted mb-4">
+						Enter the verification code we sent to
+					</div>
+					
+					<div class="otp_input text-start mb-2">
+                        <label for="digit">Type your 6 digit security code</label>
+						<div class="d-flex align-items-center justify-content-between mt-2">
+                            <input type="text" class="form-control" inputmode="numeric" maxlength="1" placeholder="" required>
+                            <input type="text" class="form-control" inputmode="numeric" maxlength="1" placeholder="">
+                            <input type="text" class="form-control" inputmode="numeric" maxlength="1" placeholder="">
+                            <input type="text" class="form-control" inputmode="numeric" maxlength="1" placeholder="">
+                            <input type="text" class="form-control" inputmode="numeric" maxlength="1" placeholder="">
+                            <input type="text" class="form-control" inputmode="numeric" maxlength="1" placeholder="">
+                        </div> 
+						<input type="hidden" id="otp" name="otp" value="">
+						<input type="hidden" id="email" name="register-email" value="">
+					</div>
+					<button type="submit" class="btn btn-primary submit_btn my-4">Submit</button>
+					<% if(typeof message !== "undifined"){%> 
+					<div class="fw-normal text-muted mb-4 ">
+						
+							<h5 class="text-danger"><%= message %></h5>
+							
+					</div><%}%>
+                    <div class="fw-normal text-muted mb-2">
+						Didn’t get the code ? <a href="#" class="text-primary fw-bold text-decoration-none">Resend</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
