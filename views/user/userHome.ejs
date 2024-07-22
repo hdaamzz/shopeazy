@@ -60,17 +60,17 @@
                                         <div class="tab-content" id="tab-content-5">
                                             <div class="tab-pane fade show active" id="signin" role="tabpanel"
                                                 aria-labelledby="signin-tab">
-                                                <form action="/login" method="POST" id="login-form">
+                                                <form action="/signin" method="POST" id="login-form">
                                                     <div class="form-group">
                                                         <label for="singin-email">Username or email address *</label>
                                                         <input type="text" class="form-control" id="singin-email"
-                                                            name="singin-email" required>
+                                                            name="signin-email" required>
                                                     </div><!-- End .form-group -->
 
                                                     <div class="form-group">
                                                         <label for="singin-password">Password *</label>
                                                         <input type="password" class="form-control" id="singin-password"
-                                                            name="singin-password" required>
+                                                            name="signin-password" required>
                                                     </div><!-- End .form-group -->
 
                                                     <div class="form-footer">
@@ -115,13 +115,13 @@
                                                             name="register-email" required>
                                                     </div><!-- End .form-group -->
                                                     <div class="form-group">
-                                                        <label for="register-phone">Your phone number *</label>
-                                                        <input type="text" class="form-control" id="register-phone"
-                                                            name="register-phone" required>
+                                                        <label for="register-phone">Password *</label>
+                                                        <input type="text" class="form-control" id="register-password0"
+                                                            name="register-password0" required>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="register-password">Password *</label>
+                                                        <label for="register-password">Confirm password *</label>
                                                         <input type="password" class="form-control"
                                                             id="register-password" name="register-password" required>
                                                     </div><!-- End .form-group -->
@@ -133,20 +133,7 @@
                                                         </button>
                                                     </div><!-- End .form-footer -->
                                                 </form>
-
-
-
-                                                <div class="form-choice">
-                                                    <p class="text-center">or sign in with</p>
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-sm-6">
-                                                            <a href='/auth/google' class="btn btn-login btn-g">
-                                                                <i class="icon-google"></i>
-                                                                Login With Google
-                                                            </a>
-                                                        </div><!-- End .col-6 -->
-                                                    </div><!-- End .row -->
-                                                </div><!-- End .form-choice -->
+                                                
                                             </div><!-- .End .tab-pane -->
                                         </div><!-- End .tab-content -->
                                     </div><!-- End .form-tab -->
@@ -652,6 +639,184 @@
         </div><!-- End .mobile-menu-container -->
 
         <!-- Sign in / Register Modal -->
+        <script>
+           //sign in validation
+                document.addEventListener('DOMContentLoaded', function() {
+                    const form = document.getElementById('login-form');
+                    const emailInput = document.getElementById('singin-email');
+                    const passwordInput = document.getElementById('singin-password');
+
+                    form.addEventListener('submit', function(event) {
+                        let isValid = true;
+
+                        // Clear previous error messages
+                        clearErrors();
+
+                        // Validate email/username
+                        if (emailInput.value.trim() === '') {
+                            showError(emailInput, 'Email or username is required');
+                            isValid = false;
+                        } else if (emailInput.value.includes('@') && !isValidEmail(emailInput.value)) {
+                            showError(emailInput, 'Please enter a valid email address');
+                            isValid = false;
+                        }
+
+                        // Validate password
+                        if (passwordInput.value.trim() === '') {
+                            showError(passwordInput, 'Password is required');
+                            isValid = false;
+                        }
+
+                        if (!isValid) {
+                            event.preventDefault();
+                        }
+                    });
+
+                    function showError(input, message) {
+                        const formGroup = input.closest('.form-group');
+                        const error = document.createElement('div');
+                        error.className = 'error-message';
+                        error.style.color = 'red';
+                        error.textContent = message;
+                        formGroup.appendChild(error);
+                    }
+
+                    function clearErrors() {
+                        const errorMessages = form.querySelectorAll('.error-message');
+                        errorMessages.forEach(error => error.remove());
+                    }
+
+                    function isValidEmail(email) {
+                        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        return re.test(String(email).toLowerCase());
+                    }
+                });
+
+
+            //register validation
+            document.addEventListener('DOMContentLoaded', function() {
+                
+                const form = document.getElementById('signup-form');
+                const nameInput = document.getElementById('register-name');
+                const emailInput = document.getElementById('register-email');
+                const passwordInput = document.getElementById('register-password0');
+                const confirmPasswordInput = document.getElementById('register-password');
+                emailInput.addEventListener('blur', async function() {
+                        if (isValidEmail(emailInput.value)) {
+                            const isEmailTaken = await checkEmailExists(emailInput.value);
+                            if (isEmailTaken) {
+                                showError(emailInput, 'This email is already registered');
+                            } else {
+                                clearError(emailInput);
+                            }
+                        }
+                    });
+
+                    async function checkEmailExists(email) {
+                        try {
+                            const response = await fetch('/check-email', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ email }),
+                            });
+                            const data = await response.json();
+                            return data.exists;
+                        } catch (error) {
+                            console.error('Error checking email:', error);
+                            return false;
+                        }
+                    }
+
+                    function clearError(input) {
+                        const formGroup = input.closest('.form-group');
+                        const existingError = formGroup.querySelector('.error-message');
+                        if (existingError) {
+                            existingError.remove();
+                        }
+                    }
+                                
+            
+                form.addEventListener('submit', function(event) {
+                    let isValid = true;
+            
+                    // Clear previous error messages
+                    clearErrors();
+            
+                    // Validate name
+                    if (nameInput.value.trim() === '') {
+                        showError(nameInput, 'Name is required');
+                        isValid = false;
+                    }
+            
+                    // Validate email
+                    if (!isValidEmail(emailInput.value)) {
+                        showError(emailInput, 'Please enter a valid email address');
+                        isValid = false;
+                    }
+            
+                    // Validate password
+                    if (passwordInput.value.length < 8) {
+                        showError(passwordInput, 'Password must be at least 8 characters long');
+                        isValid = false;
+                    }
+            
+                    // Validate password confirmation
+                    if (passwordInput.value !== confirmPasswordInput.value) {
+                        showError(confirmPasswordInput, 'Passwords do not match');
+                        isValid = false;
+                    }
+            
+                    if (!isValid) {
+                        event.preventDefault();
+                    }
+                });
+            
+                function showError(input, message) {
+                    const formGroup = input.closest('.form-group');
+                    const error = document.createElement('div');
+                    error.className = 'error-message';
+                    error.style.color = 'red';
+                    error.textContent = message;
+                    formGroup.appendChild(error);
+                }
+            
+                function clearErrors() {
+                    const errorMessages = form.querySelectorAll('.error-message');
+                    errorMessages.forEach(error => error.remove());
+                }
+            
+                function isValidEmail(email) {
+                    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(String(email).toLowerCase());
+                }
+
+            });
+                        form.addEventListener('submit', async function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Clear previous error messages
+                clearErrors();
+
+                // Perform all validations
+                let isValid = validateForm(); // Implement this based on your existing validation logic
+
+                // Check email existence again before submission
+                if (isValid && isValidEmail(emailInput.value)) {
+                    const isEmailTaken = await checkEmailExists(emailInput.value);
+                    if (isEmailTaken) {
+                        showError(emailInput, 'This email is already registered');
+                        isValid = false;
+                    }
+                }
+
+                if (isValid) {
+                    // If all validations pass, submit the form
+                    this.submit();
+                }
+            });
+            </script>
 
         <!-- Plugins JS File -->
         <script src="assets/js/jquery.min.js"></script>

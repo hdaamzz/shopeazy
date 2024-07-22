@@ -1,9 +1,9 @@
 
-
 const User = require('../models/userCredentials');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+const passport = require('passport');
 const crypto = require('crypto');
 
 const securePassword = async (password) => {
@@ -25,7 +25,7 @@ const transporter = nodemailer.createTransport({
 
 const loadMain = async (req, res) => {
     try {
-        res.render('main');
+        res.render('userHome');
     } catch (error) {
         console.log(error.message);
     }
@@ -33,18 +33,24 @@ const loadMain = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
+        
         const spassword = await securePassword(req.body['register-password']);
 
         const user = {
             user_name: req.body['register-name'],
             email_address: req.body['register-email'],
-            phone_number: req.body['register-phone'],
             password: spassword,
             is_valid: 1,
             is_block: 0
         };
 
         const email = req.body['register-email'];
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email_address: email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email already registered' });
+        }
         const otp = crypto.randomInt(100000, 999999).toString(); // Generate a 6-digit OTP
         req.session.otpStore = otp;
         req.session.userData = user;
@@ -54,7 +60,7 @@ const registerUser = async (req, res) => {
             from: process.env.SUPER_EMAIL,
             to: email,
             subject: 'Your OTP Code',
-            text: `Your OTP code is ${otp}. This OTP is valid for 2 minutes.`
+            text: `Your OTP code is ${otp}. This OTP is valid for 1 minutes.`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -73,12 +79,25 @@ const registerUser = async (req, res) => {
 
 const loadUserMain = async (req, res) => {
     try {
-        const userData = await User.findById({ _id: req.session.user_id });
-        res.render('main', { user: userData });
+      let userData;
+      if (req.user) {
+        // If user is authenticated via Google
+        userData = req.user;
+      } else if (req.session.user_id) {
+        // If user is authenticated via your existing method
+        userData = await User.findById(req.session.user_id);
+      }
+  
+      if (userData) {
+        res.render('userHome', { user: userData });
+      } else {
+        res.redirect('/');
+      }
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
+      res.status(500).send('Server error');
     }
-}
+  };
 
 const loadOtp = async (req, res) => {
     try {
@@ -140,14 +159,87 @@ const resendOtp = async (req, res) => {
     }
 };
 
-const userLogout = async (req, res) => {
+const userLogout = (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        console.log(err);
+      }
+      delete req.session.user_id;
+      res.redirect('/');
+    });
+  };
+
+const googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
+
+const googleAuthCallback = (req, res, next) => {
+    passport.authenticate('google', (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.redirect('/'); // Redirect to login page if authentication fails
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        req.session.user_id = user._id; // Set the session user_id
+        return res.redirect('/home'); // Redirect to home page on successful authentication
+      });
+    })(req, res, next);
+  };
+  
+  const checkGoogleAuthStatus = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }else if (req.session.user_id){
+        return next();
+    }
+    res.redirect('/');
+  };
+  
+  const verifyLogin = async (req, res) => {
     try {
-        delete req.session.user_id;
-        res.redirect('/');
+        const email = req.body['signin-email'];
+        const password =  req.body['signin-password'];
+        const userData = await User.findOne({ email_address: email })
+
+    
+        if (userData) {
+            const passwordMatch = await bcrypt.compare(password, userData.password);
+            if (passwordMatch && userData.is_valid==1) {
+                req.session.user_id = userData._id;
+
+                res.redirect('/home');
+
+            } 
+        } else {
+           
+                res.render('userHome', { message: "Email Or Password Is Incorret!" });
+            
+        }
     } catch (error) {
         console.log(error.message);
+        res.status(500).send('Internal Server Error');
     }
 }
+
+const checkMail = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const existingUser = await User.findOne({ email_address: email });
+        res.render('userHome',{alert:"This email is existing"});
+    } catch (error) {
+        console.error('Error checking email:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
+
+
+
+
+
+
 
 module.exports = {
     registerUser,
@@ -156,6 +248,11 @@ module.exports = {
     userLogout,
     loadOtp,
     verifyOtp,
-    resendOtp
+    resendOtp,
+    googleAuth,
+    googleAuthCallback,
+    checkGoogleAuthStatus,
+    verifyLogin,
+    checkMail
 };
 

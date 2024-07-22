@@ -3,15 +3,15 @@ const userCrendtialsSchema = new mongoose.Schema({
     
     email_address: {
         type: String,
-        required: true
+        required: function() { return !this.googleId; }
     },
-    phone_number: {
+    googleId: {
         type: String,
-        required: true
+        sparse: true 
     },
     password: {
         type: String,
-        required: true
+        required: function() { return !this.googleId; }
     },
     is_valid: {
         type: Boolean,
@@ -23,7 +23,7 @@ const userCrendtialsSchema = new mongoose.Schema({
     },
     user_name: {
         type:String,
-        required:true
+        required: function() { return !this.googleId; }
     }
 });
 module.exports = mongoose.model('Users', userCrendtialsSchema);
