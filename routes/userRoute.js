@@ -18,12 +18,14 @@ user_route.use(session({
     // cookie:{maxAge:5000},
     resave: false,
     rolling:false,
-    saveUninitialized: true
+    saveUninitialized: true,
+
 }));
 user_route.get('/',auth.isLogout,userController.loadMain);
 user_route.post('/signup',userController.registerUser);
 user_route.get('/otpValidate',auth.isLogout,userController.loadOtp);
 user_route.post('/otpValidate',userController.verifyOtp);
+user_route.post('/resendOtp', userController.resendOtp);
 user_route.get('/home',auth.isLogin,userController.loadUserMain);
 
 

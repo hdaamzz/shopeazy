@@ -1,4 +1,5 @@
 
+
 const User = require('../models/userCredentials');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
@@ -15,10 +16,10 @@ const securePassword = async (password) => {
 }
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // Use your email service
+    service: 'gmail',
     auth: {
-        user: process.env.SUPER_EMAIL, // Your email
-        pass: process.env.SUPER_PASS // Your email password
+        user: process.env.SUPER_EMAIL,
+        pass: process.env.SUPER_PASS
     }
 });
 
@@ -47,6 +48,7 @@ const registerUser = async (req, res) => {
         const otp = crypto.randomInt(100000, 999999).toString(); // Generate a 6-digit OTP
         req.session.otpStore = otp;
         req.session.userData = user;
+        req.session.otpTime = Date.now();
         console.log(`${req.session.otpStore}`);
         const mailOptions = {
             from: process.env.SUPER_EMAIL,
@@ -60,7 +62,7 @@ const registerUser = async (req, res) => {
                 console.log(error.message);
                 return res.status(500).send('Error sending email');
             } else {
-                res.redirect(`/otpValidate`);
+                res.redirect(`/otpValidate?id=${email}`);
             }
         });
     } catch (error) {
@@ -80,7 +82,8 @@ const loadUserMain = async (req, res) => {
 
 const loadOtp = async (req, res) => {
     try {
-        res.render("otpform",{message:""});
+        const email = req.query.id;
+        res.render("otpform", { email: email, message: "" });
     } catch (error) {
         console.log(error.message);
     }
@@ -95,15 +98,44 @@ const verifyOtp = async (req, res) => {
             const userData = new User(req.session.userData);
             await userData.save();
 
-            req.session.otpStore = null; // Remove OTP after successful verification
-            req.session.userData = null; // Remove userData from session
+            req.session.otpStore = null;
+            req.session.userData = null;
             req.session.user_id = userData._id;
             res.redirect('/home');
         } else {
-            res.render('otpform',{message:"Invalid OTP"})
+            const email = req.body['email'];
+            res.render('otpform', { email: email, message: "Invalid OTP" });
         }
     } catch (error) {
         console.error('Error in verifyOtp:', error.message);
+        res.status(500).send('Server error');
+    }
+};
+
+const resendOtp = async (req, res) => {
+    try {
+        const email = req.body['email'];
+        const otp = crypto.randomInt(100000, 999999).toString(); // Generate a new 6-digit OTP
+        req.session.otpStore = otp;
+        req.session.otpTime = Date.now();
+        console.log(`${req.session.otpStore}`);
+        const mailOptions = {
+            from: process.env.SUPER_EMAIL,
+            to: email,
+            subject: 'Your OTP Code',
+            text: `Your OTP code is ${otp}. This OTP is valid for 2 minutes.`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error.message);
+                return res.status(500).send('Error sending email');
+            } else {
+                res.render('otpform', { email: email, message: "Resended successfully" });
+            }
+        });
+    } catch (error) {
+        console.log(error.message);
         res.status(500).send('Server error');
     }
 };
@@ -123,5 +155,7 @@ module.exports = {
     loadUserMain,
     userLogout,
     loadOtp,
-    verifyOtp
+    verifyOtp,
+    resendOtp
 };
+
