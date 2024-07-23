@@ -33,7 +33,7 @@ const loadMain = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        
+
         const spassword = await securePassword(req.body['register-password']);
 
         const user = {
@@ -79,25 +79,25 @@ const registerUser = async (req, res) => {
 
 const loadUserMain = async (req, res) => {
     try {
-      let userData;
-      if (req.user) {
-        // If user is authenticated via Google
-        userData = req.user;
-      } else if (req.session.user_id) {
-        // If user is authenticated via your existing method
-        userData = await User.findById(req.session.user_id);
-      }
-  
-      if (userData) {
-        res.render('userHome', { user: userData });
-      } else {
-        res.redirect('/');
-      }
+        let userData;
+        if (req.user) {
+            // If user is authenticated via Google
+            userData = req.user;
+        } else if (req.session.user_id) {
+            // If user is authenticated via your existing method
+            userData = await User.findById(req.session.user_id);
+        }
+
+        if (userData) {
+            res.render('userHome', { user: userData });
+        } else {
+            res.redirect('/');
+        }
     } catch (error) {
-      console.log(error.message);
-      res.status(500).send('Server error');
+        console.log(error.message);
+        res.status(500).send('Server error');
     }
-  };
+};
 
 const loadOtp = async (req, res) => {
     try {
@@ -161,62 +161,62 @@ const resendOtp = async (req, res) => {
 
 const userLogout = (req, res) => {
     req.logout((err) => {
-      if (err) {
-        console.log(err);
-      }
-      delete req.session.user_id;
-      res.redirect('/');
+        if (err) {
+            console.log(err);
+        }
+        delete req.session.user_id;
+        res.redirect('/');
     });
-  };
+};
 
 const googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
 
 const googleAuthCallback = (req, res, next) => {
     passport.authenticate('google', (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return res.redirect('/'); // Redirect to login page if authentication fails
-      }
-      req.logIn(user, (err) => {
         if (err) {
-          return next(err);
+            return next(err);
         }
-        req.session.user_id = user._id; // Set the session user_id
-        return res.redirect('/home'); // Redirect to home page on successful authentication
-      });
+        if (!user) {
+            return res.redirect('/'); // Redirect to login page if authentication fails
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            req.session.user_id = user._id; // Set the session user_id
+            return res.redirect('/home'); // Redirect to home page on successful authentication
+        });
     })(req, res, next);
-  };
-  
-  const checkGoogleAuthStatus = (req, res, next) => {
+};
+
+const checkGoogleAuthStatus = (req, res, next) => {
     if (req.isAuthenticated()) {
-      return next();
-    }else if (req.session.user_id){
+        return next();
+    } else if (req.session.user_id) {
         return next();
     }
     res.redirect('/');
-  };
-  
-  const verifyLogin = async (req, res) => {
+};
+
+const verifyLogin = async (req, res) => {
     try {
         const email = req.body['signin-email'];
-        const password =  req.body['signin-password'];
+        const password = req.body['signin-password'];
         const userData = await User.findOne({ email_address: email })
 
-    
+
         if (userData) {
             const passwordMatch = await bcrypt.compare(password, userData.password);
-            if (passwordMatch && userData.is_valid==1) {
+            if (passwordMatch && userData.is_valid == 1) {
                 req.session.user_id = userData._id;
 
                 res.redirect('/home');
 
-            } 
+            }
         } else {
-           
-                res.render('userHome', { message: "Email Or Password Is Incorret!" });
-            
+
+            res.render('userHome', { message: "Email Or Password Is Incorret!" });
+
         }
     } catch (error) {
         console.log(error.message);
@@ -228,7 +228,7 @@ const checkMail = async (req, res) => {
     try {
         const { email } = req.body;
         const existingUser = await User.findOne({ email_address: email });
-        res.render('userHome',{alert:"This email is existing"});
+        res.render('userHome', { alert: "This email is existing" });
     } catch (error) {
         console.error('Error checking email:', error);
         res.status(500).json({ error: 'Server error' });
