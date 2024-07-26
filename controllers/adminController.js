@@ -1,5 +1,7 @@
 const Admin = require('../models/adminCredentials');
 const User =require('../models/userCredentials');
+const Category =require('../models/categoryList');
+const Products =require('../models/products');
 const bcrypt = require('bcrypt');
 
 
@@ -79,11 +81,179 @@ const blockUser = async (req, res) => {
     }
 }
 
+const loadCategory = async(req,res)=>{
+    try {
+        const categoryData = await Category.find({})
+        res.render('category',{category:categoryData})
+    } catch (error) {
+        console.error('Error load category:', error);
+        res.status(500);
+    }
+}
+
+const addCategory = async(req,res)=>{
+    try {
+        const category={
+         category_name: req.body['categoryTitle'],
+         description: req.body['description'],
+         status :req.body['categoryoption']
+        }
+        const categoryData =new Category(category)
+        await categoryData.save();
+        res.redirect('/admin/category')
+
+    } catch (error) {
+        console.error('Error add category:', error);
+        res.status(500);
+    }
+}
+const listCategory = async (req, res) => {
+    try {
+        const categoryId = req.params.categoryId;
+
+        const category = await Category.findById(categoryId);
+        if (!category) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        category.status = !category.status;
+        await category.save();
+
+        const message = category.status ? 'Category listed successfully' : 'Category unlisted successfully';
+        res.json({ success: true, message: message });
+
+    } catch (error) {
+        console.error('Error list/unlist :', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+}
+const updateCategory= async(req,res)=>{
+    try {
+        await Category.findByIdAndUpdate({ _id: req.body['hiddenId'] }, {
+            $set: {
+                category_name: req.body['categoryTitle'],
+                description: req.body['description'],
+                status :req.body['categoryoption']
+            }
+        });
+        res.redirect('/admin/category')
+    } catch (error) {
+        console.error('Error Update Category:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+}
+
+const loadProducts= async (req,res)=>{
+    try {
+        const product = await Products.find({}).populate('category');
+        const categories = await Category.find({});
+        res.render('products',{product:product,categories: categories})
+    } catch (error) {
+        console.error('Error Load Produts:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+}
+
+const loadAddProduct =async(req,res)=>{
+    try {
+        const category = await Category.find({});
+        res.render('addproduct',{category:category})
+    } catch (error) {
+        console.error('Error Load Add Produt:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+}
+
+const addProduct = async (req, res) => {
+    try {
+        const images = req.files.map(file => file.filename);
+
+        const productData = {
+            product_name: req.body['productTitle'],
+            description: req.body['ProductDescription'],
+            images: images,
+            category: req.body['categorySelection'],
+            is_listed: req.body['productOption'],
+            stock: parseInt( req.body['productCount']),
+            price: parseFloat(req.body['productPrice'])
+        };
+
+        const newProduct = new Products(productData);
+        await newProduct.save();
+
+        res.status(200).json({ success: true, message: 'Product added successfully', redirectUrl: '/admin/products' });
+    } catch (error) {
+        console.error('Error Adding Product:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+};
+
+
+const loadUpdateProduct= async(req,res)=>{
+    try {
+        const id=req.query.id
+        console.log(id);
+        const productData= await Products.findById(id).populate('category')
+        const category = await Category.find({})
+        res.render('updateproduct',{productData,category})
+    } catch (error) {
+        console.error('Error Load Update Product:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+}
+
+const updateProduct = async (req, res) => {
+    try {
+        const hiddenId = req.body['hiddenid'];
+        const existingProduct = await Products.findById(hiddenId);
+
+        let images = [];
+
+        // Handle image uploads
+        for (let i = 1; i <= 3; i++) {
+            const fieldName = `productImage${i}`;
+            if (req.files && req.files[fieldName]) {
+                images.push(req.files[fieldName][0].filename);
+            } else if (req.body[`existingImage${i}`]) {
+                images.push(req.body[`existingImage${i}`]);
+            }
+        }
+
+        // Update product
+        await Products.findByIdAndUpdate(hiddenId, {
+            $set: {
+                product_name: req.body['productTitle'],
+                description: req.body['ProductDescription'],
+                images: images,
+                category: req.body['categorySelection'],
+                is_listed: req.body['productOption'],
+                stock: parseInt(req.body['productCount']),
+                price: parseFloat(req.body['productPrice'])
+            }
+        });
+
+        res.status(200).json({ success: true, message: 'Product updated successfully', redirectUrl: '/admin/products' });
+    } catch (error) {
+        console.error('Error Updating Product:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+};
+
 
 module.exports ={
     loadLogin,
     verifyAdmin,
     loadDashboard,
     loadAllCustomers,
-    blockUser
+    blockUser,
+    loadCategory,
+    addCategory,
+    listCategory,
+    updateCategory,
+    loadProducts,
+    loadAddProduct,
+    addProduct,
+    loadUpdateProduct,
+    updateProduct
+
 }

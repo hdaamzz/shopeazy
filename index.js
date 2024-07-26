@@ -16,6 +16,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 app.use('/dashboard-assets', express.static(path.join(__dirname, './public/dashboard-assets')));
 app.use('/lib', express.static(path.join(__dirname, 'public/lib')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(session({
     secret: config.sessionSecret,
     resave: false,
