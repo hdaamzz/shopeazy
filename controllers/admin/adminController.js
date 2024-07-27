@@ -1,7 +1,7 @@
-const Admin = require('../models/adminCredentials');
-const User =require('../models/userCredentials');
-const Category =require('../models/categoryList');
-const Products =require('../models/products');
+const Admin = require('../../models/adminCredentials');
+const User =require('../../models/userCredentials');
+const Category =require('../../models/categoryList');
+const Products =require('../../models/products');
 const bcrypt = require('bcrypt');
 
 
@@ -9,7 +9,10 @@ const bcrypt = require('bcrypt');
 
 const loadLogin =async(req,res)=>{
     try {
-        res.render("loginform",{message:""})
+        let message = '';
+        message = req.query.logout
+
+        res.render("loginform",{message})
     } catch (error) {
         console.log(error.message);
     }
@@ -30,6 +33,7 @@ const verifyAdmin = async (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, adminData.password);
         
         if (isPasswordValid) {
+            req.session.admin_id = adminData._id;
             console.log(`${adminData.admin_name} logged in successfully`);
             return res.redirect('admin/adminHome');
         } else {
@@ -192,7 +196,8 @@ const addProduct = async (req, res) => {
 const loadUpdateProduct= async(req,res)=>{
     try {
         const id=req.query.id
-        console.log(id);
+
+
         const productData= await Products.findById(id).populate('category')
         const category = await Category.find({})
         res.render('updateproduct',{productData,category})
@@ -239,6 +244,15 @@ const updateProduct = async (req, res) => {
     }
 };
 
+const logout =async(req,res)=>{
+    try {
+        delete req.session.admin_id;
+        res.redirect('/admin?logout=Logout Successfully...');
+    } catch (error) {
+        
+    }
+}
+
 
 module.exports ={
     loadLogin,
@@ -254,6 +268,7 @@ module.exports ={
     loadAddProduct,
     addProduct,
     loadUpdateProduct,
-    updateProduct
+    updateProduct,
+    logout
 
 }

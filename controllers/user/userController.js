@@ -1,5 +1,5 @@
 
-const User = require('../models/userCredentials');
+const User = require('../../models/userCredentials');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
@@ -34,23 +34,24 @@ const loadMain = async (req, res) => {
 const registerUser = async (req, res) => {
     try {
 
-        const spassword = await securePassword(req.body['register-password']);
+        const {name , email ,password} = req.body
+
+        const existingUser = await User.findOne({ email_address: email });
+        if (existingUser) {
+            res.status(400).json({ success: false, message: 'User already exists' });
+          
+        }else{
+
+        const spassword = await securePassword(password);
 
         const user = {
-            user_name: req.body['register-name'],
-            email_address: req.body['register-email'],
+            user_name: name,
+            email_address: email,
             password: spassword,
             is_valid: 1,
             is_block: 0
         };
 
-        const email = req.body['register-email'];
-
-        // Check if user already exists
-        const existingUser = await User.findOne({ email_address: email });
-        if (existingUser) {
-            return res.status(400).json({ error: 'Email already registered' });
-        }
         const otp = crypto.randomInt(100000, 999999).toString(); // Generate a 6-digit OTP
         req.session.otpStore = otp;
         req.session.userData = user;
@@ -68,12 +69,14 @@ const registerUser = async (req, res) => {
                 console.log(error.message);
                 return res.status(500).send('Error sending email');
             } else {
-                res.redirect(`/otpValidate?id=${email}`);
+                
+                    res.status(200).json({ success: true, redirectUrl: `/otpValidate?id=${email}` });
+
             }
-        });
+        });}
     } catch (error) {
         console.log(error.message);
-        res.status(500).send('Server error');
+        res.status(500).json({ success: false, message: 'Server error' });
     }
 };
 
@@ -81,10 +84,9 @@ const loadUserMain = async (req, res) => {
     try {
         let userData;
         if (req.user) {
-            // If user is authenticated via Google
             userData = req.user;
         } else if (req.session.user_id) {
-            // If user is authenticated via your existing method
+           
             userData = await User.findById(req.session.user_id);
         }
 
@@ -200,8 +202,7 @@ const checkGoogleAuthStatus = (req, res, next) => {
 
 const verifyLogin = async (req, res) => {
     try {
-        const email = req.body['signin-email'];
-        const password = req.body['signin-password'];
+        const { email, password } = req.body;
         const userData = await User.findOne({ email_address: email })
 
 
@@ -210,30 +211,22 @@ const verifyLogin = async (req, res) => {
             if (passwordMatch && userData.is_valid == 1) {
                 req.session.user_id = userData._id;
 
-                res.redirect('/home');
-
+                res.status(200).json({ success: true });
+            } else {
+                res.json({ success: false });
             }
         } else {
 
-            res.render('userHome', { message: "Email Or Password Is Incorret!" });
+            res.json({ success: false });
 
         }
     } catch (error) {
-        console.log(error.message);
+        console.log('Error verify signin',error.message);
         res.status(500).send('Internal Server Error');
     }
 }
 
-const checkMail = async (req, res) => {
-    try {
-        const { email } = req.body;
-        const existingUser = await User.findOne({ email_address: email });
-        res.render('userHome', { alert: "This email is existing" });
-    } catch (error) {
-        console.error('Error checking email:', error);
-        res.status(500).json({ error: 'Server error' });
-    }
-}
+
 
 
 
@@ -248,11 +241,12 @@ module.exports = {
     userLogout,
     loadOtp,
     verifyOtp,
+    // checkExistingUser,
     resendOtp,
     googleAuth,
     googleAuthCallback,
     checkGoogleAuthStatus,
     verifyLogin,
-    checkMail
+   
 };
 

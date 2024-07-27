@@ -60,18 +60,20 @@
                                         <div class="tab-content" id="tab-content-5">
                                             <div class="tab-pane fade show active" id="signin" role="tabpanel"
                                                 aria-labelledby="signin-tab">
-                                                <form action="/signin" method="POST" id="login-form">
+                                                <form id="login-form">
                                                     <div class="form-group">
-                                                        <label for="singin-email">Username or email address *</label>
+                                                        <label for="singin-email" class="errMsg">Username or email address *</label>
                                                         <input type="text" class="form-control" id="singin-email"
-                                                            name="signin-email" required>
+                                                            name="signin-email">
                                                     </div><!-- End .form-group -->
 
                                                     <div class="form-group">
-                                                        <label for="singin-password">Password *</label>
+                                                        <label for="singin-password" class="errMsg">Password *</label>
                                                         <input type="password" class="form-control" id="singin-password"
-                                                            name="signin-password" required>
+                                                            name="signin-password">
                                                     </div><!-- End .form-group -->
+
+                                                    <p class="main-error text-danger"></p>
 
                                                     <div class="form-footer">
                                                         <button type="submit" class="btn btn-outline-primary-2">
@@ -103,29 +105,29 @@
 
                                             <div class="tab-pane fade" id="register" role="tabpanel"
                                                 aria-labelledby="register-tab">
-                                                <form action="/signup" method="POST" id="signup-form">
+                                                <form id="signup-form">
                                                     <div class="form-group">
                                                         <div class="form-group">
-                                                            <label for="register-phone">User name *</label>
+                                                            <label for="register-phone" class="errMsgSignup">User name *</label>
                                                             <input type="text" class="form-control" id="register-name"
-                                                                name="register-name" required>
+                                                                name="register-name" >
                                                         </div>
-                                                        <label for="register-email">Your email address *</label>
+                                                        <label for="register-email" class="errMsgSignup">Your email address *</label>
                                                         <input type="email" class="form-control" id="register-email"
-                                                            name="register-email" required>
+                                                            name="register-email" >
                                                     </div><!-- End .form-group -->
                                                     <div class="form-group">
-                                                        <label for="register-phone">Password *</label>
-                                                        <input type="text" class="form-control" id="register-password0"
-                                                            name="register-password0" required>
+                                                        <label for="register-phone" class="errMsgSignup">Password *</label>
+                                                        <input type="password" class="form-control" id="register-password0"
+                                                            name="register-password0" >
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="register-password">Confirm password *</label>
+                                                        <label for="register-password" class="errMsgSignup">Confirm password *</label>
                                                         <input type="password" class="form-control"
-                                                            id="register-password" name="register-password" required>
+                                                            id="register-password" name="register-password" >
                                                     </div><!-- End .form-group -->
-
+                                                    <p class="main-error text-danger"></p>
                                                     <div class="form-footer">
                                                         <button type="submit" class="btn btn-outline-primary-2">
                                                             <span>SIGN UP</span>
@@ -364,6 +366,24 @@
 
                     <span class="slider-loader"></span><!-- End .slider-loader -->
                 </div><!-- End .intro-slider-container -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
                 <!-- End .cat-blocks-container -->
                 <div class="mb-4"></div><!-- End .mb-4 -->
 
@@ -640,185 +660,233 @@
 
         <!-- Sign in / Register Modal -->
         <script>
-           //sign in validation
-                document.addEventListener('DOMContentLoaded', function() {
+          
                     const form = document.getElementById('login-form');
-                    const emailInput = document.getElementById('singin-email');
-                    const passwordInput = document.getElementById('singin-password');
+                    const email = document.getElementById('singin-email');
+                    const password = document.getElementById('singin-password');
 
                     form.addEventListener('submit', function(event) {
-                        let isValid = true;
+                        event.preventDefault();
 
-                        // Clear previous error messages
-                        clearErrors();
+                        const emailVal = email.value.trim();
+                    const passVal = password.value.trim();
 
-                        // Validate email/username
-                        if (emailInput.value.trim() === '') {
-                            showError(emailInput, 'Email or username is required');
-                            isValid = false;
-                        } else if (emailInput.value.includes('@') && !isValidEmail(emailInput.value)) {
-                            showError(emailInput, 'Please enter a valid email address');
-                            isValid = false;
-                        }
+                        validateForm(emailVal, passVal);
+                });
 
-                        // Validate password
-                        if (passwordInput.value.trim() === '') {
-                            showError(passwordInput, 'Password is required');
-                            isValid = false;
-                        }
-
-                        if (!isValid) {
-                            event.preventDefault();
-                        }
-                    });
-
-                    function showError(input, message) {
-                        const formGroup = input.closest('.form-group');
-                        const error = document.createElement('div');
-                        error.className = 'error-message';
-                        error.style.color = 'red';
-                        error.textContent = message;
-                        formGroup.appendChild(error);
-                    }
-
-                    function clearErrors() {
-                        const errorMessages = form.querySelectorAll('.error-message');
-                        errorMessages.forEach(error => error.remove());
-                    }
-
-                    function isValidEmail(email) {
+                function isValidEmail(email) {
                         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                         return re.test(String(email).toLowerCase());
+                }
+
+                const setError = (element, message) => {
+                    console.log(element, message);
+                    const formGroup = element.parentElement;
+                    const errorDisplay = formGroup.querySelector('.errMsg');
+
+                    errorDisplay.innerText = message;formGroup
+                    element.classList.add('error');
+                    errorDisplay.classList.add('error');
+                    element.classList.remove('success');
+                    errorDisplay.classList.remove('success');
+                }
+
+                    const setSuccess = (element, message) => {
+                        const formGroup = element.parentElement;
+                        const errorDisplay = formGroup.querySelector('.errMsg');
+
+                    errorDisplay.innerText = message;
+                    element.classList.add('success');
+                    errorDisplay.classList.add('success');
+                    element.classList.remove('error');
+                    errorDisplay.classList.remove('error');
+                }
+
+                const validateForm = async (emailVal, passVal) => {
+
+                    let isValid = true;
+
+                    if (emailVal === '') {
+                        setError(email, 'Enter your email');
+                        isValid = false;
+                    } else if (!isValidEmail(emailVal)) {
+                        setError(email, 'Enter a valid email');
+                        isValid = false;
+                    } else {
+                        setSuccess(email, 'Username or email address');
                     }
-                });
 
+                    if (passVal === '') {
+                        setError(password, 'Enter your password');
+                        isValid = false;
+                    } else {
+                        setSuccess(password, 'Password');
+                    }
 
-            //register validation
-            document.addEventListener('DOMContentLoaded', function() {
-                
-                const form = document.getElementById('signup-form');
-                const nameInput = document.getElementById('register-name');
-                const emailInput = document.getElementById('register-email');
-                const passwordInput = document.getElementById('register-password0');
-                const confirmPasswordInput = document.getElementById('register-password');
-                emailInput.addEventListener('blur', async function() {
-                        if (isValidEmail(emailInput.value)) {
-                            const isEmailTaken = await checkEmailExists(emailInput.value);
-                            if (isEmailTaken) {
-                                showError(emailInput, 'This email is already registered');
-                            } else {
-                                clearError(emailInput);
-                            }
-                        }
+                    if (!isValid) {
+                        return;
+                    }
+
+                    const response = await fetch('/signin', {
+                        method: 'POST',
+                        headers : {
+                            'Content-Type' : 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            email: emailVal,
+                            password: passVal
+                         })
                     });
 
-                    async function checkEmailExists(email) {
-                        try {
-                            const response = await fetch('/check-email', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ email }),
-                            });
-                            const data = await response.json();
-                            return data.exists;
-                        } catch (error) {
-                            console.error('Error checking email:', error);
-                            return false;
-                        }
-                    }
+                    const message = await response.json();
 
-                    function clearError(input) {
-                        const formGroup = input.closest('.form-group');
-                        const existingError = formGroup.querySelector('.error-message');
-                        if (existingError) {
-                            existingError.remove();
-                        }
-                    }
-                                
-            
-                form.addEventListener('submit', function(event) {
-                    let isValid = true;
-            
-                    // Clear previous error messages
-                    clearErrors();
-            
-                    // Validate name
-                    if (nameInput.value.trim() === '') {
-                        showError(nameInput, 'Name is required');
-                        isValid = false;
-                    }
-            
-                    // Validate email
-                    if (!isValidEmail(emailInput.value)) {
-                        showError(emailInput, 'Please enter a valid email address');
-                        isValid = false;
-                    }
-            
-                    // Validate password
-                    if (passwordInput.value.length < 8) {
-                        showError(passwordInput, 'Password must be at least 8 characters long');
-                        isValid = false;
-                    }
-            
-                    // Validate password confirmation
-                    if (passwordInput.value !== confirmPasswordInput.value) {
-                        showError(confirmPasswordInput, 'Passwords do not match');
-                        isValid = false;
-                    }
-            
-                    if (!isValid) {
-                        event.preventDefault();
-                    }
-                });
-            
-                function showError(input, message) {
-                    const formGroup = input.closest('.form-group');
-                    const error = document.createElement('div');
-                    error.className = 'error-message';
-                    error.style.color = 'red';
-                    error.textContent = message;
-                    formGroup.appendChild(error);
-                }
-            
-                function clearErrors() {
-                    const errorMessages = form.querySelectorAll('.error-message');
-                    errorMessages.forEach(error => error.remove());
-                }
-            
-                function isValidEmail(email) {
-                    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return re.test(String(email).toLowerCase());
-                }
+                    if (message.success) {
+                        window.location.href = '/home';
+                    } else if (!message.success) {
 
+                        document.querySelector('.main-error').innerText = 'Invalid email or password!';
+
+                        email.classList.add('error');
+                        email.classList.remove('success');
+                        password.classList.add('error');
+                        password.classList.remove('success');
+                    }
+                }
+        </script>
+        <script>
+            const signupform = document.getElementById('signup-form');
+            const username = document.getElementById('register-name');
+            const useremail = document.getElementById('register-email');
+            const userpassword = document.getElementById('register-password0');
+            const userconfirmPassword = document.getElementById('register-password');
+
+            signupform.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const nameValue = username.value.trim();
+                const emailValue = useremail.value.trim();
+                const passValue = userpassword.value.trim();
+                const confirmPassValue = userconfirmPassword.value.trim();
+
+                validateRegisterForm(nameValue, emailValue, passValue, confirmPassValue);
             });
-                        form.addEventListener('submit', async function(event) {
-                event.preventDefault(); // Prevent default form submission
 
-                // Clear previous error messages
-                clearErrors();
+            function userisValidEmail(useremail) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(useremail).toLowerCase());
+            }
 
-                // Perform all validations
-                let isValid = validateForm(); // Implement this based on your existing validation logic
+            const setError1 = (element, message) => {
+                const formGroup = element.parentElement;
+                const errorDisplay = formGroup.querySelector('.errMsgSignup');
 
-                // Check email existence again before submission
-                if (isValid && isValidEmail(emailInput.value)) {
-                    const isEmailTaken = await checkEmailExists(emailInput.value);
-                    if (isEmailTaken) {
-                        showError(emailInput, 'This email is already registered');
+                errorDisplay.innerText = message;
+                element.classList.add('error');
+                errorDisplay.classList.add('error');
+                element.classList.remove('success');
+                errorDisplay.classList.remove('success');
+            }
+
+            const setSuccess1 = (element, message) => {
+                const formGroup = element.parentElement;
+                const errorDisplay = formGroup.querySelector('.errMsgSignup');
+
+                errorDisplay.innerText = message;
+                element.classList.add('success');
+                errorDisplay.classList.add('success');
+                element.classList.remove('error');
+                errorDisplay.classList.remove('error');
+            }
+
+            const validateRegisterForm = async (nameValue, emailValue, passValue, confirmPassValue) => {
+                let isValid = true;
+
+                if (passValue === '') {
+                        setError1(userpassword, 'Enter your password');
                         isValid = false;
+                    } else if (passValue.length < 8) {
+                        setError1(userpassword, 'Password must be at least 8 characters long');
+                        isValid = false;
+                    } else {
+                        setSuccess1(userpassword, 'Password *');
                     }
+                if (emailValue === '') {
+                    setError1(useremail, 'Enter your email');
+                    isValid = false;
+                } else if (!userisValidEmail(emailValue)) {
+                    setError1(useremail, 'Enter a valid email');
+                    isValid = false;
+                } else {
+                    setSuccess1(useremail, 'Your email address *');
                 }
 
-                if (isValid) {
-                    // If all validations pass, submit the form
-                    this.submit();
+                if (confirmPassValue === '') {
+                        setError1(userconfirmPassword, 'Enter your confirm password');
+                        isValid = false;
+                    } else if (passValue !== confirmPassValue) {
+                        setError1(userconfirmPassword, 'Your password and confirm password do not match');
+                        isValid = false;
+                    } else {
+                        setSuccess1(userconfirmPassword, 'Confirm password *');
+                    }
+                const nameRegex = /^[a-zA-Z\s]+$/;
+                    if (nameValue === '') {
+                        setError1(username, 'Enter your name');
+                        isValid = false;
+                    } else if (!nameRegex.test(nameValue)) {
+                        setError1(username, 'Name should only contain letters and spaces');
+                        isValid = false;
+                    } else {
+                        setSuccess1(username, 'User name *');
+                    }
+                if (passValue !== confirmPassValue) {
+                    setError1(userconfirmPassword, 'Your password and confirm password do not match');
+                    isValid = false;
+                } else {
+                    setSuccess1(userconfirmPassword, 'Confirm password *');
                 }
-            });
-            </script>
 
-        <!-- Plugins JS File -->
+                if (!isValid) {
+                    return;
+                }
+
+                
+                try {
+                    const response = await fetch('/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: emailValue,
+                            password: confirmPassValue,
+                            name: nameValue
+                        })
+                    });
+
+                    const message = await response.json();
+
+                    if (message.success) {
+                        window.location.href = message.redirectUrl || '/otpValidate';
+                    } else {
+                        document.querySelector('.main-error').innerText = message.message || 'An error occurred during signup';
+                        useremail.classList.add('error');
+                        useremail.classList.remove('success');
+                    }
+                } catch (error) {
+                    console.error('Error during signup:', error);
+                    document.querySelector('.main-error').innerText = 'An unexpected error occurred. Please try again.';
+                }
+            }
+        </script>
+
+
+
+        
+               
+                    
+
+         <!-- Plugins JS File -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.hoverIntent.min.js"></script>
@@ -829,7 +897,7 @@
         <script src="assets/js/jquery.plugin.min.js"></script>
         <script src="assets/js/jquery.magnific-popup.min.js"></script>
         <script src="assets/js/jquery.countdown.min.js"></script>
-        <!-- Main JS File -->
+         <!-- Main JS File -->
         <script src="assets/js/main.js"></script>
         <script src="assets/js/demos/demo-4.js"></script>
     </body>

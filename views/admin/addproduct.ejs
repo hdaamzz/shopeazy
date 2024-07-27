@@ -55,95 +55,81 @@
     <script src="/dashboard-assets/js/config.js"></script>
     <style>
        .image-upload-container {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
 
-.image-upload-container:hover {
-    border-color: #007bff;
-}
+        .image-upload-container:hover {
+            border-color: #007bff;
+        }
 
-.image-upload-input {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
-}
+        .image-upload-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
 
-.image-upload-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: #f8f9fa;
-    cursor: pointer;
-}
+        .image-upload-label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
 
-.upload-placeholder {
-    text-align: center;
-    color: #6c757d;
-}
+        .upload-placeholder {
+            text-align: center;
+            color: #6c757d;
+        }
 
-.upload-placeholder i {
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
+        .upload-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
 
-.img-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
+        .img-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
 
-.image-actions {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;
-    z-index: 3;
-}
+        .image-actions {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            z-index: 3;
+        }
 
-.image-upload-container:hover .image-actions {
-    display: flex;
-    gap: 10px;
-}
+        .image-upload-container:hover .image-actions {
+            display: flex;
+            gap: 10px;
+        }
 
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-}
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
     </style>
 
 </head>
 
 <body>
 
-
-    <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
-            style="display: none; visibility: hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar  ">
         <div class="layout-container">
-
-
-
-
-
-
-
             <!-- Menu -->
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -157,7 +143,6 @@
                             </span>
                         </span>
                         <img src="/assets/newimages/logo.png" width="150px" height="40px">
-                        <!-- <span class="app-brand-text demo menu-text fw-semibold ms-2">shopEazy</span> -->
                     </a>
 
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -167,17 +152,8 @@
 
                 <div class="menu-inner-shadow"></div>
 
-
-
                 <ul class="menu-inner py-1">
                     <!-- Dashboards -->
-
-
-                    <!-- Layouts -->
-
-                    <!-- Front Pages -->
-
-
 
                     <!-- e-commerce-app menu start -->
                     <li class="menu-item active open">
@@ -310,7 +286,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <h6 class="mb-0 small">John Doe</h6>
+                                                    <!-- <h6 class="mb-0 small">John Doe</h6> -->
                                                     <small class="text-muted">Admin</small>
 
                                                 </div>
@@ -328,7 +304,7 @@
                                     </li>
                                     <li>
                                         <div class="d-grid px-4 pt-2 pb-1">
-                                            <a class="btn btn-danger d-flex" href="auth-login-cover.html"
+                                            <a class="btn btn-danger d-flex" href="/admin/logout"
                                                 target="_blank">
                                                 <small class="align-middle">Logout</small>
                                                 <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
@@ -361,7 +337,6 @@
                                     <p class="mb-0">Orders placed across your store</p>
                                 </div>
                                 <div class="d-flex align-content-center flex-wrap gap-4">
-                                    <!-- <button class="btn btn-outline-secondary waves-effect">Discard</button> -->
                                    
                                     <button type="submit" class="btn btn-primary waves-effect waves-light">Publish
                                         product</button>
@@ -422,9 +397,7 @@
                                                             <img id="imagePreview1" src="#" alt="Preview" class="img-preview">
                                                         </label>
                                                         <div class="image-actions" id="actions1">
-                                                            <!-- <button type="button" class="btn btn-sm btn-outline-primary replace-btn" onclick="triggerInputClick('productImage1')">
-                                                                <i class="fas fa-sync-alt"></i> Replace
-                                                            </button> -->
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
@@ -439,9 +412,7 @@
                                                             <img id="imagePreview2" src="#" alt="Preview" class="img-preview">
                                                         </label>
                                                         <div class="image-actions" id="actions2">
-                                                            <!-- <button class="btn btn-sm btn-outline-primary replace-btn" onclick="triggerInputClick('productImage2')">
-                                                                <i class="fas fa-sync-alt"></i> Replace
-                                                            </button> -->
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
@@ -456,9 +427,7 @@
                                                             <img id="imagePreview3" src="#" alt="Preview" class="img-preview">
                                                         </label>
                                                         <div class="image-actions" id="actions3">
-                                                            <!-- <button class="btn btn-sm btn-outline-primary replace-btn" onclick="triggerInputClick('productImage3')">
-                                                                <i class="fas fa-sync-alt"></i> Replace
-                                                            </button> -->
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
@@ -500,7 +469,6 @@
                                                         data-select2-id="ecommerce-category-status" tabindex="-1"
                                                         aria-hidden="true" required>
                                                         <option value="" data-select2-id="4">Select Category</option>
-                                                        <!-- <option value="Scheduled">Listed</option> -->
                                                         <% if (typeof category !== "undefined" && category.length > 0) { %>
                                                             <% for (let i = 0; i < category.length; i++) { %>
                                                                 <option value="<%= category[i]._id %>"><%= category[i].category_name %></option>
@@ -520,7 +488,6 @@
                                                         data-select2-id="ecommerce-category-status" tabindex="-1"
                                                         aria-hidden="true" required>
                                                         <option value="" data-select2-id="4">Select Product Status</option>
-                                                        <!-- <option value="Scheduled">Listed</option> -->
                                                         <option value="true">Listed</option>
                                                         <option value="false">Unlisted</option>
                                                     </select>
@@ -624,10 +591,7 @@
                             confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                // Optional: redirect or reset form
                                 window.location.href = data.redirectUrl;
-                                // or
-                                // document.getElementById('addProductForm').reset();
                             }
                         });
                     } else {
