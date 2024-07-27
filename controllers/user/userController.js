@@ -1,10 +1,13 @@
 
 const User = require('../../models/userCredentials');
+const Category =require('../../models/categoryList');
+const Products =require('../../models/products');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const crypto = require('crypto');
+const { ADDRGETNETWORKPARAMS } = require('dns');
 
 const securePassword = async (password) => {
     try {
@@ -226,6 +229,29 @@ const verifyLogin = async (req, res) => {
     }
 }
 
+const loadProductCategory= async(req,res)=>{
+    try {
+        const category = req.query.id
+        const categoryData = await Category.findById(category);
+        const productData= await Products.find({category:category})
+        res.render('productCategory',{categoryData,productData})
+    } catch (error) {
+        console.log('Error Load Product Category',error.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+const loadShowProduct=async(req,res)=>{
+    try {
+        const productId = req.query.id
+        const productData = await Products.findById(productId).populate('category');
+        const allProductData = await Products.find({category:productData.category._id})
+        res.render('product',{productData,allProductData})
+    } catch (error) {
+        console.log('Error Load Product Category',error.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
 
 
 
@@ -241,12 +267,14 @@ module.exports = {
     userLogout,
     loadOtp,
     verifyOtp,
-    // checkExistingUser,
+    loadProductCategory,
     resendOtp,
     googleAuth,
     googleAuthCallback,
     checkGoogleAuthStatus,
     verifyLogin,
+    loadShowProduct
+    
    
 };
 

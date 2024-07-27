@@ -32,7 +32,9 @@ user_route.get('/home', auth.isLogin, userController.checkGoogleAuthStatus, user
 user_route.get('/auth/google',auth.isLogout, userController.googleAuth);
 user_route.get('/auth/google/callback',auth.isLogout, userController.googleAuthCallback);
 user_route.post('/signin', userController.verifyLogin)
-user_route.get('/logout', userController.userLogout);
+user_route.get('/logout',auth.isLogout, userController.userLogout);
+user_route.get('/productCategories',userController.loadProductCategory);
+user_route.get('/showProduct',userController.loadShowProduct)
 
 
 
