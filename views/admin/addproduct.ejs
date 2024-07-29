@@ -54,6 +54,14 @@
 
     <script src="/dashboard-assets/js/config.js"></script>
     <style>
+       
+        input.error {
+            border-color: red;
+        }
+        label.error {
+            color: red;
+        }
+    
        .image-upload-container {
             position: relative;
             width: 100%;
@@ -159,7 +167,7 @@
                     <li class="menu-item active open">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
-                            <div data-i18n="eCommerce">eCommerce</div>
+                            <div data-i18n="shopEazy">shopEazy</div>
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item ">
@@ -321,8 +329,14 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
 
+
+
+
+
+
+
                     <!-- Content -->
-             <form id="addProductForm" action="/admin/addProduct" method="POST" enctype="multipart/form-data">
+             <form id="addProductForm" enctype="multipart/form-data">
                     <div class="container-xxl flex-grow-1 container-p-y">
 
 
@@ -353,11 +367,15 @@
                                             <h5 class="card-tile mb-0">Product information</h5>
                                         </div>
                                         <div class="card-body">
-                                            <div class="form-floating form-floating-outline mb-5">
-                                                <input type="text" class="form-control" id="ecommerce-product-name"
-                                                    placeholder="Product title" name="productTitle"
-                                                    aria-label="Product title" required>
-                                                <label for="ecommerce-product-name">Product Name</label>
+                                            <div class="form-floating form-floating-outline mb-5 ">
+                                                <div class="formgroup1">
+                                                    <label for="ecommerce-product-name" class="errMsgSignup">Product Name</label>
+                                                    <input type="text" class="form-control" id="ecommerce-product-name"
+                                                        placeholder="Product title" name="productTitle"
+                                                        aria-label="Product title" > 
+                                                </div>
+                                               
+                                               
                                             </div>
 
 
@@ -368,12 +386,13 @@
                                                 
                                             </div>
                                             <!-- Comment -->
-                                            <div class="form-control p-0 pt-1 comment-editor border-0 pb-1 ql-container ql-snow"  id="ecommerce-category-description">
-                                                <label class="mb-1">Description</label>
-                                                <div >                                                   
-                                                        <input type="text" class="form-control" id="ecommerce-product-name"
+                                            <div class="form-control p-0 pt-1 comment-editor border-0 pb-1 ql-container ql-snow "  id="ecommerce-category-description">
+                                                
+                                                <div class="formgroup1">                                                   
+                                                    <label for="ecommerce-product-description" class="mb-1 errMsgSignup">Description</label>
+                                                        <input type="text" class="form-control" id="ecommerce-product-description"
                                                         placeholder="Description" name="ProductDescription"
-                                                        aria-label="Product title" required>
+                                                        aria-label="Product title" >
                                                 </div>
                                             </div>
                                         </div>
@@ -387,9 +406,9 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-4 mb-3">
-                                                    <div class="image-upload-container">
+                                                    <div class="image-upload-container ">
                                                         <input type="file" class="image-upload-input" id="productImage1" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview1')" required>
-                                                        <label for="productImage1" class="image-upload-label">
+                                                        <label for="productImage1" class="image-upload-label ">
                                                             <div class="upload-placeholder">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
@@ -402,9 +421,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-3">
-                                                    <div class="image-upload-container">
+                                                    <div class="image-upload-container ">
                                                         <input type="file" class="image-upload-input" id="productImage2" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview2')" required>
-                                                        <label for="productImage2" class="image-upload-label">
+                                                        <label for="productImage2" class="image-upload-label ">
                                                             <div class="upload-placeholder">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
@@ -417,9 +436,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-3">
-                                                    <div class="image-upload-container">
+                                                    <div class="image-upload-container ">
                                                         <input type="file" class="image-upload-input" id="productImage3" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview3')" required>
-                                                        <label for="productImage3" class="image-upload-label">
+                                                        <label for="productImage3" class="image-upload-label ">
                                                             <div class="upload-placeholder">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
@@ -448,18 +467,18 @@
                                         </div>
                                         <div class="card-body">
                                             <!-- Base Price -->
-                                            <div class="form-floating form-floating-outline mb-5">
+                                            <div class="form-floating form-floating-outline mb-5 formgroup1">
                                                 <input type="number" class="form-control" id="ecommerce-product-price"
-                                                    placeholder="Price" name="productPrice" aria-label="Product price" required>
-                                                <label for="ecommerce-product-price">Price</label>
+                                                    placeholder="Price" name="productPrice" aria-label="Product price" >
+                                                <label for="ecommerce-product-price" class="errMsgSignup">Price</label>
                                             </div>
 
                                             <!-- Discounted Price -->
-                                            <div class="form-floating form-floating-outline mb-5">
+                                            <div class="form-floating form-floating-outline mb-5 formgroup1">
                                                 <input type="number" class="form-control"
                                                     id="productCount" placeholder="Product Count"
-                                                    name="productCount" aria-label="Product Count" required>
-                                                <label for="productCount">Product Count</label>
+                                                    name="productCount" aria-label="Product Count" >
+                                                <label for="productCount" class="errMsgSignup">Product Count</label>
                                             </div>
                                             <div class="form-floating form-floating-outline form-floating-select2 pb-3">
                                                 <div class="position-relative"><select name="categorySelection"
@@ -546,7 +565,8 @@
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
             <script>
-                                function previewImage(input, previewId) {
+
+                    function previewImage(input, previewId) {
                     const preview = document.getElementById(previewId);
                     const file = input.files[0];
                     const reader = new FileReader();
@@ -572,47 +592,131 @@
 
 
 
-             document.getElementById('addProductForm').addEventListener('submit', function(e) 
-             { e.preventDefault();
-                
-                var formData = new FormData(this);
-                
-                fetch('/admin/addProduct', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: data.message,
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = data.redirectUrl;
+             
+                document.addEventListener('DOMContentLoaded', function() {
+                    const addProductForm = document.getElementById('addProductForm');
+                    const name = document.getElementById('ecommerce-product-name');
+                    const description = document.getElementById('ecommerce-product-description');
+                    const price = document.getElementById('ecommerce-product-price');
+                    const stock = document.getElementById('productCount');
+                    
+
+                    addProductForm.addEventListener('submit', function (event) {
+                        event.preventDefault();
+
+                        const nameValue = name.value.trim();
+                        const descriptionValue = description.value.trim();
+                        const priceValue = price.value.trim();
+                        const stockValue = stock.value.trim();
+                        
+
+                        validateRegisterForm(nameValue,descriptionValue,priceValue,stockValue);
+                     });
+                     const setError = (element, message) => {
+                            const formGroup1 = element.parentElement;
+                            const errorDisplay = formGroup1.querySelector('.errMsgSignup');
+                            if (errorDisplay) {
+                                errorDisplay.innerText = message;
+                                element.classList.add('error');
+                                errorDisplay.classList.add('error');
+                                element.classList.remove('success');
+                                errorDisplay.classList.remove('success');
+                            }
+                        }
+
+                        const setSuccess = (element, message) => {
+                            const formGroup1 = element.parentElement;
+                            const errorDisplay = formGroup1.querySelector('.errMsgSignup');
+                            if (errorDisplay) {
+                                errorDisplay.innerText = message;
+                                element.classList.add('success');
+                                errorDisplay.classList.add('success');
+                                element.classList.remove('error');
+                                errorDisplay.classList.remove('error');
+                            }
+                        }
+
+                    const validateRegisterForm = async (nameValue, descriptionValue, priceValue, stockValue) => {
+                        let isValid = true;
+
+                            if (nameValue === '') {
+                                setError(name, 'Enter Product Name');
+                                isValid = false;
+                            } else if (nameValue.length < 5) {
+                                setError(name, 'Please Enter Correct Product Name');
+                                isValid = false;
+                            } else {
+                                setSuccess(name, 'Product Name');
+                            }
+                            if (descriptionValue === '') {
+                                setError(description, 'Enter Description');
+                                isValid = false;
+                            } else {
+                                setSuccess(description, 'Description');
+                            }
+
+                            if (priceValue === '') {
+                                setError(price, 'Enter Price');
+                                isValid = false;
+                            } else if (parseFloat(priceValue) < 499) {
+                                setError(price, 'Product Price Minimum 500');
+                                isValid = false;
+                            } else {
+                                setSuccess(price, 'Pricing');
+                            }
+                            if (stockValue === '') {
+                                    setError(stock, 'Enter Stock');
+                                    isValid = false;
+                                } else if (parseInt(stockValue) < 0) {
+                                    setError(stock, 'Product Stock Minimum 0');
+                                    isValid = false;
+                                } else {
+                                    setSuccess(stock, 'Product Count');
+                                }
+                            
+
+                                if (!isValid) {
+                                    return;
+                                }
+
+                                try {
+                                    var formData = new FormData(addProductForm);
+                                    const response = await fetch('/admin/addProduct', {
+                                        method: 'POST',
+                                        body: formData
+                                    });
+                                    const data = await response.json();
+                                    if (data.success) {
+                                        Swal.fire({
+                                            title: 'Success!',
+                                            text: data.message,
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = data.redirectUrl;
+                                            }
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Error!',
+                                            text: data.message,
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        });
+                                    }
+                                } catch (error) {
+                                    console.error('Error during add product:', error);
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: 'An unexpected error occurred',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
                             }
                         });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: data.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'An unexpected error occurred',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                });
-            });
+                   
             </script>
 
 </body>

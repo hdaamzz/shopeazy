@@ -12,17 +12,17 @@ passport.use(new GoogleStrategy({
 },
     async (accessToken, refreshToken, profile, done) => {
         try {
-            // Check if user already exists in your database
+
             let user = await User.findOne({ email_address: profile.emails[0].value });
 
             if (!user) {
-                // If user doesn't exist, create a new user
+
                 user = new User({
                     user_name: profile.displayName,
                     email_address: profile.emails[0].value,
                     is_valid: true,
                     is_block: false,
-                    // You may want to generate a random password or handle this differently
+
                     password: Math.random().toString(36).slice(-8)
                 });
                 await user.save();

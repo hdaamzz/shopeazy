@@ -99,6 +99,35 @@
             color: #666;
             box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
         }
+        .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 1000;
+    max-width: 300px;
+}
+
+.notification.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.notification button {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 20px;
+    cursor: pointer;
+    float: right;
+    line-height: 1;
+    margin-left: 10px;
+}
     </style>
 
 </head>
@@ -160,7 +189,7 @@
                     <li class="menu-item active open">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
-                            <div data-i18n="eCommerce">eCommerce</div>
+                            <div data-i18n="shopEazy">shopEazy</div>
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item ">
@@ -455,10 +484,7 @@
                                         </tbody>
                                     </table>
                                     <div class="row mx-1 d-flex justify-content-center pt-4">
-                                        <!-- <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
-                                                aria-live="polite">Showing 1 to 10 of 100 entries</div>
-                                        </div> -->
+
                                         <div class="col-sm-12 col-md-6 d-flex justify-content-center">
                                             <div class="dataTables_paginate paging_simple_numbers"
                                                 id="DataTables_Table_0_paginate">
@@ -476,23 +502,6 @@
                                                     <li class="paginate_button page-item "><a href="#"
                                                             aria-controls="DataTables_Table_0" role="link"
                                                             data-dt-idx="1" tabindex="0" class="page-link">2</a></li>
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="2" tabindex="0" class="page-link">3</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="3" tabindex="0" class="page-link">4</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="4" tabindex="0" class="page-link">5</a></li> -->
-                                                    <!-- <li class="paginate_button page-item disabled"
-                                                        id="DataTables_Table_0_ellipsis"><a
-                                                            aria-controls="DataTables_Table_0" aria-disabled="true"
-                                                            role="link" data-dt-idx="ellipsis" tabindex="-1"
-                                                            class="page-link">…</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="9" tabindex="0" class="page-link">10</a></li> -->
                                                     <li class="paginate_button page-item next"
                                                         id="DataTables_Table_0_next"><a href="#"
                                                             aria-controls="DataTables_Table_0" role="link"
@@ -505,7 +514,6 @@
                                     <div style="width: 1%;"></div>
                                 </div>
                             </div>
-                            <!-- Offcanvas to add new customer -->
                         </div>
 
 
@@ -519,37 +527,25 @@
                             </div>
                             <!-- Offcanvas Body -->
                             <div class="offcanvas-body border-top">
-                                <form action=" " method="POST" class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
+                                <form action=" " method="POST"  class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
                                     id="eCommerceCategoryListForm" novalidate="novalidate">
-                                    <!-- Title -->
-
                                     <div class="form-floating form-floating-outline mb-5 fv-plugins-icon-container">
                                         <input type="text" class="form-control" id="ecommerce-category-title"
                                             placeholder="Enter category title" name="categoryTitle"
-                                            aria-label="category title">
-                                        <label for="ecommerce-category-title">Title</label>
+                                            aria-label="category title" required>
+                                        <label for="ecommerce-category-title">Category Name</label>
                                         <div
                                             class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                         </div>
                                     </div>
-
-                                    <!-- Slug -->
                                     <div class="form-floating form-floating-outline mb-5 fv-plugins-icon-container">
-                                        <input type="text" class="form-control" placeholder="Enter slug"
-                                            aria-label="slug" name="description">
+                                        <input type="text" class="form-control" placeholder="Enter Description"
+                                            aria-label="slug" name="description" required>
                                         <label for="ecommerce-category-slug">Description</label>
                                         <div
                                             class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                         </div>
                                     </div>
-
-
-
-                                    <!-- Parent category -->
-
-                                    <!-- Description -->
-
-                                    <!-- Status -->
                                     <div class="mb-5 ecommerce-select2-dropdown">
                                         <div class="form-floating form-floating-outline form-floating-select2">
                                             <div class="position-relative"><select name="categoryoption"
@@ -559,13 +555,11 @@
                                                     data-select2-id="ecommerce-category-status" tabindex="-1"
                                                     aria-hidden="true">
                                                     <option value="" data-select2-id="4">Select category status</option>
-                                                    <!-- <option value="Scheduled">Listed</option> -->
                                                     <option value="true">Listed</option>
                                                     <option value="false">Unlisted</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <!-- Submit and reset -->
                                         <div class="mb-4 mt-5">
                                             <button type="submit"
                                                 class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Add</button>
@@ -669,7 +663,6 @@
                 </div>
             </div>
             <%}%>
-            
 
             <!-- Core JS -->
             <!-- build:js assets/vendor/js/core.js -->
@@ -694,9 +687,8 @@
 
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
+    
 
 </body>
 
 </html>
-
-<!-- beautify ignore:end -->

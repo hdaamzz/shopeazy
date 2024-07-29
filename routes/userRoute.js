@@ -29,13 +29,12 @@ user_route.get('/otpValidate', auth.isLogout, userController.loadOtp);
 user_route.post('/otpValidate', userController.verifyOtp);
 user_route.post('/resendOtp', userController.resendOtp);
 user_route.get('/home', auth.isLogin, userController.checkGoogleAuthStatus, userController.loadUserMain);
-user_route.get('/auth/google',auth.isLogout, userController.googleAuth);
-user_route.get('/auth/google/callback',auth.isLogout, userController.googleAuthCallback);
+user_route.get('/auth/google', auth.isLogout, userController.googleAuth);
+user_route.get('/auth/google/callback', auth.isLogout, userController.googleAuthCallback);
 user_route.post('/signin', userController.verifyLogin)
-user_route.get('/logout',auth.isLogout, userController.userLogout);
-user_route.get('/productCategories',userController.loadProductCategory);
-user_route.get('/showProduct',userController.loadShowProduct)
-
+user_route.get('/productCategories', userController.loadProductCategory);
+user_route.get('/showProduct', userController.loadShowProduct)
+user_route.get('/logout', auth.isLogin, userController.userLogout);
 
 
 module.exports = user_route;

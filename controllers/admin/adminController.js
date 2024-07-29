@@ -1,20 +1,22 @@
 const Admin = require('../../models/adminCredentials');
-const User =require('../../models/userCredentials');
-const Category =require('../../models/categoryList');
-const Products =require('../../models/products');
+const User = require('../../models/userCredentials');
+const Category = require('../../models/categoryList');
+const Products = require('../../models/products');
 const bcrypt = require('bcrypt');
 
 
 
 
-const loadLogin =async(req,res)=>{
+const loadLogin = async (req, res) => {
     try {
         let message = '';
         message = req.query.logout
 
-        res.render("loginform",{message})
+        res.render("loginform", { message })
     } catch (error) {
-        console.log(error.message);
+        console.error('Error while load ,admin login page', error.message);
+
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
 
@@ -24,14 +26,14 @@ const verifyAdmin = async (req, res) => {
     try {
         const email = req.body['email-username'];
         const password = req.body['password'];
-        
+
         const adminData = await Admin.findOne({ email_address: email });
         if (!adminData) {
             return res.render('loginform', { message: "Email not found" });
         }
-        
+
         const isPasswordValid = await bcrypt.compare(password, adminData.password);
-        
+
         if (isPasswordValid) {
             req.session.admin_id = adminData._id;
             console.log(`${adminData.admin_name} logged in successfully`);
@@ -40,27 +42,27 @@ const verifyAdmin = async (req, res) => {
             return res.render('loginform', { message: "Incorrect password" });
         }
     } catch (error) {
-        console.error('Error in admin verification:', error);
-        res.status(500).render('error');
+        console.error('Error in admin verification:', error.message);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 };
-const loadDashboard=async(req,res)=>{
+const loadDashboard = async (req, res) => {
     try {
         res.render('dashboard')
     } catch (error) {
         console.error('Error in admin load dashboard:', error);
-        res.status(500).render('error');
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
 
-const loadAllCustomers =async(req,res)=>{
+const loadAllCustomers = async (req, res) => {
     try {
         const userData = await User.find({ is_valid: 1 })
-        res.render('allcustomer',{ users: userData })
-        
+        res.render('allcustomer', { users: userData })
+
     } catch (error) {
         console.error('Error in All customers load:', error);
-        res.status(500).render('error');
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
 
@@ -85,32 +87,37 @@ const blockUser = async (req, res) => {
     }
 }
 
-const loadCategory = async(req,res)=>{
+const loadCategory = async (req, res) => {
     try {
         const categoryData = await Category.find({})
-        res.render('category',{category:categoryData})
+        res.render('category', { category: categoryData })
     } catch (error) {
         console.error('Error load category:', error);
-        res.status(500);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
 
-const addCategory = async(req,res)=>{
+const addCategory = async (req, res) => {
     try {
-        const category={
-         category_name: req.body['categoryTitle'],
-         description: req.body['description'],
-         status :req.body['categoryoption']
+
+
+        const category = {
+            category_name: req.body['categoryTitle'],
+            description: req.body['description'],
+            status: req.body['categoryoption']
         }
-        const categoryData =new Category(category)
+        const categoryData = new Category(category)
         await categoryData.save();
         res.redirect('/admin/category')
 
     } catch (error) {
         console.error('Error add category:', error);
-        res.status(500);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
+
+
+
 const listCategory = async (req, res) => {
     try {
         const categoryId = req.params.categoryId;
@@ -131,13 +138,13 @@ const listCategory = async (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
-const updateCategory= async(req,res)=>{
+const updateCategory = async (req, res) => {
     try {
         await Category.findByIdAndUpdate({ _id: req.body['hiddenId'] }, {
             $set: {
                 category_name: req.body['categoryTitle'],
                 description: req.body['description'],
-                status :req.body['categoryoption']
+                status: req.body['categoryoption']
             }
         });
         res.redirect('/admin/category')
@@ -147,21 +154,21 @@ const updateCategory= async(req,res)=>{
     }
 }
 
-const loadProducts= async (req,res)=>{
+const loadProducts = async (req, res) => {
     try {
         const product = await Products.find({}).populate('category');
         const categories = await Category.find({});
-        res.render('products',{product:product,categories: categories})
+        res.render('products', { product: product, categories: categories })
     } catch (error) {
         console.error('Error Load Produts:', error);
         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
 
-const loadAddProduct =async(req,res)=>{
+const loadAddProduct = async (req, res) => {
     try {
         const category = await Category.find({});
-        res.render('addproduct',{category:category})
+        res.render('addproduct', { category: category })
     } catch (error) {
         console.error('Error Load Add Produt:', error);
         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
@@ -178,7 +185,7 @@ const addProduct = async (req, res) => {
             images: images,
             category: req.body['categorySelection'],
             is_listed: req.body['productOption'],
-            stock: parseInt( req.body['productCount']),
+            stock: parseInt(req.body['productCount']),
             price: parseFloat(req.body['productPrice'])
         };
 
@@ -193,17 +200,20 @@ const addProduct = async (req, res) => {
 };
 
 
-const loadUpdateProduct= async(req,res)=>{
+const loadUpdateProduct = async (req, res) => {
     try {
-        const id=req.query.id
+        const id = req.query.id
 
 
-        const productData= await Products.findById(id).populate('category')
+        const productData = await Products.findById(id).populate('category')
         const category = await Category.find({})
-        res.render('updateproduct',{productData,category})
+        res.render('updateproduct', { productData, category })
     } catch (error) {
         console.error('Error Load Update Product:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+        res.status(500).render('error500', {
+            success: false,
+            message: 'An error occurred while processing your request'
+        });
     }
 }
 
@@ -244,17 +254,19 @@ const updateProduct = async (req, res) => {
     }
 };
 
-const logout =async(req,res)=>{
+const logout = async (req, res) => {
     try {
         delete req.session.admin_id;
         res.redirect('/admin?logout=Logout Successfully...');
     } catch (error) {
-        
+        console.error('Error Logout Admin:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
 
 
-module.exports ={
+
+module.exports = {
     loadLogin,
     verifyAdmin,
     loadDashboard,
