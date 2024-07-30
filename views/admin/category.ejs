@@ -100,34 +100,40 @@
             box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
         }
         .notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    display: none;
-    z-index: 1000;
-    max-width: 300px;
-}
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+            max-width: 300px;
+        }
 
-.notification.success {
-    background-color: #d4edda;
-    color: #155724;
-}
+        .notification.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
 
-.notification button {
-    background: none;
-    border: none;
-    color: inherit;
-    font-size: 20px;
-    cursor: pointer;
-    float: right;
-    line-height: 1;
-    margin-left: 10px;
-}
+        .notification button {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 20px;
+            cursor: pointer;
+            float: right;
+            line-height: 1;
+            margin-left: 10px;
+        }
+        input.error {
+            border-color: red;
+        }
+        label.error {
+            color: red;
+        }
     </style>
 
 </head>
@@ -461,9 +467,11 @@
                                                                 class="d-flex justify-content-start align-items-center customer-country">
                                                                 <div>
                                                                     <span>
-                                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ecommerceCategoryListModal<%= category[i]._id%>">
+                                                                       <a href="/admin/updateCate?id=<%= category[i]._id%>">
+                                                                        <button type="button" class="btn btn-primary">
                                                                             EDIT
                                                                           </button>
+                                                                       </a> 
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -527,46 +535,29 @@
                             </div>
                             <!-- Offcanvas Body -->
                             <div class="offcanvas-body border-top">
-                                <form action=" " method="POST"  class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
-                                    id="eCommerceCategoryListForm" novalidate="novalidate">
-                                    <div class="form-floating form-floating-outline mb-5 fv-plugins-icon-container">
-                                        <input type="text" class="form-control" id="ecommerce-category-title"
-                                            placeholder="Enter category title" name="categoryTitle"
-                                            aria-label="category title" required>
+                                <form id="CategoryListForm">
+                                    <div class="form-floating form-floating-outline mb-5">
+                                        <input type="text" class="form-control" id="ecommerce-category-title" placeholder="Enter category title" name="categoryTitle" >
                                         <label for="ecommerce-category-title">Category Name</label>
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
+                                        <div class="invalid-feedback">Please enter a category name.</div>
                                     </div>
-                                    <div class="form-floating form-floating-outline mb-5 fv-plugins-icon-container">
-                                        <input type="text" class="form-control" placeholder="Enter Description"
-                                            aria-label="slug" name="description" required>
-                                        <label for="ecommerce-category-slug">Description</label>
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
+                                    <div class="form-floating form-floating-outline mb-5">
+                                        <input id="description" type="text" class="form-control" placeholder="Enter Description" name="description" >
+                                        <label for="description">Description</label>
+                                        <div class="invalid-feedback">Please enter a description (10-200 characters).</div>
                                     </div>
                                     <div class="mb-5 ecommerce-select2-dropdown">
-                                        <div class="form-floating form-floating-outline form-floating-select2">
-                                            <div class="position-relative"><select name="categoryoption"
-                                                    id="ecommerce-category-status"
-                                                    class="select2 form-select select2-hidden-accessible"
-                                                    data-placeholder="Select category status"
-                                                    data-select2-id="ecommerce-category-status" tabindex="-1"
-                                                    aria-hidden="true">
-                                                    <option value="" data-select2-id="4">Select category status</option>
-                                                    <option value="true">Listed</option>
-                                                    <option value="false">Unlisted</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-4 mt-5">
-                                            <button type="submit"
-                                                class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Add</button>
-                                            <button type="reset" class="btn btn-outline-danger waves-effect"
-                                                data-bs-dismiss="offcanvas">Discard</button>
-                                        </div>
-                                        <input type="hidden">
+                                        <select name="categoryoption" id="ecommerce-category-status" class="form-select" >
+                                            <option value="">Select category status</option>
+                                            <option value="true">Listed</option>
+                                            <option value="false">Unlisted</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a category status.</div>
+                                    </div>
+                                    <div class="mb-4 mt-5">
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                        <button type="reset" class="btn btn-outline-danger">Discard</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -609,54 +600,40 @@
                         </div>
                         <!-- Modal Body -->
                         <div class="modal-body">
-                            <form action="/admin/updateCategory" method="POST" class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
-                                id="eCommerceCategoryListForm" novalidate="novalidate">
+                            <form action="/admin/updateCategory" method="POST" id="eCommerceCategoryListForm" novalidate="novalidate">
                                 <!-- Title -->
-                                <div class="form-floating form-floating-outline mb-5 fv-plugins-icon-container">
-                                    <input type="text" class="form-control" id="ecommerce-category-title"
-                                        placeholder="Enter category title" name="categoryTitle"
-                                        aria-label="category title" value="<%=category[i].category_name%>">
+                                <div class="form-floating form-floating-outline mb-5">
+                                    <input type="text" class="form-control" id="ecommerce-category-title" placeholder="Enter category title" name="categoryTitle" required value="<%=category[i].category_name%>">
                                     <label for="ecommerce-category-title">Title</label>
-                                    <div
-                                        class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                    </div>
+                                    <div class="invalid-feedback">Please enter a category title.</div>
                                 </div>
-
+                            
                                 <!-- Description -->
-                                <div class="form-floating form-floating-outline mb-5 fv-plugins-icon-container">
-                                    <input type="textarea" class="form-control" placeholder="Enter Description" aria-label="slug"
-                                        name="description" value="<%=category[i].description%>">
-                                    <label for="ecommerce-category-slug">Description</label>
-                                    <div
-                                        class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                    </div>
+                                <div class="form-floating form-floating-outline mb-5">
+                                    <textarea class="form-control" placeholder="Enter Description" name="description" required minlength="10" maxlength="200"><%=category[i].description%></textarea>
+                                    <label for="description">Description</label>
+                                    <div class="invalid-feedback">Please enter a description (10-200 characters).</div>
                                 </div>
+                            
                                 <input type="hidden" name="hiddenId" value="<%=category[i]._id%>">
+                            
                                 <!-- Status -->
-                                <div class="mb-5 ecommerce-select2-dropdown">
-                                    <div class="form-floating form-floating-outline form-floating-select2">
-                                        <div class="position-relative">
-                                            <select name="categoryoption" id="ecommerce-category-status"
-                                                class="select2 form-select select2-hidden-accessible"
-                                                data-placeholder="Select category status"
-                                                data-select2-id="ecommerce-category-status" tabindex="-1"
-                                                aria-hidden="true" value="<%=category[i].status%>>
-                                                <option value="" data-select2-id="4">Select category status</option>
-                                                <option value="true">Listed</option>
-                                                <option value="false">Unlisted</option>
-                                            </select>
-                                        </div>
+                                <div class="mb-5">
+                                    <div class="form-floating form-floating-outline">
+                                        <select name="categoryoption" id="ecommerce-category-status" class="form-select" required>
+                                            <option value="" <%= !category[i].status ? 'selected' : '' %>>Select category status</option>
+                                            <option value="true" <%= category[i].status ? 'selected' : '' %>>Listed</option>
+                                            <option value="false" <%= !category[i].status ? 'selected' : '' %>>Unlisted</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a category status.</div>
                                     </div>
                                 </div>
-
+                            
                                 <!-- Submit and reset -->
                                 <div class="mb-4 mt-5">
-                                    <button type="submit"
-                                        class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Add</button>
-                                    <button type="button" class="btn btn-outline-danger waves-effect"
-                                        data-bs-dismiss="modal">Discard</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Discard</button>
                                 </div>
-                                <input type="hidden">
                             </form>
                         </div>
                     </div>
@@ -687,6 +664,74 @@
 
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
+
+            
+
+           <script>
+            document.getElementById('CategoryListForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+            
+                // Form data validation code (omitted for brevity)
+                let isValid = true;
+
+                    const categoryTitle = document.getElementById('ecommerce-category-title');
+                    if (!categoryTitle.value.trim()) {
+                        categoryTitle.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        categoryTitle.classList.remove('is-invalid');
+                    }
+
+                    // Validate description
+                    const description = document.getElementById('description');
+                    if (!description.value.trim() || description.value.length < 10 || description.value.length > 200) {
+                        description.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        description.classList.remove('is-invalid');
+                    }
+
+                    // Validate category status
+                    const categoryStatus = document.getElementById('ecommerce-category-status');
+                    if (!categoryStatus.value) {
+                        categoryStatus.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        categoryStatus.classList.remove('is-invalid');
+                    }
+            
+                if (isValid) {
+                    const formData = {
+                        categoryTitle: categoryTitle.value.trim(),
+                        description: description.value.trim(),
+                        categoryoption: categoryStatus.value
+                    };
+            
+                    try {
+                        const response = await fetch('/admin/category', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                                        window.location.href = data.redirectUrl;
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Error!',
+                                            text: data.message,
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        });
+                                    }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                }
+            });
+        </script>
     
 
 </body>

@@ -34,6 +34,7 @@ user_route.get('/auth/google/callback', auth.isLogout, userController.googleAuth
 user_route.post('/signin', userController.verifyLogin)
 user_route.get('/productCategories', userController.loadProductCategory);
 user_route.get('/showProduct', userController.loadShowProduct)
+
 user_route.get('/logout', auth.isLogin, userController.userLogout);
 
 

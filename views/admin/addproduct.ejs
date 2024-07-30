@@ -366,6 +366,10 @@
                                         <div class="card-header">
                                             <h5 class="card-tile mb-0">Product information</h5>
                                         </div>
+
+
+
+
                                         <div class="card-body">
                                             <div class="form-floating form-floating-outline mb-5 ">
                                                 <div class="formgroup1">
@@ -406,10 +410,10 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-4 mb-3">
-                                                    <div class="image-upload-container ">
-                                                        <input type="file" class="image-upload-input" id="productImage1" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview1')" required>
+                                                    <div class="image-upload-container errMsgSignup">
+                                                        <input type="file" class="image-upload-input" id="productImage1" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview1')" >
                                                         <label for="productImage1" class="image-upload-label ">
-                                                            <div class="upload-placeholder">
+                                                            <div class="upload-placeholder errMsgSignup">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
                                                             </div>
@@ -418,13 +422,14 @@
                                                         <div class="image-actions" id="actions1">
                                                            
                                                         </div>
+                                                        <p id="errorshowimage1"></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-3">
                                                     <div class="image-upload-container ">
-                                                        <input type="file" class="image-upload-input" id="productImage2" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview2')" required>
+                                                        <input type="file" class="image-upload-input" id="productImage2" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview2')" >
                                                         <label for="productImage2" class="image-upload-label ">
-                                                            <div class="upload-placeholder">
+                                                            <div class="upload-placeholder errMsgSignup">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
                                                             </div>
@@ -437,9 +442,9 @@
                                                 </div>
                                                 <div class="col-md-4 mb-3">
                                                     <div class="image-upload-container ">
-                                                        <input type="file" class="image-upload-input" id="productImage3" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview3')" required>
+                                                        <input type="file" class="image-upload-input" id="productImage3" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview3')" >
                                                         <label for="productImage3" class="image-upload-label ">
-                                                            <div class="upload-placeholder">
+                                                            <div class="upload-placeholder errMsgSignup">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
                                                             </div>
@@ -481,12 +486,12 @@
                                                 <label for="productCount" class="errMsgSignup">Product Count</label>
                                             </div>
                                             <div class="form-floating form-floating-outline form-floating-select2 pb-3">
-                                                <div class="position-relative"><select name="categorySelection"
-                                                        id="ecommerce-category-status"
+                                                <div class="position-relative"> <label for="ecommerce-category" class="errMsgSignup">Select Category</label><select name="categorySelection"
+                                                        id="ecommerce-category"
                                                         class="select2 form-select select2-hidden-accessible"
                                                         data-placeholder="Select category status"
-                                                        data-select2-id="ecommerce-category-status" tabindex="-1"
-                                                        aria-hidden="true" required>
+                                                        data-select2-id="ecommerce-category" tabindex="-1"
+                                                        aria-hidden="true" >
                                                         <option value="" data-select2-id="4">Select Category</option>
                                                         <% if (typeof category !== "undefined" && category.length > 0) { %>
                                                             <% for (let i = 0; i < category.length; i++) { %>
@@ -499,14 +504,16 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-floating form-floating-outline form-floating-select2 pt-2">
-                                                <div class="position-relative"><select name="productOption"
-                                                        id="ecommerce-category-status"
+                                            <div class="form-floating form-floating-outline form-floating-select2 pt-2 formgroup1">
+                                                <div class="position-relative  ">
+                                                    <label for="product-status" class="errMsgSignup">Select Product Status</label>
+                                                    <select name="productOption"
+                                                        id="product-status"
                                                         class="select2 form-select select2-hidden-accessible"
                                                         data-placeholder="Select category status"
-                                                        data-select2-id="ecommerce-category-status" tabindex="-1"
-                                                        aria-hidden="true" required>
-                                                        <option value="" data-select2-id="4">Select Product Status</option>
+                                                        data-select2-id="product-status" tabindex="-1"
+                                                        aria-hidden="true" >
+                                                        
                                                         <option value="true">Listed</option>
                                                         <option value="false">Unlisted</option>
                                                     </select>
@@ -597,8 +604,16 @@
                     const addProductForm = document.getElementById('addProductForm');
                     const name = document.getElementById('ecommerce-product-name');
                     const description = document.getElementById('ecommerce-product-description');
+                    const image1 =document.getElementById('productImage1');
+                    const image2 =document.getElementById('productImage2');
+                    const image3 =document.getElementById('productImage3');
                     const price = document.getElementById('ecommerce-product-price');
                     const stock = document.getElementById('productCount');
+                    const status =document.getElementById('product-status');
+                    const category =document.getElementById('ecommerce-category');
+                    // const error = document.getElementById('errorshowimage1')
+
+                    
                     
 
                     addProductForm.addEventListener('submit', function (event) {
@@ -608,9 +623,17 @@
                         const descriptionValue = description.value.trim();
                         const priceValue = price.value.trim();
                         const stockValue = stock.value.trim();
+                        const image1value = image1.files.length;
+                        console.log(image1value)
+                        const image2value = image2.files.length;
+                        const image3value = image3.files.length;
+                        const categoryValue = category.value.trim();
+                        const statusValue = status.value.trim();
+                        console.log(statusValue);
+                        
                         
 
-                        validateRegisterForm(nameValue,descriptionValue,priceValue,stockValue);
+                        validateRegisterForm(nameValue,descriptionValue,priceValue,stockValue,image1value,image2value,image3value,statusValue,categoryValue);
                      });
                      const setError = (element, message) => {
                             const formGroup1 = element.parentElement;
@@ -636,7 +659,7 @@
                             }
                         }
 
-                    const validateRegisterForm = async (nameValue, descriptionValue, priceValue, stockValue) => {
+                    const validateRegisterForm = async (nameValue, descriptionValue, priceValue, stockValue ,image1value,image2value,image3value,statusValue,categoryValue) => {
                         let isValid = true;
 
                             if (nameValue === '') {
@@ -673,7 +696,36 @@
                                 } else {
                                     setSuccess(stock, 'Product Count');
                                 }
-                            if()
+                            if(image1value == 0){
+                                setError(image1,'Upload Image Here');
+                                    isValid = false;
+                                } else {
+                                    setSuccess(image1, '');
+                                }
+                                if(image2value == 0){
+                                setError(image2,'Upload Image Here');
+                                    isValid = false;
+                                } else {
+                                    setSuccess(image2, '');
+                                }
+                                if(image3value == 0){
+                                setError(image3,'Upload Image Here');
+                                    isValid = false;
+                                } else {
+                                    setSuccess(image3, '');
+                                }
+                                if (statusValue === '') {
+                                setError(status, 'Choose Product Status');
+                                isValid = false;
+                                } else {
+                                    setSuccess(status, 'Select Product Status');
+                                }
+                                if (categoryValue === '') {
+                                setError(category, 'Choose a category');
+                                isValid = false;
+                                } else {
+                                    setSuccess(category, 'Select Product Category');
+                                }
 
                                 if (!isValid) {
                                     return;

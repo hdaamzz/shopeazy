@@ -99,24 +99,35 @@ const loadCategory = async (req, res) => {
 
 const addCategory = async (req, res) => {
     try {
+        const { categoryTitle, description, categoryoption } = req.body;
 
+    
+        if (!categoryTitle || !description || !categoryoption) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+        if (description.length < 10 || description.length > 200) {
+            return res.status(400).json({ success: false, message: 'Description must be between 10 and 200 characters' });
+        }
+
+        // Check if the category already exists
+        const existingCategory = await Category.findOne({ category_name: categoryTitle });
+        if (existingCategory) {
+            return res.status(400).json({ success: false, message: 'Category already exists' });
+        }
 
         const category = {
-            category_name: req.body['categoryTitle'],
-            description: req.body['description'],
-            status: req.body['categoryoption']
-        }
-        const categoryData = new Category(category)
+            category_name: categoryTitle,
+            description,
+            status: categoryoption === 'true'
+        };
+        const categoryData = new Category(category);
         await categoryData.save();
-        res.redirect('/admin/category')
-
+        res.json({ success: true, message: 'Category added successfully' , redirectUrl:'/admin/category'});
     } catch (error) {
-        console.error('Error add category:', error);
+        console.error('Error adding category:', error);
         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
-}
-
-
+};
 
 const listCategory = async (req, res) => {
     try {
@@ -138,21 +149,21 @@ const listCategory = async (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
-const updateCategory = async (req, res) => {
-    try {
-        await Category.findByIdAndUpdate({ _id: req.body['hiddenId'] }, {
-            $set: {
-                category_name: req.body['categoryTitle'],
-                description: req.body['description'],
-                status: req.body['categoryoption']
-            }
-        });
-        res.redirect('/admin/category')
-    } catch (error) {
-        console.error('Error Update Category:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
-    }
-}
+// const updateCategory = async (req, res) => {
+//     try {
+//         await Category.findByIdAndUpdate({ _id: req.body['hiddenId'] }, {
+//             $set: {
+//                 category_name: req.body['categoryTitle'],
+//                 description: req.body['description'],
+//                 status: req.body['categoryoption']
+//             }
+//         });
+//         res.redirect('/admin/category')
+//     } catch (error) {
+//         console.error('Error Update Category:', error);
+//         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+//     }
+// }
 
 const loadProducts = async (req, res) => {
     try {
@@ -264,6 +275,42 @@ const logout = async (req, res) => {
     }
 }
 
+const loadUpdateCategory = async (req, res) => {
+    try {
+        const id = req.query.id
+
+
+        const category = await Category.findById(id);
+
+        res.render('updateCategory',{category})
+    } catch (error) {
+        console.error('Error Logout Admin:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+}
+
+const UpdateCategory = async (req, res) => {
+    try {
+        const { hiddenid, productTitle, productOption, ProductDescription } = req.body;
+
+        console.log(hiddenid, productTitle, productOption, ProductDescription);
+
+        await Category.findByIdAndUpdate(hiddenid, {
+            $set: {
+                category_name: productTitle,
+                status: productOption,
+                description: ProductDescription
+            }
+        });
+        
+        res.status(200).json({ success: true, message: 'Category updated successfully', redirectUrl: '/admin/category' });
+    } catch (error) {
+        console.error('Error during category update:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+    }
+};
+
+
 
 
 module.exports = {
@@ -275,12 +322,13 @@ module.exports = {
     loadCategory,
     addCategory,
     listCategory,
-    updateCategory,
+    UpdateCategory,
     loadProducts,
     loadAddProduct,
     addProduct,
     loadUpdateProduct,
     updateProduct,
-    logout
+    logout,
+    loadUpdateCategory
 
 }

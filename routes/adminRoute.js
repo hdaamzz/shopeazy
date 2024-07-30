@@ -15,6 +15,7 @@ admin_route.use(session({
     saveUninitialized: true
 }));
 admin_route.use(nocache())
+admin_route.use(express.json());
 admin_route.use(bodyParser.json());
 admin_route.use(bodyParser.urlencoded({ extended: true }));
 
@@ -34,7 +35,9 @@ admin_route.post('/api/users/block/:userId', adminController.blockUser);
 admin_route.get('/category', auth.isLogin, adminController.loadCategory);
 admin_route.post('/category', adminController.addCategory);
 admin_route.post('/api/category/list/:categoryId', adminController.listCategory);
-admin_route.post('/updateCategory', adminController.updateCategory);
+admin_route.get('/updateCate',adminController.loadUpdateCategory)
+admin_route.post('/updateCate',adminController.UpdateCategory)
+// admin_route.post('/updateCategory', adminController.updateCategory);
 admin_route.get('/products', auth.isLogin, adminController.loadProducts)
 admin_route.get('/addProduct', auth.isLogin, adminController.loadAddProduct)
 admin_route.post('/addProduct', multer.upload.array('productImage', 3), adminController.addProduct);
