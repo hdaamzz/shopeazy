@@ -4,7 +4,7 @@ const Category = require('../../models/categoryList');
 const Products = require('../../models/products');
 const Address = require('../../models/userAddress');
 const Cart = require('../../models/cart');
-const PaymentType =require('../../models/paymentType');
+const PaymentType = require('../../models/paymentType');
 const Orders = require('../../models/userOrders');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
@@ -103,7 +103,7 @@ const loadUserMain = async (req, res) => {
             const cartItems = await Cart.find({ user_id: userData._id })
 
             const product = await Products.find({}).populate('category')
-            res.render('userHome', { userData ,product ,cartItems});
+            res.render('userHome', { userData, product, cartItems });
         } else {
             res.redirect('/');
         }
@@ -257,7 +257,7 @@ const loadProductCategory = async (req, res) => {
             const productData = await Products.find({ category: category });
 
 
-            res.render('productCategory', { categoryData, productData, userData ,cartItems})
+            res.render('productCategory', { categoryData, productData, userData, cartItems })
         } else {
             const category = req.query.id
             const categoryData = await Category.findById(category);
@@ -288,7 +288,7 @@ const loadShowProduct = async (req, res) => {
             const cartItems = await Cart.find({ user_id: userData._id })
             const productData = await Products.findById(productId).populate('category');
             const allProductData = await Products.find({ category: productData.category._id })
-            res.render('product', { productData, allProductData, userData ,cartItems})
+            res.render('product', { productData, allProductData, userData, cartItems })
 
 
         } else {
@@ -303,21 +303,21 @@ const loadShowProduct = async (req, res) => {
     }
 }
 
-const loadDashboard =async(req,res)=>{
-     try {
+const loadDashboard = async (req, res) => {
+    try {
 
-        let userData ;
+        let userData;
         if (req.user) {
             userData = req.user;
         } else if (req.session.user_id) {
             userData = await User.findById(req.session.user_id);
         }
         if (userData) {
-            const userid= userData._id
+            const userid = userData._id
             const cartItems = await Cart.find({ user_id: userid })
-            const addressData = await Address.find({user_id:userid});
-            res.render('dashboard',{ userData,addressData ,cartItems})
-         } else {
+            const addressData = await Address.find({ user_id: userid });
+            res.render('dashboard', { userData, addressData, cartItems })
+        } else {
             res.redirect('/')
 
         }
@@ -329,20 +329,20 @@ const loadDashboard =async(req,res)=>{
 
 
 
-const addUserAddress=async(req,res)=>{
+const addUserAddress = async (req, res) => {
 
     try {
-        const {name,phone,address,city,landmark,state,pin,id} =req.body
+        const { name, phone, address, city, landmark, state, pin, id } = req.body
         const addressData = {
             name: name,
             phone_number: phone,
             address: address,
             town_city: city,
-            landmark:landmark,
+            landmark: landmark,
             pin_code: parseInt(pin),
             state: state,
-            user_id:id,
-            is_default:false
+            user_id: id,
+            is_default: false
         };
 
         const newAddress = new Address(addressData);
@@ -350,17 +350,17 @@ const addUserAddress=async(req,res)=>{
 
         res.status(200).json({ success: true, message: 'Address added successfully', redirectUrl: '/dashboard' });
 
-        
+
     } catch (error) {
         console.log('Error add address', error.message);
         res.status(500).send('Internal Server Error');
     }
 }
 
-const updateUserAddress=async(req,res)=>{
+const updateUserAddress = async (req, res) => {
 
     try {
-        const {name,phone,address,city,landmark,state,pin,id} =req.body
+        const { name, phone, address, city, landmark, state, pin, id } = req.body
 
         await Address.findByIdAndUpdate(id, {
             $set: {
@@ -368,23 +368,23 @@ const updateUserAddress=async(req,res)=>{
                 phone_number: phone,
                 address: address,
                 town_city: city,
-                landmark:landmark,
+                landmark: landmark,
                 pin_code: parseInt(pin),
                 state: state,
-                is_default:false
+                is_default: false
             }
         });
 
         res.status(200).json({ success: true, message: 'Address updated successfully', redirectUrl: '/dashboard' });
 
-        
+
     } catch (error) {
         console.log('Error Update address', error.message);
         res.status(500).send('Internal Server Error');
     }
 }
 
-const deleteAddress= async (req, res) => {
+const deleteAddress = async (req, res) => {
     try {
         const addressId = req.body.id;
         await Address.findByIdAndDelete(addressId);
@@ -407,12 +407,12 @@ const updateUserData = async (req, res) => {
             return res.json({ success: false, message: 'User not found' });
         }
 
-        
+
         if (typeof currentPassword !== 'string') {
             return res.json({ success: false, message: 'Current password must be a string' });
         }
 
-        
+
         try {
             const isMatch = await bcrypt.compare(currentPassword, user.password);
             if (!isMatch) {
@@ -423,7 +423,7 @@ const updateUserData = async (req, res) => {
             return res.json({ success: false, message: 'Error verifying password' });
         }
 
-      
+
         if (newPassword) {
             if (typeof newPassword !== 'string' || newPassword.length < 8) {
                 return res.json({ success: false, message: 'New password need at least 8 characters' });
@@ -431,15 +431,15 @@ const updateUserData = async (req, res) => {
 
             const spasswords = await securePassword(newPassword);
 
-            await User.findByIdAndUpdate(userId, { 
+            await User.findByIdAndUpdate(userId, {
                 $set: {
                     user_name: userName,
                     password: spasswords
                 }
             });
         } else {
-           
-            await User.findByIdAndUpdate(userId, { 
+
+            await User.findByIdAndUpdate(userId, {
                 $set: {
                     user_name: userName
                 }
@@ -465,18 +465,18 @@ const loadCart = async (req, res) => {
         }
 
         if (userData) {
-            const userid= userData._id
-            
+            const userid = userData._id
+
             const cartItems = await Cart.find({ user_id: userid }).populate('product_id');
             let subtotal = 0;
             cartItems.forEach(item => {
-            subtotal += item.product_id.price * item.quantity;
+                subtotal += item.product_id.price * item.quantity;
             });
-            res.render('cart', { userData ,cartItems , subtotal:subtotal.toFixed(2)})
+            res.render('cart', { userData, cartItems, subtotal: subtotal.toFixed(2) })
 
 
         } else {
-            
+
             res.redirect('/')
         }
     } catch (error) {
@@ -486,7 +486,7 @@ const loadCart = async (req, res) => {
 }
 const loaduserCart = async (req, res) => {
     try {
-         res.render('emptycart');
+        res.render('emptycart');
 
     } catch (error) {
         console.log('Error Load emptyCart Page', error.message);
@@ -494,65 +494,64 @@ const loaduserCart = async (req, res) => {
     }
 }
 
-const addCartItem=async(req,res)=>{
+const addCartItem = async (req, res) => {
     try {
 
-        const { productId, quantity ,userId } = req.body;
-        console.log(productId,quantity,userId);
-        
-    
+        const { productId, quantity, userId } = req.body;
+
+
         let cartItem = await Cart.findOne({ user_id: userId, product_id: productId });
-    
+
         if (cartItem) {
-          
-          cartItem.quantity += quantity;
-          await cartItem.save();
+
+            cartItem.quantity += quantity;
+            await cartItem.save();
         } else {
-         
-          cartItem = new Cart({
-            user_id: userId,
-            product_id: productId,
-            quantity: quantity
-          });
-          await cartItem.save();
+
+            cartItem = new Cart({
+                user_id: userId,
+                product_id: productId,
+                quantity: quantity
+            });
+            await cartItem.save();
         }
-    
+
         res.json({ success: true });
-        
+
     } catch (error) {
         console.log('Error Add Cart Item', error.message);
         res.status(500).send('Internal Server Error');
     }
 }
 
-const updateCartQuantity=async(req,res)=>{
+const updateCartQuantity = async (req, res) => {
     try {
         const { cartItemId, quantity } = req.body;
-    await Cart.findByIdAndUpdate(cartItemId, { quantity });
-    res.json({ success: true });
+        await Cart.findByIdAndUpdate(cartItemId, { quantity });
+        res.json({ success: true });
     } catch (error) {
         console.log('Error updateCartQuantity ', error.message);
         res.status(500).send('Internal Server Error');
     }
 }
 
-const removeCartItem= async (req, res) => {
+const removeCartItem = async (req, res) => {
     try {
-      const { cartItemId } = req.body;
-      await Cart.findByIdAndDelete(cartItemId);
-      res.json({ success: true });
+        const { cartItemId } = req.body;
+        await Cart.findByIdAndDelete(cartItemId);
+        res.json({ success: true });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ success: false, message: 'Server error' });
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Server error' });
     }
-  };
+};
 
 
 
 const searchResults = async (req, res) => {
     try {
         const { q: query, sort } = req.query;
-       
+
 
         // Build the search criteria
         const searchCriteria = {};
@@ -562,7 +561,7 @@ const searchResults = async (req, res) => {
                 { description: { $regex: query, $options: 'i' } }
             ];
         }
-       
+
 
         // Build the sort options
         let sortOptions = {};
@@ -592,20 +591,20 @@ const searchResults = async (req, res) => {
         if (req.user) {
             userData = req.user;
         } else if (req.session.user_id) {
-      
+
             userData = await User.findById(req.session.user_id);
         }
-      
+
         if (userData) {
             const products = await Products.find(searchCriteria).sort(sortOptions);
-        
-            res.render('search-results', { userData,products, query, sort });
 
-        }else{
+            res.render('search-results', { userData, products, query, sort });
 
-        const products = await Products.find(searchCriteria).sort(sortOptions);
-        
-        res.render('search-results', { products, query, sort });
+        } else {
+
+            const products = await Products.find(searchCriteria).sort(sortOptions);
+
+            res.render('search-results', { products, query, sort });
         }
     } catch (error) {
         console.error(error);
@@ -614,26 +613,26 @@ const searchResults = async (req, res) => {
 };
 
 
-const loadCheckout =async(req,res)=>{
+const loadCheckout = async (req, res) => {
     try {
 
-       let userData ;
+        let userData;
         if (req.user) {
             userData = req.user;
         } else if (req.session.user_id) {
             userData = await User.findById(req.session.user_id);
         }
         if (userData) {
-            const userid= userData._id
+            const userid = userData._id
             const cartData = await Cart.find({ user_id: userid }).populate('product_id');
-            const addressData = await Address.find({user_id:userid});
+            const addressData = await Address.find({ user_id: userid });
             let subtotal = 0;
             cartData.forEach(item => {
-            subtotal += item.product_id.price * item.quantity;
+                subtotal += item.product_id.price * item.quantity;
             });
             const paymentTypes = await PaymentType.find({})
-            res.render('checkout',{ userData,addressData ,cartData ,subtotal:subtotal.toFixed(2),paymentTypes})
-         } else {
+            res.render('checkout', { userData, addressData, cartData, subtotal: subtotal.toFixed(2), paymentTypes })
+        } else {
             res.redirect('/')
 
         }
@@ -646,11 +645,11 @@ const placeOrder = async (req, res) => {
     try {
         const { address_id, payment_type, total_amount } = req.body;
         const user_id = req.session.user_id;
-       
+
         const cartItems = await Cart.find({ user_id }).populate('product_id');
-       
+
         const payment_type_objId = await PaymentType.findOne({ pay_type: payment_type });
-        
+
         if (cartItems.length === 0) {
             return res.status(400).json({ success: false, message: 'Cart is empty' });
         }
@@ -662,7 +661,7 @@ const placeOrder = async (req, res) => {
             price: item.product_id.price,
             total: item.product_id.price * item.quantity
         }));
-        
+
 
         const newOrder = new Orders({
             user_id,
@@ -672,9 +671,9 @@ const placeOrder = async (req, res) => {
             payment_type: payment_type_objId._id,
             payment_status: 'Pending',
             order_status: 'Pending',
-            shipping_cost: 0, 
+            shipping_cost: 0,
             tax: 0,
-            discount: 0 
+            discount: 0
         });
 
         await newOrder.save();
