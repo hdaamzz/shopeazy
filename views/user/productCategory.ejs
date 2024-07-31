@@ -21,7 +21,7 @@
                                         <% } else {%>
                                             <ul>
                                                 <li><a href="/logout" ">Log out</a></li>
-                                    <li><a href=" #profile" data-toggle="modal">
+                                    <li><a href="/dashboard" data-toggle="modal">
                                                         <%= userData.user_name %>
                                                     </a></li>
                                             </ul>
@@ -64,35 +64,23 @@
 
                             </div><!-- End .compare-dropdown -->
 
-                            <div class="dropdown cart-dropdown">
-                                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" data-display="static">
-                                    <i class="icon-shopping-cart"></i>
-                                    <!-- <span class="cart-count"></span> -->
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-cart-products">
-
-
-
-                                    </div><!-- End .cart-product -->
-
-                                    <div class="dropdown-cart-total">
-                                        <!-- <span>Total</span>
-
-                                    <span class="cart-total-price">$160.00</span> -->
-                                    </div><!-- End .dropdown-cart-total -->
-
-                                    <div class="dropdown-cart-action">
-                                        <a href="cart.html" class="btn btn-primary">View Cart</a>
-                                        <a href="checkout.html"
-                                            class="btn btn-outline-primary-2"><span>Checkout</span><i
-                                                class="icon-long-arrow-right"></i></a>
-                                    </div><!-- End .dropdown-cart-total -->
-                                </div><!-- End .dropdown-menu -->
-                            </div><!-- End .cart-dropdown -->
-                        </div><!-- End .header-right -->
+                            <div class="header-right">
+    
+    
+    
+    
+    
+                                <div class="dropdown cart-dropdown">
+                                    <a href="/cart" class=" dropdown-toggle">
+    
+                                        
+                                        <div class="icon">
+                                            <i class="icon-shopping-cart"></i>
+                                            
+                                        </div>
+                                    </a>
+    
+                                </div><!-- End .header-right -->
                     </div><!-- End .container -->
                 </div><!-- End .header-middle -->
             </header><!-- End .header -->
@@ -168,10 +156,13 @@
 
                                                 <div class="product-action action-icon-top">
                                                    <% if(productData[i].stock != 0){%>
-                                                    <a href="#" class="btn-product btn-cart"><span>add to
-                                                            cart</span></a>
+                                                    <% if(typeof userData=='undefined' ){ %>
+                                                        <span class="btn-product text-danger">NO LOGGED</span>
                                                         <%} else {%>
-                                                            <span class="text-danger">Out of stock</span>
+                                                            <button class="btn-add-to-cart btn-product btn-primary " data-product-id="<%= productData?.[i]?._id %>"  data-user-id="<%= userData._id %>" >Add to Cart</button>
+                                                            <%}%>
+                                                        <%} else {%>
+                                                            <span class="text-danger btn-product">Out of stock</span>
                                                             <%}%>
 
                                                 </div><!-- End .product-action -->
@@ -882,6 +873,40 @@
             </div><!-- End .modal-dialog -->
         </div><!-- End .modal -->
 
+
+        <script>
+            document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+            button.addEventListener('click',async function() {
+                const productId = this.getAttribute('data-product-id');
+                const userId = this.getAttribute('data-user-id');
+                const quantity = 1; // Or get this from an input field if you allow quantity selection
+                try {
+                   await fetch('/addCartItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, quantity ,userId}),
+                })
+                .then(response => response.json())
+                .then(data => {
+                if (data.success) {
+                    alert('Product added to cart!');
+                    // Optionally update cart count in the UI
+                } else {
+                    alert('Error adding product to cart');
+                }
+                });
+                } catch (error) {
+                    console.log(error.message);
+                }
+                
+            });
+            });
+
+
+
+        </script>
         <!-- Plugins JS File -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>

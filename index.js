@@ -1,8 +1,12 @@
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/shopeazy")
 const express = require("express");
 const app = express();
 require('dotenv').config();
+const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGODB_URI).then(()=>{
+    console.log("mongodb connencted");
+}).catch((error)=>{
+    console.log(error);
+})
 const path = require('path');
 const config = require("./config/config");
 const session = require('express-session');

@@ -65,33 +65,15 @@
 
                             </div><!-- End .compare-dropdown -->
 
-                            <div class="dropdown cart-dropdown">
-                                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" data-display="static">
-                                    <i class="icon-shopping-cart"></i>
-                                    <!-- <span class="cart-count"></span> -->
+                            <div class=" cart-dropdown">
+                                <a href="/cart" class=" dropdown-toggle">
+                                    
+                                            <div class="icon">
+                                                <i class="icon-shopping-cart"></i>
+                                        </div>
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-cart-products">
-
-
-
-                                    </div><!-- End .cart-product -->
-
-                                    <div class="dropdown-cart-total">
-                                        <!-- <span>Total</span>
-
-                                    <span class="cart-total-price">$160.00</span> -->
-                                    </div><!-- End .dropdown-cart-total -->
-
-                                    <div class="dropdown-cart-action">
-                                        <a href="cart.html" class="btn btn-primary">View Cart</a>
-                                        <a href="checkout.html"
-                                            class="btn btn-outline-primary-2"><span>Checkout</span><i
-                                                class="icon-long-arrow-right"></i></a>
-                                    </div><!-- End .dropdown-cart-total -->
-                                </div><!-- End .dropdown-menu -->
+                               
                             </div><!-- End .cart-dropdown -->
                         </div><!-- End .header-right -->
                     </div><!-- End .container -->
@@ -218,13 +200,23 @@
                                                     <div class="product-details-action">
                                                         <div class="details-action-col">
                                                             <div class="product-details-quantity">
+                                                              
+                                                              <%if(productData.stock > 5) {%>
                                                                 <input type="number" id="qty" class="form-control"
                                                                     value="1" min="1" max="10" step="1"
                                                                     data-decimals="0" required>
+                                                                    <%} else {%>
+                                                                        <input type="number" id="qty" class="form-control"
+                                                                    value="1" min="1" max="<%=productData.stock%>" step="1"
+                                                                    data-decimals="0" required>
+                                                                        <%}%>
                                                             </div><!-- End .product-details-quantity -->
                                                             <% if(productData.stock !==0){%>
-                                                                <a href="#" class="btn-product btn-cart"><span>add to
-                                                                        cart</span></a>
+                                                                <% if(typeof userData=='undefined' ){ %>
+                                                                    <span class="btn-product text-danger">NO LOGGED</span>
+                                                                    <%} else {%>
+                                                                        <button class="btn-add-to-cart btn-product btn-cart " data-product-id="<%= productData?._id %>"  data-user-id="<%= userData._id %>" >Add to Cart</button>
+                                                                        <%}%>
                                                                 <%} %>
 
                                                         </div><!-- End .details-action-col -->
@@ -728,6 +720,39 @@
             </div><!-- End .modal-dialog -->
         </div><!-- End .modal -->
 
+        <script>
+            document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+            button.addEventListener('click',async function() {
+                const productId = this.getAttribute('data-product-id');
+                const userId = this.getAttribute('data-user-id');
+                const quantity = document.getElementById('qty').value; // Or get this from an input field if you allow quantity selection
+                try {
+                   await fetch('/addCartItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, quantity ,userId}),
+                })
+                .then(response => response.json())
+                .then(data => {
+                if (data.success) {
+                    alert('Product added to cart!');
+                    // Optionally update cart count in the UI
+                } else {
+                    alert('Error adding product to cart');
+                }
+                });
+                } catch (error) {
+                    console.log(error.message);
+                }
+                
+            });
+            });
+
+
+
+        </script>
         <!-- Plugins JS File -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>

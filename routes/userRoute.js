@@ -34,8 +34,21 @@ user_route.get('/auth/google/callback', auth.isLogout, userController.googleAuth
 user_route.post('/signin', userController.verifyLogin)
 user_route.get('/productCategories', userController.loadProductCategory);
 user_route.get('/showProduct', userController.loadShowProduct)
+user_route.get('/dashboard',userController.loadDashboard)
+user_route.post('/addAddress',userController.addUserAddress)
+user_route.post('/updateAddress',userController.updateUserAddress);
+user_route.post('/deleteAddress',userController.deleteAddress);
+user_route.post('/updateUser',userController.updateUserData);
+user_route.get('/cart' ,auth.isLogin,userController.loadCart);
+user_route.get('/user-cart',userController.loaduserCart);
+user_route.post('/addCartItem',userController.addCartItem)
+user_route.post('/update-cart-quantity',userController.updateCartQuantity)
+user_route.post('/remove-from-cart', userController.removeCartItem);
+
 
 user_route.get('/logout', auth.isLogin, userController.userLogout);
 
 
 module.exports = user_route;
+
+

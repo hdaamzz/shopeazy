@@ -4,7 +4,7 @@
         <div class="page-wrapper">
             <header class="header header-intro-clearance header-4">
                 <div class="header-top">
-                    <div class="container">
+                    <div class="container mt-4 mb-2">
                         <div class="header-left">
                             <a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a>
                         </div><!-- End .header-left -->
@@ -21,7 +21,7 @@
                                         <% } else {%>
                                             <ul>
                                                 <li><a href="/logout" ">Log out</a></li>
-                                        <li><a href=" #profile" data-toggle="modal">
+                                        <li><a href="/dashboard" >
                                                         <%= userData.user_name %>
                                                     </a></li>
                                             </ul>
@@ -175,15 +175,26 @@
                         <div class="header-center">
                             <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
                                 <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                                <form action="#" method="get">
+                                
+                                <!-- <form id="advanced-search-form">
                                     <div class="header-search-wrapper search-wrapper-wide">
                                         <label for="q" class="sr-only">Search</label>
-                                        <button class="btn btn-primary" type="submit"><i
+                                        <button class="btn btn-primary"  type="submit"><i
                                                 class="icon-search"></i></button>
-                                        <input type="search" class="form-control" name="q" id="q"
+
+                                                
+                                        <input type="text" class="form-control" name="q" id="search-query"
                                             placeholder="Search product ..." required>
-                                    </div><!-- End .header-search-wrapper -->
-                                </form>
+                                            <select id="sort-option" class="form-control">
+                                                <option value="name_asc">Name (A-Z)</option>
+                                                <option value="name_desc">Name (Z-A)</option>
+                                                <option value="price_asc">Price (Low to High)</option>
+                                                <option value="price_desc">Price (High to Low)</option>
+                                                <option value="date_desc">Newest First</option>
+                                                <option value="date_asc">Oldest First</option>
+                                            </select>
+                                    </div>
+                                </form> -->
                             </div><!-- End .header-search -->
                         </div>
 
@@ -206,90 +217,43 @@
 
 
 
-
+                            <%if(typeof cartItems =='undefined') {%>
                             <div class="dropdown cart-dropdown">
-                                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                <a href="#" class=" dropdown-toggle" role="button" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false" data-display="static">
+                                    
+                                </a>
+                                <a href="/user-cart" class=" dropdown-toggle">
+
+                                   
+                                        <div class="icon">
+                                            <i class="icon-shopping-cart"></i>
+                                            <!-- <span class="cart-count">2</span> -->
+                                        </div>
+                                   
+                                        
+                                       
+                                    <p>Cart</p>
+                                </a>
+                            </div>
+                            <%}else {%>
+                            <div class="dropdown cart-dropdown">
+                                <a href="#" class=" dropdown-toggle" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" data-display="static">
+                                    
+                                </a>
+                                <a href="/cart" class=" dropdown-toggle">
+
+                                   
                                     <div class="icon">
                                         <i class="icon-shopping-cart"></i>
-                                        <!-- <span class="cart-count">2</span> -->
+                                        <span class="cart-count"><%=cartItems.length%></span>
                                     </div>
                                     <p>Cart</p>
                                 </a>
+                            </div>
+                            <%}%>
 
-
-
-
-
-
-
-
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-cart-products">
-                                        <!-- <div class="product">
-                                            <div class="product-cart-details">
-                                                <h4 class="product-title">
-                                                    <a href="product.html">Beige knitted elastic runner shoes</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    x $84.00
-                                                </span>
-                                            </div><!-- End .product-cart-details -->
-
-
-
-
-
-                                        <!-- <figure class="product-image-container">
-                                                <a href="product.html" class="product-image">
-                                                    <img src="assets/images/products/cart/product-1.jpg" alt="product">
-                                                </a>
-                                            </figure>
-                                            <a href="#" class="btn-remove" title="Remove Product"><i
-                                                    class="icon-close"></i></a>
-                                        </div>  -->
-
-                                        <!-- <div class="product">
-                                            <div class="product-cart-details">
-                                                <h4 class="product-title">
-                                                    <a href="product.html">Blue utility pinafore denim dress</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    x $76.00
-                                                </span>
-                                            </div> -->
-                                        <!-- End .product-cart-details -->
-
-                                        <!-- <figure class="product-image-container">
-                                                <a href="product.html" class="product-image">
-                                                    <img src="assets/images/products/cart/product-2.jpg" alt="product">
-                                                </a>
-                                            </figure>
-                                            <a href="#" class="btn-remove" title="Remove Product"><i
-                                                    class="icon-close"></i></a>
-                                        </div>
-                                    </div> -->
-                                        <!-- End .cart-product -->
-
-                                        <div class="dropdown-cart-total">
-                                            <span>Total</span>
-
-                                            <!-- <span class="cart-total-price">$160.00</span> -->
-                                        </div><!-- End .dropdown-cart-total -->
-
-                                        <div class="dropdown-cart-action">
-                                            <a href="cart.html" class="btn btn-primary">View Cart</a>
-                                            <a href="checkout.html"
-                                                class="btn btn-outline-primary-2"><span>Checkout</span><i
-                                                    class="icon-long-arrow-right"></i></a>
-                                        </div><!-- End .dropdown-cart-total -->
-                                    </div><!-- End .dropdown-menu -->
-                                </div><!-- End .cart-dropdown -->
-                            </div><!-- End .header-right -->
                         </div><!-- End .container -->
                     </div><!-- End .header-middle -->
 
@@ -303,7 +267,7 @@
                                 <nav class="main-nav">
                                     <ul class="menu sf-arrows">
 
-                                        <li>
+                                        <!-- <li>
                                             <a href="category.html" class="sf-with-ul">Account</a>
 
                                             <div class="megamenu megamenu-md">
@@ -316,22 +280,22 @@
                                                                 <div class="col-md-6">
 
                                                                     <ul>
-                                                                        <li><a href="dashboard.html">My Account</a></li>
-                                                                    </ul>
-                                                                </div><!-- End .col-md-6 -->
-                                                            </div><!-- End .row -->
-                                                        </div><!-- End .menu-col -->
-                                                    </div><!-- End .col-md-8 -->
+                                                                        <!-- <li><a href="">My Account</a></li> -->
+                                                                    <!-- </ul>
+                                                                </div>
+                                                        </div>
+                                                    </div>
 
-
-                                                </div><!-- End .row -->
-                                            </div><!-- End .megamenu megamenu-md -->
-                                        </li>
+                                                </div>
+                                            </div>
+                                        </li>  -->
                                     </ul>
                                     </li>
                                     </ul><!-- End .menu -->
                                 </nav><!-- End .main-nav -->
                             </div><!-- End .header-center -->
+                            <div class="col-lg-9">
+                                
 
                             <div class="header-right">
                                 <i class="la la-lightbulb-o"></i>
@@ -380,7 +344,7 @@
 
 
 
-
+                <div id="search-results"></div>
 
 
 
@@ -486,7 +450,7 @@
 
 
 
-
+                
 
                 <div class="container for-you">
                     <div class="heading heading-flex mb-3">
@@ -502,7 +466,7 @@
                     <div class="products">
                         <div class="row justify-content-center">
 
-                            
+                           
                             <% for (let i=0;i<12;i++){%>
                             <div class="col-6 col-md-4 col-lg-3">
                                 <div class="product product-2">
@@ -518,12 +482,19 @@
                                         <div class="product-action-vertical">
                                             <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
                                         </div><!-- End .product-action -->
-    
+                                        
                                         <div class="product-action">
                                             <% if(product?.[i]?.stock != 0){%>
-                                                <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                                <% if(typeof userData=='undefined' ){ %>
+                                                    <span class="btn-product text-danger">NO LOGGED</span>
                                                     <%} else {%>
-                                                        <span class="text-danger">Out of stock</span>
+                                                        <button class="btn-add-to-cart btn-product btn-cart btn-primary" data-product-id="<%= product?.[i]?._id %>"  data-user-id="<%= userData._id %>" >Add to Cart</button>
+                                                        <%}%>
+
+                                                <!-- <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a> -->
+                                               
+                                                    <%} else {%>
+                                                        <span class="btn-product text-danger">Out of stock</span>
                                                         <%}%>
                                             
                                         </div><!-- End .product-action -->
@@ -1050,6 +1021,40 @@
                     document.querySelector('.main-error').innerText = 'An unexpected error occurred. Please try again.';
                 }
             }
+        </script>
+
+        <script>
+            document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+            button.addEventListener('click',async function() {
+                const productId = this.getAttribute('data-product-id');
+                const userId = this.getAttribute('data-user-id');
+                const quantity = 1; // Or get this from an input field if you allow quantity selection
+                try {
+                   await fetch('/addCartItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, quantity ,userId}),
+                })
+                .then(response => response.json())
+                .then(data => {
+                if (data.success) {
+                    alert('Product added to cart!');
+                    // Optionally update cart count in the UI
+                } else {
+                    alert('Error adding product to cart');
+                }
+                });
+                } catch (error) {
+                    console.log(error.message);
+                }
+                
+            });
+            });
+
+
+
         </script>
 
 
