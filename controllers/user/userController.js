@@ -4,6 +4,8 @@ const Category = require('../../models/categoryList');
 const Products = require('../../models/products');
 const Address = require('../../models/userAddress');
 const Cart = require('../../models/cart');
+const PaymentType =require('../../models/paymentType');
+const Orders = require('../../models/userOrders');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
@@ -547,6 +549,151 @@ const removeCartItem= async (req, res) => {
 
 
 
+const searchResults = async (req, res) => {
+    try {
+        const { q: query, sort } = req.query;
+       
+
+        // Build the search criteria
+        const searchCriteria = {};
+        if (query) {
+            searchCriteria.$or = [
+                { product_name: { $regex: query, $options: 'i' } },
+                { description: { $regex: query, $options: 'i' } }
+            ];
+        }
+       
+
+        // Build the sort options
+        let sortOptions = {};
+        switch (sort) {
+            case 'name_asc':
+                sortOptions = { product_name: 1 };
+                break;
+            case 'name_desc':
+                sortOptions = { product_name: -1 };
+                break;
+            case 'price_asc':
+                sortOptions = { price: 1 };
+                break;
+            case 'price_desc':
+                sortOptions = { price: -1 };
+                break;
+            case 'date_desc':
+                sortOptions = { added_date: -1 };
+                break;
+            case 'date_asc':
+                sortOptions = { added_date: 1 };
+                break;
+            default:
+                sortOptions = { product_name: 1 }; // Default sort
+        }
+        let userData;
+        if (req.user) {
+            userData = req.user;
+        } else if (req.session.user_id) {
+      
+            userData = await User.findById(req.session.user_id);
+        }
+      
+        if (userData) {
+            const products = await Products.find(searchCriteria).sort(sortOptions);
+        
+            res.render('search-results', { userData,products, query, sort });
+
+        }else{
+
+        const products = await Products.find(searchCriteria).sort(sortOptions);
+        
+        res.render('search-results', { products, query, sort });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).render('error', { message: 'Server error' });
+    }
+};
+
+
+const loadCheckout =async(req,res)=>{
+    try {
+
+       let userData ;
+        if (req.user) {
+            userData = req.user;
+        } else if (req.session.user_id) {
+            userData = await User.findById(req.session.user_id);
+        }
+        if (userData) {
+            const userid= userData._id
+            const cartData = await Cart.find({ user_id: userid }).populate('product_id');
+            const addressData = await Address.find({user_id:userid});
+            let subtotal = 0;
+            cartData.forEach(item => {
+            subtotal += item.product_id.price * item.quantity;
+            });
+            const paymentTypes = await PaymentType.find({})
+            res.render('checkout',{ userData,addressData ,cartData ,subtotal:subtotal.toFixed(2),paymentTypes})
+         } else {
+            res.redirect('/')
+
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).render('error', { message: 'Server error' });
+    }
+}
+const placeOrder = async (req, res) => {
+    try {
+        const { address_id, payment_type, total_amount } = req.body;
+        const user_id = req.session.user_id;
+       
+        const cartItems = await Cart.find({ user_id }).populate('product_id');
+       
+        const payment_type_objId = await PaymentType.findOne({ pay_type: payment_type });
+        
+        if (cartItems.length === 0) {
+            return res.status(400).json({ success: false, message: 'Cart is empty' });
+        }
+
+        const orderItems = cartItems.map(item => ({
+            product_id: item.product_id._id,
+            name: item.product_id.product_name,
+            quantity: item.quantity,
+            price: item.product_id.price,
+            total: item.product_id.price * item.quantity
+        }));
+        
+
+        const newOrder = new Orders({
+            user_id,
+            address_id,
+            items: orderItems,
+            total_amount: parseFloat(total_amount),
+            payment_type: payment_type_objId._id,
+            payment_status: 'Pending',
+            order_status: 'Pending',
+            shipping_cost: 0, 
+            tax: 0,
+            discount: 0 
+        });
+
+        await newOrder.save();
+        for (let item of cartItems) {
+            await Products.findByIdAndUpdate(
+                item.product_id._id,
+                { $inc: { stock: -item.quantity } },
+                { new: true }
+            );
+        }
+        await Cart.deleteMany({ user_id });
+
+        res.status(200).json({ success: true, message: 'Order placed successfully', orderId: newOrder._id });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
 
 module.exports = {
     registerUser,
@@ -571,7 +718,10 @@ module.exports = {
     addCartItem,
     updateCartQuantity,
     removeCartItem,
-    loaduserCart
+    loaduserCart,
+    searchResults,
+    loadCheckout,
+    placeOrder
 
 
 };

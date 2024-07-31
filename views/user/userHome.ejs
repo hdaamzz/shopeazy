@@ -4,7 +4,7 @@
         <div class="page-wrapper">
             <header class="header header-intro-clearance header-4">
                 <div class="header-top">
-                    <div class="container mt-4 mb-2">
+                    <div class="container mb-2 pt-2 pb-2">
                         <div class="header-left">
                             <a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a>
                         </div><!-- End .header-left -->
@@ -176,25 +176,21 @@
                             <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
                                 <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
                                 
-                                <!-- <form id="advanced-search-form">
+                                <form id="advanced-search-form" action="/search-results" method="GET">
                                     <div class="header-search-wrapper search-wrapper-wide">
                                         <label for="q" class="sr-only">Search</label>
-                                        <button class="btn btn-primary"  type="submit"><i
-                                                class="icon-search"></i></button>
-
-                                                
-                                        <input type="text" class="form-control" name="q" id="search-query"
-                                            placeholder="Search product ..." required>
-                                            <select id="sort-option" class="form-control">
-                                                <option value="name_asc">Name (A-Z)</option>
-                                                <option value="name_desc">Name (Z-A)</option>
-                                                <option value="price_asc">Price (Low to High)</option>
-                                                <option value="price_desc">Price (High to Low)</option>
-                                                <option value="date_desc">Newest First</option>
-                                                <option value="date_asc">Oldest First</option>
-                                            </select>
+                                        <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                        <input type="text" class="form-control" name="q" id="search-query" placeholder="Search product ..." required>
+                                        <select id="sort-option" name="sort" class="form-control">
+                                            <option value="name_asc">Name (A-Z)</option>
+                                            <option value="name_desc">Name (Z-A)</option>
+                                            <option value="price_asc">Price (Low to High)</option>
+                                            <option value="price_desc">Price (High to Low)</option>
+                                            <option value="date_desc">Newest First</option>
+                                            <option value="date_asc">Oldest First</option>
+                                        </select>
                                     </div>
-                                </form> -->
+                                </form>
                             </div><!-- End .header-search -->
                         </div>
 
@@ -354,7 +350,7 @@
 
                     <div class="cat-blocks-container">
                         <div class="row">
-                            <div class="col-6 col-sm-4 col-lg-2">
+                            <div class="col-6 col-sm-4 col-lg-2 search-results">
                                 <a href="/productCategories?id=66a09a36e614edb7e3185810" class="cat-block">
                                     <figure>
                                         <span>
@@ -1055,6 +1051,36 @@
 
 
 
+        </script>
+        <script>
+        const searchForm = document.getElementById('advanced-search-form');
+        const sortSelect = document.getElementById('sort-option');
+
+        
+        function updateSort(sortValue) {
+            const url = new URL(window.location);
+            url.searchParams.set('sort', sortValue);
+            window.history.pushState({}, '', url);
+            
+           
+            window.location.reload();
+        }
+
+       
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                updateSort(this.value);
+            });
+        }
+
+        
+        if (sortSelect) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentSort = urlParams.get('sort');
+            if (currentSort) {
+                sortSelect.value = currentSort;
+            }
+        }
         </script>
 
 

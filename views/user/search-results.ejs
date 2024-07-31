@@ -6,18 +6,30 @@
                 <div class="header-top">
                     <div class="container mb-2 pt-2 pb-2">
                         <div class="header-left">
+                            <a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a>
                         </div><!-- End .header-left -->
 
                         <div class="header-right">
+
                             <ul class="top-menu">
-                                <!-- <li>
-                            <a href="#">Links</a>
-                            <ul>
-                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
-                            </ul>
-                        </li> -->
+                                <li>
+                                    <a href="#">Links</a>
+                                    <% if(typeof userData=='undefined' ){ %>
+                                        <ul>
+                                            <li><a href="#signin-modal" data-toggle="modal">Sign in / Sign up</a></li>
+                                        </ul>
+                                        <% } else {%>
+                                            <ul>
+                                                <li><a href="/logout" ">Log out</a></li>
+                                    <li><a href="/dashboard" data-toggle="modal">
+                                                        <%= userData.user_name %>
+                                                    </a></li>
+                                            </ul>
+                                            <% } %>
+                                </li>
                             </ul><!-- End .top-menu -->
                         </div><!-- End .header-right -->
+
                     </div><!-- End .container -->
                 </div><!-- End .header-top -->
 
@@ -29,94 +41,9 @@
                                 <i class="icon-bars"></i>
                             </button>
 
-                            <a href="/" class="logo">
-                                <img src="assets/newimages/logo.png" alt="shopEazy Logo" width="105" height="25">
+                            <a href="index.html" class="logo">
+                                <img src="assets/newimages/logo.png" alt="Shoeazy Logo" width="150" height="25">
                             </a>
-
-                            <nav class="main-nav">
-                                <ul class="menu sf-arrows">
-                                    <li class="megamenu-container active">
-                                        <a href="/" class="sf-with-ul">Home</a>
-
-
-                                    </li>
-                                    <li>
-                                        <a href="category.html" class="sf-with-ul">Shop</a>
-
-                                        <div class="megamenu megamenu-md">
-                                            <div class="row no-gutters">
-                                                <div class="col-md-8">
-                                                    <div class="menu-col">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="menu-title">Shop with sidebar</div>
-                                                                <!-- End .menu-title -->
-                                                                <ul>
-                                                                    <li><a href="category-list.html">Shop List</a></li>
-                                                                    <li><a href="category-2cols.html">Shop Grid 2
-                                                                            Columns</a></li>
-                                                                    <li><a href="category.html">Shop Grid 3 Columns</a>
-                                                                    </li>
-                                                                    <li><a href="category-4cols.html">Shop Grid 4
-                                                                            Columns</a></li>
-                                                                    <li><a href="category-market.html"><span>Shop
-                                                                                Market<span
-                                                                                    class="tip tip-new">New</span></span></a>
-                                                                    </li>
-                                                                </ul>
-
-                                                                <div class="menu-title">Shop no sidebar</div>
-                                                                <!-- End .menu-title -->
-                                                                <ul>
-                                                                    <li><a href="category-boxed.html"><span>Shop Boxed
-                                                                                No Sidebar<span
-                                                                                    class="tip tip-hot">Hot</span></span></a>
-                                                                    </li>
-                                                                    <li><a href="category-fullwidth.html">Shop Fullwidth
-                                                                            No Sidebar</a></li>
-                                                                </ul>
-                                                            </div><!-- End .col-md-6 -->
-
-                                                            <div class="col-md-6">
-                                                                <div class="menu-title">Product Category</div>
-                                                                <!-- End .menu-title -->
-                                                                <ul>
-                                                                    <li><a href="product-category-boxed.html">Product
-                                                                            Category Boxed</a></li>
-                                                                    <li><a href="product-category-fullwidth.html"><span>Product
-                                                                                Category Fullwidth<span
-                                                                                    class="tip tip-new">New</span></span></a>
-                                                                    </li>
-                                                                </ul>
-                                                                <div class="menu-title">Shop Pages</div>
-                                                                <!-- End .menu-title -->
-                                                                <ul>
-                                                                    <li><a href="/cart">Cart</a></li>
-                                                                    <li><a href="/checkout">Checkout</a></li>
-                                                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                                                    <li><a href="#">My Account</a></li>
-                                                                </ul>
-                                                            </div><!-- End .col-md-6 -->
-                                                        </div><!-- End .row -->
-                                                    </div><!-- End .menu-col -->
-                                                </div><!-- End .col-md-8 -->
-
-                                                <div class="col-md-4">
-                                                    <div class="banner banner-overlay">
-                                                        <a href="category.html" class="banner banner-menu">
-                                                            <!-- <img src="assets/images/menu/banner-1.jpg" alt="Banner"> -->
-
-                                                            <div class="banner-content banner-content-top">
-                                                                <!-- <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div> -->
-                                                            </div><!-- End .banner-content -->
-                                                        </a>
-                                                    </div><!-- End .banner banner-overlay -->
-                                                </div><!-- End .col-md-4 -->
-                                            </div><!-- End .row -->
-                                        </div><!-- End .megamenu megamenu-md -->
-                                    </li>
-                                </ul><!-- End .menu -->
-                            </nav><!-- End .main-nav -->
                         </div><!-- End .header-left -->
 
                         <div class="header-right">
@@ -131,15 +58,29 @@
                                     </div><!-- End .header-search-wrapper -->
                                 </form>
                             </div><!-- End .header-search -->
+                            <div class="dropdown compare-dropdown">
 
-                            <!-- <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <i class="icon-shopping-cart"></i>
-                                
-                            </a>
-                        </div> -->
-                        </div><!-- End .header-right -->
+
+
+                            </div><!-- End .compare-dropdown -->
+
+                            <div class="header-right">
+    
+    
+    
+    
+    
+                                <div class="dropdown cart-dropdown">
+                                    <a href="/cart" class=" dropdown-toggle">
+    
+                                        
+                                        <div class="icon">
+                                            <i class="icon-shopping-cart"></i>
+                                            
+                                        </div>
+                                    </a>
+    
+                                </div><!-- End .header-right -->
                     </div><!-- End .container -->
                 </div><!-- End .header-middle -->
             </header><!-- End .header -->
@@ -147,194 +88,153 @@
             <main class="main">
                 <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
                     <div class="container">
-                        <h1 class="page-title">Shopping Cart</h1>
+                        <h1 class="page-title">
+                            Products<span>Shop</span>
+                        </h1>
                     </div><!-- End .container -->
                 </div><!-- End .page-header -->
-                <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
                     <div class="container">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <!-- <li class="breadcrumb-item"><a href="#">Shop</a></li> -->
-                            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                            <li class="breadcrumb-item"><a href="#">
+                                   Search Results for "<%= query %>"
+                                </a></li>
+
+
                         </ol>
                     </div><!-- End .container -->
                 </nav><!-- End .breadcrumb-nav -->
 
                 <div class="page-content">
-                    <div class="cart">
-                        <div class="container">
+                    <div class="container">
+                        <div class="toolbox">
+                            <div class="toolbox-left">
+                                <a href="#" class="sidebar-toggler"><i class="icon-bars"></i> Search Results for "<%= query %>"</a>
+                            </div><!-- End .toolbox-left -->
+
+                            <div class="toolbox-center">
+                                <div class="toolbox-info">
+                                    <!-- Showing <span>12 of 56</span> Products -->
+                                </div><!-- End .toolbox-info -->
+                            </div><!-- End .toolbox-center -->
+
+                            <div class="toolbox-right">
+                                <!-- <div class="toolbox-sort">
+        						<label for="sortby">Sort by:</label>
+        						<div class="select-custom">
+									<select name="sortby" id="sortby" class="form-control">
+										<option value="popularity" selected="selected">Most Popular</option>
+										<option value="rating">Most Rated</option>
+										<option value="date">Date</option>
+									</select>
+								</div>
+        					</div> -->
+                            </div><!-- End .toolbox-right -->
+                        </div><!-- End .toolbox -->
+
+                        <div class="products">
                             <div class="row">
-                                <div class="col-lg-9">
-                                    <table class="table table-cart table-mobile">
-                                        <thead>
-                                            <tr>
-                                                <th>Product</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Total</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
 
-                                            <% cartItems.forEach(item=> { %>
-                                                <tr>
-                                                    <td class="product-col">
-                                                        <div class="product">
-                                                            <figure class="product-media">
-                                                                <a href="#">
-                                                                    <img src="/uploads/<%= item.product_id.images[0] %>"
-                                                                        alt="Product image">
-                                                                </a>
-                                                            </figure>
-                                                            <h3 class="product-title">
-                                                                <a href="#">
-                                                                    <%= item.product_id.product_name %>
-                                                                </a>
-                                                            </h3>
-                                                        </div>
-                                                    </td>
-                                                    <td class="price-col">
-                                                        <%= item.product_id.price.toFixed(2) %>
-                                                    </td>
-                                                    <td class="quantity-col">
-                                                        <div class="cart-product-quantity">
-                                                            <%if(item.product_id.stock> 5) {%>
-                                                                <input type="number" class="form-control"
-                                                                    value="<%= item.quantity %>" min="1" max="5"
-                                                                    step="1" data-decimals="0" required>
-                                                                <%} else {%>
-                                                                    <input type="number" class="form-control"
-                                                                        value="<%= item.quantity %>" min="1"
-                                                                        max="<%=item.product_id.stock%>" step="1"
-                                                                        data-decimals="0" required>
-                                                                    <%}%>
-                                                        </div>
-                                                    </td>
-                                                    <td class="total-col">
-                                                        <%= (item.product_id.price * item.quantity).toFixed(2) %>
-                                                    </td>
-                                                    <td class="remove-col">
-                                                        <button class="btn-remove"
-                                                            data-cart-item-id="<%= item._id %>"><i
-                                                                class="icon-close"></i></button>
-                                                    </td>
-                                                </tr>
-                                                <% }); %>
-                                        </tbody>
+                                <% if(products.length === 0) {%>
+                                    <h5 style="text-align: center;">No Results found .</h5>
+                                    <% } else { %>
+                                <% products.forEach(product => { %>
+                                    <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="product">
+                                            <figure class="product-media">
+                                                <span class="product-label label-new">New</span>
+                                                <a href="/showProduct?id=<%= product._id %>">
+                                                    <img src="/uploads/<%= product.images[0]%>"
+                                                        alt="Product image" class="product-image">
+                                                </a>
 
-                                    </table>
-                                    <div class="cart-bottom">
-                                        <!-- <div class="cart-discount">
-			            				<form action="#">
-			            					<div class="input-group">
-				        						<input type="text" class="form-control" required placeholder="coupon code">
-				        						<div class="input-group-append">
-													<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-												</div>
-			        						</div>
-			            				</form>
-			            			</div> -->
+                                                <div class="product-action-vertical">
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist btn-expandable"><span>add
+                                                            to wishlist</span></a>
+                                                </div><!-- End .product-action -->
+
+                                                <div class="product-action action-icon-top">
+                                                   <% if(product.stock != 0){%>
+                                                    <% if(typeof userData=='undefined' ){ %>
+                                                        <span class="btn-product text-danger">NO LOGGED</span>
+                                                        <%} else {%>
+                                                            <button class="btn-add-to-cart btn-product btn-primary " data-product-id="<%= product?._id %>"  data-user-id="<%= userData._id %>" >Add to Cart</button>
+                                                            <%}%>
+                                                        <%} else {%>
+                                                            <span class="text-danger btn-product">Out of stock</span>
+                                                            <%}%>
+
+                                                </div><!-- End .product-action -->
+                                            </figure><!-- End .product-media -->
+
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <!-- <a href="#">Women</a> -->
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a
+                                                        href="/showProduct?id=<%= product._id %>">
+                                                        <%= product.product_name %>
+                                                    </a></h3><!-- End .product-title -->
+                                                <div class="product-price">
+                                                    ₹<%= product.price%>
+                                                </div><!-- End .product-price -->
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width: 0%;"></div>
+                                                        <!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                    <span class="ratings-text">( 0 Reviews )</span>
+                                                </div><!-- End .rating-container -->
+
+                                                <!-- <div class="product-nav product-nav-dots">
+                                            <a href="#" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
+                                            <a href="#" class="active" style="background: #ebebeb;"><span class="sr-only">Color name</span></a>
+                                        </div> -->
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product -->
+                                    </div>
+                                    <%})%>
+                                    <%}%><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
 
 
-                                    </div><!-- End .cart-bottom -->
-                                </div><!-- End .col-lg-9 -->
-                                <aside class="col-lg-3">
-                                    <div class="summary summary-cart">
-                                        <h3 class="summary-title">Cart Total</h3>
 
-                                        <table class="table table-summary">
-                                            <tbody>
-                                                <tr class="summary-subtotal">
-                                                    <td>Subtotal:</td>
-                                                    <% if(subtotal !=='undefined' ){%>
-                                                        <td>₹<span id="cart-subtotal">
-                                                                <%= subtotal %>
-                                                            </span></td>
-                                                        <%}%>
-                                                </tr><!-- End .summary-subtotal -->
-                                                <tr class="summary-shipping">
-                                                    <td>Shipping:</td>
-                                                    <td>&nbsp;</td>
-                                                </tr>
 
-                                                <tr class="summary-shipping-row">
-                                                    <td>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="free-shipping" name="shipping"
-                                                                class="custom-control-input">
-                                                            <label class="custom-control-label" for="free-shipping">Free
-                                                                Shipping</label>
-                                                        </div><!-- End .custom-control -->
-                                                    </td>
-                                                    <td>₹0.00</td>
-                                                </tr><!-- End .summary-shipping-row -->
-
-                                                <!-- <tr class="summary-shipping-row">
-	                							<td>
-	                								<div class="custom-control custom-radio">
-														<input type="radio" id="standart-shipping" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="standart-shipping">Standart:</label>
-													</div>
-	                							</td>
-	                							<td>$10.00</td>
-	                						</tr> -->
-
-                                                <!-- <tr class="summary-shipping-row">
-	                							<td>
-	                								<div class="custom-control custom-radio">
-														<input type="radio" id="express-shipping" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="express-shipping">Express:</label>
-													</div>
-	                							</td>
-	                							<td>$20.00</td>
-	                						</tr> -->
-
-                                                <!-- <tr class="summary-shipping-estimate">
-	                							<td>Estimate for Your Country<br> <a href="dashboard.html">Change address</a></td>
-	                							<td>&nbsp;</td>
-	                						</tr> -->
-
-                                                <tr class="summary-total">
-                                                    <td>Total:</td>
-                                                    <td>₹<span id="cart-total">
-                                                            <%= subtotal %>
-                                                        </span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <a href="/checkout"
-                                            class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
-                                            CHECKOUT</a>
-                                    </div><!-- End .summary -->
-
-                                    <a href="/" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
-                                            SHOPPING</span><i class="icon-refresh"></i></a>
-                                </aside><!-- End .col-lg-3 -->
                             </div><!-- End .row -->
-                        </div><!-- End .container -->
-                    </div><!-- End .cart -->
+
+                            <div class="load-more-container text-center">
+                                <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i
+                                        class="icon-refresh"></i></a>
+                            </div><!-- End .load-more-container -->
+                        </div><!-- End .products -->
+                    </div><!-- End .container -->
                 </div><!-- End .page-content -->
             </main><!-- End .main -->
 
             <footer class="footer">
-
                 <div class="footer-middle">
                     <div class="container">
                         <div class="row">
                             <div class="col-sm-6 col-lg-3">
                                 <div class="widget widget-about">
                                     <img src="assets/newimages/logo.png" class="footer-logo" alt="Footer Logo"
-                                        width="150" height="25">
+                                        width="105" height="25">
                                     <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
                                         vulputate magna eros eu erat. </p>
 
-                                    <div class="widget-call">
-                                        <i class="icon-phone"></i>
-                                        Got Question? Call us 24/7
-                                        <a href="tel:#">+0123 456 789</a>
-                                    </div><!-- End .widget-call -->
+                                    <div class="social-icons">
+                                        <a href="#" class="social-icon" target="_blank" title="Facebook"><i
+                                                class="icon-facebook-f"></i></a>
+                                        <a href="#" class="social-icon" target="_blank" title="Twitter"><i
+                                                class="icon-twitter"></i></a>
+                                        <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                                class="icon-instagram"></i></a>
+                                        <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                                class="icon-youtube"></i></a>
+                                        <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                                class="icon-pinterest"></i></a>
+                                    </div><!-- End .soial-icons -->
                                 </div><!-- End .widget about-widget -->
                             </div><!-- End .col-sm-6 col-lg-3 -->
 
@@ -343,11 +243,11 @@
                                     <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
 
                                     <ul class="widget-list">
-                                        <li><a href="about.html">About shopEazy</a></li>
-                                        <li><a href="#">Our Services</a></li>
-                                        <li><a href="#">How to shop on shopEazy</a></li>
-                                        <li><a href="faq.html">FAQ</a></li>
+                                        <li><a href="about.html">About Molla</a></li>
+                                        <li><a href="#">How to shop on Molla</a></li>
+                                        <li><a href="#">FAQ</a></li>
                                         <li><a href="contact.html">Contact us</a></li>
+                                        <li><a href="login.html">Log in</a></li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->
                             </div><!-- End .col-sm-6 col-lg-3 -->
@@ -386,7 +286,7 @@
 
                 <div class="footer-bottom">
                     <div class="container">
-                        <p class="footer-copyright">Copyright © 2024 shopEazy Store. All Rights Reserved.</p>
+                        <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
                         <!-- End .footer-copyright -->
                         <figure class="footer-payments">
                             <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
@@ -699,72 +599,40 @@
             </div><!-- End .modal-dialog -->
         </div><!-- End .modal -->
 
+
         <script>
-            function updateSubtotal() {
-                let subtotal = 0;
-                document.querySelectorAll('.total-col').forEach(totalEl => {
-                    subtotal += parseFloat(totalEl.textContent.replace('$', ''));
+            document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+            button.addEventListener('click',async function() {
+                const productId = this.getAttribute('data-product-id');
+                const userId = this.getAttribute('data-user-id');
+                const quantity = 1; // Or get this from an input field if you allow quantity selection
+                try {
+                   await fetch('/addCartItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, quantity ,userId}),
+                })
+                .then(response => response.json())
+                .then(data => {
+                if (data.success) {
+                    alert('Product added to cart!');
+                    // Optionally update cart count in the UI
+                } else {
+                    alert('Error adding product to cart');
+                }
                 });
-
-                document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2);
-                document.getElementById('cart-total').textContent = subtotal.toFixed(2);
-            }
-            document.querySelectorAll('.cart-product-quantity input').forEach(input => {
-                input.addEventListener('change', function () {
-                    const cartItemId = this.closest('tr').querySelector('.btn-remove').getAttribute('data-cart-item-id');
-                    const newQuantity = this.value;
-
-                    fetch('/update-cart-quantity', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ cartItemId, quantity: newQuantity }),
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Update total price
-                                const priceEl = this.closest('tr').querySelector('.price-col');
-                                const totalEl = this.closest('tr').querySelector('.total-col');
-                                const price = parseFloat(priceEl.textContent.replace('$', ''));
-                                totalEl.textContent = '$' + (price * newQuantity).toFixed(2);
-
-                                updateSubtotal();
-                            } else {
-                                alert('Error updating quantity');
-                            }
-                        });
-                });
+                } catch (error) {
+                    console.log(error.message);
+                }
+                
+            });
             });
 
-            // Remove item
-            document.querySelectorAll('.btn-remove').forEach(button => {
-                button.addEventListener('click', function () {
-                    const cartItemId = this.getAttribute('data-cart-item-id');
 
-                    fetch('/remove-from-cart', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ cartItemId }),
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                this.closest('tr').remove();
-                                updateSubtotal();
-                                // Optionally update cart total
-                            } else {
-                                alert('Error removing item from cart');
-                            }
-                        });
-                });
-            });
-            updateSubtotal();
+
         </script>
-
         <!-- Plugins JS File -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -772,10 +640,66 @@
         <script src="assets/js/jquery.waypoints.min.js"></script>
         <script src="assets/js/superfish.min.js"></script>
         <script src="assets/js/owl.carousel.min.js"></script>
+        <script src="assets/js/wNumb.js"></script>
         <script src="assets/js/bootstrap-input-spinner.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/js/nouislider.min.js"></script>
         <!-- Main JS File -->
         <script src="assets/js/main.js"></script>
     </body>
 
-
     <%- include('../layouts/footer.ejs') %>
+        <!-- molla/category-boxed.html  22 Nov 2019 10:03:02 GMT -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%- include('../layouts/header.ejs') %>
+
+<div class="container mt-4">
+    <h2>Search Results for "<%= query %>"</h2>
+    <div class="row">
+        <% if (products.length === 0) { %>
+            <p>No results found.</p>
+        <% } else { %>
+            <% products.forEach(product => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="/uploads/<%= product.images[0] %>" class="card-img-top" alt="<%= product.product_name %>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.product_name %></h5>
+                            <p class="card-text">₹<%= product.price.toFixed(2) %></p>
+                            <p class="card-text"><%= product.description %></p>
+                            <a href="/showProduct?id=<%= product._id %>" class="btn btn-primary">View Product</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../layouts/footer.ejs') %>

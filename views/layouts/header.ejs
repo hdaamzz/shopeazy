@@ -48,4 +48,39 @@
             color: red;
         }
     </style>
+    <style>
+        .address-card {
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+        }
+    
+        .address-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+    
+        .address-card.selected {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+    
+        .address-card .card-title {
+            color: #007bff;
+            font-weight: bold;
+        }
+    
+        .address-card .card-text {
+            color: #6c757d;
+        }
+    
+        .address-card .form-check-input {
+            margin-top: 0.3rem;
+        }
+    
+        .address-card .form-check-label {
+            font-weight: bold;
+            color: #495057;
+        }
+    </style>
 </head>

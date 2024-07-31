@@ -44,6 +44,9 @@ user_route.get('/user-cart',userController.loaduserCart);
 user_route.post('/addCartItem',userController.addCartItem)
 user_route.post('/update-cart-quantity',userController.updateCartQuantity)
 user_route.post('/remove-from-cart', userController.removeCartItem);
+user_route.get('/search-results', userController.searchResults);
+user_route.get('/checkout',userController.loadCheckout)
+user_route.post('/place-order', userController.placeOrder);
 
 
 user_route.get('/logout', auth.isLogin, userController.userLogout);

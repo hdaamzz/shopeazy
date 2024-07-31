@@ -1,0 +1,584 @@
+<%- include('../layouts/header.ejs') %>
+
+    <body>
+        <div class="page-wrapper">
+            <header class="header">
+                <div class="header-top">
+                    <div class="container mb-2 pt-2 pb-2">
+                        <div class="header-left">
+                        </div><!-- End .header-left -->
+
+                        <div class="header-right">
+                            <ul class="top-menu">
+                                <!-- <li>
+                            <a href="#">Links</a>
+                            <ul>
+                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                            </ul>
+                        </li> -->
+                            </ul><!-- End .top-menu -->
+                        </div><!-- End .header-right -->
+                    </div><!-- End .container -->
+                </div><!-- End .header-top -->
+
+                <div class="header-middle sticky-header">
+                    <div class="container">
+                        <div class="header-left">
+                            <button class="mobile-menu-toggler">
+                                <span class="sr-only">Toggle mobile menu</span>
+                                <i class="icon-bars"></i>
+                            </button>
+
+                            <a href="/" class="logo">
+                                <img src="assets/newimages/logo.png" alt="shopEazy Logo" width="105" height="25">
+                            </a>
+
+                            <nav class="main-nav">
+                                <ul class="menu sf-arrows">
+                                    <li class="megamenu-container active">
+                                        <a href="/" class="sf-with-ul">Home</a>
+
+
+                                    </li>
+                                    <li>
+                                        <a href="category.html" class="sf-with-ul">Shop</a>
+
+                                        <div class="megamenu megamenu-md">
+                                            <div class="row no-gutters">
+                                                <div class="col-md-8">
+                                                    <div class="menu-col">
+                                                        <div class="col-lg-9">
+                                                            <h2 class="mb-4">Select a Shipping Address</h2>
+                                                            <button type="button" class="btn btn-outline-primary mb-3"
+                                                                id="add-address-btn">
+                                                                <i class="icon-plus"></i> Add New Address
+                                                            </button>
+                                                            <div class="address-selection">
+                                                                <form id="checkout-form" action="/place-order"
+                                                                    method="POST">
+                                                                    <div class="row">
+
+                                                                        <div class="col-md-6">
+                                                                            <div class="menu-title">Shop with sidebar
+                                                                            </div>
+                                                                            <!-- End .menu-title -->
+                                                                            <ul>
+                                                                                <li><a href="category-list.html">Shop
+                                                                                        List</a></li>
+                                                                                <li><a href="category-2cols.html">Shop
+                                                                                        Grid 2
+                                                                                        Columns</a></li>
+                                                                                <li><a href="category.html">Shop Grid 3
+                                                                                        Columns</a>
+                                                                                </li>
+                                                                                <li><a href="category-4cols.html">Shop
+                                                                                        Grid 4
+                                                                                        Columns</a></li>
+                                                                                <li><a href="category-market.html"><span>Shop
+                                                                                            Market<span
+                                                                                                class="tip tip-new">New</span></span></a>
+                                                                                </li>
+                                                                            </ul>
+
+                                                                            <div class="menu-title">Shop no sidebar
+                                                                            </div>
+                                                                            <!-- End .menu-title -->
+                                                                            <ul>
+                                                                                <li><a href="category-boxed.html"><span>Shop
+                                                                                            Boxed
+                                                                                            No Sidebar<span
+                                                                                                class="tip tip-hot">Hot</span></span></a>
+                                                                                </li>
+                                                                                <li><a href="category-fullwidth.html">Shop
+                                                                                        Fullwidth
+                                                                                        No Sidebar</a></li>
+                                                                            </ul>
+                                                                        </div><!-- End .col-md-6 -->
+
+                                                                        <div class="col-md-6">
+                                                                            <div class="menu-title">Product Category
+                                                                            </div>
+                                                                            <!-- End .menu-title -->
+                                                                            <ul>
+                                                                                <li><a
+                                                                                        href="product-category-boxed.html">Product
+                                                                                        Category Boxed</a></li>
+                                                                                <li><a
+                                                                                        href="product-category-fullwidth.html"><span>Product
+                                                                                            Category Fullwidth<span
+                                                                                                class="tip tip-new">New</span></span></a>
+                                                                                </li>
+                                                                            </ul>
+                                                                            <div class="menu-title">Shop Pages</div>
+                                                                            <!-- End .menu-title -->
+                                                                            <ul>
+                                                                                <li><a href="cart.html">Cart</a></li>
+                                                                                <li><a href="checkout.html">Checkout</a>
+                                                                                </li>
+                                                                                <li><a href="wishlist.html">Wishlist</a>
+                                                                                </li>
+                                                                                <li><a href="#">My Account</a></li>
+                                                                            </ul>
+                                                                        </div><!-- End .col-md-6 -->
+                                                                    </div><!-- End .row -->
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- End .menu-col -->
+                                                </div><!-- End .col-md-8 -->
+
+                                                <div class="col-md-4">
+                                                    <div class="banner banner-overlay">
+                                                        <a href="category.html" class="banner banner-menu">
+                                                            <!-- <img src="assets/images/menu/banner-1.jpg" alt="Banner"> -->
+
+                                                            <div class="banner-content banner-content-top">
+                                                                <!-- <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div> -->
+                                                            </div><!-- End .banner-content -->
+                                                        </a>
+                                                    </div><!-- End .banner banner-overlay -->
+                                                </div><!-- End .col-md-4 -->
+                                            </div><!-- End .row -->
+                                        </div><!-- End .megamenu megamenu-md -->
+                                    </li>
+                                </ul><!-- End .menu -->
+                            </nav><!-- End .main-nav -->
+                        </div><!-- End .header-left -->
+
+
+
+                        <div class="header-right">
+                            <div class="header-search">
+                                <a href="#" class="search-toggle" role="button" title="Search"><i
+                                        class="icon-search"></i></a>
+                                <form action="#" method="get">
+                                    <div class="header-search-wrapper">
+                                        <label for="q" class="sr-only">Search</label>
+                                        <input type="search" class="form-control" name="q" id="q"
+                                            placeholder="Search in..." required>
+                                    </div><!-- End .header-search-wrapper -->
+                                </form>
+                            </div><!-- End .header-search -->
+
+
+
+
+
+                        </div><!-- End .header-right -->
+                    </div><!-- End .container -->
+                </div><!-- End .header-middle -->
+            </header><!-- End .header -->
+
+            <main class="main">
+                <!-- Page Header -->
+                <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+                    <div class="container">
+                        <h1 class="page-title">Shopping Cart</h1>
+                    </div>
+                </div>
+
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                    <div class="container">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item "><a href="/cart">Shopping Cart</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Check Out</li>
+                        </ol>
+                    </div>
+                </nav>
+
+                <!-- Page Content -->
+                <div class="page-content">
+                    <div class="cart">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-9 ">
+                                    <form id="ckeckoutForm">
+                                        <div class="address-selection ">
+                                            <div class="row">
+                                                <% if (addressData && addressData.length> 0) { %>
+                                                    <% addressData.forEach(function(address) { %>
+                                                        <!-- Address Card 1 -->
+                                                        <div class="col-md-4 mb-3 ">
+                                                            <div class="card address-card h-100 ">
+                                                                <div class="card-body ">
+                                                                    <h5 class="card-title"></h5>
+                                                                    <p class="card-text">
+                                                                        <%= address?.name %><br>
+                                                                            <%= address?.address %><br>
+                                                                                <%= address?.town_city %><br>
+                                                                                    <%= address?.pin_code %><br>
+                                                                                        <%= address?.landmark %> <br>
+                                                                                            <%= address.phone_number %>
+                                                                                                <br>
+                                                                                                <%= address.state %><br>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="card-footer bg-transparent ">
+                                                                    <div class="form-check ">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="address" id="address1"
+                                                                            value="<%= address._id %>" checked>
+                                                                        <label class="form-check-label" for="address1">
+                                                                            Select this address
+                                                                        </label><br>
+                                                                        <a href="#" class="rounded-pill p-2 btn-primary"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#editAddressModal<%= address._id %>">
+                                                                            Edit Address<i class="icon-edit"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% }); %>
+                                                            <% } else { %>
+                                                                <p>No addresses found.</p>
+                                                                <% } %>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-primary mb-3"
+                                            id="add-address-btn"><a href="" data-bs-toggle="modal"
+                                                data-bs-target="#editAddressModal"> <i class="icon-plus"></i> Add New
+                                                Address</a>
+
+                                        </button>
+                                </div>
+
+
+
+
+
+                                <!-- Order Summary -->
+                                <aside class="col-lg-3">
+                                    <div class="summary">
+                                        <h3 class="summary-title">Your Order</h3>
+                                        <table class="table table-summary">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% cartData.forEach(item=> { %>
+                                                    <tr>
+                                                        <td><a href="#">
+                                                                <%= item.product_id.product_name %>
+                                                            </a></td>
+                                                        <td>
+                                                            <%= (item.product_id.price * item.quantity).toFixed(2) %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                                        <tr class="summary-subtotal">
+                                                            <td>Subtotal:</td>
+                                                            <% if(subtotal !=='undefined' ){%>
+                                                                <td><span id="cart-subtotal">
+                                                                        <%= subtotal %>
+                                                                    </span></td>
+                                                                <%}%>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Shipping:</td>
+                                                            <td>Free shipping</td>
+                                                        </tr>
+                                                        <tr class="summary-total">
+                                                            <td>Total:</td>
+                                                            <td><span id="cart-total">
+                                                                    <%= subtotal %>
+                                                                </span></td>
+                                                        </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <!-- Payment Methods -->
+                                        <div class="accordion-summary" id="accordion-payment">
+                                            <div class="card">
+                                                <select id="sort-option" name="sort" class="form-control"
+                                                    style="color: black;">
+                                                    <option value="CASH ON DELIVERY">CASH ON DELIVERY</option>
+                                                    <option value="UPI PAYMENT">UPI PAYMENT</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                            <span class="btn-text">Place Order</span>
+                                            <span class="btn-hover-text">Proceed to Checkout</span>
+                                        </button>
+                                    </div>
+                                </aside>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+
+
+
+            <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editAddressModalLabel">Edit
+                                Address</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pl-5 pr-5">
+                            <form id="editAddressFor" class="edit-address-form" data-address-id="">
+                                <div class="mb-3 form-group">
+                                    <label for="edit-name" class="form-label errMsg">Name</label>
+                                    <input type="text" class="form-control" id="edit-name" value="">
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="edit-phone" class="form-label errMsg">Phone
+                                        Number</label>
+                                    <input type="tel" class="form-control" id="edit-phone" value="">
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="edit-address" class="form-label errMsg">Address</label>
+                                    <textarea class="form-control" id="edit-address" rows="3"></textarea>
+
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="edit-city" class="form-label errMsg">Town/City</label>
+                                    <input type="text" class="form-control" id="edit-city" value="">
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="edit-pincode" class="form-label errMsg">PinCode</label>
+                                    <input type="number" class="form-control" id="edit-pincode" value="">
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="edit-landmark" class="form-label errMsg">Landmark <span
+                                            class="text-muted">(optional)</span></label>
+                                    <input type="text" class="form-control" id="edit-landmark" value="">
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="edit-state" class="form-label errMsg">State</label>
+                                    <input type="text" class="form-control" id="edit-state" value="">
+                                </div>
+                                <input type="hidden" id="edit-hiddenid" value="">
+                                <button type="submit" class="btn btn-primary">Save
+                                    changes</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <footer class="footer">
+
+                <div class="footer-middle">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget widget-about">
+                                    <img src="assets/newimages/logo.png" class="footer-logo" alt="Footer Logo"
+                                        width="150" height="25">
+                                    <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
+                                        vulputate magna eros eu erat. </p>
+
+                                    <div class="widget-call">
+                                        <i class="icon-phone"></i>
+                                        Got Question? Call us 24/7
+                                        <a href="tel:#">+0123 456 789</a>
+                                    </div><!-- End .widget-call -->
+                                </div><!-- End .widget about-widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="about.html">About shopEazy</a></li>
+                                        <li><a href="#">Our Services</a></li>
+                                        <li><a href="#">How to shop on shopEazy</a></li>
+                                        <li><a href="faq.html">FAQ</a></li>
+                                        <li><a href="contact.html">Contact us</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="#">Payment Methods</a></li>
+                                        <li><a href="#">Money-back guarantee!</a></li>
+                                        <li><a href="#">Returns</a></li>
+                                        <li><a href="#">Shipping</a></li>
+                                        <li><a href="#">Terms and conditions</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="#">Sign In</a></li>
+                                        <li><a href="cart.html">View Cart</a></li>
+                                        <li><a href="#">My Wishlist</a></li>
+                                        <li><a href="#">Track My Order</a></li>
+                                        <li><a href="#">Help</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                </div><!-- End .footer-middle -->
+
+                <div class="footer-bottom">
+                    <div class="container">
+                        <p class="footer-copyright">Copyright © 2024 shopEazy Store. All Rights Reserved.</p>
+                        <!-- End .footer-copyright -->
+                        <figure class="footer-payments">
+                            <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                        </figure><!-- End .footer-payments -->
+                    </div><!-- End .container -->
+                </div><!-- End .footer-bottom -->
+            </footer><!-- End .footer -->
+        </div><!-- End .page-wrapper -->
+        <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+        <div class="mobile-menu-container">
+            <div class="mobile-menu-wrapper">
+                <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+                <form action="#" method="get" class="mobile-search">
+                    <label for="mobile-search" class="sr-only">Search</label>
+                    <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                        placeholder="Search in..." required>
+                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                </form>
+
+
+                <div class="social-icons">
+                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+                </div><!-- End .social-icons -->
+            </div><!-- End .mobile-menu-wrapper -->
+        </div><!-- End .mobile-menu-container -->
+
+        <!-- Sign in / Register Modal -->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const addressCards = document.querySelectorAll('.address-card');
+                const radioInputs = document.querySelectorAll('input[name="address"]');
+
+                function updateSelectedCard() {
+                    addressCards.forEach(card => card.classList.remove('selected'));
+                    const selectedInput = document.querySelector('input[name="address"]:checked');
+                    if (selectedInput) {
+                        selectedInput.closest('.address-card').classList.add('selected');
+                    }
+                }
+
+                radioInputs.forEach(input => {
+                    input.addEventListener('change', updateSelectedCard);
+                });
+
+                addressCards.forEach(card => {
+                    card.addEventListener('click', function () {
+                        const radio = this.querySelector('input[type="radio"]');
+                        radio.checked = true;
+                        updateSelectedCard();
+                    });
+                });
+
+                updateSelectedCard();
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const checkoutForm = document.getElementById('ckeckoutForm');
+
+                checkoutForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    const selectedAddress = document.querySelector('input[name="address"]:checked');
+                    const selectedPayment = document.getElementById('sort-option');
+                    const totalAmount = document.getElementById('cart-total').textContent;
+
+                    const address_id = selectedAddress.value;
+                    const payment_type = selectedPayment.value;
+                    const total_amount = totalAmount;
+
+                    try {
+                        const response = await fetch('/place-order', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                address_id,
+                                payment_type,
+                                total_amount
+                            })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Your order has been placed successfully.',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/cart';
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'There was an error placing your order. Please try again.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    } catch (error) {
+                        console.log(error.message);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'There was an error placing your order. Please try again.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        </script>
+        <!-- Plugins JS File -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/jquery.hoverIntent.min.js"></script>
+        <script src="assets/js/jquery.waypoints.min.js"></script>
+        <script src="assets/js/superfish.min.js"></script>
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <script src="assets/js/bootstrap-input-spinner.js"></script>
+        <!-- Main JS File -->
+        <script src="assets/js/main.js"></script>
+    </body>
+
+
+    <%- include('../layouts/footer.ejs') %>
