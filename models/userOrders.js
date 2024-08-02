@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const userOrdersSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Users',
         required: true
     },
     address_id: {
@@ -53,6 +53,8 @@ const userOrdersSchema = new mongoose.Schema({
         type: String,
         enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
         default: 'Pending'
+    },cancellation_reason:{
+        type:String
     },
     shipping_cost: {
         type: Number,

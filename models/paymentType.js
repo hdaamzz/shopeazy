@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const paymentTypeSchema = new mongoose.Schema({
-    type:{
+    pay_type:{
         type:String,
         required:true
     }

@@ -203,15 +203,11 @@
                                 </a>
                                 <ul class="menu-sub">
                                     <li class="menu-item">
-                                        <a href="app-ecommerce-order-list.html" class="menu-link">
+                                        <a href="/admin/orders" class="menu-link">
                                             <div data-i18n="Order List">Order List</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="app-ecommerce-order-details.html" class="menu-link">
-                                            <div data-i18n="Order Details">Order Details</div>
-                                        </a>
-                                    </li>
+                                   
                                 </ul>
                             </li>
                             <li class="menu-item ">
@@ -413,7 +409,7 @@
                                                             </div>
                                                         </td>
                                                         <td class="  dt-checkboxes-cell">
-                                                            <%= product[i].category.category_name %>
+                                                            <%= product[i]?.category?.category_name %>
                                                         </td>
                                                         <td class="  dt-checkboxes-cell">
                                                             <%= product[i].price %>
@@ -441,12 +437,12 @@
                                                         <td><span></span></td>
                                                         <td>
                                                             <h6 class="mb-0"></h6>
-                                                            <% } }else{ %>
+                                                            <% } } else { %>
                                                         </td>
                                                     <tr scope="row">
                                                         Category Not Found!!!
                                                     </tr>
-                                                    <% } %>
+                                                <% } %>
                                                         </tr>
                                         </tbody>
                                     </table>
@@ -536,7 +532,7 @@
                                                             <%=product[i].stock%>
                                                         </span></p>
                                                     <p><strong>Category:</strong> <span id="previewCategory"></span>
-                                                        <%=product[i].category.category_name%>
+                                                        <%=product[i]?.category?.category_name%>
                                                     </p>
                                                     <p><strong>Status:</strong> <span id="previewStatus">
                                                             <%=product[i].is_listed%>

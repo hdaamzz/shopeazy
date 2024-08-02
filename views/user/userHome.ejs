@@ -84,7 +84,7 @@
                                                             <i class="icon-long-arrow-right"></i>
                                                         </button>
 
-
+                                                        <p class="main-error1 text-danger"></p>
                                                         <a href="#" class="forgot-link">Forgot Your Password?</a>
                                                     </div><!-- End .form-footer -->
                                                 </form>
@@ -219,7 +219,7 @@
                                     aria-haspopup="true" aria-expanded="false" data-display="static">
                                     
                                 </a>
-                                <a href="/user-cart" class=" dropdown-toggle">
+                                <a href="/nonUserCart" class=" dropdown-toggle">
 
                                    
                                         <div class="icon">
@@ -256,7 +256,21 @@
                     <div class="header-bottom sticky-header">
                         <div class="container">
                             <div class="header-left">
-
+                                <div class="dropdown category-dropdown">
+                                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
+                                        Mobile Categories <i class="icon-angle-down"></i>
+                                    </a>
+        
+                                    <div class="dropdown-menu">
+                                        <nav class="side-nav">
+                                            <ul class="menu-vertical sf-arrows sf-js-enabled" style="touch-action: pan-y;">
+                                                <%category.forEach(x=>{ %>
+                                                <li class="item-lead"><a href="/productCategories?id=<%=x._id%>"><%= x.category_name%></a></li>
+                                               <%})%>
+                                            </ul><!-- End .menu-vertical -->
+                                        </nav><!-- End .side-nav -->
+                                    </div><!-- End .dropdown-menu -->
+                                </div>
                             </div><!-- End .header-left -->
 
                             <div class="header-center">
@@ -883,7 +897,7 @@
                     window.location.href = '/home';
                 } else if (!message.success) {
 
-                    document.querySelector('.main-error').innerText = 'Invalid email or password!';
+                    document.querySelector('.main-error').innerText = message.msg;
 
                     email.classList.add('error');
                     email.classList.remove('success');

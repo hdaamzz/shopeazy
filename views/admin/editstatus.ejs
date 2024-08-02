@@ -239,7 +239,7 @@
                                     <div data-i18n="Dashboard">Dashboard</div>
                                 </a>
                             </li>
-                            <li class="menu-item active open">
+                            <li class="menu-item ">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Products">Products</div>
                                 </a>
@@ -254,11 +254,7 @@
                                             <div data-i18n="Add Product">Add Product</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item active">
-                                        <a href="/admin/addProduct" class="menu-link">
-                                            <div data-i18n="Update Product">Update Product</div>
-                                        </a>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                             <li class="menu-item ">
@@ -271,9 +267,10 @@
                                             <div data-i18n="List all category">List all category</div>
                                         </a>
                                     </li>
+                                   
                                 </ul>
                             </li>
-                            <li class="menu-item">
+                            <li class="menu-item active open">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Order">Order</div>
                                 </a>
@@ -283,7 +280,11 @@
                                             <div data-i18n="Order List">Order List</div>
                                         </a>
                                     </li>
-                                    
+                                    <li class="menu-item active">
+                                        <a href="/admin/addProduct" class="menu-link">
+                                            <div data-i18n="Update Status">Update Status</div>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="menu-item ">
@@ -394,9 +395,8 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
 
-                    <!-- Content -->
-             <form id="addProductForm"  enctype="multipart/form-data">
-                <input type="hidden" name="hiddenid" value="<%= productData._id %>">
+             <form action="" method="POST" id="update-order-status" >
+                <input type="hidden" id="hiddenid" name="hiddenid" value="<%= order._id %>">
                     <div class="container-xxl flex-grow-1 container-p-y">
 
 
@@ -407,33 +407,33 @@
                                 class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 gap-4 gap-md-0">
 
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h4 class="mb-1">Update Product</h4>
+                                    <h4 class="mb-1">Update Order Status</h4>
                                     <p class="mb-0">Orders placed across your store</p>
                                 </div>
                                 <div class="d-flex align-content-center flex-wrap gap-4">
                                     <!-- <button class="btn btn-outline-secondary waves-effect">Discard</button> -->
                                    
                                     <button type="submit" class="btn btn-primary waves-effect waves-light">Update
-                                        Product</button>
+                                        Status</button>
                                 </div>
                             </div>
 
                             <div class="row">
 
-                                <!-- First column-->
+                                
                                 <div class="col-12 col-lg-8">
-                                    <!-- Product Information -->
+                                   
                                     <div class="card mb-6">
                                         <div class="card-header">
-                                            <h5 class="card-tile mb-0">Product information</h5>
+                                            <h5 class="card-tile mb-0">Order information</h5>
                                         </div>
                                         <div class="card-body">
                                             <div class="form-floating form-floating-outline mb-5">
                                                 <div class="formgroup1">
-                                                    <label for="ecommerce-product-name" class="errMsgSignup">Product Name</label>
+                                                    <label for="ecommerce-product-name" class="errMsgSignup">Order Id</label>
                                                     <input type="text" class="form-control" id="ecommerce-product-name"
                                                     placeholder="Product title" name="productTitle"
-                                                    aria-label="Product title" value="<%= productData.product_name %>">
+                                                   value="<%= order._id %>" disabled>
                                                 
                                                 </div>
                                                 
@@ -450,145 +450,44 @@
                                             <div class="form-control p-0 pt-1 comment-editor border-0 pb-1 ql-container ql-snow"  id="ecommerce-category-description">
                                                 
                                                 <div class="formgroup1">       
-                                                    <label class="mb-1 errMsgSignup">Description</label>                                            
-                                                        <input type="text" class="form-control" id="ecommerce-product-description"
+                                                    <label class="mb-1 errMsgSignup">User Name</label>                                            
+                                                        <input type="text" class="form-control" id="ecommerce-description"
                                                         placeholder="Description" name="ProductDescription"
-                                                        aria-label="Product title" value="<%= productData.description %>">
+                                                     value="<%= order.user_id.user_name %>" disabled>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /Product Information -->
-                                    <!-- Media -->
-                                    <div class="card mb-6">
-                                        <div class="card-header">
-                                            <h5 class="mb-0 card-title">Product Images</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="row">
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="image-upload-container ">
-                                                            <input type="file" class="image-upload-input" id="productImage1" name="productImage1" accept="image/*" onchange="previewImage(this, 'imagePreview1')">
-                                                            <input  type="hidden" name="existingImage1" value="<%= productData.images[0] %>">
-                                                            <label for="productImage1" class="image-upload-label">
-                                                                <div class="upload-placeholder " style="display: none;">
-                                                                    <!-- Placeholder content if needed -->
-                                                                     <span></span>
-                                                                </div>
-                                                                <img id="imagePreview1" src="/uploads/<%= productData.images[0] %>" alt="Preview" class="img-preview" style="display: block;">
-                                                            </label>
-                                                            <div class="image-actions" id="actions1">
-                                                              
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="image-upload-container">
-                                                            <input type="file" class="image-upload-input" id="productImage2" name="productImage2" accept="image/*" onchange="previewImage(this, 'imagePreview2')">
-                                                            <input type="hidden" name="existingImage2" value="<%= productData.images[1] %>">
-                                                            <label for="productImage2" class="image-upload-label">
-                                                                <div class="upload-placeholder" style="display: none;">
-                                                                    <!-- Placeholder content if needed -->
-                                                                </div>
-                                                                <img id="imagePreview2" src="/uploads/<%= productData.images[1] %>" alt="Preview" class="img-preview" style="display: block;">
-                                                            </label>
-                                                            <div class="image-actions" id="actions2">
-                                                                <!-- Replace button if needed -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="image-upload-container">
-                                                            <input type="file" class="image-upload-input" id="productImage3" name="productImage3" accept="image/*" onchange="previewImage(this, 'imagePreview3')">
-                                                            <input type="hidden" name="existingImage3" value="<%= productData.images[2] %>">
-                                                            <label for="productImage3" class="image-upload-label">
-                                                                <div class="upload-placeholder" style="display: none;">
-                                                                    <!-- Placeholder content if needed -->
-                                                                </div>
-                                                                <img id="imagePreview3" src="/uploads/<%= productData.images[2] %>" alt="Preview" class="img-preview" style="display: block;">
-                                                            </label>
-                                                            <div class="image-actions" id="actions3">
-                                                                <!-- Replace button if needed -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /Media -->
+                                   
 
                                 </div>
-                                <!-- /Second column -->
+                               
 
-                                <!-- Second column -->
+                             
                                 <div class="col-12 col-lg-4">
-                                    <!-- Pricing Card -->
+                                  
                                     <div class="card mb-6">
                                         <div class="card-header" >
-                                            <h5 class="card-title mb-0">Pricing</h5>
+                                            <h5 class="card-title mb-0">Status</h5>
                                         </div>
                                         <div class="card-body">
-                                            <!-- Base Price -->
-                                            <div class="form-floating form-floating-outline mb-5 ">
-                                                <div class="formgroup1">
-                                                    <label for="productPrice" class="errMsgSignup">Price</label>
-                                                    <input type="number" class="form-control" id="ecommerce-product-price"
-                                                    placeholder="Price" name="productPrice"  value="<%= productData.price %>" >
-                                                    
-                                                </div>
-                                                
-                                            </div>
 
-                                            <!-- Discounted Price -->
-                                            <div class="form-floating form-floating-outline mb-5 ">
-                                                <div class="formgroup1">
-                                                    <label for="productCount" class="errMsgSignup">Product Count</label>
-                                                    <input type="number" class="form-control"
-                                                    id="productCount" placeholder="Product Count"
-                                                    name="productCount" value="<%= productData.stock %>" >
-                                                </div>
-                                               
-                                            </div>
-
-
-
-                                            <div class="form-floating form-floating-outline form-floating-select2 pb-3">
-                                                <div class="position-relative"><label for="ecommerce-category" class="errMsgSignup">Select Category</label><select name="categorySelection" id="ecommerce-category" class="select2 form-select select2-hidden-accessible" data-placeholder="Select category status" >
-                                                    <option value="">Select Category</option>
-                                                    <% if (typeof category !== "undefined" && category.length > 0) { %>
-                                                        <% for (let i = 0; i < category.length; i++) { %>
-                                                            <option value="<%= category[i]._id %>" <%= (productData.category._id.toString() === category[i]._id.toString()) ? 'selected' : '' %>>
-                                                                <%= category[i].category_name %>
-                                                            </option>
-                                                        <% } %>
-                                                    <% } else { %>
-                                                        <option value="" disabled>No categories available</option>
-                                                    <% } %>
-                                                </select>
-                                                </div>
-                                            </div>
 
                                             <div class="form-floating form-floating-outline form-floating-select2 pt-2">
-                                                <div class="position-relative"><label for="product-status" class="errMsgSignup">Select Product Status</label><select name="productOption" id="product-status" class="select2 form-select select2-hidden-accessible" data-placeholder="Select product status" >
-                                                    
-                                                    <option value="true" <%= productData.is_listed === true ? 'selected' : '' %>>Listed</option>
-                                                    <option value="false" <%= productData.is_listed === false ? 'selected' : '' %>>Unlisted</option>
-                                                </select>
+                                                <div class="position-relative"><label for="product-status" class="errMsgSignup">Select Product Status</label>
+                                                    <select name="productOption" id="product-status" class="select2 form-select select2-hidden-accessible"  data-placeholder="Select product status" >
+                                                        
+                                                    <option value="Pending" <%= order.order_status === false ? 'selected' : '' %>>Pending</option>
+                                                    <option value="Processing" <%= order.order_status === false ? 'selected' : '' %>>Processing</option>
+                                                    <option value="Shipped" <%= order.order_status === false ? 'selected' : '' %>>Shipped</option>
+                                                    <option value="Delivered" <%= order.order_status === false ? 'selected' : '' %>>Delivered</option>
                                                 </div>
                                             </div>
                                             
                                         </div>
                                     </div>
-                                    <!-- /Pricing Card -->
-                                    <!-- Organize Card -->
-                                    
-                                    <!-- /Organize Card -->
                                 </div>
-                                <!-- /Second column -->
+                             
                             </div>
                         </div>
                     </div>
@@ -633,193 +532,72 @@
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
             <script>
-            function previewImage(input, previewId) {
-                const preview = document.getElementById(previewId);
-                const placeholder = input.closest('.image-upload-container').querySelector('.upload-placeholder');
-                const file = input.files[0];
+           
+           document.addEventListener('DOMContentLoaded', function() {
+            const updateCategoryForm = document.getElementById('update-order-status');
 
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = function () {
-                        preview.src = reader.result;
-                        preview.style.display = 'block';
-                        placeholder.style.display = 'none';
+            const status = document.getElementById('product-status');
+            const hidden = document.getElementById('hiddenid');
+
+            updateCategoryForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const statusValue = status.value.trim();
+                const hiddenId = hidden.value.trim();
+
+                validateRegisterForm( statusValue, hiddenId);
+            });
+
+           
+
+            const validateRegisterForm = async (statusValue, hiddenId) => {
+
+                try {
+                    var formData = new FormData(updateCategoryForm);
+                    const response = await fetch('/admin/updateStatus', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            hiddenid:hiddenId
+                            , productOption:statusValue
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = data.redirectUrl;
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     }
-                    reader.readAsDataURL(file);
-                } else if (preview.src && preview.src !== window.location.href) {
-                    // If no new file is selected but there's an existing image, keep displaying it
-                    preview.style.display = 'block';
-                    placeholder.style.display = 'none';
-                } else {
-                    preview.src = "";
-                    preview.style.display = 'none';
-                    placeholder.style.display = 'flex';
+
+                } catch (error) {
+                    console.error('Error during update category:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An unexpected error occurred',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             }
+        });
 
-            function triggerInputClick(inputId) {
-                document.getElementById(inputId).click();
-            }
-
-            // Ensure images are shown on page load
-            document.addEventListener('DOMContentLoaded', function() {
-                ['imagePreview1', 'imagePreview2', 'imagePreview3'].forEach(previewId => {
-                    const preview = document.getElementById(previewId);
-                    const placeholder = preview.closest('.image-upload-container').querySelector('.upload-placeholder');
-                    if (preview.src && preview.src !== window.location.href) {
-                        preview.style.display = 'block';
-                        placeholder.style.display = 'none';
-                    } else {
-                        preview.style.display = 'none';
-                        placeholder.style.display = 'flex';
-                    }
-                });
-            });
-            document.addEventListener('DOMContentLoaded',function(){
-                const addProductForm = document.getElementById('addProductForm');
-                const erralert =document.getElementById('erralert');
-                const name = document.getElementById('ecommerce-product-name');
-                const description = document.getElementById('ecommerce-product-description');
-                const price = document.getElementById('ecommerce-product-price');
-                const stock = document.getElementById('productCount');
-                const status =document.getElementById('product-status');
-                const category =document.getElementById('ecommerce-category');
-
-              
-
-
-
-
-                addProductForm.addEventListener('submit', function (event) {
-                    event.preventDefault();
-
-                    const nameValue = name.value.trim();
-                    const descriptionValue = description.value.trim();
-                    const priceValue = price.value.trim();
-                    const stockValue = stock.value.trim();
-                    const categoryValue = category.value.trim();
-                    const statusValue = status.value.trim();
-                
-
-
-                    validateRegisterForm(nameValue,descriptionValue,priceValue,stockValue,categoryValue);
-                });
-                const setError = (element, message) => {
-                            const formGroup1 = element.parentElement;
-                            const errorDisplay = formGroup1.querySelector('.errMsgSignup');
-                            if (errorDisplay) {
-                                errorDisplay.innerText = message;
-                                element.classList.add('error');
-                                errorDisplay.classList.add('error');
-                                element.classList.remove('success');
-                                errorDisplay.classList.remove('success');
-                            }
-                        }
-
-                        const setSuccess = (element, message) => {
-                            const formGroup1 = element.parentElement;
-                            const errorDisplay = formGroup1.querySelector('.errMsgSignup');
-                            if (errorDisplay) {
-                                errorDisplay.innerText = message;
-                                element.classList.add('success');
-                                errorDisplay.classList.add('success');
-                                element.classList.remove('error');
-                                errorDisplay.classList.remove('error');
-                            }
-                        }
-                        const validateRegisterForm = async (nameValue,descriptionValue,priceValue,stockValue,categoryValue)=>{
-                            let isValid = true;
-
-                            if (nameValue === '') {
-                                setError(name, 'Enter Product Name');
-                                isValid = false;
-                            } else if (nameValue.length < 5) {
-                                setError(name, 'Please Enter Correct Product Name');
-                                isValid = false;
-                            } else {
-                                setSuccess(name, 'Product Name');
-                            }
-                            if (descriptionValue === '') {
-                                setError(description, 'Enter Product Description');
-                                isValid = false;
-                            } else if (descriptionValue.length < 5) {
-                                setError(description, 'Please Enter Correct Product Description');
-                                isValid = false;
-                            } else {
-                                setSuccess(description, 'Description');
-                            }
-                            if(priceValue === ''){
-                                setError(price, 'Please Enter Correct Product Price');
-                                isValid = false;
-                            } else if(priceValue < 499) {
-                                setError(price, 'Minumum Product Price is 500');
-                                isValid = false;
-                                
-                            }else{
-                                setSuccess(price, 'Price');
-                            }
-                            if (stockValue === '') {
-                                    setError(stock, 'Enter Stock');
-                                    isValid = false;
-                                } else if (parseInt(stockValue) < 0) {
-                                    setError(stock, 'Product Stock Minimum 0');
-                                    isValid = false;
-                                } else {
-                                    setSuccess(stock, 'Product Count');
-                                }
-                             if (categoryValue === '') {
-                                setError(category, 'Choose a category');
-                                isValid = false;
-                                } else {
-                                    setSuccess(category, 'Select Product Category');
-                                }
-                            
-                            if (!isValid) {
-                                    return;
-                                }
-
-                            try {
-                                var formData = new FormData(addProductForm);
-
-                                const response = await fetch('/admin/updateProduct', {
-                                        method: 'POST',
-                                        body: formData
-                                    });
-
-                                    const data = await response.json();
-                                    if (data.success) {
-                                    Swal.fire({
-                                        title: 'Success!',
-                                        text: data.message,
-                                        icon: 'success',
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            window.location.href = data.redirectUrl;
-                                        }
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: data.message,
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
-                                    });
-                                }
-
-                            } catch (error) {
-                                console.error('Error during update product:', error);
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: 'An unexpected error occurred',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
-                                    });
-                            }
-                        }
-
-            })
-       </script>
+      </script>
 
 </body>
 

@@ -37,12 +37,16 @@ admin_route.post('/category', adminController.addCategory);
 admin_route.post('/api/category/list/:categoryId', adminController.listCategory);
 admin_route.get('/updateCate',adminController.loadUpdateCategory)
 admin_route.post('/updateCate',adminController.UpdateCategory)
-// admin_route.post('/updateCategory', adminController.updateCategory);
 admin_route.get('/products', auth.isLogin, adminController.loadProducts)
 admin_route.get('/addProduct', auth.isLogin, adminController.loadAddProduct)
 admin_route.post('/addProduct', multer.upload.array('productImage', 3), adminController.addProduct);
 admin_route.get('/updateProduct', auth.isLogin, adminController.loadUpdateProduct)
 admin_route.post('/updateProduct', multer.updateImage, adminController.updateProduct);
+admin_route.get('/orders',auth.isLogin,adminController.loadOrderList)
+admin_route.get('/updateStatus',auth.isLogin,adminController.loadupdateStatus)
+admin_route.post('/updateStatus',adminController.updateStatus);
+admin_route.post('/cancelOrder',adminController.cancelOrder)
+
 admin_route.get('/logout', adminController.logout)
 
 

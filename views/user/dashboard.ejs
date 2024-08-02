@@ -132,13 +132,13 @@
                                 </form>
                             </div><!-- End .header-search -->
 
-                            <div class="dropdown cart-dropdown">
-                                <a href="/cart" class=" dropdown-toggle">
+                            <!-- <div class="dropdown cart-dropdown">
+                                <a href="/cart" class="">
                                     <div class="icon">
                                         <i class="icon-shopping-cart"></i>
                                     </div>
                                   
-                            </div><!-- End .cart-dropdown -->
+                            </div> -->
                         </div><!-- End .header-right -->
                     </div><!-- End .container -->
                 </div><!-- End .header-middle -->
@@ -220,231 +220,474 @@
 
                                         <div class="tab-pane fade" id="tab-orders" role="tabpanel"
                                             aria-labelledby="tab-orders-link">
-                                            <p>No order has been made yet.</p>
-                                            <a href="category.html" class="btn btn-outline-primary-2"><span>GO
+                                            <h5>Orders List</h5>
+                                            <table class="table table-cart table-mobile">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Order Id</th>
+                                                        <th>Price</th>
+                                                        <th>Address Name</th>
+                                                        <th>Status</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+
+
+
+
+
+                                                <tbody>
+                                                    <% orderData.forEach((item, index)=> { %>
+                                                        <tr>
+                                                            <td class="product-col">
+                                                                <div class="product">
+                                                                    <h3 class="product-title">
+                                                                        <span style="color: #495057;">Orderd date :<%=
+                                                                                item.created_at.toLocaleDateString() %>
+                                                                                </span><br>
+                                                                        <a href="#" data-bs-toggle="modal"
+                                                                            data-bs-target="#orderModal<%= item._id %>">#
+                                                                            <%= item._id %></a>
+
+                                                                    </h3>
+
+                                                                </div>
+                                                            </td>
+                                                            <td class="price-col">₹<%= item.total_amount %>
+                                                            </td>
+                                                            <td class="product-title">
+                                                                To: <%= item.address_id.name %>
+                                                            </td>
+                                                            <td class="total-col">
+                                                                <%= item.order_status %>
+                                                            </td>
+                                                            <td class="view-col">
+                                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                    data-bs-target="#cancelOrderModal<%= item._id %>">CANCEL
+                                                                    ORDER</button>
+                                                            </td>
+                                                        </tr>
+                                                        <% }) %>
+                                                </tbody>
+                                            </table>
+                                            <a href="/" class="btn btn-outline-primary-2"><span>GO
                                                     SHOP</span><i class="icon-long-arrow-right"></i></a>
                                         </div><!-- .End .tab-pane -->
 
-                                        <div class="tab-pane fade" id="tab-downloads" role="tabpanel"
-                                            aria-labelledby="tab-downloads-link">
-                                            <p>No downloads available yet.</p>
-                                            <a href="category.html" class="btn btn-outline-primary-2"><span>GO
-                                                    SHOP</span><i class="icon-long-arrow-right"></i></a>
-                                        </div><!-- .End .tab-pane -->
 
-                                        <div class="tab-pane fade" id="tab-address" role="tabpanel"
-                                            aria-labelledby="tab-address-link">
-                                            <p>The following addresses will be used on the checkout page by default.</p>
-                                            <div class="row">
-                                                <% if (addressData && addressData.length> 0) { %>
-                                                    <% addressData.forEach(function(address) { %>
-                                                        <div class="col-lg-6">
-                                                            <div class="card card-dashboard">
-                                                                <div class="card-body">
+                                        <% orderData.forEach((item, index)=> { %>
+                                            <div class="modal fade" id="orderModal<%= item._id %>" tabindex="-1"
+                                                aria-labelledby="orderModalLabel<%= item._id %>" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl">
+                                                    <!-- Changed to modal-xl for extra large width -->
+                                                    <div class="modal-content pr-2 pl-4">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="orderModalLabel<%= item._id %>">
+                                                                Order Details</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <h6>Order Information</h6>
+                                                                    <p><strong>Order ID:</strong> <span>
+                                                                            <%= item._id %>
+                                                                        </span></p>
+                                                                    <p><strong>Order Date:</strong> <span>
+                                                                            <%= item.created_at.toLocaleDateString() %>
+                                                                        </span></p>
+                                                                    <p><strong>Total Amount:</strong> <span>₹<%=
+                                                                                item.total_amount %></span></p>
+                                                                    <p><strong>Order Status:</strong> <span>
+                                                                            <%= item.order_status %>
+                                                                        </span></p>
+                                                                    <p><strong>Payment Type:</strong> <span>
+                                                                            <%= item.payment_type.pay_type %>
+                                                                        </span></p>
+                                                                    <p><strong>Payment Status:</strong> <span>
+                                                                            <%= item.payment_status %>
+                                                                        </span></p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <h6>Shipping Address</h6>
                                                                     <p>
-                                                                        <b>
-                                                                            <%= address?.name %>
-                                                                        </b><br>
-                                                                        <%= address?.address %><br>
-                                                                            <%= address?.town_city %> <br>
-                                                                                <%= address?.pin_code %><br>
-                                                                                    <%= address?.landmark %> <br>
-                                                                                        <%= address.phone_number %><br>
-                                                                                            <%= address.state %><br>
-                                                                                                <a href="#"
-                                                                                                    class="btn btn-primary"
-                                                                                                    data-bs-toggle="modal"
-                                                                                                    data-bs-target="#editAddressModal<%= address._id %>">
-                                                                                                    Edit Address<i
-                                                                                                        class="icon-edit"></i>
-                                                                                                </a>
-                                                                                                <button
-                                                                                                    class="btn btn-danger delete-address"
-                                                                                                    data-address-id="<%= address._id %>">
-                                                                                                    Delete Address<i
-                                                                                                        class="icon-trash"></i>
-                                                                                                </button>
+                                                                        <%= item.address_id.name %>
+                                                                    </p>
+                                                                    <p>
+                                                                        <%= item.address_id.address %>
+                                                                    </p>
+                                                                    <p>
+                                                                        <%= item.address_id.town_city %>, <%=
+                                                                                item.address_id.state %>
+                                                                                <%= item.address_id.pin_code %>
+                                                                    </p>
+                                                                    <p>
+                                                                        <%= item.address_id.phone_number %>
                                                                     </p>
                                                                 </div>
                                                             </div>
+                                                            <div class="row mt-4">
+                                                                <div class="col-12">
+                                                                    <h6>Order Items</h6>
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Product</th>
+                                                                                <th>Quantity </th>
+                                                                                <th> Price</th>
+                                                                                <th>Total</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <% item.items.forEach(product=> { %>
+                                                                                <tr class="text-align: center">
+                                                                                    <td>
+                                                                                        <%= product.name %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= product.quantity %>
+                                                                                    </td>
+                                                                                    <td>₹<%= product.price %>
+                                                                                    </td>
+                                                                                    <td>₹<%= product.total %>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <% }) %>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <% }); %>
-                                                            <% } else { %>
-                                                                <p>No addresses found.</p>
-                                                                <% } %>
-                                            </div>
-                                        </div>
-
-
-
-
-
-
-                                        <div class="tab-pane fade" id="tab-addaddress" role="tabpanel"
-                                            aria-labelledby="tab-addaddress-link">
-
-                                            <form id="addAddressForm">
-
-                                                <div class="form-group">
-                                                    <label for="name" class="form-label errMsg">Name</label>
-                                                    <input type="text" class="form-control" id="name">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="phone" class="form-label errMsg">Phone Number</label>
-                                                    <input type="tel" class="form-control" id="phone">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="address" class="form-label errMsg">Address</label>
-                                                    <textarea class="form-control" id="address" rows="3"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="city" class="form-label errMsg">Town/City</label>
-                                                    <input type="text" class="form-control" id="city">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="pincode" class="form-label errMsg">PinCode</label>
-                                                    <input type="number" class="form-control" id="pincode">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="landmark" class="form-label errMsg">Landmark <span
-                                                            style="color: #495057;">(optional)</span></label>
-                                                    <input type="text" class="form-control" id="landmark">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="state" class="form-label errMsg">State</label>
-                                                    <input type="text" class="form-control" id="state">
-                                                </div>
-                                                <input type="hidden" id="hiddenid" value="<%= userData?._id%>">
-
-
-                                                <button type="submit" class="btn btn-outline-primary-2">Submit</button>
-                                            </form>
-
-                                        </div>
-
-
-                                        <!-- Address Edit Modal -->
-
-                                        <% if (addressData && addressData.length> 0) { %>
-                                            <% addressData.forEach(function(address) { %>
-                                                <div class="modal fade" id="editAddressModal<%= address._id %>"
-                                                    tabindex="-1" aria-labelledby="editAddressModalLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="editAddressModalLabel">Edit
-                                                                    Address</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body pl-5 pr-5">
-                                                                <form id="editAddressForm<%= address._id %>"
-                                                                    class="edit-address-form"
-                                                                    data-address-id="<%= address._id %>">
-                                                                    <div class="mb-3 form-group">
-                                                                        <label for="edit-name-<%= address._id %>"
-                                                                            class="form-label errMsg">Name</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="edit-name-<%= address._id %>"
-                                                                            value="<%=address.name%>">
-                                                                    </div>
-                                                                    <div class="mb-3 form-group">
-                                                                        <label for="edit-phone-<%= address._id %>"
-                                                                            class="form-label errMsg">Phone
-                                                                            Number</label>
-                                                                        <input type="tel" class="form-control"
-                                                                            id="edit-phone-<%= address._id %>"
-                                                                            value="<%=address.phone_number%>">
-                                                                    </div>
-                                                                    <div class="mb-3 form-group">
-                                                                        <label for="edit-address-<%= address._id %>"
-                                                                            class="form-label errMsg">Address</label>
-                                                                        <textarea class="form-control"
-                                                                            id="edit-address-<%= address._id %>"
-                                                                            rows="3"><%= address.address %></textarea>
-
-                                                                    </div>
-                                                                    <div class="mb-3 form-group">
-                                                                        <label for="edit-city-<%= address._id %>"
-                                                                            class="form-label errMsg">Town/City</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="edit-city-<%= address._id %>"
-                                                                            value="<%=address.town_city%>">
-                                                                    </div>
-                                                                    <div class="mb-3 form-group">
-                                                                        <label for="edit-pincode-<%= address._id %>"
-                                                                            class="form-label errMsg">PinCode</label>
-                                                                        <input type="number" class="form-control"
-                                                                            id="edit-pincode-<%= address._id %>"
-                                                                            value="<%=address.pin_code%>">
-                                                                    </div>
-                                                                    <div class="mb-3 form-group">
-                                                                        <label for="edit-landmark-<%= address._id %>"
-                                                                            class="form-label errMsg">Landmark <span
-                                                                                class="text-muted">(optional)</span></label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="edit-landmark-<%= address._id %>"
-                                                                            value="<%=address.landmark%>">
-                                                                    </div>
-                                                                    <div class="mb-3 form-group">
-                                                                        <label for="edit-state-<%= address._id %>"
-                                                                            class="form-label errMsg">State</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="edit-state-<%= address._id %>"
-                                                                            value="<%=address.state%>">
-                                                                    </div>
-                                                                    <input type="hidden"
-                                                                        id="edit-hiddenid-<%= address._id %>"
-                                                                        value="<%= address._id%>">
-                                                                    <button type="submit" class="btn btn-primary">Save
-                                                                        changes</button>
-                                                                </form>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-
-                                                            </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <% }); %>
-                                                    <% } else { %>
-                                                        <p>No addresses found.</p>
-                                                        <% } %>
-                                        <div class="tab-pane fade" id="tab-account" role="tabpanel"
-                                            aria-labelledby="tab-account-link">
-                                            <form id="updateUserForm" action="#">
-                                                <label>Name *</label>
-                                                <input type="text" class="form-control"
-                                                    id="userName1"
-                                                    value="<%= userData?.user_name %>" autocomplete="userName">
-                                                <small class="form-text">This will be how your name
-                                                    will be displayed in the account section and in
-                                                    reviews</small>
+                                            </div>
+                                            <% }) %>
 
-                                                <label>Current password (required to make
-                                                    changes)</label>
-                                                <input type="password" class="form-control"
-                                                    id="currentPassword" autocomplete="currentPassword">
 
-                                                <label>New password (leave blank to keep current
-                                                    password)</label>
-                                                <input type="password" class="form-control"
-                                                    id="newPassword"autocomplete="new-password">
+                                                <% orderData.forEach((item, index)=> { %>
+                                                    <!-- Cancel Order Modal -->
+                                                    <div class="modal fade" id="cancelOrderModal<%= item._id %>"
+                                                        tabindex="-1"
+                                                        aria-labelledby="cancelOrderModalLabel<%= item._id %>"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content pr-5 pl-5">
+                                                                <div class="modal-header">
+                                                                    <h6 class="modal-title"
+                                                                        id="cancelOrderModalLabel<%= item._id %>">Cancel
+                                                                        Order</h6>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <form id="cancelOrderForm<%= item._id %>"
+                                                                    data-cancel-id="<%= item._id %>"
+                                                                    class="cancel-order-form">
 
-                                                <label>Confirm new password</label>
-                                                <input type="password" class="form-control mb-2"
-                                                    id="confirmPassword" autocomplete="confirmPassword">
+                                                                    <div class="modal-body">
+                                                                        <div class="mb-3 form-group">
+                                                                            <label for="cancelReason<%= item._id %>"
+                                                                                class="form-label errMsg">Reason for
+                                                                                Cancellation</label>
+                                                                            <textarea class="form-control"
+                                                                                id="cancelReason<%= item._id %>"
+                                                                                rows="3" ></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Close</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-danger">Cancel Order</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% }) %>
 
-                                                <button type="submit"
-                                                    class="btn btn-outline-primary-2">
-                                                    <span>SAVE CHANGES</span>
-                                                    <i class="icon-long-arrow-right"></i>
-                                                </button>
-                                            </form>
-                                        </div><!-- .End .tab-pane -->
+
+                                                        <div class="tab-pane fade" id="tab-downloads" role="tabpanel"
+                                                            aria-labelledby="tab-downloads-link">
+                                                            <p>No downloads available yet.</p>
+                                                            <a href="category.html"
+                                                                class="btn btn-outline-primary-2"><span>GO
+                                                                    SHOP</span><i class="icon-long-arrow-right"></i></a>
+                                                        </div><!-- .End .tab-pane -->
+
+                                                        <div class="tab-pane fade" id="tab-address" role="tabpanel"
+                                                            aria-labelledby="tab-address-link">
+                                                            <p>The following addresses will be used on the checkout page
+                                                                by default.</p>
+                                                            <div class="row">
+                                                                <% if (addressData && addressData.length> 0) { %>
+                                                                    <% addressData.forEach(function(address) { %>
+                                                                        <div class="col-lg-6">
+                                                                            <div class="card card-dashboard">
+                                                                                <div class="card-body">
+                                                                                    <p>
+                                                                                        <b>
+                                                                                            <%= address?.name %>
+                                                                                        </b><br>
+                                                                                        <%= address?.address %><br>
+                                                                                            <%= address?.town_city %>
+                                                                                                <br>
+                                                                                                <%= address?.pin_code %>
+                                                                                                    <br>
+                                                                                                    <%= address?.landmark
+                                                                                                        %> <br>
+                                                                                                        <%= address.phone_number
+                                                                                                            %><br>
+                                                                                                            <%= address.state
+                                                                                                                %><br>
+                                                                                                                <a href="#"
+                                                                                                                    class="btn btn-primary"
+                                                                                                                    data-bs-toggle="modal"
+                                                                                                                    data-bs-target="#editAddressModal<%= address._id %>">
+                                                                                                                    Edit
+                                                                                                                    Address<i
+                                                                                                                        class="icon-edit"></i>
+                                                                                                                </a>
+                                                                                                                <button
+                                                                                                                    class="btn btn-danger delete-address"
+                                                                                                                    data-address-id="<%= address._id %>">
+                                                                                                                    Delete
+                                                                                                                    Address<i
+                                                                                                                        class="icon-trash"></i>
+                                                                                                                </button>
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <% }); %>
+                                                                            <% } else { %>
+                                                                                <p>No addresses found.</p>
+                                                                                <% } %>
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+
+                                                        <div class="tab-pane fade" id="tab-addaddress" role="tabpanel"
+                                                            aria-labelledby="tab-addaddress-link">
+
+                                                            <form id="addAddressForm">
+
+                                                                <div class="form-group">
+                                                                    <label for="name"
+                                                                        class="form-label errMsg">Name</label>
+                                                                    <input type="text" class="form-control" id="name">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="phone" class="form-label errMsg">Phone
+                                                                        Number</label>
+                                                                    <input type="tel" class="form-control" id="phone">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="address"
+                                                                        class="form-label errMsg">Address</label>
+                                                                    <textarea class="form-control" id="address"
+                                                                        rows="3"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="city"
+                                                                        class="form-label errMsg">Town/City</label>
+                                                                    <input type="text" class="form-control" id="city">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="pincode"
+                                                                        class="form-label errMsg">PinCode</label>
+                                                                    <input type="number" class="form-control"
+                                                                        id="pincode">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="landmark"
+                                                                        class="form-label errMsg">Landmark <span
+                                                                            style="color: #495057;">(optional)</span></label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="landmark">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="state"
+                                                                        class="form-label errMsg">State</label>
+                                                                    <input type="text" class="form-control" id="state">
+                                                                </div>
+                                                                <input type="hidden" id="hiddenid"
+                                                                    value="<%= userData?._id%>">
+
+
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-primary-2">Submit</button>
+                                                            </form>
+
+                                                        </div>
+
+
+                                                        <!-- Address Edit Modal -->
+
+                                                        <% if (addressData && addressData.length> 0) { %>
+                                                            <% addressData.forEach(function(address) { %>
+                                                                <div class="modal fade"
+                                                                    id="editAddressModal<%= address._id %>"
+                                                                    tabindex="-1"
+                                                                    aria-labelledby="editAddressModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="editAddressModalLabel">Edit
+                                                                                    Address</h5>
+                                                                                <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body pl-5 pr-5">
+                                                                                <form
+                                                                                    id="editAddressForm<%= address._id %>"
+                                                                                    class="edit-address-form"
+                                                                                    data-address-id="<%= address._id %>">
+                                                                                    <div class="mb-3 form-group">
+                                                                                        <label
+                                                                                            for="edit-name-<%= address._id %>"
+                                                                                            class="form-label errMsg">Name</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="edit-name-<%= address._id %>"
+                                                                                            value="<%=address.name%>">
+                                                                                    </div>
+                                                                                    <div class="mb-3 form-group">
+                                                                                        <label
+                                                                                            for="edit-phone-<%= address._id %>"
+                                                                                            class="form-label errMsg">Phone
+                                                                                            Number</label>
+                                                                                        <input type="tel"
+                                                                                            class="form-control"
+                                                                                            id="edit-phone-<%= address._id %>"
+                                                                                            value="<%=address.phone_number%>">
+                                                                                    </div>
+                                                                                    <div class="mb-3 form-group">
+                                                                                        <label
+                                                                                            for="edit-address-<%= address._id %>"
+                                                                                            class="form-label errMsg">Address</label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="edit-address-<%= address._id %>"
+                                                                                            rows="3"><%= address.address %></textarea>
+
+                                                                                    </div>
+                                                                                    <div class="mb-3 form-group">
+                                                                                        <label
+                                                                                            for="edit-city-<%= address._id %>"
+                                                                                            class="form-label errMsg">Town/City</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="edit-city-<%= address._id %>"
+                                                                                            value="<%=address.town_city%>">
+                                                                                    </div>
+                                                                                    <div class="mb-3 form-group">
+                                                                                        <label
+                                                                                            for="edit-pincode-<%= address._id %>"
+                                                                                            class="form-label errMsg">PinCode</label>
+                                                                                        <input type="number"
+                                                                                            class="form-control"
+                                                                                            id="edit-pincode-<%= address._id %>"
+                                                                                            value="<%=address.pin_code%>">
+                                                                                    </div>
+                                                                                    <div class="mb-3 form-group">
+                                                                                        <label
+                                                                                            for="edit-landmark-<%= address._id %>"
+                                                                                            class="form-label errMsg">Landmark
+                                                                                            <span
+                                                                                                class="text-muted">(optional)</span></label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="edit-landmark-<%= address._id %>"
+                                                                                            value="<%=address.landmark%>">
+                                                                                    </div>
+                                                                                    <div class="mb-3 form-group">
+                                                                                        <label
+                                                                                            for="edit-state-<%= address._id %>"
+                                                                                            class="form-label errMsg">State</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="edit-state-<%= address._id %>"
+                                                                                            value="<%=address.state%>">
+                                                                                    </div>
+                                                                                    <input type="hidden"
+                                                                                        id="edit-hiddenid-<%= address._id %>"
+                                                                                        value="<%= address._id%>">
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-primary">Save
+                                                                                        changes</button>
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Close</button>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <% }); %>
+                                                                    <% } else { %>
+                                                                        <p>No addresses found.</p>
+                                                                        <% } %>
+                                                                            <div class="tab-pane fade" id="tab-account"
+                                                                                role="tabpanel"
+                                                                                aria-labelledby="tab-account-link">
+                                                                                <form id="updateUserForm" action="#">
+                                                                                    <label>Name *</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="userName1"
+                                                                                        value="<%= userData?.user_name %>"
+                                                                                        autocomplete="userName">
+                                                                                    <small class="form-text">This will
+                                                                                        be how your name
+                                                                                        will be displayed in the account
+                                                                                        section and in
+                                                                                        reviews</small>
+
+                                                                                    <label>Current password (required to
+                                                                                        make
+                                                                                        changes)</label>
+                                                                                    <input type="password"
+                                                                                        class="form-control"
+                                                                                        id="currentPassword"
+                                                                                        autocomplete="currentPassword">
+
+                                                                                    <label>New password (leave blank to
+                                                                                        keep current
+                                                                                        password)</label>
+                                                                                    <input type="password"
+                                                                                        class="form-control"
+                                                                                        id="newPassword"
+                                                                                        autocomplete="new-password">
+
+                                                                                    <label>Confirm new password</label>
+                                                                                    <input type="password"
+                                                                                        class="form-control mb-2"
+                                                                                        id="confirmPassword"
+                                                                                        autocomplete="confirmPassword">
+
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-outline-primary-2">
+                                                                                        <span>SAVE CHANGES</span>
+                                                                                        <i
+                                                                                            class="icon-long-arrow-right"></i>
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div><!-- .End .tab-pane -->
                                     </div>
                                 </div><!-- End .col-lg-9 -->
                             </div><!-- End .row -->
@@ -849,7 +1092,7 @@
                     });
                 });
                 const updateUserForm = document.getElementById('updateUserForm');
-                updateUserForm.addEventListener('submit', function(e) {
+                updateUserForm.addEventListener('submit', function (e) {
                     e.preventDefault();
 
                     const userName = document.getElementById('userName1').value.trim();
@@ -857,259 +1100,346 @@
                     const newPassword = document.getElementById('newPassword').value.trim();
                     const confirmPassword = document.getElementById('confirmPassword').value.trim();
 
-                    console.log('userName:', userName);
-                    console.log('currentPassword:', currentPassword);
 
                     userUpdateValidate(userName, currentPassword, newPassword, confirmPassword);
                 });
 
+                
+                    const cancelOrderForm = document.querySelectorAll('.cancel-order-form')
+                    cancelOrderForm.forEach(form => {
+                        form.addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const orderId = this.getAttribute('data-cancel-id')
+                            console.log(orderId);
 
-            });
-            const setError = (element, message) => {
-                const formGroup1 = element.parentElement;
-                const errorDisplay = formGroup1.querySelector('.errMsg');
-                if (errorDisplay) {
-                    errorDisplay.innerText = message;
-                    element.classList.add('error');
-                    errorDisplay.classList.add('error');
-                    element.classList.remove('success');
-                    errorDisplay.classList.remove('success');
-                }
-            }
+                            const reason = document.getElementById(`cancelReason${orderId}`)
+                            console.log(reason);
 
-            const setSuccess = (element, message) => {
-                const formGroup1 = element.parentElement;
-                const errorDisplay = formGroup1.querySelector('.errMsg');
-                if (errorDisplay) {
-                    errorDisplay.innerText = message;
-                    element.classList.add('success');
-                    errorDisplay.classList.add('success');
-                    element.classList.remove('error');
-                    errorDisplay.classList.remove('error');
-                }
-            }
+                            cancelFormValidate(reason, orderId)
 
-            const edit_validateAddressForm = async (
-                edit_name, edit_phone, edit_address,
-                edit_city, edit_landmark, edit_state,
-                edit_pin, edit_hidden
-            ) => {
+                        });
 
-                const edit_nameValue = edit_name.value.trim();
-                const edit_phoneValue = edit_phone.value.trim();
-                const edit_addressValue = edit_address.value.trim();
-                const edit_cityValue = edit_city.value.trim();
-                const edit_landmarkValue = edit_landmark.value.trim();
-                const edit_stateValue = edit_state.value.trim();
-                const edit_pinValue = edit_pin.value.trim();
-                const edit_hiddenValue = edit_hidden.value.trim();
-
-
-
-                let isValid = true;
-                const nameRegex = /^[a-zA-Z\s]+$/;
-                const phoneRegex = /^\+?(\d{1,4}[\s-\.]?)?(\d{1,3}[\s-\.]?)?(\d{1,4}[\s-\.]?)?(\d{1,9})$/;
-
-                if (edit_nameValue === '') {
-                    isValid = false;
-                    setError(edit_name, 'Enter Name');
-                } else if (edit_nameValue.length < 3) {
-                    isValid = false;
-                    setError(edit_name, 'Name should be more than 2 letters');
-                } else if (!nameRegex.test(edit_nameValue)) {
-                    isValid = false;
-                    setError(edit_name, 'Name should only contain letters and spaces');
-                } else {
-                    setSuccess(edit_name, 'Name');
-                }
-
-                if (edit_phoneValue === '') {
-                    isValid = false;
-                    setError(edit_phone, 'Enter Phone Number');
-                } else if (!phoneRegex.test(edit_phoneValue)) {
-                    isValid = false;
-                    setError(edit_phone, 'Enter Correct Phone Number');
-                } else {
-                    setSuccess(edit_phone, 'Phone Number');
-                }
-
-                if (edit_addressValue === '') {
-                    isValid = false;
-                    setError(edit_address, 'Enter Address');
-                } else if (edit_addressValue.length < 6) {
-                    isValid = false;
-                    setError(edit_address, 'Please Provide a Detailed Address');
-                } else {
-                    setSuccess(edit_address, 'Address');
-                }
-
-                if (edit_cityValue === '') {
-                    isValid = false;
-                    setError(edit_city, 'Enter Town/City');
-                } else if (edit_cityValue.length > 20) {
-                    isValid = false;
-                    setError(edit_city, 'Enter Correct Town/City');
-                } else {
-                    setSuccess(edit_city, 'Town/City');
-                }
-
-                if (edit_stateValue === '') {
-                    isValid = false;
-                    setError(edit_state, 'Enter State');
-                } else {
-                    setSuccess(edit_state, 'State');
-                }
-
-                if (edit_pinValue === '') {
-                    isValid = false;
-                    setError(edit_pin, 'Enter PinCode');
-                } else if (edit_pinValue.length > 7) {
-                    isValid = false;
-                    setError(edit_pin, 'Invalid Pin');
-                } else {
-                    setSuccess(edit_pin, 'PinCode');
-                }
-
-                if (!isValid) {
-                    return;
-                }
-
-
-                try {
-                    const response = await fetch('/updateAddress', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            name: edit_nameValue,
-                            phone: edit_phoneValue,
-                            address: edit_addressValue,
-                            city: edit_cityValue,
-                            landmark: edit_landmarkValue,
-                            state: edit_stateValue,
-                            pin: edit_pinValue,
-                            id: edit_hiddenValue
-                        })
                     });
-                    const data = await response.json();
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: data.message,
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = data.redirectUrl;
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: data.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
+
+               
+                const setError = (element, message) => {
+                    const formGroup1 = element.parentElement;
+                    const errorDisplay = formGroup1.querySelector('.errMsg');
+                    if (errorDisplay) {
+                        errorDisplay.innerText = message;
+                        element.classList.add('error');
+                        errorDisplay.classList.add('error');
+                        element.classList.remove('success');
+                        errorDisplay.classList.remove('success');
                     }
-                } catch (error) {
-                    console.error('Error during address update:', error);
                 }
-            }
 
-            async function deleteAddress(addressId) {
-                // Show confirmation dialog
-                const result = await Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                });
+                const setSuccess = (element, message) => {
+                    const formGroup1 = element.parentElement;
+                    const errorDisplay = formGroup1.querySelector('.errMsg');
+                    if (errorDisplay) {
+                        errorDisplay.innerText = message;
+                        element.classList.add('success');
+                        errorDisplay.classList.add('success');
+                        element.classList.remove('error');
+                        errorDisplay.classList.remove('error');
+                    }
+                }
 
-                if (result.isConfirmed) {
+
+
+                const edit_validateAddressForm = async (
+                    edit_name, edit_phone, edit_address,
+                    edit_city, edit_landmark, edit_state,
+                    edit_pin, edit_hidden
+                ) => {
+
+                    const edit_nameValue = edit_name.value.trim();
+                    const edit_phoneValue = edit_phone.value.trim();
+                    const edit_addressValue = edit_address.value.trim();
+                    const edit_cityValue = edit_city.value.trim();
+                    const edit_landmarkValue = edit_landmark.value.trim();
+                    const edit_stateValue = edit_state.value.trim();
+                    const edit_pinValue = edit_pin.value.trim();
+                    const edit_hiddenValue = edit_hidden.value.trim();
+
+
+
+                    let isValid = true;
+                    const nameRegex = /^[a-zA-Z\s]+$/;
+                    const phoneRegex = /^\+?(\d{1,4}[\s-\.]?)?(\d{1,3}[\s-\.]?)?(\d{1,4}[\s-\.]?)?(\d{1,9})$/;
+
+                    if (edit_nameValue === '') {
+                        isValid = false;
+                        setError(edit_name, 'Enter Name');
+                    } else if (edit_nameValue.length < 3) {
+                        isValid = false;
+                        setError(edit_name, 'Name should be more than 2 letters');
+                    } else if (!nameRegex.test(edit_nameValue)) {
+                        isValid = false;
+                        setError(edit_name, 'Name should only contain letters and spaces');
+                    } else {
+                        setSuccess(edit_name, 'Name');
+                    }
+
+                    if (edit_phoneValue === '') {
+                        isValid = false;
+                        setError(edit_phone, 'Enter Phone Number');
+                    } else if (!phoneRegex.test(edit_phoneValue)) {
+                        isValid = false;
+                        setError(edit_phone, 'Enter Correct Phone Number');
+                    } else {
+                        setSuccess(edit_phone, 'Phone Number');
+                    }
+
+                    if (edit_addressValue === '') {
+                        isValid = false;
+                        setError(edit_address, 'Enter Address');
+                    } else if (edit_addressValue.length < 6) {
+                        isValid = false;
+                        setError(edit_address, 'Please Provide a Detailed Address');
+                    } else {
+                        setSuccess(edit_address, 'Address');
+                    }
+
+                    if (edit_cityValue === '') {
+                        isValid = false;
+                        setError(edit_city, 'Enter Town/City');
+                    } else if (edit_cityValue.length > 20) {
+                        isValid = false;
+                        setError(edit_city, 'Enter Correct Town/City');
+                    } else {
+                        setSuccess(edit_city, 'Town/City');
+                    }
+
+                    if (edit_stateValue === '') {
+                        isValid = false;
+                        setError(edit_state, 'Enter State');
+                    } else {
+                        setSuccess(edit_state, 'State');
+                    }
+
+                    if (edit_pinValue === '') {
+                        isValid = false;
+                        setError(edit_pin, 'Enter PinCode');
+                    } else if (edit_pinValue.length > 7) {
+                        isValid = false;
+                        setError(edit_pin, 'Invalid Pin');
+                    } else {
+                        setSuccess(edit_pin, 'PinCode');
+                    }
+
+                    if (!isValid) {
+                        return;
+                    }
+
+
                     try {
-                        const response = await fetch('/deleteAddress', {
+                        const response = await fetch('/updateAddress', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ id: addressId })
+                            body: JSON.stringify({
+                                name: edit_nameValue,
+                                phone: edit_phoneValue,
+                                address: edit_addressValue,
+                                city: edit_cityValue,
+                                landmark: edit_landmarkValue,
+                                state: edit_stateValue,
+                                pin: edit_pinValue,
+                                id: edit_hiddenValue
+                            })
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = data.redirectUrl;
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Error during address update:', error);
+                    }
+                }
+
+
+
+                async function cancelFormValidate(reason, orderId) {
+                        const reasonValue = reason.value.trim();
+                        let isValid = true;
+
+                        if (reasonValue === "") {
+                            setError(reason, 'Enter a reason for cancellation')
+                            isValid = false;
+                        } else if (reasonValue.length < 5) {
+                            setError(reason, 'Enter proper reason')
+                            isValid = false;
+                        } else {
+                            setSuccess(reason, "Reason for Cancellation")
+                        }
+
+                        if (!isValid) {
+                            return
+                        }
+                    const result = await Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, cancel it!'
+                    });
+                    if (result.isConfirmed) {
+                        try {
+                            const response = await fetch('/cancelOrder', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    _id: orderId,
+                                    cancel_reason: reasonValue
+                                })
+                            });
+                            const data = await response.json();
+                            if (data.success) {
+                                Swal.fire(
+                                    'Cancelled!',
+                                    'Your Order has been canceled.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    console.log("poyi vannu"),
+                                    data.message,
+                                    'error'
+                                );
+                            }
+
+                        } catch (error) {
+                            console.error('Error during cancel order:', error);
+                            Swal.fire(
+                                'Error!',
+                                'An error occurred while cancel the order.',
+                                'error'
+                            );
+
+                        }
+                    }
+                }
+
+                async function deleteAddress(addressId) {
+                   
+                    const result = await Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    });
+
+                    if (result.isConfirmed) {
+                        try {
+                            const response = await fetch('/deleteAddress', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ id: addressId })
+                            });
+
+                            const data = await response.json();
+
+                            if (data.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your address has been deleted.',
+                                    'success'
+                                ).then(() => {
+                                    // Reload the page or remove the address from the DOM
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    data.message,
+                                    'error'
+                                );
+                            }
+                        } catch (error) {
+                            console.error('Error during address deletion:', error);
+                            Swal.fire(
+                                'Error!',
+                                'An error occurred while deleting the address.',
+                                'error'
+                            );
+                        }
+                    }
+                }
+
+                async function userUpdateValidate(userName, currentPassword, newPassword, confirmPassword) {
+
+                    if (!userName || !currentPassword) {
+                        Swal.fire('Error', 'Name and current password are required', 'error');
+                        return;
+                    }
+
+                    if (newPassword && newPassword !== confirmPassword) {
+                        Swal.fire('Error', 'New passwords do not match', 'error');
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/updateUser', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                userName,
+                                currentPassword,
+                                newPassword: newPassword || undefined
+                            })
                         });
 
                         const data = await response.json();
 
                         if (data.success) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Your address has been deleted.',
-                                'success'
-                            ).then(() => {
-                                // Reload the page or remove the address from the DOM
-                                location.reload();
-                            });
+                            Swal.fire('Success', 'User information updated successfully', 'success')
+                                .then(() => {
+                                    location.reload();
+                                });
                         } else {
-                            Swal.fire(
-                                'Error!',
-                                data.message,
-                                'error'
-                            );
+                            Swal.fire('Error', data.message, 'error');
                         }
                     } catch (error) {
-                        console.error('Error during address deletion:', error);
-                        Swal.fire(
-                            'Error!',
-                            'An error occurred while deleting the address.',
-                            'error'
-                        );
+                        console.error('Error updating user information:', error);
+                        Swal.fire('Error', 'An error occurred while updating user information', 'error');
                     }
                 }
-            }
-
-            async function userUpdateValidate(userName, currentPassword, newPassword, confirmPassword) {
-
-            if (!userName || !currentPassword) {
-                Swal.fire('Error', 'Name and current password are required', 'error');
-                return;
-            }
-
-            if (newPassword && newPassword !== confirmPassword) {
-                Swal.fire('Error', 'New passwords do not match', 'error');
-                return;
-            }
-
-            try {
-                const response = await fetch('/updateUser', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        userName,
-                        currentPassword,
-                        newPassword: newPassword || undefined
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    Swal.fire('Success', 'User information updated successfully', 'success')
-                        .then(() => {
-                            location.reload();
-                        });
-                } else {
-                    Swal.fire('Error', data.message, 'error');
-                }
-            } catch (error) {
-                console.error('Error updating user information:', error);
-                Swal.fire('Error', 'An error occurred while updating user information', 'error');
-            }
-        }
+            });
         </script>
-        
+       
 
 
     </body>

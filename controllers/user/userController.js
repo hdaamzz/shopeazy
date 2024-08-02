@@ -1,7 +1,7 @@
 
 const User = require('../../models/userCredentials');
 const Category = require('../../models/categoryList');
-const Products = require('../../models/products');
+const Product = require('../../models/products');
 const Address = require('../../models/userAddress');
 const Cart = require('../../models/cart');
 const PaymentType = require('../../models/paymentType');
@@ -31,9 +31,9 @@ const transporter = nodemailer.createTransport({
 
 const loadMain = async (req, res) => {
     try {
-
-        const product = await Products.find({}).populate('category')
-        res.render('userHome', { product });
+        const category = await Category.find({status:true});
+        const product = await Product.find({is_listed:true}).populate('category')
+        res.render('userHome', { product ,category});
     } catch (error) {
         console.log(error.message);
     }
@@ -101,9 +101,9 @@ const loadUserMain = async (req, res) => {
 
         if (userData) {
             const cartItems = await Cart.find({ user_id: userData._id })
-
-            const product = await Products.find({}).populate('category')
-            res.render('userHome', { userData, product, cartItems });
+            const category = await Category.find({status:true});
+            const product = await Product.find({is_listed:true}).populate('category')
+            res.render('userHome', { userData, product, cartItems ,category});
         } else {
             res.redirect('/');
         }
@@ -216,7 +216,7 @@ const checkGoogleAuthStatus = (req, res, next) => {
 const verifyLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const userData = await User.findOne({ email_address: email })
+        const userData = await User.findOne({ email_address: email ,is_block:false})
 
 
         if (userData) {
@@ -227,11 +227,11 @@ const verifyLogin = async (req, res) => {
 
                 res.status(200).json({ success: true });
             } else {
-                res.json({ success: false });
+                res.json({ success: false ,msg:"Email or password incorrect"});
             }
         } else {
 
-            res.json({ success: false });
+            res.json({ success: false ,msg :"Shopeazy blocked you"});
 
         }
     } catch (error) {
@@ -254,14 +254,14 @@ const loadProductCategory = async (req, res) => {
             const category = req.query.id
             const cartItems = await Cart.find({ user_id: userData._id })
             const categoryData = await Category.findById(category);
-            const productData = await Products.find({ category: category });
+            const productData = await Product.find({ is_listed: true, category: category });
 
 
             res.render('productCategory', { categoryData, productData, userData, cartItems })
         } else {
             const category = req.query.id
             const categoryData = await Category.findById(category);
-            const productData = await Products.find({ category: category });
+            const productData = await Product.find({is_listed: true, category: category });
             res.render('productCategory', { categoryData, productData })
         }
 
@@ -286,15 +286,15 @@ const loadShowProduct = async (req, res) => {
         if (userData) {
             const productId = req.query.id
             const cartItems = await Cart.find({ user_id: userData._id })
-            const productData = await Products.findById(productId).populate('category');
-            const allProductData = await Products.find({ category: productData.category._id })
+            const productData = await Product.findById(productId).populate('category');
+            const allProductData = await Product.find({ category: productData.category._id })
             res.render('product', { productData, allProductData, userData, cartItems })
 
 
         } else {
             const productId = req.query.id
-            const productData = await Products.findById(productId).populate('category');
-            const allProductData = await Products.find({ category: productData.category._id })
+            const productData = await Product.findById(productId).populate('category');
+            const allProductData = await Product.find({ category: productData.category._id })
             res.render('product', { productData, allProductData })
         }
     } catch (error) {
@@ -314,9 +314,10 @@ const loadDashboard = async (req, res) => {
         }
         if (userData) {
             const userid = userData._id
+            const orderData = await Orders.find({user_id:userid}).populate('address_id').populate('payment_type').populate('items');
             const cartItems = await Cart.find({ user_id: userid })
             const addressData = await Address.find({ user_id: userid });
-            res.render('dashboard', { userData, addressData, cartItems })
+            res.render('dashboard', { userData, addressData, cartItems ,orderData})
         } else {
             res.redirect('/')
 
@@ -596,13 +597,13 @@ const searchResults = async (req, res) => {
         }
 
         if (userData) {
-            const products = await Products.find(searchCriteria).sort(sortOptions);
+            const products = await Product.find(searchCriteria).sort(sortOptions);
 
             res.render('search-results', { userData, products, query, sort });
 
         } else {
 
-            const products = await Products.find(searchCriteria).sort(sortOptions);
+            const products = await Product.find(searchCriteria).sort(sortOptions);
 
             res.render('search-results', { products, query, sort });
         }
@@ -678,14 +679,13 @@ const placeOrder = async (req, res) => {
 
         await newOrder.save();
         for (let item of cartItems) {
-            await Products.findByIdAndUpdate(
+            await Product.findByIdAndUpdate(
                 item.product_id._id,
                 { $inc: { stock: -item.quantity } },
                 { new: true }
             );
         }
         await Cart.deleteMany({ user_id });
-
         res.status(200).json({ success: true, message: 'Order placed successfully', orderId: newOrder._id });
     } catch (error) {
         console.error(error);
@@ -693,6 +693,42 @@ const placeOrder = async (req, res) => {
     }
 };
 
+
+const loadOrderSummary = async (req, res) => {
+    try {
+        const orderId = req.query.id;
+        const order = await Orders.findById(orderId)
+            .populate('user_id')
+            .populate('address_id')
+            .populate('items.product_id')  // Changed from 'products.product_id' to 'items.product_id'
+            .populate('payment_type');  // Add this if you want to populate payment type
+
+        if (!order) {
+            return res.status(404).send('Order not found');
+        }
+
+        res.render('ordersummary', { order });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+};
+
+const cancelOrder = async (req, res) => {
+    try {
+        const { _id, cancel_reason } = req.body;
+        console.log("id:",_id,"reason",cancel_reason);
+        await Orders.findByIdAndUpdate(_id, { 
+            order_status: 'Cancelled',
+            cancellation_reason: cancel_reason
+        });
+
+        res.json({ success: true ,message: "Order Cancelled Successfully"});
+    } catch (error) {
+        console.error('Error cancelling order:', error);
+        res.status(500).json({ success: false, message: 'Failed to cancel order' });
+    }
+};
 
 module.exports = {
     registerUser,
@@ -720,7 +756,9 @@ module.exports = {
     loaduserCart,
     searchResults,
     loadCheckout,
-    placeOrder
+    placeOrder,
+    loadOrderSummary,
+    cancelOrder
 
 
 };

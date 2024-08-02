@@ -34,4 +34,4 @@ const productsSchema = new mongoose.Schema({
         default:Date.now()
     }
 })
-module.exports = mongoose.model('Products', productsSchema);
+module.exports = mongoose.model('Product', productsSchema);

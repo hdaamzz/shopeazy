@@ -168,212 +168,101 @@
                     </div><!-- End .container -->
                 </div><!-- End .header-middle -->
             </header><!-- End .header -->
+           
 
-            <main class="main">
-                <!-- Page Header -->
-                <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-                    <div class="container">
-                        <h1 class="page-title">Shopping Cart</h1>
-                    </div>
-                </div>
-
-                <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb" class="breadcrumb-nav">
-                    <div class="container">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item "><a href="/cart">Shopping Cart</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Check Out</li>
-                        </ol>
-                    </div>
-                </nav>
-
-                <!-- Page Content -->
-                <div class="page-content">
-                    <div class="cart">
+                    <main class="main">
+                    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
                         <div class="container">
-                            <div class="row">
-                                <div class="col-lg-9 ">
-                                    <form id="ckeckoutForm">
-                                        <div class="address-selection ">
-                                            <div class="row">
-                                                <% if (addressData && addressData.length> 0) { %>
-                                                    <% addressData.forEach(function(address) { %>
-                                                        <!-- Address Card 1 -->
-                                                        <div class="col-md-4 mb-3 ">
-                                                            <div class="card address-card h-100 ">
-                                                                <div class="card-body ">
-                                                                    <h5 class="card-title"></h5>
-                                                                    <p class="card-text">
-                                                                        <%= address?.name %><br>
-                                                                            <%= address?.address %><br>
-                                                                                <%= address?.town_city %><br>
-                                                                                    <%= address?.pin_code %><br>
-                                                                                        <%= address?.landmark %> <br>
-                                                                                            <%= address.phone_number %>
-                                                                                                <br>
-                                                                                                <%= address.state %><br>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer bg-transparent ">
-                                                                    <div class="form-check ">
-                                                                        <input class="form-check-input" type="radio"
-                                                                            name="address" id="address1"
-                                                                            value="<%= address._id %>" checked>
-                                                                        <label class="form-check-label" for="address1">
-                                                                            Select this address
-                                                                        </label><br>
-                                                                        <a href="#" class="rounded-pill p-2 btn-primary"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#editAddressModal<%= address._id %>">
-                                                                            Edit Address<i class="icon-edit"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <% }); %>
-                                                            <% } else { %>
-                                                                <p>No addresses found.</p>
-                                                                <% } %>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-outline-primary mb-3"
-                                            id="add-address-btn"><a href="" data-bs-toggle="modal"
-                                                data-bs-target="#editAddressModal"> <i class="icon-plus"></i> Add New
-                                                Address</a>
+                        <h1 class="page-title">Order Summary</h1>
+                        </div>
+                    </div>
 
-                                        </button>
-                                </div>
+                    <div class="page-content">
+                        <div class="container order-summary-container">
+                            <div class="order-summary">
+                                <div class="order-details">
+                                    <div class="order-info">
+                                        <h5 class="mb-3">Order Details</h5>
+                                        <p><strong>Order ID:</strong> #<%= order._id %></p>
+                                        <p><strong>Total Amount:</strong> ₹ <%= order.total_amount.toFixed(2) %></p>
+                                        <p><strong>Status:</strong> <%= order.order_status %></p>
+                                        <p><strong>Ordered Date:</strong> <%= 
+                                            new Date(order.created_at).toLocaleDateString("en-US", {
+                                              year: "numeric",
+                                              month: "long",
+                                              day: "numeric",
+                                              hour: "2-digit",
+                                              minute: "2-digit"
+                                            }) 
+                                          %></p>
+                                        <p><strong>Estimated Dispatch Date:</strong> 
+                                            <%= 
+                                            new Date(order.created_at.getTime() + 2*24*60*60*1000).toLocaleDateString("en-US", {
+                                              year: "numeric",
+                                              month: "long",
+                                              day: "numeric",
+                                            }) 
+                                          %>
+                                          </p>
 
-
-
-
-
-                                <!-- Order Summary -->
-                                <aside class="col-lg-3">
-                                    <div class="summary">
-                                        <h3 class="summary-title">Your Order</h3>
-                                        <table class="table table-summary">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <% cartData.forEach(item=> { %>
-                                                    <tr>
-                                                        <td><a href="#">
-                                                                <%= item.product_id.product_name %>
-                                                            </a></td>
-                                                        <td>
-                                                            <%= (item.product_id.price * item.quantity).toFixed(2) %>
-                                                        </td>
-                                                    </tr>
-                                                    <% }); %>
-                                                        <tr class="summary-subtotal">
-                                                            <td>Subtotal:</td>
-                                                            <% if(subtotal !=='undefined' ){%>
-                                                                <td><span id="cart-subtotal">
-                                                                        <%= subtotal %>
-                                                                    </span></td>
-                                                                <%}%>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Shipping:</td>
-                                                            <td>Free shipping</td>
-                                                        </tr>
-                                                        <tr class="summary-total">
-                                                            <td>Total:</td>
-                                                            <td><span id="cart-total">
-                                                                    <%= subtotal %>
-                                                                </span></td>
-                                                        </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <!-- Payment Methods -->
-                                        <div class="accordion-summary" id="accordion-payment">
-                                            <div class="card">
-                                                <select id="sort-option" name="sort" class="form-control"
-                                                    style="color: black;">
-                                                    <option value="CASH ON DELIVERY">CASH ON DELIVERY</option>
-                                                    <option value="UPI PAYMENT">UPI PAYMENT</option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-                                            <span class="btn-text">Place Order</span>
-                                            <span class="btn-hover-text">Proceed to Checkout</span>
-                                        </button>
                                     </div>
-                                </aside>
-                                </form>
+                                <div class="address-details">
+                                        <p><strong>Ship to:</strong> <%= order.address_id.name %></p>
+                                        <p><strong>Delivery Address:</strong><br>
+                                            <%= order.address_id.address %>, <br>
+                                            <%= order.address_id.town_city %>,<br><%= order.address_id.pin_code %> <br>
+                                             <%= order.address_id.state %> <br>
+                                             <%= order.address_id.phone_number %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <h3 class="mt-4 mb-3">Products</h3>
+                                <table class="table table-striped table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th></th>
+                                            <th>Product </th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% order.items.forEach(item => { %>
+                                            <tr>
+                                            <td class="variant-image "><img class="rounded mx-auto d-block" src="uploads/<%= item.product_id.images[0] %>"  alt="<%= item.product_id.product_name %>"></td>
+                                            <td><%= item.product_id.product_name %></td>
+                                            <td><%= item.quantity %></td>
+                                            <td>₹<%= item.product_id.price.toFixed(2) %></td>
+                                            <td>₹<%= (item.quantity * item.product_id.price).toFixed(2) %></td>
+                                            </tr>
+                                        <% }); %>
+                                        </tbody>
+                                </table>
+                                <div class="order-summary-footer">
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <h6>Subtotal: <span>₹<%= order.total_amount.toFixed(2) %></span></h6>
+                                            <h6>Shipping Charge: <span>Free Delivery</span></h6>
+                                            <h5 class="mt-4">Grand Total: <span>₹<%= order.total_amount.toFixed(2) %></span></h5>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="text-center mt-4">
+                                    <a href="/" class="btn btn-primary btn-lg mr-2">Continue Shopping</a>
+                                    <a href="/download-invoice/<%= order._id %>" class="btn btn-secondary btn-lg">Download Invoice</a>
+                                </div>
                             </div>
-                        </div>
+                        </div>  
                     </div>
-                </div>
-            </main>
+                    </main>
+
+            
 
 
 
-
-            <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editAddressModalLabel">Edit
-                                Address</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body pl-5 pr-5">
-                            <form id="editAddressFor" class="edit-address-form" data-address-id="">
-                                <div class="mb-3 form-group">
-                                    <label for="edit-name" class="form-label errMsg">Name</label>
-                                    <input type="text" class="form-control" id="edit-name" value="">
-                                </div>
-                                <div class="mb-3 form-group">
-                                    <label for="edit-phone" class="form-label errMsg">Phone
-                                        Number</label>
-                                    <input type="tel" class="form-control" id="edit-phone" value="">
-                                </div>
-                                <div class="mb-3 form-group">
-                                    <label for="edit-address" class="form-label errMsg">Address</label>
-                                    <textarea class="form-control" id="edit-address" rows="3"></textarea>
-
-                                </div>
-                                <div class="mb-3 form-group">
-                                    <label for="edit-city" class="form-label errMsg">Town/City</label>
-                                    <input type="text" class="form-control" id="edit-city" value="">
-                                </div>
-                                <div class="mb-3 form-group">
-                                    <label for="edit-pincode" class="form-label errMsg">PinCode</label>
-                                    <input type="number" class="form-control" id="edit-pincode" value="">
-                                </div>
-                                <div class="mb-3 form-group">
-                                    <label for="edit-landmark" class="form-label errMsg">Landmark <span
-                                            class="text-muted">(optional)</span></label>
-                                    <input type="text" class="form-control" id="edit-landmark" value="">
-                                </div>
-                                <div class="mb-3 form-group">
-                                    <label for="edit-state" class="form-label errMsg">State</label>
-                                    <input type="text" class="form-control" id="edit-state" value="">
-                                </div>
-                                <input type="hidden" id="edit-hiddenid" value="">
-                                <button type="submit" class="btn btn-primary">Save
-                                    changes</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+            
             <footer class="footer">
 
                 <div class="footer-middle">
@@ -479,95 +368,6 @@
 
         <!-- Sign in / Register Modal -->
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const addressCards = document.querySelectorAll('.address-card');
-                const radioInputs = document.querySelectorAll('input[name="address"]');
-
-                function updateSelectedCard() {
-                    addressCards.forEach(card => card.classList.remove('selected'));
-                    const selectedInput = document.querySelector('input[name="address"]:checked');
-                    if (selectedInput) {
-                        selectedInput.closest('.address-card').classList.add('selected');
-                    }
-                }
-
-                radioInputs.forEach(input => {
-                    input.addEventListener('change', updateSelectedCard);
-                });
-
-                addressCards.forEach(card => {
-                    card.addEventListener('click', function () {
-                        const radio = this.querySelector('input[type="radio"]');
-                        radio.checked = true;
-                        updateSelectedCard();
-                    });
-                });
-
-                updateSelectedCard();
-            });
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const checkoutForm = document.getElementById('ckeckoutForm');
-
-                checkoutForm.addEventListener('submit', async function (e) {
-                    e.preventDefault();
-
-                    const selectedAddress = document.querySelector('input[name="address"]:checked');
-                    const selectedPayment = document.getElementById('sort-option');
-                    const totalAmount = document.getElementById('cart-total').textContent;
-
-                    const address_id = selectedAddress.value;
-                    const payment_type = selectedPayment.value;
-                    const total_amount = totalAmount;
-
-                    try {
-                        const response = await fetch('/placeOrder', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                address_id,
-                                payment_type,
-                                total_amount
-                            })
-                        });
-
-                        const data = await response.json();
-
-                        if (data.success) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'Your order has been placed successfully.',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = `/orderSummary?id=${data.orderId}`
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'There was an error placing your order. Please try again.',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    } catch (error) {
-                        console.log(error.message);
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'There was an error placing your order. Please try again.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
-            });
-        </script>
         <!-- Plugins JS File -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>

@@ -210,15 +210,11 @@
                                 </a>
                                 <ul class="menu-sub">
                                     <li class="menu-item">
-                                        <a href="app-ecommerce-order-list.html" class="menu-link">
+                                        <a href="/admin/orders" class="menu-link">
                                             <div data-i18n="Order List">Order List</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="app-ecommerce-order-details.html" class="menu-link">
-                                            <div data-i18n="Order Details">Order Details</div>
-                                        </a>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                             <li class="menu-item ">
@@ -409,27 +405,33 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-4 mb-3">
-                                                    <div class="image-upload-container errMsgSignup">
+                                                <div class="col-md-4 mb-3 ">
+                                                    
+                                                    <div class="image-upload-container ">
                                                         <input type="file" class="image-upload-input" id="productImage1" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview1')" >
-                                                        <label for="productImage1" class="image-upload-label ">
-                                                            <div class="upload-placeholder errMsgSignup">
+                                                        <label for="productImage1" class="image-upload-label errMsgSignup">
+                                                            <div class="upload-placeholder ">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
-                                                                <span>Click or drag image here</span>
+                                                                <span ">Click or drag image here</span>
                                                             </div>
                                                             <img id="imagePreview1" src="#" alt="Preview" class="img-preview">
                                                         </label>
                                                         <div class="image-actions" id="actions1">
                                                            
                                                         </div>
-                                                        <p id="errorshowimage1"></p>
+                                                       
+                                                    </div>
+                                                    <div class="form-control formgroup1">
+                                                        <label for="diii1"class="errMsgSignup"></label>
+                                                        <input type="hidden" id="diii1" >
+
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-3">
                                                     <div class="image-upload-container ">
                                                         <input type="file" class="image-upload-input" id="productImage2" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview2')" >
-                                                        <label for="productImage2" class="image-upload-label ">
-                                                            <div class="upload-placeholder errMsgSignup">
+                                                        <label for="productImage2" class="image-upload-label errMsgSignup">
+                                                            <div class="upload-placeholder ">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
                                                             </div>
@@ -439,12 +441,17 @@
                                                            
                                                         </div>
                                                     </div>
+                                                    <div class="form-control formgroup1">
+                                                        <label for="diii3"class="errMsgSignup"></label>
+                                                        <input type="hidden" id="diii2" >
+
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-4 mb-3">
                                                     <div class="image-upload-container ">
                                                         <input type="file" class="image-upload-input" id="productImage3" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview3')" >
-                                                        <label for="productImage3" class="image-upload-label ">
-                                                            <div class="upload-placeholder errMsgSignup">
+                                                        <label for="productImage3" class="image-upload-label errMsgSignup">
+                                                            <div class="upload-placeholder ">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
                                                             </div>
@@ -453,6 +460,11 @@
                                                         <div class="image-actions" id="actions3">
                                                            
                                                         </div>
+                                                    </div>
+                                                    <div class="form-control formgroup1">
+                                                        <label for="diii3"class="errMsgSignup"></label>
+                                                        <input type="hidden" id="diii3" >
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -611,14 +623,17 @@
                     const stock = document.getElementById('productCount');
                     const status =document.getElementById('product-status');
                     const category =document.getElementById('ecommerce-category');
+                    const checkk1 =document.getElementById('diii1')
+                    const checkk2 =document.getElementById('diii2')
+                    const checkk3 =document.getElementById('diii3')
                     // const error = document.getElementById('errorshowimage1')
 
-                    
                     
 
                     addProductForm.addEventListener('submit', function (event) {
                         event.preventDefault();
-
+                        
+                        
                         const nameValue = name.value.trim();
                         const descriptionValue = description.value.trim();
                         const priceValue = price.value.trim();
@@ -630,10 +645,14 @@
                         const categoryValue = category.value.trim();
                         const statusValue = status.value.trim();
                         console.log(statusValue);
+                        const file1 = image1.files[0];
+                        const file2 = image2.files[0];
+                        const file3 = image3.files[0];
+                        const fileTypes = [file1, file2, file3].map(file => file ? file.type : '');
                         
                         
 
-                        validateRegisterForm(nameValue,descriptionValue,priceValue,stockValue,image1value,image2value,image3value,statusValue,categoryValue);
+                        validateRegisterForm(nameValue,descriptionValue,priceValue,stockValue,image1value,image2value,image3value,statusValue,categoryValue,...fileTypes);
                      });
                      const setError = (element, message) => {
                             const formGroup1 = element.parentElement;
@@ -659,7 +678,7 @@
                             }
                         }
 
-                    const validateRegisterForm = async (nameValue, descriptionValue, priceValue, stockValue ,image1value,image2value,image3value,statusValue,categoryValue) => {
+                    const validateRegisterForm = async (nameValue, descriptionValue, priceValue, stockValue ,image1value,image2value,image3value,statusValue,categoryValue,file1Type, file2Type, file3Type) => {
                         let isValid = true;
 
                             if (nameValue === '') {
@@ -696,24 +715,34 @@
                                 } else {
                                     setSuccess(stock, 'Product Count');
                                 }
-                            if(image1value == 0){
-                                setError(image1,'Upload Image Here');
+                                if(image1value == 0){
+                                setError(checkk1,'Upload Image Here');
+                                    isValid = false;
+                                } else if (!file1Type.startsWith('image/')) {
+                                    setError(checkk1, 'You can upload only images here');
                                     isValid = false;
                                 } else {
-                                    setSuccess(image1, '');
+                                    setSuccess(checkk1, '');
                                 }
                                 if(image2value == 0){
-                                setError(image2,'Upload Image Here');
+                                setError(checkk2,'Upload Image Here');
                                     isValid = false;
-                                } else {
-                                    setSuccess(image2, '');
+                                } else if (!file2Type.startsWith('image/')) {
+                                    setError(checkk1, 'You can upload only images here');
+                                    isValid = false;
+                                }else {
+                                    setSuccess(checkk2, '');
                                 }
                                 if(image3value == 0){
-                                setError(image3,'Upload Image Here');
+                                setError(checkk3,'Upload Image Here');
                                     isValid = false;
-                                } else {
-                                    setSuccess(image3, '');
+                                } else if (!file3Type.startsWith('image/')) {
+                                    setError(checkk1, 'You can upload only images here');
+                                    isValid = false;
+                                }else {
+                                    setSuccess(checkk3, '');
                                 }
+
                                 if (statusValue === '') {
                                 setError(status, 'Choose Product Status');
                                 isValid = false;
