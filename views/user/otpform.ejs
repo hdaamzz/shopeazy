@@ -19,17 +19,29 @@
             const resendBtn = document.getElementById('resendBtn');
             const timerDisplay = document.getElementById('timerDisplay');
             let timer = 60;
-            resendBtn.disabled = true;
+            let startTime = localStorage.getItem('otpStartTime');
+    
+            if (startTime) {
+                const elapsedSeconds = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+                timer = Math.max(60 - elapsedSeconds, 0);
+            } else {
+                localStorage.setItem('otpStartTime', Date.now().toString());
+            }
 
-            // Start the timer
+            resendBtn.disabled = timer > 0;
+
+           
             const countdown = setInterval(() => {
-                timer--;
-                timerDisplay.textContent = `Resend OTP in ${timer}s`;
-
-                if (timer <= 0) {
+                if (timer > 0) {
+                    timer--;
+                    timerDisplay.textContent = `Resend OTP in ${timer}s`;
+                    localStorage.setItem('otpTimer', timer.toString());
+                } else {
                     clearInterval(countdown);
                     resendBtn.disabled = false;
                     timerDisplay.textContent = 'You can now resend the OTP';
+                    localStorage.removeItem('otpStartTime');
+                    localStorage.removeItem('otpTimer');
                 }
             }, 1000);
 

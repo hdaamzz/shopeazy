@@ -262,9 +262,12 @@
                                                                 <%= item.order_status %>
                                                             </td>
                                                             <td class="view-col">
+                                                                <% if(item.order_status !== 'Cancelled') {%>
+                                                                    <% if(item.order_status !== 'Delivered') {%>
                                                                 <button class="btn btn-danger" data-bs-toggle="modal"
                                                                     data-bs-target="#cancelOrderModal<%= item._id %>">CANCEL
                                                                     ORDER</button>
+                                                                    <%}}%>
                                                             </td>
                                                         </tr>
                                                         <% }) %>
@@ -1376,7 +1379,7 @@
                                     'Your address has been deleted.',
                                     'success'
                                 ).then(() => {
-                                    // Reload the page or remove the address from the DOM
+                                   
                                     location.reload();
                                 });
                             } else {

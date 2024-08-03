@@ -540,20 +540,18 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <h6>Shipping Address</h6>
-                                                    <p>
-                                                        <%= orders[i].address_id.name %>
-                                                    </p>
-                                                    <p>
-                                                        <%= orders[i].address_id.address %>
-                                                    </p>
-                                                    <p>
-                                                        <%= orders[i].address_id.town_city %>, <%=
-                                                                orders[i].address_id.state %>
-                                                                <%= orders[i].address_id.pin_code %>
-                                                    </p>
-                                                    <p>
-                                                        <%= orders[i].address_id.phone_number %>
-                                                    </p>
+                                                    <% if (orders[i].address_id) { %>
+                                                        <p><%= orders[i].address_id.name %></p>
+                                                        <p><%= orders[i].address_id.address %></p>
+                                                        <p>
+                                                            <%= orders[i].address_id.town_city %>, 
+                                                            <%= orders[i].address_id.state %>
+                                                            <%= orders[i].address_id.pin_code %>
+                                                        </p>
+                                                        <p><%= orders[i].address_id.phone_number %></p>
+                                                    <% } else { %>
+                                                        <p>No shipping address available</p>
+                                                    <% } %>
                                                 </div>
                                             </div>
                                             <div class="row mt-4">

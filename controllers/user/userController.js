@@ -314,7 +314,7 @@ const loadDashboard = async (req, res) => {
         }
         if (userData) {
             const userid = userData._id
-            const orderData = await Orders.find({user_id:userid}).populate('address_id').populate('payment_type').populate('items');
+            const orderData = await Orders.find({user_id:userid}).populate('payment_type').populate('items');
             const cartItems = await Cart.find({ user_id: userid })
             const addressData = await Address.find({ user_id: userid });
             res.render('dashboard', { userData, addressData, cartItems ,orderData})
@@ -564,7 +564,7 @@ const searchResults = async (req, res) => {
         }
 
 
-        // Build the sort options
+        
         let sortOptions = {};
         switch (sort) {
             case 'name_asc':
@@ -586,7 +586,7 @@ const searchResults = async (req, res) => {
                 sortOptions = { added_date: 1 };
                 break;
             default:
-                sortOptions = { product_name: 1 }; // Default sort
+                sortOptions = { product_name: 1 }; 
         }
         let userData;
         if (req.user) {
@@ -646,7 +646,7 @@ const placeOrder = async (req, res) => {
     try {
         const { address_id, payment_type, total_amount } = req.body;
         const user_id = req.session.user_id;
-
+        const address = await Address.findById(address_id)
         const cartItems = await Cart.find({ user_id }).populate('product_id');
 
         const payment_type_objId = await PaymentType.findOne({ pay_type: payment_type });
@@ -666,7 +666,7 @@ const placeOrder = async (req, res) => {
 
         const newOrder = new Orders({
             user_id,
-            address_id,
+            address_id: address,
             items: orderItems,
             total_amount: parseFloat(total_amount),
             payment_type: payment_type_objId._id,
@@ -699,7 +699,7 @@ const loadOrderSummary = async (req, res) => {
         const orderId = req.query.id;
         const order = await Orders.findById(orderId)
             .populate('user_id')
-            .populate('address_id')
+            
             .populate('items.product_id')  // Changed from 'products.product_id' to 'items.product_id'
             .populate('payment_type');  // Add this if you want to populate payment type
 

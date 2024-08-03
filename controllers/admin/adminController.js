@@ -312,7 +312,7 @@ const UpdateCategory = async (req, res) => {
 };
 const loadOrderList= async (req, res) => {
     try {
-        const orders = await Orders.find({}).populate('user_id').populate('address_id').populate('items.product_id').populate('payment_type');;
+        const orders = await Orders.find({}).populate('user_id').populate('items.product_id').populate('payment_type');;
         res.render('orders', { orders })
     } catch (error) {
         console.error('Error Load Produts:', error);

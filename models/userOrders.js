@@ -7,9 +7,27 @@ const userOrdersSchema = new mongoose.Schema({
         required: true
     },
     address_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Address',
-        required: true
+        name:{
+            type:String,
+            required:true
+        },phone_number:{
+            type:String,
+            required:true
+        },pin_code:{
+            type:Number,
+            required:true
+        },town_city:{
+            type:String,
+            required:true
+        },address:{
+            type:String,
+            required:true
+        },landmark:{
+            type:String
+        },state:{
+            type:String,
+            required:true
+        }
     },
     items: [{
         product_id: {

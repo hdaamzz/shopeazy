@@ -879,7 +879,7 @@
             button.addEventListener('click',async function() {
                 const productId = this.getAttribute('data-product-id');
                 const userId = this.getAttribute('data-user-id');
-                const quantity = 1; // Or get this from an input field if you allow quantity selection
+                const quantity = 1; 
                 try {
                    await fetch('/addCartItem', {
                 method: 'POST',
@@ -890,12 +890,21 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                if (data.success) {
-                    alert('Product added to cart!');
-                    // Optionally update cart count in the UI
-                } else {
-                    alert('Error adding product to cart');
-                }
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: "Product Added To Cart",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: "Not Added",
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
                 });
                 } catch (error) {
                     console.log(error.message);

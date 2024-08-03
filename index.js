@@ -32,6 +32,11 @@ app.use(passport.session());
 app.use('/', userRoute);
 app.use('/admin', adminRoute);
 
+app.use((err,req,res,next)=>{
+    console.error(err.stack);
+    res.status(500).send('something went wrong');
+})
+
 
 
 app.listen(3000, () => {
