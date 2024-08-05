@@ -363,8 +363,8 @@
                                     <label for="state" class="form-label errMsg">State</label>
                                     <input type="text" class="form-control" id="state" value="">
                                 </div>
-                                <input type="hidden" id="hiddenid"value="<%= userData?._id%>">
-                                                                    
+                                <input type="hidden" id="hiddenid" value="<%= userData?._id%>">
+
                                 <button type="submit" class="btn btn-primary">Save
                                     changes</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -378,103 +378,71 @@
 
             <% if (addressData && addressData.length> 0) { %>
                 <% addressData.forEach(function(address) { %>
-                    <div class="modal fade"
-                        id="editAddressModal<%= address._id %>"
-                        tabindex="-1"
-                        aria-labelledby="editAddressModalLabel"
-                        aria-hidden="true">
+                    <div class="modal fade" id="editAddressModal<%= address._id %>" tabindex="-1"
+                        aria-labelledby="editAddressModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title"
-                                        id="editAddressModalLabel">Edit
+                                    <h5 class="modal-title" id="editAddressModalLabel">Edit
                                         Address</h5>
-                                    <button type="button" class="btn-close"
-                                        data-bs-dismiss="modal"
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body pl-5 pr-5">
-                                    <form
-                                        id="editAddressForm<%= address._id %>"
-                                        class="edit-address-form"
+                                    <form id="editAddressForm<%= address._id %>" class="edit-address-form"
                                         data-address-id="<%= address._id %>">
                                         <div class="mb-3 form-group">
-                                            <label
-                                                for="edit-name-<%= address._id %>"
+                                            <label for="edit-name-<%= address._id %>"
                                                 class="form-label errMsg">Name</label>
-                                            <input type="text"
-                                                class="form-control"
-                                                id="edit-name-<%= address._id %>"
+                                            <input type="text" class="form-control" id="edit-name-<%= address._id %>"
                                                 value="<%=address.name%>">
                                         </div>
                                         <div class="mb-3 form-group">
-                                            <label
-                                                for="edit-phone-<%= address._id %>"
-                                                class="form-label errMsg">Phone
+                                            <label for="edit-phone-<%= address._id %>" class="form-label errMsg">Phone
                                                 Number</label>
-                                            <input type="tel"
-                                                class="form-control"
-                                                id="edit-phone-<%= address._id %>"
+                                            <input type="tel" class="form-control" id="edit-phone-<%= address._id %>"
                                                 value="<%=address.phone_number%>">
                                         </div>
                                         <div class="mb-3 form-group">
-                                            <label
-                                                for="edit-address-<%= address._id %>"
+                                            <label for="edit-address-<%= address._id %>"
                                                 class="form-label errMsg">Address</label>
-                                            <textarea class="form-control"
-                                                id="edit-address-<%= address._id %>"
+                                            <textarea class="form-control" id="edit-address-<%= address._id %>"
                                                 rows="3"><%= address.address %></textarea>
 
                                         </div>
                                         <div class="mb-3 form-group">
-                                            <label
-                                                for="edit-city-<%= address._id %>"
+                                            <label for="edit-city-<%= address._id %>"
                                                 class="form-label errMsg">Town/City</label>
-                                            <input type="text"
-                                                class="form-control"
-                                                id="edit-city-<%= address._id %>"
+                                            <input type="text" class="form-control" id="edit-city-<%= address._id %>"
                                                 value="<%=address.town_city%>">
                                         </div>
                                         <div class="mb-3 form-group">
-                                            <label
-                                                for="edit-pincode-<%= address._id %>"
+                                            <label for="edit-pincode-<%= address._id %>"
                                                 class="form-label errMsg">PinCode</label>
-                                            <input type="text"
-                                                class="form-control"
-                                                id="edit-pincode-<%= address._id %>"
+                                            <input type="text" class="form-control" id="edit-pincode-<%= address._id %>"
                                                 value="<%=address.pin_code%>">
                                         </div>
                                         <div class="mb-3 form-group">
-                                            <label
-                                                for="edit-landmark-<%= address._id %>"
+                                            <label for="edit-landmark-<%= address._id %>"
                                                 class="form-label errMsg">Landmark
-                                                <span
-                                                    class="text-muted">(optional)</span></label>
-                                            <input type="text"
-                                                class="form-control"
-                                                id="edit-landmark-<%= address._id %>"
-                                                value="<%=address.landmark%>">
+                                                <span class="text-muted">(optional)</span></label>
+                                            <input type="text" class="form-control"
+                                                id="edit-landmark-<%= address._id %>" value="<%=address.landmark%>">
                                         </div>
                                         <div class="mb-3 form-group">
-                                            <label
-                                                for="edit-state-<%= address._id %>"
+                                            <label for="edit-state-<%= address._id %>"
                                                 class="form-label errMsg">State</label>
-                                            <input type="text"
-                                                class="form-control"
-                                                id="edit-state-<%= address._id %>"
+                                            <input type="text" class="form-control" id="edit-state-<%= address._id %>"
                                                 value="<%=address.state%>">
                                         </div>
-                                        <input type="hidden"
-                                            id="edit-hiddenid-<%= address._id %>"
+                                        <input type="hidden" id="edit-hiddenid-<%= address._id %>"
                                             value="<%= address._id%>">
-                                        <button type="submit"
-                                            class="btn btn-primary">Save
+                                        <button type="submit" class="btn btn-primary">Save
                                             changes</button>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button"
-                                        class="btn btn-secondary"
+                                    <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
 
                                 </div>
@@ -485,7 +453,6 @@
                         <% } else { %>
                             <p>No addresses found.</p>
                             <% } %>
-           
 
 
 
@@ -496,82 +463,89 @@
 
 
 
-            <footer class="footer">
 
-                <div class="footer-middle">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget widget-about">
-                                    <img src="assets/newimages/logo.png" class="footer-logo" alt="Footer Logo"
-                                        width="150" height="25">
-                                    <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
-                                        vulputate magna eros eu erat. </p>
+                                <footer class="footer">
 
-                                    <div class="widget-call">
-                                        <i class="icon-phone"></i>
-                                        Got Question? Call us 24/7
-                                        <a href="tel:#">+0123 456 789</a>
-                                    </div><!-- End .widget-call -->
-                                </div><!-- End .widget about-widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+                                    <div class="footer-middle">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-lg-3">
+                                                    <div class="widget widget-about">
+                                                        <img src="assets/newimages/logo.png" class="footer-logo"
+                                                            alt="Footer Logo" width="150" height="25">
+                                                        <p>Praesent dapibus, neque id cursus ucibus, tortor neque
+                                                            egestas augue, eu
+                                                            vulputate magna eros eu erat. </p>
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+                                                        <div class="widget-call">
+                                                            <i class="icon-phone"></i>
+                                                            Got Question? Call us 24/7
+                                                            <a href="tel:#">+0123 456 789</a>
+                                                        </div><!-- End .widget-call -->
+                                                    </div><!-- End .widget about-widget -->
+                                                </div><!-- End .col-sm-6 col-lg-3 -->
 
-                                    <ul class="widget-list">
-                                        <li><a href="about.html">About shopEazy</a></li>
-                                        <li><a href="#">Our Services</a></li>
-                                        <li><a href="#">How to shop on shopEazy</a></li>
-                                        <li><a href="faq.html">FAQ</a></li>
-                                        <li><a href="contact.html">Contact us</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+                                                <div class="col-sm-6 col-lg-3">
+                                                    <div class="widget">
+                                                        <h4 class="widget-title">Useful Links</h4>
+                                                        <!-- End .widget-title -->
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+                                                        <ul class="widget-list">
+                                                            <li><a href="about.html">About shopEazy</a></li>
+                                                            <li><a href="#">Our Services</a></li>
+                                                            <li><a href="#">How to shop on shopEazy</a></li>
+                                                            <li><a href="faq.html">FAQ</a></li>
+                                                            <li><a href="contact.html">Contact us</a></li>
+                                                        </ul><!-- End .widget-list -->
+                                                    </div><!-- End .widget -->
+                                                </div><!-- End .col-sm-6 col-lg-3 -->
 
-                                    <ul class="widget-list">
-                                        <li><a href="#">Payment Methods</a></li>
-                                        <li><a href="#">Money-back guarantee!</a></li>
-                                        <li><a href="#">Returns</a></li>
-                                        <li><a href="#">Shipping</a></li>
-                                        <li><a href="#">Terms and conditions</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+                                                <div class="col-sm-6 col-lg-3">
+                                                    <div class="widget">
+                                                        <h4 class="widget-title">Customer Service</h4>
+                                                        <!-- End .widget-title -->
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+                                                        <ul class="widget-list">
+                                                            <li><a href="#">Payment Methods</a></li>
+                                                            <li><a href="#">Money-back guarantee!</a></li>
+                                                            <li><a href="#">Returns</a></li>
+                                                            <li><a href="#">Shipping</a></li>
+                                                            <li><a href="#">Terms and conditions</a></li>
+                                                            <li><a href="#">Privacy Policy</a></li>
+                                                        </ul><!-- End .widget-list -->
+                                                    </div><!-- End .widget -->
+                                                </div><!-- End .col-sm-6 col-lg-3 -->
 
-                                    <ul class="widget-list">
-                                        <li><a href="#">Sign In</a></li>
-                                        <li><a href="cart.html">View Cart</a></li>
-                                        <li><a href="#">My Wishlist</a></li>
-                                        <li><a href="#">Track My Order</a></li>
-                                        <li><a href="#">Help</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .container -->
-                </div><!-- End .footer-middle -->
+                                                <div class="col-sm-6 col-lg-3">
+                                                    <div class="widget">
+                                                        <h4 class="widget-title">My Account</h4>
+                                                        <!-- End .widget-title -->
 
-                <div class="footer-bottom">
-                    <div class="container">
-                        <p class="footer-copyright">Copyright © 2024 shopEazy Store. All Rights Reserved.</p>
-                        <!-- End .footer-copyright -->
-                        <figure class="footer-payments">
-                            <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
-                        </figure><!-- End .footer-payments -->
-                    </div><!-- End .container -->
-                </div><!-- End .footer-bottom -->
-            </footer><!-- End .footer -->
+                                                        <ul class="widget-list">
+                                                            <li><a href="#">Sign In</a></li>
+                                                            <li><a href="cart.html">View Cart</a></li>
+                                                            <li><a href="#">My Wishlist</a></li>
+                                                            <li><a href="#">Track My Order</a></li>
+                                                            <li><a href="#">Help</a></li>
+                                                        </ul><!-- End .widget-list -->
+                                                    </div><!-- End .widget -->
+                                                </div><!-- End .col-sm-6 col-lg-3 -->
+                                            </div><!-- End .row -->
+                                        </div><!-- End .container -->
+                                    </div><!-- End .footer-middle -->
+
+                                    <div class="footer-bottom">
+                                        <div class="container">
+                                            <p class="footer-copyright">Copyright © 2024 shopEazy Store. All Rights
+                                                Reserved.</p>
+                                            <!-- End .footer-copyright -->
+                                            <figure class="footer-payments">
+                                                <img src="assets/images/payments.png" alt="Payment methods" width="272"
+                                                    height="20">
+                                            </figure><!-- End .footer-payments -->
+                                        </div><!-- End .container -->
+                                    </div><!-- End .footer-bottom -->
+                                </footer><!-- End .footer -->
         </div><!-- End .page-wrapper -->
         <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
@@ -595,11 +569,11 @@
                     <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
                     <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
                     <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-                </div><!-- End .social-icons -->
-            </div><!-- End .mobile-menu-wrapper -->
-        </div><!-- End .mobile-menu-container -->
+                </div>
+            </div>
+        </div>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-        
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const addressCards = document.querySelectorAll('.address-card');
@@ -637,13 +611,18 @@
 
                     const selectedAddress = document.querySelector('input[name="address"]:checked');
                     const selectedPayment = document.getElementById('sort-option');
-                    const totalAmount = document.getElementById('cart-total').textContent;
+                    const totalAmount = parseFloat(document.getElementById('cart-total').textContent.trim());
 
                     const address_id = selectedAddress.value;
                     const payment_type = selectedPayment.value;
                     const total_amount = totalAmount;
 
                     try {
+                        console.log('Sending order data:', {
+                            address_id,
+                            payment_type,
+                            total_amount
+                        });
                         const response = await fetch('/placeOrder', {
                             method: 'POST',
                             headers: {
@@ -659,16 +638,42 @@
                         const data = await response.json();
 
                         if (data.success) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'Your order has been placed successfully.',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = `/orderSummary?id=${data.orderId}`
-                                }
-                            });
+                            if (payment_type == "UPI PAYMENT") {
+                                var options = {
+                                    key: data.key,
+                                    amount: data.amount,
+                                    currency: data.currency,
+                                    name: "ShopEazy",
+                                    description: "Order Payment",
+                                    order_id: data.razorpayOrderId,
+                                    handler: function (response) {
+                                        window.location.href = `/orderSummary?id=${data.orderId}`
+                                    },
+                                    prefill: {
+                                        name: "<%= userData.name %>",
+                                        email: "<%= userData.email %>",
+                                        contact: "<%= userData.phone %>"
+                                    },
+                                    theme: {
+                                        color: "#3399cc"
+                                    }
+                                };
+                                var rzp1 = new Razorpay(options);
+                                rzp1.open();
+
+
+                            } else {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: 'Your order has been placed successfully.',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = `/orderSummary?id=${data.orderId}`
+                                    }
+                                });
+                            }
                         } else {
                             Swal.fire({
                                 title: 'Error!',
@@ -678,10 +683,13 @@
                             });
                         }
                     } catch (error) {
-                        console.log(error.message);
+                        console.error('Error details:', error);
+                        if (error.response) {
+                            console.error('Server responded with:', error.response.data);
+                        }
                         Swal.fire({
                             title: 'Error!',
-                            text: 'There was an error placing your order. Please try again.',
+                            text: `There was an error placing your order: ${error.message}`,
                             icon: 'error',
                             confirmButtonText: 'OK'
                         });
@@ -690,204 +698,212 @@
             });
         </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const addAddressForm = document.getElementById('addAddressForm');
-        const name = document.getElementById('name');
-        const phone = document.getElementById('phone');
-        const address = document.getElementById('address');
-        const city = document.getElementById('city');
-        const landmark = document.getElementById('landmark');
-        const state = document.getElementById('state');
-        const pin = document.getElementById('pincode');
-        const hiddenId = document.getElementById('hiddenid');
 
 
-        addAddressForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const nameValue = name.value.trim();
-            const phoneValue = phone.value.trim();
-            const addressValue = address.value.trim();
-            const cityValue = city.value.trim();
-            const landmarkValue = landmark.value.trim();
-            const stateValue = state.value.trim();
-            const pinValue = pin.value.trim();
-            const hiddenValue = hiddenId.value.trim();
-
-            validateAddressForm(nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue);
-
-        })
-
-        const setError = (element, message) => {
-            const formGroup1 = element.parentElement;
-            const errorDisplay = formGroup1.querySelector('.errMsg');
-            if (errorDisplay) {
-                errorDisplay.innerText = message;
-                element.classList.add('error');
-                errorDisplay.classList.add('error');
-                element.classList.remove('success');
-                errorDisplay.classList.remove('success');
-            }
-        }
-        const setSuccess = (element, message) => {
-            const formGroup1 = element.parentElement;
-            const errorDisplay = formGroup1.querySelector('.errMsg');
-            if (errorDisplay) {
-                errorDisplay.innerText = message;
-                element.classList.add('success');
-                errorDisplay.classList.add('success');
-                element.classList.remove('error');
-                errorDisplay.classList.remove('error');
-            }
-        }
-        const validateAddressForm = async (nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue) => {
-            let isValid = true;
-            const nameRegex = /^[a-zA-Z\s]+$/;
-            const phoneRegex = /^\+?(\d{1,4}[\s-\.]?)?(\d{1,3}[\s-\.]?)?(\d{1,4}[\s-\.]?)?(\d{1,9})$/;
 
 
-            if (nameValue === '') {
-                isValid = false;
-                setError(name, 'Enter Name ')
-            } else if (nameValue.length < 3) {
-                isValid = false;
-                setError(name, 'Name shoul be more than 2 letter')
-            } else if (!nameRegex.test(nameValue)) {
-                isValid = false;
-                setError(name, 'Name should only contain letters and spaces');
-            } else {
-                setSuccess(name, 'Name')
-            }
-            if (phoneValue === '') {
-                isValid = false;
-                setError(phone, 'Enter Phone Number ')
-            } else if (!phoneRegex.test(phoneValue)) {
-                isValid = false;
-                setError(phone, 'Enter Correct Phone Number ')
-            } else {
-                setSuccess(phone, 'Phone Number')
-            }
-            if (addressValue === '') {
-                isValid = false;
-                setError(address, 'Enter Address ')
-            } else if (addressValue.length < 6) {
-                isValid = false;
-                setError(address, 'Please Provide Detailed Address')
-            } else {
-                setSuccess(address, 'Address')
-            }
-            if (cityValue == '') {
-                isValid = false;
-                setError(city, 'Enter Town/City ')
-            } else if (cityValue.length > 20) {
-                isValid = false;
-                setError(city, 'Enter Correct Town/City ')
-            } else {
-                setSuccess(city, 'Town/City')
-            }
-            if (stateValue === '') {
-                isValid = false;
-                setError(state, 'Enter State')
-            } else {
-                setSuccess(state, 'State')
-            }
-            if (pinValue === '') {
-                isValid = false;
-                setError(pin, 'Enter PinCode')
-            } else if (pinValue.length > 7) {
-                isValid = false;
-                setError(pin, 'Invalid Pin')
-            }
-            else {
-                setSuccess(pin, 'PinCode')
-            }
-            if (!isValid) {
-                return;
-            }
 
-            try {
-                const response = await fetch('/addAddress', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        name: nameValue,
-                        phone: phoneValue,
-                        address: addressValue,
-                        city: cityValue,
-                        landmark: landmarkValue,
-                        state: stateValue,
-                        pin: pinValue,
-                        id: hiddenValue
 
-                    })
-                });
-                const data = await response.json();
-                if (data.success) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: data.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "/checkout";
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: data.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const addAddressForm = document.getElementById('addAddressForm');
+                const name = document.getElementById('name');
+                const phone = document.getElementById('phone');
+                const address = document.getElementById('address');
+                const city = document.getElementById('city');
+                const landmark = document.getElementById('landmark');
+                const state = document.getElementById('state');
+                const pin = document.getElementById('pincode');
+                const hiddenId = document.getElementById('hiddenid');
+
+
+                addAddressForm.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    const nameValue = name.value.trim();
+                    const phoneValue = phone.value.trim();
+                    const addressValue = address.value.trim();
+                    const cityValue = city.value.trim();
+                    const landmarkValue = landmark.value.trim();
+                    const stateValue = state.value.trim();
+                    const pinValue = pin.value.trim();
+                    const hiddenValue = hiddenId.value.trim();
+
+                    validateAddressForm(nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue);
+
+                })
+
+                const setError = (element, message) => {
+                    const formGroup1 = element.parentElement;
+                    const errorDisplay = formGroup1.querySelector('.errMsg');
+                    if (errorDisplay) {
+                        errorDisplay.innerText = message;
+                        element.classList.add('error');
+                        errorDisplay.classList.add('error');
+                        element.classList.remove('success');
+                        errorDisplay.classList.remove('success');
+                    }
                 }
+                const setSuccess = (element, message) => {
+                    const formGroup1 = element.parentElement;
+                    const errorDisplay = formGroup1.querySelector('.errMsg');
+                    if (errorDisplay) {
+                        errorDisplay.innerText = message;
+                        element.classList.add('success');
+                        errorDisplay.classList.add('success');
+                        element.classList.remove('error');
+                        errorDisplay.classList.remove('error');
+                    }
+                }
+                const validateAddressForm = async (nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue) => {
+                    let isValid = true;
+                    const nameRegex = /^[a-zA-Z\s]+$/;
+                    const phoneRegex = /^\+?(\d{1,4}[\s-\.]?)?(\d{1,3}[\s-\.]?)?(\d{1,4}[\s-\.]?)?(\d{1,9})$/;
+
+
+                    if (nameValue === '') {
+                        isValid = false;
+                        setError(name, 'Enter Name ')
+                    } else if (nameValue.length < 3) {
+                        isValid = false;
+                        setError(name, 'Name shoul be more than 2 letter')
+                    } else if (!nameRegex.test(nameValue)) {
+                        isValid = false;
+                        setError(name, 'Name should only contain letters and spaces');
+                    } else {
+                        setSuccess(name, 'Name')
+                    }
+                    if (phoneValue === '') {
+                        isValid = false;
+                        setError(phone, 'Enter Phone Number ')
+                    } else if (!phoneRegex.test(phoneValue)) {
+                        isValid = false;
+                        setError(phone, 'Enter Correct Phone Number ')
+                    } else {
+                        setSuccess(phone, 'Phone Number')
+                    }
+                    if (addressValue === '') {
+                        isValid = false;
+                        setError(address, 'Enter Address ')
+                    } else if (addressValue.length < 6) {
+                        isValid = false;
+                        setError(address, 'Please Provide Detailed Address')
+                    } else {
+                        setSuccess(address, 'Address')
+                    }
+                    if (cityValue == '') {
+                        isValid = false;
+                        setError(city, 'Enter Town/City ')
+                    } else if (cityValue.length > 20) {
+                        isValid = false;
+                        setError(city, 'Enter Correct Town/City ')
+                    } else {
+                        setSuccess(city, 'Town/City')
+                    }
+                    if (stateValue === '') {
+                        isValid = false;
+                        setError(state, 'Enter State')
+                    } else {
+                        setSuccess(state, 'State')
+                    }
+                    if (pinValue === '') {
+                        isValid = false;
+                        setError(pin, 'Enter PinCode')
+                    } else if (pinValue.length > 7) {
+                        isValid = false;
+                        setError(pin, 'Invalid Pin')
+                    }
+                    else {
+                        setSuccess(pin, 'PinCode')
+                    }
+                    if (!isValid) {
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/addAddress', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                name: nameValue,
+                                phone: phoneValue,
+                                address: addressValue,
+                                city: cityValue,
+                                landmark: landmarkValue,
+                                state: stateValue,
+                                pin: pinValue,
+                                id: hiddenValue
+
+                            })
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "/checkout";
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
 
 
 
-            } catch (error) {
-                console.error('Error during add address:', error);
+                    } catch (error) {
+                        console.error('Error during add address:', error);
 
-            }
-
-
-
-        }
-    });
-</script>
+                    }
 
 
 
-<script>
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const editAddressForms = document.querySelectorAll('.edit-address-form');
-
-        editAddressForms.forEach(form => {
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-                const addressId = this.getAttribute('data-address-id');
-
-                const edit_name = document.getElementById(`edit-name-${addressId}`);
-                const edit_phone = document.getElementById(`edit-phone-${addressId}`);
-                const edit_address = document.getElementById(`edit-address-${addressId}`);
-                const edit_city = document.getElementById(`edit-city-${addressId}`);
-                const edit_landmark = document.getElementById(`edit-landmark-${addressId}`);
-                const edit_state = document.getElementById(`edit-state-${addressId}`);
-                const edit_pin = document.getElementById(`edit-pincode-${addressId}`);
-                const edit_hidden = document.getElementById(`edit-hiddenid-${addressId}`);
-
-
-
-                edit_validateAddressForm(
-                    edit_name, edit_phone, edit_address,
-                    edit_city, edit_landmark, edit_state,
-                    edit_pin, edit_hidden
-                );
+                }
             });
-        });
-        const setError = (element, message) => {
+        </script>
+
+
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const editAddressForms = document.querySelectorAll('.edit-address-form');
+
+                editAddressForms.forEach(form => {
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        const addressId = this.getAttribute('data-address-id');
+
+                        const edit_name = document.getElementById(`edit-name-${addressId}`);
+                        const edit_phone = document.getElementById(`edit-phone-${addressId}`);
+                        const edit_address = document.getElementById(`edit-address-${addressId}`);
+                        const edit_city = document.getElementById(`edit-city-${addressId}`);
+                        const edit_landmark = document.getElementById(`edit-landmark-${addressId}`);
+                        const edit_state = document.getElementById(`edit-state-${addressId}`);
+                        const edit_pin = document.getElementById(`edit-pincode-${addressId}`);
+                        const edit_hidden = document.getElementById(`edit-hiddenid-${addressId}`);
+
+
+
+                        edit_validateAddressForm(
+                            edit_name, edit_phone, edit_address,
+                            edit_city, edit_landmark, edit_state,
+                            edit_pin, edit_hidden
+                        );
+                    });
+                });
+                const setError = (element, message) => {
                     const formGroup1 = element.parentElement;
                     const errorDisplay = formGroup1.querySelector('.errMsg');
                     if (errorDisplay) {

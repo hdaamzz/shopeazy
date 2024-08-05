@@ -12,6 +12,7 @@ const dashboardController = require('../controllers/user/dashboardController');
 const cartController = require('../controllers/user/cartController');
 const searchFilterController = require('../controllers/user/searchFilterController');
 const checkoutController = require('../controllers/user/checkoutController');
+const walletController =require("../controllers/user/walletController");
 const auth = require("../middleware/userAuth")
 const nocache = require('nocache')
 
@@ -78,6 +79,11 @@ user_route.get('/serch',searchFilterController.shopFilter)
 user_route.get('/checkout',auth.isLogin,checkoutController.loadCheckout)
 user_route.post('/placeOrder', checkoutController.placeOrder);
 user_route.get('/orderSummary',auth.isLogin, checkoutController.loadOrderSummary);
+
+
+//wallet 
+
+user_route.get('/wallet',auth.isLogin,walletController.loadWallet);
 
 
 // logout 

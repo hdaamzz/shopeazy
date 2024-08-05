@@ -6,12 +6,14 @@ const Cart = require('../../models/cart');
 const PaymentType = require('../../models/paymentType');
 const Orders = require('../../models/userOrders');
 const bcrypt = require('bcrypt');
+const Wallet = require('../../models/userwallet')
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const crypto = require('crypto');
 const path = require('path');
 const Razorpay = require('razorpay');
+const paymentType = require('../../models/paymentType');
 
 const loadDashboard = async (req, res) => {
     try {
@@ -167,19 +169,55 @@ const updateUserData = async (req, res) => {
 const cancelOrder = async (req, res) => {
     try {
         const { _id, cancel_reason } = req.body;
-        console.log("id:", _id, "reason", cancel_reason);
+       
 
-
-        const order = await Orders.findById(_id);
+        const order = await Orders.findById(_id).populate('payment_type');
         if (!order) {
             return res.status(404).json({ success: false, message: 'Order not found' });
         }
+        
+        if(order.payment_type.pay_type == "UPI PAYMENT"){
+            const randomID = Math.floor(100000 + Math.random() * 900000);
+            const refundAmount = parseFloat(order.total_amount);
 
+           
+            let wallet = await Wallet.findOne({ user_id: req.session.user_id });
+            
+            if (wallet) {
+               
+                wallet.balance += refundAmount;
+                wallet.history.push({
+                    amount: refundAmount,
+                    transaction_type: "Cancelled",
+                    description: "Product Cancelling Refund",
+                    transaction_id: `TRX-${randomID}`
+                });
+            } else {
+                // Create new wallet
+                wallet = new Wallet({
+                    user_id: req.session.user_id,
+                    balance: refundAmount,
+                    history: [{
+                        amount: refundAmount,
+                        transaction_type: "Cancelled",
+                        description: "Product Cancelling Refund",
+                        transaction_id: `TRX-${randomID}`
+                    }]
+                });
+            }
 
-        order.order_status = 'Cancelled';
-        order.cancellation_reason = cancel_reason;
-        await order.save();
+            await wallet.save();
 
+            order.order_status = 'Cancelled';
+            order.cancellation_reason = cancel_reason;
+            await order.save();
+        } else {
+            order.order_status = 'Cancelled';
+            order.cancellation_reason = cancel_reason;
+            await order.save();
+        }
+
+        // Update product stock
         for (const item of order.items) {
             await Product.findByIdAndUpdate(
                 item.product_id,
@@ -194,7 +232,6 @@ const cancelOrder = async (req, res) => {
         res.status(500).json({ success: false, message: 'Failed to cancel order' });
     }
 };
-
 
 
 

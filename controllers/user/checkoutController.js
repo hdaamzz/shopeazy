@@ -5,7 +5,12 @@ const Cart = require('../../models/cart');
 const PaymentType = require('../../models/paymentType');
 const Orders = require('../../models/userOrders');
 require('dotenv').config();
+const Razorpay = require('razorpay');
 
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+  });
 
 
 
@@ -41,13 +46,24 @@ const placeOrder = async (req, res) => {
     try {
         const { address_id, payment_type, total_amount } = req.body;
         const user_id = req.session.user_id;
-        const address = await Address.findById(address_id)
+
+        if (!address_id || !payment_type || !total_amount) {
+            return res.status(400).json({ success: false, message: 'Missing required fields' });
+        }
+
+        const address = await Address.findById(address_id);
+        if (!address) {
+            return res.status(400).json({ success: false, message: 'Invalid address ID' });
+        }
+
         const cartItems = await Cart.find({ user_id }).populate('product_id');
-
-        const payment_type_objId = await PaymentType.findOne({ pay_type: payment_type });
-
         if (cartItems.length === 0) {
             return res.status(400).json({ success: false, message: 'Cart is empty' });
+        }
+
+        const payment_type_objId = await PaymentType.findOne({ pay_type: payment_type });
+        if (!payment_type_objId) {
+            return res.status(400).json({ success: false, message: 'Invalid payment type' });
         }
 
         const orderItems = cartItems.map(item => ({
@@ -57,11 +73,11 @@ const placeOrder = async (req, res) => {
             price: item.product_id.price,
             total: item.product_id.price * item.quantity
         }));
-        const randomOrderId = Math.floor(1000 + Math.random() * 9000);
 
+        const randomOrderId = Math.floor(1000 + Math.random() * 9000);
         const newOrder = new Orders({
             user_id,
-            order_id: `ORD-${randomOrderId} `,
+            order_id: `ORD-${randomOrderId}`,
             address_id: address,
             items: orderItems,
             total_amount: parseFloat(total_amount),
@@ -74,6 +90,36 @@ const placeOrder = async (req, res) => {
         });
 
         await newOrder.save();
+
+        if (payment_type_objId.pay_type === "UPI PAYMENT") {
+            const razorpayOrder = await razorpay.orders.create({
+                amount: Math.round(parseFloat(total_amount) * 100),
+                currency: "INR",
+                receipt: newOrder._id.toString(),
+                payment_capture: 1
+            });
+            newOrder.payment_status="Completed";
+            newOrder.razorpay_order_id = razorpayOrder.id;
+            await newOrder.save();
+
+            res.status(200).json({ 
+                success: true, 
+                key: process.env.RAZORPAY_KEY_ID,
+                message: 'Order created successfully', 
+                orderId: newOrder._id,
+                razorpayOrderId: razorpayOrder.id,
+                amount: razorpayOrder.amount,
+                currency: razorpayOrder.currency
+            });
+        } else {
+            res.status(200).json({ 
+                success: true, 
+                message: 'Order created successfully', 
+                orderId: newOrder._id
+            });
+        }
+
+        // Update product stock
         for (let item of cartItems) {
             await Product.findByIdAndUpdate(
                 item.product_id._id,
@@ -81,14 +127,15 @@ const placeOrder = async (req, res) => {
                 { new: true }
             );
         }
+
+        // Clear the cart
         await Cart.deleteMany({ user_id });
-        res.status(200).json({ success: true, message: 'Order placed successfully', orderId: newOrder._id });
+
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
     }
 };
-
 
 const loadOrderSummary = async (req, res) => {
     try {
