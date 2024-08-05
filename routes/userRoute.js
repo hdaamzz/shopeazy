@@ -17,7 +17,6 @@ user_route.use(bodyparser.json())
 user_route.use(bodyparser.urlencoded({ extended: true }))
 user_route.use(session({
     secret: config.sessionSecret,
-    // cookie:{maxAge:5000},
     resave: false,
     rolling: false,
     saveUninitialized: true,
