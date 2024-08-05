@@ -5,6 +5,8 @@ const userOrdersSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
         required: true
+    },order_id:{
+        type:String
     },
     address_id: {
         name:{
@@ -89,7 +91,15 @@ const userOrdersSchema = new mongoose.Schema({
     created_at: {
         type: Date,
         default: Date.now
+    },razorpay_order_id: {
+        type: String
+    },razorpay_payment_id: {
+        type: String
+    },razorpay_signature: {
+        type: String
     }
+    
+    
 });
 
 module.exports = mongoose.model('Order', userOrdersSchema);

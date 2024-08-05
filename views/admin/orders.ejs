@@ -381,7 +381,7 @@
                                                                         data-bs-target="#previewModal<%=orders[i]._id%>"
                                                                         class="text-heading">
                                                                         <span class="fw-medium text-truncate">
-                                                                            <%= i+1%>. #<%= orders[i]._id %>
+                                                                            <%= i+1%>. #<%= orders[i]?.order_id %>
                                                                         </span>
                                                                     </a>
                                                                 </div>
@@ -404,7 +404,7 @@
                                                         </td>
 
 
-                                                        <td>
+                                                        <td><% if(orders[i].order_status !== 'Cancelled') {%>
                                                             <div
                                                                 class="d-flex justify-content-start align-items-center customer-country">
                                                                 <div>
@@ -415,10 +415,12 @@
                                                                                 class="btn btn-primary">
                                                                                 EDIT
                                                                             </button>
-                                                                        </a> </span>
+                                                                        </a>
+                                                                     </span>
 
                                                                 </div>
                                                             </div>
+                                                            <%}%>
                                                         </td>
                                                         <td>
                                                             <div
@@ -521,7 +523,7 @@
                                                 <div class="col-md-6">
                                                     <h6>Order Information</h6>
                                                     <p><strong>Order ID:</strong> <span>
-                                                            <%= orders[i]._id %>
+                                                            <%= orders[i]?.order_id %>
                                                         </span></p>
                                                     <p><strong>Order Date:</strong> <span>
                                                             <%= orders[i].created_at.toLocaleDateString() %>
@@ -650,65 +652,62 @@
                                                 });
                                             });
                                             const cancelButtons = document.querySelectorAll('.cancel-order');
-                                                cancelButtons.forEach(button => {
-                                                    button.addEventListener('click', function (event) {
-                                                        event.preventDefault();
-                                                        const addressId = this.getAttribute('data-order-id');
-                                                        cancelOrder(addressId);
-                                                    });
-                                                });
+cancelButtons.forEach(button => {
+    button.addEventListener('click', function (event) {
+        event.preventDefault();
+        const orderId = this.getAttribute('data-order-id');
+        cancelOrder(orderId);
+    });
+});
 
-                                                async function cancelOrder(addressId) {
-                   
-                                                    const result = await Swal.fire({
-                                                        title: 'Are you sure?',
-                                                        text: "You won't be able to revert this!",
-                                                        icon: 'warning',
-                                                        showCancelButton: true,
-                                                        confirmButtonColor: '#3085d6',
-                                                        cancelButtonColor: '#d33',
-                                                        confirmButtonText: 'Yes, Cancel it!'
-                                                    });
+async function cancelOrder(orderId) {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Cancel it!'
+    });
 
-                                                    if (result.isConfirmed) {
-                                                        try {
-                                                            const response = await fetch('/admin/cancelOrder', {
-                                                                method: 'POST',
-                                                                headers: {
-                                                                    'Content-Type': 'application/json',
-                                                                },
-                                                                body: JSON.stringify({ _id: addressId })
-                                                            });
+    if (result.isConfirmed) {
+        try {
+            const response = await fetch('/admin/cancelOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ _id: orderId })
+            });
 
-                                                            const data = await response.json();
+            const data = await response.json();
 
-                                                            if (data.success) {
-                                                                Swal.fire(
-                                                                    'Cancelled!',
-                                                                    'Your order has been canceled.',
-                                                                    'success'
-                                                                ).then(() => {
-                                                                    
-                                                                    location.reload();
-                                                                });
-                                                            } else {
-                                                                Swal.fire(
-                                                                    'Error!',
-                                                                    data.message,
-                                                                    'error'
-                                                                );
-                                                            }
-                                                        } catch (error) {
-                                                            console.error('Error during order cancellation:', error);
-                                                            Swal.fire(
-                                                                'Error!',
-                                                                'An error occurred while order cancellation.',
-                                                                'error'
-                                                            );
-                                                        }
-                                                    }
-                                                }
-
+            if (data.success) {
+                Swal.fire(
+                    'Cancelled!',
+                    'Your order has been canceled and stock has been updated.',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire(
+                    'Error!',
+                    data.message,
+                    'error'
+                );
+            }
+        } catch (error) {
+            console.error('Error during order cancellation:', error);
+            Swal.fire(
+                'Error!',
+                'An error occurred while cancelling the order.',
+                'error'
+            );
+        }
+    }
+}
                                         </script>
 
 

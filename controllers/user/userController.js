@@ -11,6 +11,10 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const crypto = require('crypto');
+const { parse } = require('path');
+const Razorpay = require('razorpay');
+
+
 
 const securePassword = async (password) => {
     try {
@@ -31,9 +35,9 @@ const transporter = nodemailer.createTransport({
 
 const loadMain = async (req, res) => {
     try {
-        const category = await Category.find({status:true});
-        const product = await Product.find({is_listed:true}).populate('category')
-        res.render('userHome', { product ,category});
+        const category = await Category.find({ status: true });
+        const product = await Product.find({ is_listed: true }).populate('category')
+        res.render('userHome', { product, category });
     } catch (error) {
         console.log(error.message);
     }
@@ -101,9 +105,9 @@ const loadUserMain = async (req, res) => {
 
         if (userData) {
             const cartItems = await Cart.find({ user_id: userData._id })
-            const category = await Category.find({status:true});
-            const product = await Product.find({is_listed:true}).populate('category')
-            res.render('userHome', { userData, product, cartItems ,category});
+            const category = await Category.find({ status: true });
+            const product = await Product.find({ is_listed: true }).populate('category')
+            res.render('userHome', { userData, product, cartItems, category });
         } else {
             res.redirect('/');
         }
@@ -216,7 +220,7 @@ const checkGoogleAuthStatus = (req, res, next) => {
 const verifyLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const userData = await User.findOne({ email_address: email ,is_block:false})
+        const userData = await User.findOne({ email_address: email, is_block: false })
 
 
         if (userData) {
@@ -227,11 +231,11 @@ const verifyLogin = async (req, res) => {
 
                 res.status(200).json({ success: true });
             } else {
-                res.json({ success: false ,msg:"Email or password incorrect"});
+                res.json({ success: false, msg: "Email or password incorrect" });
             }
         } else {
 
-            res.json({ success: false ,msg :"Shopeazy blocked you"});
+            res.json({ success: false, msg: "Shopeazy blocked you" });
 
         }
     } catch (error) {
@@ -261,7 +265,7 @@ const loadProductCategory = async (req, res) => {
         } else {
             const category = req.query.id
             const categoryData = await Category.findById(category);
-            const productData = await Product.find({is_listed: true, category: category });
+            const productData = await Product.find({ is_listed: true, category: category });
             res.render('productCategory', { categoryData, productData })
         }
 
@@ -314,10 +318,10 @@ const loadDashboard = async (req, res) => {
         }
         if (userData) {
             const userid = userData._id
-            const orderData = await Orders.find({user_id:userid}).populate('payment_type').populate('items');
+            const orderData = await Orders.find({ user_id: userid }).populate('payment_type').populate('items');
             const cartItems = await Cart.find({ user_id: userid })
             const addressData = await Address.find({ user_id: userid });
-            res.render('dashboard', { userData, addressData, cartItems ,orderData})
+            res.render('dashboard', { userData, addressData, cartItems, orderData })
         } else {
             res.redirect('/')
 
@@ -497,18 +501,23 @@ const loaduserCart = async (req, res) => {
 
 const addCartItem = async (req, res) => {
     try {
-
         const { productId, quantity, userId } = req.body;
-
 
         let cartItem = await Cart.findOne({ user_id: userId, product_id: productId });
 
-        if (cartItem) {
 
-            cartItem.quantity += quantity;
+        if (cartItem) {
+            // Option 1: Replace the quantity
+            // cartItem.quantity = quantity;
+
+            // Option 2: Add the new quantity to the existing quantity
+            cartItem.quantity += parseInt(quantity);
+
+            if (cartItem.quantity > 5) {
+                return res.json({ success: false, message: "Maximum quanity reached" });
+            }
             await cartItem.save();
         } else {
-
             cartItem = new Cart({
                 user_id: userId,
                 product_id: productId,
@@ -518,7 +527,6 @@ const addCartItem = async (req, res) => {
         }
 
         res.json({ success: true });
-
     } catch (error) {
         console.log('Error Add Cart Item', error.message);
         res.status(500).send('Internal Server Error');
@@ -564,7 +572,7 @@ const searchResults = async (req, res) => {
         }
 
 
-        
+
         let sortOptions = {};
         switch (sort) {
             case 'name_asc':
@@ -586,7 +594,7 @@ const searchResults = async (req, res) => {
                 sortOptions = { added_date: 1 };
                 break;
             default:
-                sortOptions = { product_name: 1 }; 
+                sortOptions = { product_name: 1 };
         }
         let userData;
         if (req.user) {
@@ -613,7 +621,10 @@ const searchResults = async (req, res) => {
     }
 };
 
-
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+  });
 const loadCheckout = async (req, res) => {
     try {
 
@@ -662,10 +673,11 @@ const placeOrder = async (req, res) => {
             price: item.product_id.price,
             total: item.product_id.price * item.quantity
         }));
-
+        const randomOrderId = Math.floor(1000 + Math.random() * 9000);
 
         const newOrder = new Orders({
             user_id,
+            order_id: `ORD-${randomOrderId} `,
             address_id: address,
             items: orderItems,
             total_amount: parseFloat(total_amount),
@@ -697,11 +709,11 @@ const placeOrder = async (req, res) => {
 const loadOrderSummary = async (req, res) => {
     try {
         const orderId = req.query.id;
+
         const order = await Orders.findById(orderId)
             .populate('user_id')
-            
-            .populate('items.product_id')  // Changed from 'products.product_id' to 'items.product_id'
-            .populate('payment_type');  // Add this if you want to populate payment type
+            .populate('items.product_id')
+            .populate('payment_type');
 
         if (!order) {
             return res.status(404).send('Order not found');
@@ -717,19 +729,114 @@ const loadOrderSummary = async (req, res) => {
 const cancelOrder = async (req, res) => {
     try {
         const { _id, cancel_reason } = req.body;
-        console.log("id:",_id,"reason",cancel_reason);
-        await Orders.findByIdAndUpdate(_id, { 
-            order_status: 'Cancelled',
-            cancellation_reason: cancel_reason
-        });
+        console.log("id:", _id, "reason", cancel_reason);
 
-        res.json({ success: true ,message: "Order Cancelled Successfully"});
+
+        const order = await Orders.findById(_id);
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+
+        order.order_status = 'Cancelled';
+        order.cancellation_reason = cancel_reason;
+        await order.save();
+
+        for (const item of order.items) {
+            await Product.findByIdAndUpdate(
+                item.product_id,
+                { $inc: { stock: item.quantity } },
+                { new: true }
+            );
+        }
+
+        res.json({ success: true, message: "Order Cancelled Successfully and Stock Updated" });
     } catch (error) {
         console.error('Error cancelling order:', error);
         res.status(500).json({ success: false, message: 'Failed to cancel order' });
     }
 };
 
+const loadShop = async (req, res) => {
+    try {
+        const { sort } = req.query; 
+
+        let sortOptions = {};
+        switch (sort) {
+            case 'name_asc':
+                sortOptions = { product_name: 1 };
+                break;
+            case 'name_desc':
+                sortOptions = { product_name: -1 };
+                break;
+            case 'price_asc':
+                sortOptions = { price: 1 };
+                break;
+            case 'price_desc':
+                sortOptions = { price: -1 };
+                break;
+            default:
+                sortOptions = { product_name: 1 }; 
+        }
+
+        const [allProducts, category] = await Promise.all([
+            Product.find({ is_listed: true }).sort(sortOptions),
+            Category.find({ status: true })
+        ]);
+
+        let userData;
+        if (req.user) {
+            userData = req.user;
+        } else if (req.session.user_id) {
+            userData = await User.findById(req.session.user_id);
+        }
+
+        res.render('shop', { product: allProducts, category, userData, sort: sort || '' });
+
+    } catch (error) {
+        console.error('Error loading shop:', error);
+        res.status(500).render('error', { message: 'Failed to load shop' });
+    }
+};
+
+const shopFilter = async (req, res) => {
+    try {
+        const { sort } = req.query; 
+
+        let sortOptions = {};
+        switch (sort) {
+            case 'name_asc':
+                sortOptions = { product_name: 1 };
+                break;
+            case 'name_desc':
+                sortOptions = { product_name: -1 };
+                break;
+            case 'price_asc':
+                sortOptions = { price: 1 };
+                break;
+            case 'price_desc':
+                sortOptions = { price: -1 };
+                break;
+            default:
+                sortOptions = { product_name: 1 };
+        }
+
+        let userData;
+        if (req.user) {
+            userData = req.user;
+        } else if (req.session.user_id) {
+            userData = await User.findById(req.session.user_id);
+        }
+
+        const products = await Product.find().sort(sortOptions);
+
+       
+        res.render('user/shop', { userData, products, sort: sort || '' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).render('error', { message: 'Server error' });
+    }
+};
 module.exports = {
     registerUser,
     loadMain,
@@ -758,7 +865,9 @@ module.exports = {
     loadCheckout,
     placeOrder,
     loadOrderSummary,
-    cancelOrder
+    cancelOrder,
+    loadShop,
+    shopFilter
 
 
 };

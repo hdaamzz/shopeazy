@@ -240,7 +240,7 @@
                                         </div>
                                         <button type="button" class="btn btn-outline-primary mb-3"
                                             id="add-address-btn"><a href="" data-bs-toggle="modal"
-                                                data-bs-target="#editAddressModal"> <i class="icon-plus"></i> Add New
+                                                data-bs-target="#addAddressModal"> <i class="icon-plus"></i> Add New
                                                 Address</a>
 
                                         </button>
@@ -321,49 +321,50 @@
 
 
 
-            <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel"
+            <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editAddressModalLabel">Edit
+                            <h5 class="modal-title" id="editAddressModalLabel">Add
                                 Address</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body pl-5 pr-5">
-                            <form id="editAddressFor" class="edit-address-form" data-address-id="">
+                            <form id="addAddressForm">
                                 <div class="mb-3 form-group">
-                                    <label for="edit-name" class="form-label errMsg">Name</label>
-                                    <input type="text" class="form-control" id="edit-name" value="">
+                                    <label for="name" class="form-label errMsg">Name</label>
+                                    <input type="text" class="form-control" id="name" value="">
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label for="edit-phone" class="form-label errMsg">Phone
+                                    <label for="phone" class="form-label errMsg">Phone
                                         Number</label>
-                                    <input type="tel" class="form-control" id="edit-phone" value="">
+                                    <input type="tel" class="form-control" id="phone" value="">
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label for="edit-address" class="form-label errMsg">Address</label>
-                                    <textarea class="form-control" id="edit-address" rows="3"></textarea>
+                                    <label for="address" class="form-label errMsg">Address</label>
+                                    <textarea class="form-control" id="address" rows="3"></textarea>
 
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label for="edit-city" class="form-label errMsg">Town/City</label>
-                                    <input type="text" class="form-control" id="edit-city" value="">
+                                    <label for="city" class="form-label errMsg">Town/City</label>
+                                    <input type="text" class="form-control" id="city" value="">
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label for="edit-pincode" class="form-label errMsg">PinCode</label>
-                                    <input type="number" class="form-control" id="edit-pincode" value="">
+                                    <label for="pincode" class="form-label errMsg">PinCode</label>
+                                    <input type="text" class="form-control" id="pincode" value="">
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label for="edit-landmark" class="form-label errMsg">Landmark <span
+                                    <label for="landmark" class="form-label errMsg">Landmark <span
                                             class="text-muted">(optional)</span></label>
-                                    <input type="text" class="form-control" id="edit-landmark" value="">
+                                    <input type="text" class="form-control" id="landmark" value="">
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label for="edit-state" class="form-label errMsg">State</label>
-                                    <input type="text" class="form-control" id="edit-state" value="">
+                                    <label for="state" class="form-label errMsg">State</label>
+                                    <input type="text" class="form-control" id="state" value="">
                                 </div>
-                                <input type="hidden" id="edit-hiddenid" value="">
+                                <input type="hidden" id="hiddenid"value="<%= userData?._id%>">
+                                                                    
                                 <button type="submit" class="btn btn-primary">Save
                                     changes</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -372,6 +373,127 @@
                     </div>
                 </div>
             </div>
+
+
+
+            <% if (addressData && addressData.length> 0) { %>
+                <% addressData.forEach(function(address) { %>
+                    <div class="modal fade"
+                        id="editAddressModal<%= address._id %>"
+                        tabindex="-1"
+                        aria-labelledby="editAddressModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"
+                                        id="editAddressModalLabel">Edit
+                                        Address</h5>
+                                    <button type="button" class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body pl-5 pr-5">
+                                    <form
+                                        id="editAddressForm<%= address._id %>"
+                                        class="edit-address-form"
+                                        data-address-id="<%= address._id %>">
+                                        <div class="mb-3 form-group">
+                                            <label
+                                                for="edit-name-<%= address._id %>"
+                                                class="form-label errMsg">Name</label>
+                                            <input type="text"
+                                                class="form-control"
+                                                id="edit-name-<%= address._id %>"
+                                                value="<%=address.name%>">
+                                        </div>
+                                        <div class="mb-3 form-group">
+                                            <label
+                                                for="edit-phone-<%= address._id %>"
+                                                class="form-label errMsg">Phone
+                                                Number</label>
+                                            <input type="tel"
+                                                class="form-control"
+                                                id="edit-phone-<%= address._id %>"
+                                                value="<%=address.phone_number%>">
+                                        </div>
+                                        <div class="mb-3 form-group">
+                                            <label
+                                                for="edit-address-<%= address._id %>"
+                                                class="form-label errMsg">Address</label>
+                                            <textarea class="form-control"
+                                                id="edit-address-<%= address._id %>"
+                                                rows="3"><%= address.address %></textarea>
+
+                                        </div>
+                                        <div class="mb-3 form-group">
+                                            <label
+                                                for="edit-city-<%= address._id %>"
+                                                class="form-label errMsg">Town/City</label>
+                                            <input type="text"
+                                                class="form-control"
+                                                id="edit-city-<%= address._id %>"
+                                                value="<%=address.town_city%>">
+                                        </div>
+                                        <div class="mb-3 form-group">
+                                            <label
+                                                for="edit-pincode-<%= address._id %>"
+                                                class="form-label errMsg">PinCode</label>
+                                            <input type="text"
+                                                class="form-control"
+                                                id="edit-pincode-<%= address._id %>"
+                                                value="<%=address.pin_code%>">
+                                        </div>
+                                        <div class="mb-3 form-group">
+                                            <label
+                                                for="edit-landmark-<%= address._id %>"
+                                                class="form-label errMsg">Landmark
+                                                <span
+                                                    class="text-muted">(optional)</span></label>
+                                            <input type="text"
+                                                class="form-control"
+                                                id="edit-landmark-<%= address._id %>"
+                                                value="<%=address.landmark%>">
+                                        </div>
+                                        <div class="mb-3 form-group">
+                                            <label
+                                                for="edit-state-<%= address._id %>"
+                                                class="form-label errMsg">State</label>
+                                            <input type="text"
+                                                class="form-control"
+                                                id="edit-state-<%= address._id %>"
+                                                value="<%=address.state%>">
+                                        </div>
+                                        <input type="hidden"
+                                            id="edit-hiddenid-<%= address._id %>"
+                                            value="<%= address._id%>">
+                                        <button type="submit"
+                                            class="btn btn-primary">Save
+                                            changes</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                        <% } else { %>
+                            <p>No addresses found.</p>
+                            <% } %>
+           
+
+
+
+
+
+
+
+
 
 
             <footer class="footer">
@@ -565,6 +687,360 @@
                         });
                     }
                 });
+            });
+        </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addAddressForm = document.getElementById('addAddressForm');
+        const name = document.getElementById('name');
+        const phone = document.getElementById('phone');
+        const address = document.getElementById('address');
+        const city = document.getElementById('city');
+        const landmark = document.getElementById('landmark');
+        const state = document.getElementById('state');
+        const pin = document.getElementById('pincode');
+        const hiddenId = document.getElementById('hiddenid');
+
+
+        addAddressForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const nameValue = name.value.trim();
+            const phoneValue = phone.value.trim();
+            const addressValue = address.value.trim();
+            const cityValue = city.value.trim();
+            const landmarkValue = landmark.value.trim();
+            const stateValue = state.value.trim();
+            const pinValue = pin.value.trim();
+            const hiddenValue = hiddenId.value.trim();
+
+            validateAddressForm(nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue);
+
+        })
+
+        const setError = (element, message) => {
+            const formGroup1 = element.parentElement;
+            const errorDisplay = formGroup1.querySelector('.errMsg');
+            if (errorDisplay) {
+                errorDisplay.innerText = message;
+                element.classList.add('error');
+                errorDisplay.classList.add('error');
+                element.classList.remove('success');
+                errorDisplay.classList.remove('success');
+            }
+        }
+        const setSuccess = (element, message) => {
+            const formGroup1 = element.parentElement;
+            const errorDisplay = formGroup1.querySelector('.errMsg');
+            if (errorDisplay) {
+                errorDisplay.innerText = message;
+                element.classList.add('success');
+                errorDisplay.classList.add('success');
+                element.classList.remove('error');
+                errorDisplay.classList.remove('error');
+            }
+        }
+        const validateAddressForm = async (nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue) => {
+            let isValid = true;
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            const phoneRegex = /^\+?(\d{1,4}[\s-\.]?)?(\d{1,3}[\s-\.]?)?(\d{1,4}[\s-\.]?)?(\d{1,9})$/;
+
+
+            if (nameValue === '') {
+                isValid = false;
+                setError(name, 'Enter Name ')
+            } else if (nameValue.length < 3) {
+                isValid = false;
+                setError(name, 'Name shoul be more than 2 letter')
+            } else if (!nameRegex.test(nameValue)) {
+                isValid = false;
+                setError(name, 'Name should only contain letters and spaces');
+            } else {
+                setSuccess(name, 'Name')
+            }
+            if (phoneValue === '') {
+                isValid = false;
+                setError(phone, 'Enter Phone Number ')
+            } else if (!phoneRegex.test(phoneValue)) {
+                isValid = false;
+                setError(phone, 'Enter Correct Phone Number ')
+            } else {
+                setSuccess(phone, 'Phone Number')
+            }
+            if (addressValue === '') {
+                isValid = false;
+                setError(address, 'Enter Address ')
+            } else if (addressValue.length < 6) {
+                isValid = false;
+                setError(address, 'Please Provide Detailed Address')
+            } else {
+                setSuccess(address, 'Address')
+            }
+            if (cityValue == '') {
+                isValid = false;
+                setError(city, 'Enter Town/City ')
+            } else if (cityValue.length > 20) {
+                isValid = false;
+                setError(city, 'Enter Correct Town/City ')
+            } else {
+                setSuccess(city, 'Town/City')
+            }
+            if (stateValue === '') {
+                isValid = false;
+                setError(state, 'Enter State')
+            } else {
+                setSuccess(state, 'State')
+            }
+            if (pinValue === '') {
+                isValid = false;
+                setError(pin, 'Enter PinCode')
+            } else if (pinValue.length > 7) {
+                isValid = false;
+                setError(pin, 'Invalid Pin')
+            }
+            else {
+                setSuccess(pin, 'PinCode')
+            }
+            if (!isValid) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/addAddress', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: nameValue,
+                        phone: phoneValue,
+                        address: addressValue,
+                        city: cityValue,
+                        landmark: landmarkValue,
+                        state: stateValue,
+                        pin: pinValue,
+                        id: hiddenValue
+
+                    })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/checkout";
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+
+
+
+            } catch (error) {
+                console.error('Error during add address:', error);
+
+            }
+
+
+
+        }
+    });
+</script>
+
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const editAddressForms = document.querySelectorAll('.edit-address-form');
+
+        editAddressForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const addressId = this.getAttribute('data-address-id');
+
+                const edit_name = document.getElementById(`edit-name-${addressId}`);
+                const edit_phone = document.getElementById(`edit-phone-${addressId}`);
+                const edit_address = document.getElementById(`edit-address-${addressId}`);
+                const edit_city = document.getElementById(`edit-city-${addressId}`);
+                const edit_landmark = document.getElementById(`edit-landmark-${addressId}`);
+                const edit_state = document.getElementById(`edit-state-${addressId}`);
+                const edit_pin = document.getElementById(`edit-pincode-${addressId}`);
+                const edit_hidden = document.getElementById(`edit-hiddenid-${addressId}`);
+
+
+
+                edit_validateAddressForm(
+                    edit_name, edit_phone, edit_address,
+                    edit_city, edit_landmark, edit_state,
+                    edit_pin, edit_hidden
+                );
+            });
+        });
+        const setError = (element, message) => {
+                    const formGroup1 = element.parentElement;
+                    const errorDisplay = formGroup1.querySelector('.errMsg');
+                    if (errorDisplay) {
+                        errorDisplay.innerText = message;
+                        element.classList.add('error');
+                        errorDisplay.classList.add('error');
+                        element.classList.remove('success');
+                        errorDisplay.classList.remove('success');
+                    }
+                }
+
+                const setSuccess = (element, message) => {
+                    const formGroup1 = element.parentElement;
+                    const errorDisplay = formGroup1.querySelector('.errMsg');
+                    if (errorDisplay) {
+                        errorDisplay.innerText = message;
+                        element.classList.add('success');
+                        errorDisplay.classList.add('success');
+                        element.classList.remove('error');
+                        errorDisplay.classList.remove('error');
+                    }
+                }
+
+
+
+                const edit_validateAddressForm = async (
+                    edit_name, edit_phone, edit_address,
+                    edit_city, edit_landmark, edit_state,
+                    edit_pin, edit_hidden
+                ) => {
+
+                    const edit_nameValue = edit_name.value.trim();
+                    const edit_phoneValue = edit_phone.value.trim();
+                    const edit_addressValue = edit_address.value.trim();
+                    const edit_cityValue = edit_city.value.trim();
+                    const edit_landmarkValue = edit_landmark.value.trim();
+                    const edit_stateValue = edit_state.value.trim();
+                    const edit_pinValue = edit_pin.value.trim();
+                    const edit_hiddenValue = edit_hidden.value.trim();
+
+
+
+                    let isValid = true;
+                    const nameRegex = /^[a-zA-Z\s]+$/;
+                    const phoneRegex = /^\+?(\d{1,4}[\s-\.]?)?(\d{1,3}[\s-\.]?)?(\d{1,4}[\s-\.]?)?(\d{1,9})$/;
+
+                    if (edit_nameValue === '') {
+                        isValid = false;
+                        setError(edit_name, 'Enter Name');
+                    } else if (edit_nameValue.length < 3) {
+                        isValid = false;
+                        setError(edit_name, 'Name should be more than 2 letters');
+                    } else if (!nameRegex.test(edit_nameValue)) {
+                        isValid = false;
+                        setError(edit_name, 'Name should only contain letters and spaces');
+                    } else {
+                        setSuccess(edit_name, 'Name');
+                    }
+
+                    if (edit_phoneValue === '') {
+                        isValid = false;
+                        setError(edit_phone, 'Enter Phone Number');
+                    } else if (!phoneRegex.test(edit_phoneValue)) {
+                        isValid = false;
+                        setError(edit_phone, 'Enter Correct Phone Number');
+                    } else {
+                        setSuccess(edit_phone, 'Phone Number');
+                    }
+
+                    if (edit_addressValue === '') {
+                        isValid = false;
+                        setError(edit_address, 'Enter Address');
+                    } else if (edit_addressValue.length < 6) {
+                        isValid = false;
+                        setError(edit_address, 'Please Provide a Detailed Address');
+                    } else {
+                        setSuccess(edit_address, 'Address');
+                    }
+
+                    if (edit_cityValue === '') {
+                        isValid = false;
+                        setError(edit_city, 'Enter Town/City');
+                    } else if (edit_cityValue.length > 20) {
+                        isValid = false;
+                        setError(edit_city, 'Enter Correct Town/City');
+                    } else {
+                        setSuccess(edit_city, 'Town/City');
+                    }
+
+                    if (edit_stateValue === '') {
+                        isValid = false;
+                        setError(edit_state, 'Enter State');
+                    } else {
+                        setSuccess(edit_state, 'State');
+                    }
+
+                    if (edit_pinValue === '') {
+                        isValid = false;
+                        setError(edit_pin, 'Enter PinCode');
+                    } else if (edit_pinValue.length > 7) {
+                        isValid = false;
+                        setError(edit_pin, 'Invalid Pin');
+                    } else {
+                        setSuccess(edit_pin, 'PinCode');
+                    }
+
+                    if (!isValid) {
+                        return;
+                    }
+
+
+                    try {
+                        const response = await fetch('/updateAddress', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                name: edit_nameValue,
+                                phone: edit_phoneValue,
+                                address: edit_addressValue,
+                                city: edit_cityValue,
+                                landmark: edit_landmarkValue,
+                                state: edit_stateValue,
+                                pin: edit_pinValue,
+                                id: edit_hiddenValue
+                            })
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "/checkout";
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Error during address update:', error);
+                    }
+                }
+
             });
         </script>
         <!-- Plugins JS File -->

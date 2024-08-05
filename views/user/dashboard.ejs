@@ -247,7 +247,7 @@
                                                                                 </span><br>
                                                                         <a href="#" data-bs-toggle="modal"
                                                                             data-bs-target="#orderModal<%= item._id %>">#
-                                                                            <%= item._id %></a>
+                                                                            <%= item?.order_id %></a>
 
                                                                     </h3>
 
@@ -295,7 +295,7 @@
                                                                 <div class="col-md-6">
                                                                     <h6>Order Information</h6>
                                                                     <p><strong>Order ID:</strong> <span>
-                                                                            <%= item._id %>
+                                                                            <%= item?.order_id %>
                                                                         </span></p>
                                                                     <p><strong>Order Date:</strong> <span>
                                                                             <%= item.created_at.toLocaleDateString() %>
@@ -599,7 +599,7 @@
                                                                                         <label
                                                                                             for="edit-pincode-<%= address._id %>"
                                                                                             class="form-label errMsg">PinCode</label>
-                                                                                        <input type="number"
+                                                                                        <input type="text"
                                                                                             class="form-control"
                                                                                             id="edit-pincode-<%= address._id %>"
                                                                                             value="<%=address.pin_code%>">

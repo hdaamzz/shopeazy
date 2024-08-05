@@ -350,18 +350,36 @@ const updateStatus = async (req, res) => {
 
 const cancelOrder = async (req, res) => {
     try {
-        const { _id} = req.body;
-       console.log(_id);
-        await Orders.findByIdAndUpdate(_id, { 
-            order_status: 'Cancelled'
-        });
+        const { _id } = req.body;
+        console.log("Cancelling order:", _id);
 
-        res.json({ success: true ,message: "Order Cancelled Successfully"});
+        const order = await Orders.findById(_id);
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+        if (order.order_status === 'Cancelled' || order.order_status === 'Delivered') {
+            return res.status(400).json({ success: false, message: 'Cannot cancel this order' });
+        }
+
+        order.order_status = 'Cancelled';
+        await order.save();
+
+        // Increase stock for each item in the order
+        for (const item of order.items) {
+            await Products.findByIdAndUpdate(
+                item.product_id,
+                { $inc: { stock: item.quantity } }
+            );
+        }
+
+        res.json({ success: true, message: "Order Cancelled Successfully and Stock Updated" });
     } catch (error) {
         console.error('Error cancelling order:', error);
         res.status(500).json({ success: false, message: 'Failed to cancel order' });
     }
 };
+
 
 
 module.exports = {
