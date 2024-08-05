@@ -2,7 +2,14 @@ const express = require("express");
 const admin_route = express();
 const config = require("../config/config");
 const bodyParser = require("body-parser");
-const adminController = require("../controllers/admin/adminController");
+const loginController = require("../controllers/admin/loginController");
+const customersController = require("../controllers/admin/customersController");
+const categoryController = require("../controllers/admin/categoryController");
+const productController = require("../controllers/admin/productController");
+const orderController = require("../controllers/admin/orderController");
+const logoutController = require("../controllers/admin/logoutController");
+
+
 const session = require("express-session");
 const auth = require('../middleware/adminAuth')
 const multer = require('../middleware/multer')
@@ -26,28 +33,41 @@ admin_route.set('views', './views/admin');
 
 
 
+//login dashboard
+admin_route.get('/', auth.isLogout, loginController.loadLogin);
+admin_route.post('/', loginController.verifyAdmin);
+admin_route.get('/adminHome', auth.isLogin, loginController.loadDashboard);
 
-admin_route.get('/', auth.isLogout, adminController.loadLogin);
-admin_route.post('/', adminController.verifyAdmin);
-admin_route.get('/adminHome', auth.isLogin, adminController.loadDashboard);
-admin_route.get('/allCustomers', auth.isLogin, adminController.loadAllCustomers);
-admin_route.post('/api/users/block/:userId', adminController.blockUser);
-admin_route.get('/category', auth.isLogin, adminController.loadCategory);
-admin_route.post('/category', adminController.addCategory);
-admin_route.post('/api/category/list/:categoryId', adminController.listCategory);
-admin_route.get('/updateCate',adminController.loadUpdateCategory)
-admin_route.post('/updateCate',adminController.UpdateCategory)
-admin_route.get('/products', auth.isLogin, adminController.loadProducts)
-admin_route.get('/addProduct', auth.isLogin, adminController.loadAddProduct)
-admin_route.post('/addProduct', multer.upload.array('productImage', 3), adminController.addProduct);
-admin_route.get('/updateProduct', auth.isLogin, adminController.loadUpdateProduct)
-admin_route.post('/updateProduct', multer.updateImage, adminController.updateProduct);
-admin_route.get('/orders',auth.isLogin,adminController.loadOrderList)
-admin_route.get('/updateStatus',auth.isLogin,adminController.loadupdateStatus)
-admin_route.post('/updateStatus',adminController.updateStatus);
-admin_route.post('/cancelOrder',adminController.cancelOrder)
 
-admin_route.get('/logout', adminController.logout)
+//customers
+admin_route.get('/allCustomers', auth.isLogin, customersController.loadAllCustomers);
+admin_route.post('/api/users/block/:userId', customersController.blockUser);
+
+
+//category
+admin_route.get('/category', auth.isLogin, categoryController.loadCategory);
+admin_route.post('/category', categoryController.addCategory);
+admin_route.post('/api/category/list/:categoryId', categoryController.listCategory);
+admin_route.get('/updateCate',categoryController.loadUpdateCategory)
+admin_route.post('/updateCate',categoryController.updateCategory)
+
+//product
+admin_route.get('/products', auth.isLogin, productController.loadProducts)
+admin_route.get('/addProduct', auth.isLogin, productController.loadAddProduct)
+admin_route.post('/addProduct', multer.upload.array('productImage', 3), productController.addProduct);
+admin_route.get('/updateProduct', auth.isLogin, productController.loadUpdateProduct)
+admin_route.post('/updateProduct', multer.updateImage, productController.updateProduct);
+
+
+//order
+admin_route.get('/orders',auth.isLogin,orderController.loadOrderList)
+admin_route.get('/updateStatus',auth.isLogin,orderController.loadupdateStatus)
+admin_route.post('/updateStatus',orderController.updateStatus);
+admin_route.post('/cancelOrder',orderController.cancelOrder)
+
+
+//logout 
+admin_route.get('/logout', logoutController.logout)
 
 
 
