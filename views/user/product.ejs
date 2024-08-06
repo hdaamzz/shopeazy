@@ -222,9 +222,9 @@
                                                         </div><!-- End .details-action-col -->
 
                                                         <div class="details-action-wrapper">
-                                                            <a href="#" class="btn-product btn-wishlist"
-                                                                title="Wishlist"><span>Add to Wishlist</span></a>
-
+                                                            <% if(typeof userData !=='undefined' ){ %>
+                                                                <button class="btn-product-icon btn-wishlist" title="Add to wishlist" data-product-id="<%= productData?._id %>"  data-user-id="<%= userData._id %>"></button><span>Add to wishlist</span>
+                                                            <%}%>
                                                         </div><!-- End .details-action-wrapper -->
                                                     </div><!-- End .product-details-action -->
 
@@ -719,7 +719,47 @@
                 </div><!-- End .modal-content -->
             </div><!-- End .modal-dialog -->
         </div><!-- End .modal -->
+        <script>
+            document.querySelectorAll('.btn-product-icon').forEach(button => {
+            button.addEventListener('click',async function() {
+                const productId = this.getAttribute('data-product-id');
+                const userId = this.getAttribute('data-user-id');
+                try {
+                   await fetch('/addWishlistItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId,userId}),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: "Product Added To Wishlist",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+                } catch (error) {
+                    console.log(error.message);
+                }
+                
+            });
+            });
 
+
+
+        </script>
         <script>
             document.querySelectorAll('.btn-add-to-cart').forEach(button => {
             button.addEventListener('click',async function() {

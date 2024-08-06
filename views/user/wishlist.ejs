@@ -268,13 +268,13 @@
                                     <td class="product-col">
                                         <div class="product">
                                             <figure class="product-media">
-                                                <a href="#">
+                                                <a href="/showProduct?id=<%= item.product_id._id %>">
                                                     <img src="/uploads/<%=item.product_id.images[0]%>" alt="Product image">
                                                 </a>
                                             </figure>
     
                                             <h3 class="product-title">
-                                                <a href="#"><%=item.product_id.product_name%></a>
+                                                <a href="/showProduct?id=<%= item.product_id._id %>"><%=item.product_id.product_name%></a>
                                             </h3><!-- End .product-title -->
                                         </div><!-- End .product -->
                                     </td>

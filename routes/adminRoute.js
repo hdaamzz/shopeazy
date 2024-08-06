@@ -8,6 +8,7 @@ const categoryController = require("../controllers/admin/categoryController");
 const productController = require("../controllers/admin/productController");
 const orderController = require("../controllers/admin/orderController");
 const logoutController = require("../controllers/admin/logoutController");
+const offerController = require('../controllers/admin/offerController');
 
 
 const session = require("express-session");
@@ -64,6 +65,12 @@ admin_route.get('/orders',auth.isLogin,orderController.loadOrderList)
 admin_route.get('/updateStatus',auth.isLogin,orderController.loadupdateStatus)
 admin_route.post('/updateStatus',orderController.updateStatus);
 admin_route.post('/cancelOrder',orderController.cancelOrder)
+
+
+//offer
+admin_route.get('/offers',auth.isLogin,offerController.loadOffer);
+admin_route.post('/offers/addOffers',offerController.addOffer)
+admin_route.get('/offers/category',auth.isLogin,offerController.loadCateOffer)
 
 
 //logout 

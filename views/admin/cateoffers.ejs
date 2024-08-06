@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
+    data-theme="theme-default" data-assets-path="/dashboard-assets/" data-template="vertical-menu-template"
+    data-style="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>shopEazy</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
+    <meta name="keywords"
+        content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
+
+    <link rel="icon" type="image/x-icon" href="/assets/newimages/logo.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/remixicon/remixicon.css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/flag-icons.css" />
+
+    <!-- Menu waves for no-customizer fix -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/node-waves/node-waves.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css"
+        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/dashboard-assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/pages/app-ecommerce-dashboard.css" />
+
+    <!-- Helpers -->
+    <script src="/dashboard-assets/vendor/js/helpers.js"></script>
+
+    <script src="/dashboard-assets/js/config.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/%40form-validation/form-validation.css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/bs-stepper/bs-stepper.css" />
+
+
+
+    <style>
+        .select2-container--default .select2-selection--multiple {
+            border: none;
+            padding: 0.4375rem 0.875rem;
+        }
+        .form-floating-select2 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+            padding: 0;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 2px 6px;
+            margin-right: 5px;
+            margin-top: 2px;
+        }
+        .offer-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .offer-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .offer-card .card-title {
+            color: #333;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .offer-card .card-text p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .offer-card .card-text strong {
+            color: #555;
+        }
+
+        .offer-card .discount {
+            font-size: 1.1rem;
+            color: #e74c3c;
+            font-weight: 700;
+        }
+
+        .offer-card .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .offer-card .status-badge.active {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .offer-card .status-badge.inactive {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .offer-card .publish-date {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 1rem;
+        }
+
+        .offer-card .offer-type {
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .row-cols-md-3 {
+                row-gap: 1rem;
+            }
+        }
+        </style>
+        
+</head>
+
+<body>
+
+
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
+            style="display: none; visibility: hidden"></iframe></noscript>
+
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar  ">
+        <div class="layout-container">
+
+
+
+
+
+
+
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+
+
+                <div class="app-brand demo ">
+                    <a href="/admin/adminHome" class="app-brand-link">
+                        <span class="app-brand-logo demo me-1">
+                            <span style="color:var(--bs-primary);">
+
+                            </span>
+                        </span>
+                        <img src="/assets/newimages/logo.png" width="150px" height="40px">
+                        <!-- <span class="app-brand-text demo menu-text fw-semibold ms-2">shopEazy</span> -->
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="menu-toggle-icon d-xl-block align-middle"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+
+
+                <ul class="menu-inner py-1">
+                    <!-- Dashboards -->
+
+
+                    <!-- Layouts -->
+
+                    <!-- Front Pages -->
+
+
+
+                    <!-- e-commerce-app menu start -->
+                    <li class="menu-item active open">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
+                            <div data-i18n="shopEazy">shopEazy</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item ">
+                                <a href="/admin/adminHome" class="menu-link">
+                                    <div data-i18n="Dashboard">Dashboard</div>
+                                </a>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Products">Products</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item ">
+                                        <a href="/admin/products" class="menu-link">
+                                            <div data-i18n="Product List">Product List</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="/admin/addProduct" class="menu-link">
+                                            <div data-i18n="Add Product">Add Product</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Category">Category</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item ">
+                                        <a href="/admin/category" class="menu-link">
+                                            <div data-i18n="List all category">List all category</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Order">Order</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item ">
+                                        <a href="app-ecommerce-order-list.html" class="menu-link">
+                                            <div data-i18n="Order List">Order List</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Customer">Customer</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item ">
+                                        <a href="/admin/allCustomers" class="menu-link">
+                                            <div data-i18n="All Customers">All Customers</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item active open">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Offers">Offers</div>
+                                </a>
+                                <ul class="menu-sub">
+                                   
+                                    <li class="menu-item ">
+                                        <a href="/admin/offers" class="menu-link">
+                                            <div data-i18n="Product Offers">Product Offers</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item active">
+                                        <a href="/admin/offers/category" class="menu-link">
+                                            <div data-i18n="Category Offers">Category Offers</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Banners">Banners</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="app-ecommerce-customer-all.html" class="menu-link">
+                                            <div data-i18n="Banner">Banner</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            <!-- / Menu -->
+            <!-- Navbar -->
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                            <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="/dashboard-assets/img/avatars/1.png" alt
+                                            class="w-px-40 h-auto rounded-circle">
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+                                    <li>
+                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 me-2">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="/dashboard-assets/img/avatars/1.png" alt
+                                                            class="w-px-40 h-auto rounded-circle">
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <!-- <h6 class="mb-0 small">John Doe</h6> -->
+                                                    <small class="text-muted">Admin</small>
+
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="pages-profile-user.html">
+                                            <i class="ri-user-3-line ri-22px me-2"></i>
+                                            <span class="align-middle">My Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="d-grid px-4 pt-2 pb-1">
+                                            <a class="btn btn-danger d-flex" href="/admin/logout" target="_blank">
+                                                <small class="align-middle">Logout</small>
+                                                <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--/ User -->
+                        </ul>
+                    </div>
+                </nav>
+                <!-- / Navbar -->
+                <!-- Content wrapper -->
+                <div class="container-xxl flex-grow-1 container-p-y">
+
+
+                    <!-- Product List Widget -->
+
+
+                    <!-- Product List Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">CATEGORY OFFERS</h5>
+                            <div class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0">
+                                <div class="col-md-4 product_status"></div>
+                                <div class="col-md-4 product_category"></div>
+                                <div class="col-md-4 product_stock"></div>
+                            </div>
+                        </div>
+                        <div class="card-datatable table-responsive">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                <div class="card-header d-flex border-top rounded-0 flex-wrap py-0 pb-5 pb-md-0">
+                                    <div class="me-5 ms-n2">
+                                    </div>
+                                    <div
+                                        class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                        <div
+                                            class="dt-action-buttons d-flex align-items-start align-items-md-center justify-content-sm-center gap-4 pt-0">
+                                            <div class="dt-buttons btn-group flex-wrap d-flex pt-4 pb-4">
+                                                <button type="button" class="btn btn-primary waves-effect waves-light"
+                                                    data-bs-toggle="modal" data-bs-target="#addOffer">
+                                                    <span>
+                                                        <i class="ri-add-line ri-16px me-0 me-sm-1_5"></i>
+                                                        <span class="d-none d-sm-inline-block">Add Offer</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-6">
+                                    <% offer.forEach(off => { %>
+                                    <div class="col">
+                                        <div class="offer-card card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%= off.title %></h5>
+                                                <div class="card-text">
+                                                    <p class="description"><strong>Description:</strong> <%= off.description %></p>
+                                                    <p class="discount"><strong>Discount:</strong> <%= off.discount %>%</p>
+                                                    <p class="offer-type"><strong>Offer Type:</strong> <%= off.type %></p>
+                                                    <p class="status"><strong>Status:</strong> <span class="status-badge <%= off.status %>"><%= off.status %></span></p>
+                                                    <p class="publish-date"><strong>Publish Date:</strong> <%= new Date(off.createdAt.getTime()).toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"}) %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="addOffer" tabindex="-1" aria-labelledby="addOfferLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-simple modal-add-new-cc">
+                            <div class="modal-content">
+                                <div class="modal-body p-0">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="text-center mb-6">
+                                        <p>Add new offer details</p>
+                                    </div>
+
+
+
+                                    <form id="addNewOfferForm" class="row g-5">
+                                        <div class="col-12">
+                                            <div class="input-group input-group-merge">
+                                                <div class="form-floating form-floating-outline">
+                                                    <input id="offerTitle" name="offerTitle" class="form-control" type="text" placeholder="Offer Name">
+                                                    <label for="offerTitle">Offer Title</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating form-floating-outline">
+                                                <input type="text" id="offerDetails" name="offerDetails" class="form-control" placeholder="Offer Details">
+                                                <label for="offerDetails">Description</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating form-floating-outline">
+                                                <input type="number" id="offerDiscount" name="offerDiscount" class="form-control" placeholder="Offer Discount">
+                                                <label for="offerDiscount">Discount</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12" data-select2-id="productSelectContainer">
+                                            <div class="form-floating form-floating-outline form-floating-select2">
+                                                <div class="position-relative">
+                                                    <select id="productSelect" name="products[]" class="select2 form-select" multiple>
+                                                        <option value="">Select</option>
+                                                        <% category.forEach(item=>{ %>
+                                                        <option value="<%= item._id%>"><%= item.category_name%></option>
+                                                        <%})%>
+                                                        
+                                                    </select>
+                                                </div>
+                                                <label for="productSelect">Category</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-12" data-select2-id="productSelectContainer">
+                                            <div class="form-floating form-floating-outline ">
+                                                <div class="position-relative">
+                                                    <select id="offerStatus" name="offerStatus" class="form-select select2" aria-label="Offer Status">
+                                                        <option value="">Select</option>
+                                                        <option value="active">Active</option>
+                                                        <option value="inactive">Inactive</option>
+                                                    </select>
+                                                </div>
+                                                <label for="offerStatus">Status</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Submit</button>
+                                            <button type="reset" class="btn btn-outline-secondary btn-reset waves-effect" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                <div class="drag-target"></div>
+
+            </div>
+            <!-- / Layout wrapper -->
+
+
+
+            <!-- Core JS -->
+            <!-- build:js assets/vendor/js/core.js -->
+            <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
+            <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
+            <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
+            <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
+            <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+            <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
+            <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
+            <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
+            <script src="/dashboard-assets/vendor/js/menu.js"></script>
+
+            <!-- endbuild -->
+            <script src="/dashboard-assets/vendor/libs/select2/select2.js"></script>
+
+            <script src="/dashboard-assets/js/modal-add-new-address.js"></script>
+            <!-- Vendors JS -->
+            <script src="/dashboard-assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+            <!-- Main JS -->
+            <script src="/dashboard-assets/js/main.js"></script>
+
+
+            <!-- Page JS -->
+            <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            $('#productSelect').select2({
+                placeholder: "Select products",
+                allowClear: true
+            });
+
+           
+            $('#offerStatus').select2({
+                placeholder: "Select status",
+                minimumResultsForSearch: Infinity
+            });
+
+           
+            document.getElementById('addNewOfferForm').addEventListener('submit',async function(e) {
+                e.preventDefault();
+
+
+
+
+
+
+
+
+
+
+                const formData = {
+                    title: document.getElementById('offerTitle').value,
+                    description: document.getElementById('offerDetails').value,
+                    discount: document.getElementById('offerDiscount').value,
+                    products: Array.from(document.getElementById('productSelect').selectedOptions).map(option => option.value),
+                    status: document.getElementById('offerStatus').value,
+                    type: 'CATEGORY' 
+                };
+                console.log(formData.products);
+                
+                try {
+                    const response= await fetch('/admin/offers/addOffers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                const data = await response.json();
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/admin/offers/category";
+                        }
+                    });
+                    $('#addOffer').modal('hide');
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+                } catch (error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: error.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+
+
+            });
+        });
+        </script>
+
+
+
+           
+
+
+
+           
+            <script>
+                $(document).ready(function () {
+                    $('#addOffer').modal({
+                        show: false
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $('#product').select2({
+                        placeholder: "Select products",
+                        allowClear: true,
+                        tags: true
+                    });
+                });
+
+                // If you're using a form submit event, you can get the selected products like this:
+                $('#addNewOfferForm').on('submit', function (e) {
+                    e.preventDefault();
+                    var selectedProducts = $('#product').val();
+                    console.log(selectedProducts); // This will log an array of selected product values
+
+                    // Here you can add your code to send the form data to the server
+                });
+            </script>
+
+            
+           
+
+
+
+
+</body>
+
+</html>
