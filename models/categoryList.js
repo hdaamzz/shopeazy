@@ -1,4 +1,4 @@
-const mongoose =require('mongoose')
+const mongoose =require('mongoose');
 const categorySchema = new mongoose.Schema({
     category_name:{
         type:String,
@@ -12,5 +12,5 @@ const categorySchema = new mongoose.Schema({
         type:String,
         require:true
     }
-})
+});
 module.exports = mongoose.model('Category', categorySchema);

@@ -25,35 +25,13 @@ const searchResults = async (req, res) => {
         if (query) {
             searchCriteria.$or = [
                 { product_name: { $regex: query, $options: 'i' } },
-                { description: { $regex: query, $options: 'i' } }
+                { description: { $regex: query, $options: 'i' } },
+                { "category.category_name": { $regex: query, $options: 'i' } }
+
             ];
         }
 
 
-
-        let sortOptions = {};
-        switch (sort) {
-            case 'name_asc':
-                sortOptions = { product_name: 1 };
-                break;
-            case 'name_desc':
-                sortOptions = { product_name: -1 };
-                break;
-            case 'price_asc':
-                sortOptions = { price: 1 };
-                break;
-            case 'price_desc':
-                sortOptions = { price: -1 };
-                break;
-            case 'date_desc':
-                sortOptions = { added_date: -1 };
-                break;
-            case 'date_asc':
-                sortOptions = { added_date: 1 };
-                break;
-            default:
-                sortOptions = { product_name: 1 };
-        }
         let userData;
         if (req.user) {
             userData = req.user;
@@ -63,13 +41,13 @@ const searchResults = async (req, res) => {
         }
 
         if (userData) {
-            const products = await Product.find(searchCriteria).sort(sortOptions);
+            const products = await Product.find(searchCriteria).populate('category');
 
             res.render('search-results', { userData, products, query, sort });
 
         } else {
 
-            const products = await Product.find(searchCriteria).sort(sortOptions);
+            const products = await Product.find(searchCriteria);
 
             res.render('search-results', { products, query, sort });
         }

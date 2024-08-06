@@ -69,6 +69,10 @@ user_route.get('/nonUserCart',auth.isLogout,cartController.loaduserCart);
 user_route.post('/addCartItem',cartController.addCartItem)
 user_route.post('/update-cart-quantity',cartController.updateCartQuantity)
 user_route.post('/remove-from-cart', cartController.removeCartItem);
+user_route.get('/wishlist',cartController.loadWishlist)
+user_route.post('/addWishlistItem',cartController.addWishlistItem)
+user_route.post('/remove-from-wishlist', cartController.removeWishlistItem);
+
 
 
 //search&filters

@@ -1,5 +1,6 @@
 const User = require('../../models/userCredentials');
 const Cart = require('../../models/cart');
+const Wishlist = require('../../models/userwhishlist')
 require('dotenv').config();
 
 
@@ -97,9 +98,68 @@ const removeCartItem = async (req, res) => {
     }
 };
 
+const loadWishlist =async(req,res)=>{
+try {
+    let userData;
+    if (req.user) {
+        userData = req.user;
+    } else if (req.session.user_id) {
+
+        userData = await User.findById(req.session.user_id);
+    }
+
+    if (userData) {
+        const userid = userData._id
+
+        const wishlistItems = await Wishlist.find({ user_id: userid }).populate('product_id');
+  
+        res.render('wishlist', { userData, wishlist:wishlistItems})
 
 
+    } else {
 
+        res.redirect('/')
+    }
+} catch (error) {
+    
+}
+}
+
+const addWishlistItem = async (req, res) => {
+    try {
+        const { productId, userId } = req.body;
+
+        let cartItem = await Wishlist.findOne({ user_id: userId, product_id: productId });
+
+
+        if (cartItem) {
+            res.json({ success: true });
+        } else {
+            wishlistItem = new Wishlist({
+                user_id: userId,
+                product_id: productId
+            });
+            await wishlistItem.save();
+            res.json({ success: true });
+        }
+
+       
+    } catch (error) {
+        console.log('Error Add Cart Item', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+const removeWishlistItem = async (req, res) => {
+    try {
+        const { cartItemId } = req.body;
+        await Wishlist.findByIdAndDelete(cartItemId);
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
 
 
 
@@ -112,4 +172,7 @@ module.exports = {
     updateCartQuantity,
     removeCartItem,
     loaduserCart,
+    loadWishlist,
+    addWishlistItem,
+    removeWishlistItem
 };

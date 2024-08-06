@@ -181,14 +181,6 @@
                                         <label for="q" class="sr-only">Search</label>
                                         <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
                                         <input type="text" class="form-control" name="q" id="search-query" placeholder="Search product ..." required>
-                                        <select id="sort-option" name="sort" class="form-control">
-                                            <option value="name_asc">Name (A-Z)</option>
-                                            <option value="name_desc">Name (Z-A)</option>
-                                            <option value="price_asc">Price (Low to High)</option>
-                                            <option value="price_desc">Price (High to Low)</option>
-                                            <option value="date_desc">Newest First</option>
-                                            <option value="date_asc">Oldest First</option>
-                                        </select>
                                     </div>
                                 </form>
                             </div><!-- End .header-search -->
@@ -209,7 +201,7 @@
 
 
                             <div class="wishlist">
-                                <a href="wishlist.html" title="Wishlist">
+                                <a href="/wishlist" title="Wishlist">
                                     <div class="icon">
                                         <i class="icon-heart-o"></i>
                                         <!-- <span class="wishlist-count badge">3</span> -->
@@ -478,7 +470,9 @@
                                         </a>
     
                                         <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+                                            <% if(typeof userData !=='undefined' ){ %>
+                                                <button class="btn-product-icon btn-wishlist" title="Add to wishlist" data-product-id="<%= product?.[i]?._id %>"  data-user-id="<%= userData._id %>"></button>
+                                            <%}%>
                                         </div><!-- End .product-action -->
                                         
                                         <div class="product-action">
@@ -488,8 +482,6 @@
                                                     <%} else {%>
                                                         <button class="btn-add-to-cart btn-product btn-cart btn-primary" data-product-id="<%= product?.[i]?._id %>"  data-user-id="<%= userData._id %>" >Add to Cart</button>
                                                         <%}%>
-
-                                                <!-- <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a> -->
                                                
                                                     <%} else {%>
                                                         <span class="btn-product text-danger">Out of stock</span>
@@ -798,7 +790,47 @@
                 </div><!-- End .social-icons -->
             </div><!-- End .mobile-menu-wrapper -->
         </div><!-- End .mobile-menu-container -->
+        <script>
+            document.querySelectorAll('.btn-product-icon').forEach(button => {
+            button.addEventListener('click',async function() {
+                const productId = this.getAttribute('data-product-id');
+                const userId = this.getAttribute('data-user-id');
+                try {
+                   await fetch('/addWishlistItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId,userId}),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: "Product Added To Wishlist",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+                } catch (error) {
+                    console.log(error.message);
+                }
+                
+            });
+            });
 
+
+
+        </script>
         <!-- Sign in / Register Modal -->
         <script>
 

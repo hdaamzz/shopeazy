@@ -6,7 +6,7 @@ const loadWallet = async(req,res)=>{
 
         const walletData= await Wallet.find({user_id:req.session.user_id})
         const userData = await User.find({_id:req.session.user_id})
-        console.log(walletData);
+       
         
         res.render('wallet',{wallet:walletData,user:userData})
     } catch (error) {
