@@ -2,6 +2,7 @@ const User = require('../../models/userCredentials');
 const Category = require('../../models/categoryList');
 const Product = require('../../models/products');
 const Cart = require('../../models/cart');
+const Offer = require('../../models/offers');
 require('dotenv').config();
 
 
@@ -9,8 +10,9 @@ require('dotenv').config();
 const loadMain = async (req, res) => {
     try {
         const category = await Category.find({ status: true });
-        const product = await Product.find({ is_listed: true }).populate('category')
-        res.render('userHome', { product, category });
+        const product = await Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category');
+        const offers = await Offer.find({status:'active',type:'PRODUCT'}).populate('products')
+        res.render('userHome', { product, category ,offers});
     } catch (error) {
         console.log(error.message);
     }
@@ -29,8 +31,11 @@ const loadUserMain = async (req, res) => {
         if (userData) {
             const cartItems = await Cart.find({ user_id: userData._id })
             const category = await Category.find({ status: true });
-            const product = await Product.find({ is_listed: true }).populate('category')
-            res.render('userHome', { userData, product, cartItems, category });
+            const product = await Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category');
+            const offers = await Offer.find({type:'PRODUCT'}).populate('products')
+            console.log(offers);
+            
+            res.render('userHome', { userData, product, cartItems, category ,offers});
         } else {
             res.redirect('/');
         }

@@ -1,17 +1,10 @@
 const User = require('../../models/userCredentials');
 const Category = require('../../models/categoryList');
 const Product = require('../../models/products');
-const Address = require('../../models/userAddress');
 const Cart = require('../../models/cart');
-const PaymentType = require('../../models/paymentType');
-const Orders = require('../../models/userOrders');
-const bcrypt = require('bcrypt');
+const Offer = require('../../models/offers');
 require('dotenv').config();
-const nodemailer = require('nodemailer');
-const passport = require('passport');
-const crypto = require('crypto');
-const path = require('path');
-const Razorpay = require('razorpay');
+
 
 
 const loadShop = async (req, res) => {
@@ -36,9 +29,11 @@ const loadShop = async (req, res) => {
                 sortOptions = { product_name: 1 }; 
         }
 
-        const [allProducts, category] = await Promise.all([
+        const [allProducts, category,offers] = await Promise.all([
             Product.find({ is_listed: true }).sort(sortOptions),
-            Category.find({ status: true })
+            Category.find({ status: true }),
+            Offer.find({status:'active',type:'PRODUCT'}).populate('products')
+
         ]);
 
         let userData;
@@ -48,7 +43,7 @@ const loadShop = async (req, res) => {
             userData = await User.findById(req.session.user_id);
         }
 
-        res.render('shop', { product: allProducts, category, userData, sort: sort || '' });
+        res.render('shop', { product: allProducts, category, userData ,offers, sort: sort || '' });
 
     } catch (error) {
         console.error('Error loading shop:', error);
@@ -71,14 +66,17 @@ const loadProductCategory = async (req, res) => {
             const cartItems = await Cart.find({ user_id: userData._id })
             const categoryData = await Category.findById(category);
             const productData = await Product.find({ is_listed: true, category: category });
+            const offers = await Offer.find({status:'active',type:'PRODUCT'}).populate('products')
 
 
-            res.render('productCategory', { categoryData, productData, userData, cartItems })
+
+            res.render('productCategory', { categoryData, productData, userData, cartItems,offers })
         } else {
             const category = req.query.id
+            const offers = await Offer.find({status:'active',type:'PRODUCT'}).populate('products')
             const categoryData = await Category.findById(category);
             const productData = await Product.find({ is_listed: true, category: category });
-            res.render('productCategory', { categoryData, productData })
+            res.render('productCategory', { categoryData, productData ,offers})
         }
 
 
@@ -100,18 +98,22 @@ const loadShowProduct = async (req, res) => {
         }
 
         if (userData) {
+            const offers = await Offer.find({status:'active',type:'PRODUCT'}).populate('products')
+
             const productId = req.query.id
             const cartItems = await Cart.find({ user_id: userData._id })
             const productData = await Product.findById(productId).populate('category');
             const allProductData = await Product.find({ category: productData.category._id })
-            res.render('product', { productData, allProductData, userData, cartItems })
+            res.render('product', { productData, allProductData, userData, cartItems ,offers})
 
 
         } else {
+            const offers = await Offer.find({status:'active',type:'PRODUCT'}).populate('products')
+
             const productId = req.query.id
             const productData = await Product.findById(productId).populate('category');
             const allProductData = await Product.find({ category: productData.category._id })
-            res.render('product', { productData, allProductData })
+            res.render('product', { productData, allProductData,offers })
         }
     } catch (error) {
         console.log('Error Load Product Category', error.message);
