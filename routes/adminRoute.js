@@ -71,6 +71,9 @@ admin_route.post('/cancelOrder',orderController.cancelOrder)
 admin_route.get('/offers',auth.isLogin,offerController.loadOffer);
 admin_route.post('/offers/addOffers',offerController.addOffer)
 admin_route.get('/offers/category',auth.isLogin,offerController.loadCateOffer)
+admin_route.post('/updateOffer',offerController.updateOffer);
+admin_route.post('/deleteOffer',offerController.deleteOffer);
+
 
 
 //logout 

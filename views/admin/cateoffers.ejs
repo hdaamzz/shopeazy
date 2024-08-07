@@ -62,13 +62,22 @@
 
 
     <style>
+          input.error {
+            border-color: red;
+        }
+
+        label.error {
+            color: red;
+        }
         .select2-container--default .select2-selection--multiple {
             border: none;
             padding: 0.4375rem 0.875rem;
         }
+
         .form-floating-select2 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
             padding: 0;
         }
+
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
             background-color: #e9ecef;
             border: 1px solid #ced4da;
@@ -77,6 +86,7 @@
             margin-right: 5px;
             margin-top: 2px;
         }
+
         .offer-card {
             transition: all 0.3s ease;
             border: none;
@@ -151,8 +161,8 @@
                 row-gap: 1rem;
             }
         }
-        </style>
-        
+    </style>
+
 </head>
 
 <body>
@@ -276,7 +286,7 @@
                                     <div data-i18n="Offers">Offers</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
+
                                     <li class="menu-item ">
                                         <a href="/admin/offers" class="menu-link">
                                             <div data-i18n="Product Offers">Product Offers</div>
@@ -406,32 +416,56 @@
 
 
                                 <div class="row row-cols-1 row-cols-md-3 g-4 mb-6">
-                                    <% offer.forEach(off => { %>
-                                    <div class="col">
-                                        <div class="offer-card card h-100">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><%= off.title %></h5>
-                                                <div class="card-text">
-                                                    <p class="description"><strong>Description:</strong> <%= off.description %></p>
-                                                    <p class="discount"><strong>Discount:</strong> <%= off.discount %>%</p>
-                                                    <p class="offer-type"><strong>Offer Type:</strong> <%= off.type %></p>
-                                                    <p class="status"><strong>Status:</strong> <span class="status-badge <%= off.status %>"><%= off.status %></span></p>
-                                                    <p class="publish-date"><strong>Publish Date:</strong> <%= new Date(off.createdAt.getTime()).toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"}) %></p>
+                                    <% offer.forEach(off=> { %>
+                                        <div class="col">
+                                            <div class="offer-card card h-100">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        <%= off.title %>
+                                                    </h5>
+                                                    <div class="card-text">
+                                                        <p class="description"><strong>Description:</strong>
+                                                            <%= off.description %>
+                                                        </p>
+                                                        <p class="discount"><strong>Discount:</strong>
+                                                            <%= off.discount %>%
+                                                        </p>
+                                                        <p class="status"><strong>Status:</strong> <span
+                                                                class="status-badge <%= off.status %>">
+                                                                <%= off.status %>
+                                                            </span></p>
+                                                        <p class="publish-date"><strong>Publish Date:</strong>
+                                                            <%= new
+                                                                Date(off.createdAt.getTime()).toLocaleDateString("en-US",
+                                                                {year: "numeric" , month: "long" , day: "numeric" }) %>
+                                                        </p>
+                                                    </div>
+                                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#editOffer<%= off._id%>">
+                                                        Edit
+                                                        <i class="icon-edit"></i>
+                                                    </a>
+                                                    <button class="btn btn-danger delete-address"
+                                                        data-offer-id="<%= off._id%>">
+                                                        Delete
+                                                        <i class="icon-trash"></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <% }) %>
+                                        <% }) %>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="modal fade" id="addOffer" tabindex="-1" aria-labelledby="addOfferLabel" aria-hidden="true">
+                    <div class="modal fade" id="addOffer" tabindex="-1" aria-labelledby="addOfferLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-simple modal-add-new-cc">
                             <div class="modal-content">
                                 <div class="modal-body p-0">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                     <div class="text-center mb-6">
                                         <p>Add new offer details</p>
                                     </div>
@@ -442,53 +476,63 @@
                                         <div class="col-12">
                                             <div class="input-group input-group-merge">
                                                 <div class="form-floating form-floating-outline">
-                                                    <input id="offerTitle" name="offerTitle" class="form-control" type="text" placeholder="Offer Name">
-                                                    <label for="offerTitle">Offer Title</label>
+                                                    <input id="offerTitle" name="offerTitle" class="form-control"
+                                                        type="text" placeholder="Offer Name">
+                                                    <label class="errMsg" for="offerTitle">Offer Title</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating form-floating-outline">
-                                                <input type="text" id="offerDetails" name="offerDetails" class="form-control" placeholder="Offer Details">
-                                                <label for="offerDetails">Description</label>
+                                                <input type="text" id="offerDetails" name="offerDetails"
+                                                    class="form-control" placeholder="Offer Details">
+                                                <label class="errMsg" for="offerDetails">Description</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating form-floating-outline">
-                                                <input type="number" id="offerDiscount" name="offerDiscount" class="form-control" placeholder="Offer Discount">
-                                                <label for="offerDiscount">Discount</label>
+                                                <input type="number" id="offerDiscount" name="offerDiscount"
+                                                    class="form-control" placeholder="Offer Discount">
+                                                <label class="errMsg" for="offerDiscount">Discount</label>
                                             </div>
                                         </div>
                                         <div class="col-12" data-select2-id="productSelectContainer">
                                             <div class="form-floating form-floating-outline form-floating-select2">
                                                 <div class="position-relative">
-                                                    <select id="productSelect" name="products[]" class="select2 form-select" multiple>
+                                                    <select id="productSelect" name="products[]"
+                                                        class="select2 form-select" multiple>
                                                         <option value="">Select</option>
                                                         <% category.forEach(item=>{ %>
-                                                        <option value="<%= item._id%>"><%= item.category_name%></option>
-                                                        <%})%>
-                                                        
+                                                            <option value="<%= item._id%>">
+                                                                <%= item.category_name%>
+                                                            </option>
+                                                            <%})%>
+
                                                     </select>
                                                 </div>
-                                                <label for="productSelect">Category</label>
+                                                <label class="errMsg" for="productSelect">Category</label>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-12" data-select2-id="productSelectContainer">
                                             <div class="form-floating form-floating-outline ">
                                                 <div class="position-relative">
-                                                    <select id="offerStatus" name="offerStatus" class="form-select select2" aria-label="Offer Status">
+                                                    <select id="offerStatus" name="offerStatus"
+                                                        class="form-select select2" aria-label="Offer Status">
                                                         <option value="">Select</option>
                                                         <option value="active">Active</option>
                                                         <option value="inactive">Inactive</option>
                                                     </select>
                                                 </div>
-                                                <label for="offerStatus">Status</label>
+                                                <label class="errMsg" for="offerStatus">Status</label>
                                             </div>
                                         </div>
                                         <div class="col-12 text-center">
-                                            <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Submit</button>
-                                            <button type="reset" class="btn btn-outline-secondary btn-reset waves-effect" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                            <button type="submit"
+                                                class="btn btn-primary me-3 waves-effect waves-light">Submit</button>
+                                            <button type="reset"
+                                                class="btn btn-outline-secondary btn-reset waves-effect"
+                                                data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                                         </div>
                                     </form>
                                 </div>
@@ -498,157 +542,506 @@
 
 
 
+                    <% offer.forEach(off=> { %>
+                        <div class="modal fade editmodel" id="editOffer<%= off._id%>" tabindex="-1"
+                            aria-labelledby="addOfferLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-simple modal-add-new-cc">
+                                <div class="modal-content">
+                                    <div class="modal-body p-0">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                        <div class="text-center mb-6">
+                                            <p>Edit offer details</p>
+                                        </div>
+
+
+
+                                        <form id="addNewOfferForm<%= off._id%>" class="row g-5 edit-offer-form"
+                                            data-offer-id="<%= off._id %>">
+                                            <div class="col-12">
+                                                <div class="input-group input-group-merge">
+                                                    <div class="form-floating form-floating-outline formGroup1">
+                                                        <input id="offerTitle<%= off._id%>" name="offerTitle"
+                                                            class="form-control" type="text" placeholder="Offer Name"
+                                                            value="<%= off.title %>">
+                                                        <label class="errMsg" for="offerTitle<%= off._id%>">Offer
+                                                            Title</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating form-floating-outline">
+                                                    <input type="text" id="offerDetails<%= off._id%>"
+                                                        name="offerDetails" class="form-control"
+                                                        placeholder="Offer Details" value=" <%= off.description %>">
+                                                    <label class="errMsg"
+                                                        for="offerDetails<%= off._id%>">Description</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating form-floating-outline">
+                                                    <input type="number" id="offerDiscount<%= off._id%>"
+                                                        name="offerDiscount" class="form-control"
+                                                        placeholder="Offer Discount" value="<%= off.discount %>">
+                                                    <label class="errMsg"
+                                                        for="offerDiscount<%= off._id%>">Discount</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12" data-select2-id="productSelectContainer">
+                                                <div
+                                                    class="form-floating form-floating-outline form-floating-select2 formgroup1">
+                                                    <div class="position-relative ">
+                                                        <select id="productSelect<%= off._id %>" name="products[]"
+                                                            class="select2 form-select" multiple>
+                                                            <option class="errMsg" value="">Select</option>
+                                                            <% category.forEach(item=> { %>
+                                                                <option value="<%= item._id %>"
+                                                                    <%=off.category.includes(item._id) ? 'selected' : ''
+                                                                    %>><%= item.category_name %>
+                                                                </option>
+                                                                <% }) %>
+                                                        </select>
+                                                        <div class="errMsg"></div>
+                                                        <!-- Add this line for error messages -->
+                                                    </div>
+                                                    <label class="errMsg"
+                                                        for="productSelect<%= off._id %>">Category</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12" data-select2-id="productSelectContainer">
+                                                <div class="form-floating form-floating-outline ">
+                                                    <div class="position-relative">
+                                                        <select id="offerStatus<%= off._id %>" name="offerStatus"
+                                                            class="form-select select2" aria-label="Offer Status">
+                                                            <option value="">Select</option>
+                                                            <option value="active" <%=off.status==='active' ? 'selected'
+                                                                : '' %>>Active</option>
+                                                            <option value="inactive" <%=off.status==='inactive'
+                                                                ? 'selected' : '' %>>Inactive</option>
+                                                        </select>
+                                                    </div>
+                                                    <label class="errMsg" for="offerStatus<%= off._id %>">Status</label>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" value="<%= off._id %>"
+                                                id="edit-hiddenid<%= off._id %>">
+                                            <div class="col-12 text-center">
+                                                <button type="submit"
+                                                    class="btn btn-primary me-3 waves-effect waves-light">Submit</button>
+                                                <button type="reset"
+                                                    class="btn btn-outline-secondary btn-reset waves-effect"
+                                                    data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
 
 
 
 
-                <div class="drag-target"></div>
-
-            </div>
-            <!-- / Layout wrapper -->
 
 
 
-            <!-- Core JS -->
-            <!-- build:js assets/vendor/js/core.js -->
-            <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
-            <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
-            <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
-            <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
-            <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-            <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
-            <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
-            <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
-            <script src="/dashboard-assets/vendor/js/menu.js"></script>
+                            <div class="drag-target"></div>
 
-            <!-- endbuild -->
-            <script src="/dashboard-assets/vendor/libs/select2/select2.js"></script>
-
-            <script src="/dashboard-assets/js/modal-add-new-address.js"></script>
-            <!-- Vendors JS -->
-            <script src="/dashboard-assets/vendor/libs/apex-charts/apexcharts.js"></script>
-
-            <!-- Main JS -->
-            <script src="/dashboard-assets/js/main.js"></script>
-
-
-            <!-- Page JS -->
-            <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-            $('#productSelect').select2({
-                placeholder: "Select products",
-                allowClear: true
-            });
-
-           
-            $('#offerStatus').select2({
-                placeholder: "Select status",
-                minimumResultsForSearch: Infinity
-            });
-
-           
-            document.getElementById('addNewOfferForm').addEventListener('submit',async function(e) {
-                e.preventDefault();
+                </div>
+                <!-- / Layout wrapper -->
 
 
 
+                <!-- Core JS -->
+                <!-- build:js assets/vendor/js/core.js -->
+                <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
+                <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
+                <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
+                <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
+                <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+                <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
+                <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
+                <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
+                <script src="/dashboard-assets/vendor/js/menu.js"></script>
+
+                <!-- endbuild -->
+                <script src="/dashboard-assets/vendor/libs/select2/select2.js"></script>
+
+                <script src="/dashboard-assets/js/modal-add-new-address.js"></script>
+                <!-- Vendors JS -->
+                <script src="/dashboard-assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+                <!-- Main JS -->
+                <script src="/dashboard-assets/js/main.js"></script>
 
 
+                <!-- Page JS -->
+                <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        $('#productSelect').select2({
+                            placeholder: "Select products",
+                            allowClear: true
+                        });
 
 
+                        $('#offerStatus').select2({
+                            placeholder: "Select status",
+                            minimumResultsForSearch: Infinity
+                        });
 
+                        document.getElementById('addNewOfferForm').addEventListener('submit', async function (e) {
+                            e.preventDefault();
 
+                            const title = document.getElementById('offerTitle').value.trim();
+                            const description = document.getElementById('offerDetails').value.trim();
+                            const discount = document.getElementById('offerDiscount').value.trim();
+                            const products = document.getElementById('productSelect').value.trim();
 
-                const formData = {
-                    title: document.getElementById('offerTitle').value,
-                    description: document.getElementById('offerDetails').value,
-                    discount: document.getElementById('offerDiscount').value,
-                    products: Array.from(document.getElementById('productSelect').selectedOptions).map(option => option.value),
-                    status: document.getElementById('offerStatus').value,
-                    type: 'CATEGORY' 
-                };
-                console.log(formData.products);
-                
-                try {
-                    const response= await fetch('/admin/offers/addOffers', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                })
-                const data = await response.json();
-                if (data.success) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: data.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "/admin/offers/category";
+                            addForm(title, description, discount, products);
+                        });
+                        const deleteButtons = document.querySelectorAll('.delete-address');
+                        deleteButtons.forEach(button => {
+                            button.addEventListener('click', function (event) {
+                                event.preventDefault();
+                                const offerId = this.getAttribute('data-offer-id');
+                                deleteOffer(offerId);
+                            });
+                        });
+                        const setError = (element, message) => {
+                            const formGroup1 = element.parentElement;
+                            const errorDisplay = formGroup1.querySelector('.errMsg');
+                            if (errorDisplay) {
+                                errorDisplay.innerText = message;
+                                element.classList.add('error');
+                                errorDisplay.classList.add('error');
+                                element.classList.remove('success');
+                                errorDisplay.classList.remove('success');
+                            }
                         }
-                    });
-                    $('#addOffer').modal('hide');
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: data.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-                } catch (error) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: error.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
+
+                        const setSuccess = (element, message) => {
+                            const formGroup1 = element.parentElement;
+                            const errorDisplay = formGroup1.querySelector('.errMsg');
+                            if (errorDisplay) {
+                                errorDisplay.innerText = message;
+                                element.classList.add('success');
+                                errorDisplay.classList.add('success');
+                                element.classList.remove('error');
+                                errorDisplay.classList.remove('error');
+                            }
+                        }
+                        const addForm = async (title, description, discount, products) => {
+
+                            let isValid = true;
+
+                            if (title === '') {
+                                isValid = false;
+                                setError(document.getElementById('offerTitle'), 'Enter Title');
+                            } else if (title.length < 3) {
+                                isValid = false;
+                                setError(document.getElementById('offerTitle'), 'Title should be more than 2 letters');
+                            } else {
+                                setSuccess(document.getElementById('offerTitle'), 'Name');
+                            }
+                            if (description === '') {
+                                isValid = false;
+                                setError(document.getElementById('offerDetails'), 'Enter Description');
+                            } else if (description.length < 3) {
+                                isValid = false;
+                                setError(document.getElementById('offerDetails'), 'Description should be more than 2 letters');
+                            } else {
+                                setSuccess(document.getElementById('offerDetails'), 'Description');
+                            }
+                            if (discount === '') {
+                                isValid = false;
+                                setError(document.getElementById('offerDiscount'), 'Enter Discount Amount');
+                            } else if (discount < 0) {
+                                isValid = false;
+                                setError(document.getElementById('offerDiscount'), 'Discount shuold be more than 0 ');
+                            } else if (discount > 90) {
+                                isValid = false;
+                                setError(document.getElementById('offerDiscount'), 'Discount shuold be less than 90 ');
+                            } else {
+                                setSuccess(document.getElementById('offerDiscount'), 'Discount');
+                            }
+                            if (products.length === 0) {
+                                isValid = false;
+                                setError(document.getElementById('productSelect'), 'Please select at least one product');
+                            } else {
+                                setSuccess(document.getElementById('productSelect'), 'Products');
+                            }
+                            if (!isValid) {
+                                return;
+                            }
+
+                            const formData = {
+                                title: document.getElementById('offerTitle').value,
+                                description: document.getElementById('offerDetails').value,
+                                discount: document.getElementById('offerDiscount').value,
+                                products: Array.from(document.getElementById('productSelect').selectedOptions).map(option => option.value),
+                                status: document.getElementById('offerStatus').value,
+                                type: 'CATEGORY'
+                            };
 
 
-            });
+                            try {
+                                const response = await fetch('/admin/offers/addOffers', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(formData)
+                                })
+                                const data = await response.json();
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.href = "/admin/offers/category";
+                                        }
+                                    });
+                                    $('#addOffer').modal('hide');
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+                            } catch (error) {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: error.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+
+
+                        };
+                        const editOfferForms = document.querySelectorAll('.edit-offer-form');
+
+                        editOfferForms.forEach(form => {
+                            form.addEventListener('submit', function (event) {
+                                event.preventDefault();
+                                const offerId = this.getAttribute('data-offer-id');
+
+                                const offerTitle = document.getElementById(`offerTitle${offerId}`);
+                                const offerDetails = document.getElementById(`offerDetails${offerId}`);
+                                const offerDiscount = document.getElementById(`offerDiscount${offerId}`);
+                                const productSelect = document.getElementById(`productSelect${offerId}`);
+                                const offerStatus = document.getElementById(`offerStatus${offerId}`);
+                                const edit_hidden = document.getElementById(`edit-hiddenid${offerId}`);
+
+
+
+                                editOfferForm(
+                                    offerTitle, offerDetails, offerDiscount,
+                                    productSelect, offerStatus, edit_hidden
+                                );
+                            });
+                        });
+
+
+                        const editOfferForm = async (
+                            offerTitle, offerDetails, offerDiscount,
+                            productSelect, offerStatus, edit_hidden
+                        ) => {
+
+                            const edit_titleValue = offerTitle.value.trim();
+                            const edit_detailsValue = offerDetails.value.trim();
+                            const edit_discountValue = offerDiscount.value.trim();
+                            const edit_selectValue = productSelect.value.trim();
+                            const edit_statusValue = offerStatus.value;
+                            const edit_hiddenValue = edit_hidden.value.trim();
+
+
+
+                            let isValid = true;
+
+                            if (edit_titleValue === '') {
+                                isValid = false;
+                                setError(offerTitle, 'Enter Title');
+                            } else if (edit_titleValue.length < 3) {
+                                isValid = false;
+                                setError(offerTitle, 'Title should be more than 2 letters');
+                            } else {
+                                setSuccess(offerTitle, 'Name');
+                            }
+                            if (edit_detailsValue === '') {
+                                isValid = false;
+                                setError(offerDetails, 'Enter Description');
+                            } else if (edit_detailsValue.length < 3) {
+                                isValid = false;
+                                setError(offerDetails, 'Description should be more than 2 letters');
+                            } else {
+                                setSuccess(offerDetails, 'Description');
+                            }
+                            if (edit_discountValue === '') {
+                                isValid = false;
+                                setError(offerDiscount, 'Enter Discount Amount');
+                            } else if (edit_discountValue < 0) {
+                                isValid = false;
+                                setError(offerDiscount, 'Discount shuold be more than 0 ');
+                            } else if (edit_discountValue > 90) {
+                                isValid = false;
+                                setError(offerDiscount, 'Discount shuold be less than 90 ');
+                            } else {
+                                setSuccess(offerDiscount, 'Discount');
+                            }
+                            if (edit_selectValue.length === 0) {
+                                isValid = false;
+                                setError(productSelect, 'Please select at least one product');
+                            } else {
+                                setSuccess(productSelect, 'Products');
+                            }
+                            if (!edit_statusValue) {
+                                isValid = false;
+                                setError(offerStatus, 'Select Status');
+                            } else {
+                                setSuccess(offerStatus, 'Status');
+                            }
+                            if (!isValid) {
+                                return;
+                            } try {
+                                const response = await fetch('/admin/updateOffer', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        title: edit_titleValue,
+                                        description: edit_detailsValue,
+                                        discount: edit_discountValue,
+                                        products: Array.from(productSelect.selectedOptions).map(option => option.value),
+                                        status: edit_statusValue,
+                                        type: 'CATEGORY',
+                                        id: edit_hiddenValue
+                                    })
+                                });
+                                const data = await response.json();
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.href = '/admin/offers/category';
+                                        }
+                                    });
+                                    $('.editmodel').modal('hide');
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+                            } catch (error) {
+                                console.error('Error during address update:', error);
+                            }
+                        }
+
+
+                        async function deleteOffer(offerId) {
+
+                            const result = await Swal.fire({
+                                title: 'Are you sure?',
+                                text: "You won't be able to revert this!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, delete it!'
+                            });
+
+                            if (result.isConfirmed) {
+                                try {
+                                    const response = await fetch('/admin/deleteOffer', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ id: offerId })
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (data.success) {
+                                        Swal.fire(
+                                            'Deleted!',
+                                            'Your Offer has been deleted.',
+                                            'success'
+                                        ).then(() => {
+
+                                            location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire(
+                                            'Error!',
+                                            data.message,
+                                            'error'
+                                        );
+                                    }
+                                } catch (error) {
+                                    console.error('Error during Offer deletion:', error);
+                                    Swal.fire(
+                                        'Error!',
+                                        'An error occurred while deleting the Offer.',
+                                        'error'
+                                    );
+                                }
+                            }
+                        }
         });
-        </script>
+                </script>
 
 
 
-           
 
 
 
-           
-            <script>
-                $(document).ready(function () {
-                    $('#addOffer').modal({
-                        show: false
+
+
+                <script>
+                    $(document).ready(function () {
+                        $('#addOffer').modal({
+                            show: false
+                        });
                     });
-                });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('#product').select2({
-                        placeholder: "Select products",
-                        allowClear: true,
-                        tags: true
+                </script>
+                <script>
+                    $(document).ready(function () {
+                        $('#product').select2({
+                            placeholder: "Select products",
+                            allowClear: true,
+                            tags: true
+                        });
                     });
-                });
 
-                // If you're using a form submit event, you can get the selected products like this:
-                $('#addNewOfferForm').on('submit', function (e) {
-                    e.preventDefault();
-                    var selectedProducts = $('#product').val();
-                    console.log(selectedProducts); // This will log an array of selected product values
+                    // If you're using a form submit event, you can get the selected products like this:
+                    $('#addNewOfferForm').on('submit', function (e) {
+                        e.preventDefault();
+                        var selectedProducts = $('#product').val();
+                        console.log(selectedProducts); // This will log an array of selected product values
 
-                    // Here you can add your code to send the form data to the server
-                });
-            </script>
+                        // Here you can add your code to send the form data to the server
+                    });
+                </script>
 
-            
-           
+
+
 
 
 
