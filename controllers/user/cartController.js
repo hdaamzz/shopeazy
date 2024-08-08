@@ -1,40 +1,51 @@
 const User = require('../../models/userCredentials');
 const Cart = require('../../models/cart');
-const Wishlist = require('../../models/userwhishlist')
+const Wishlist = require('../../models/userwhishlist');
+const Offer =require('../../models/offers')
 require('dotenv').config();
 
 
 const loadCart = async (req, res) => {
     try {
-        let userData;
-        if (req.user) {
-            userData = req.user;
-        } else if (req.session.user_id) {
-
-            userData = await User.findById(req.session.user_id);
-        }
-
-        if (userData) {
-            const userid = userData._id
-
-            const cartItems = await Cart.find({ user_id: userid }).populate('product_id');
-            let subtotal = 0;
-            cartItems.forEach(item => {
-                subtotal += item.product_id.price * item.quantity;
+      let userData;
+      if (req.user) {
+        userData = req.user;
+      } else if (req.session.user_id) {
+        userData = await User.findById(req.session.user_id);
+      }
+  
+      if (userData) {
+        const userid = userData._id;
+        const offers = await Offer.find({ status: 'active', type: 'PRODUCT' }).populate('products');
+        const cartItems = await Cart.find({ user_id: userid }).populate('product_id');
+        let subtotal = 0;
+        cartItems.forEach((item) => {
+          let discountedPrice = item.product_id.price;
+          let hasDiscount = false;
+        
+          offers.forEach((offer) => {
+            offer.products.forEach((product) => {
+              if (String(product._id) === String(item.product_id._id)) {
+                if (offer.discount > 0) {
+                  discountedPrice = item.product_id.price * (1 - offer.discount / 100);
+                  hasDiscount = true;
+                }
+              }
             });
-            res.render('cart', { userData, cartItems, subtotal: subtotal.toFixed(2) })
-
-
-        } else {
-
-            res.redirect('/')
-        }
+          });
+        
+          subtotal += discountedPrice * item.quantity;
+        });
+  
+        res.render('cart', { userData, cartItems, offers, subtotal: subtotal.toFixed(2) });
+      } else {
+        res.redirect('/');
+      }
     } catch (error) {
-        console.log('Error Load Cart Page', error.message);
-        res.status(500).send('Internal Server Error');
+      console.log('Error Load Cart Page', error.message);
+      res.status(500).send('Internal Server Error');
     }
-}
-
+  };
 const loaduserCart = async (req, res) => {
     try {
         res.render('emptycart');

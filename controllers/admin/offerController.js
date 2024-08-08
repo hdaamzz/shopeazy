@@ -16,6 +16,8 @@ const addOffer= async(req,res)=>{
     try {
         const { title, description, discount, products, status, type } = req.body;
         if(type =='PRODUCT'){
+
+       
         const newOffer = new Offer({
             title,
             description,
@@ -26,7 +28,8 @@ const addOffer= async(req,res)=>{
         });
 
         await newOffer.save();
-
+        
+        
         res.status(201).json({ success: true, message: 'Offer added successfully' , redirectUrl:'/admin/offers'});
         }else{
             const newOffer = new Offer({

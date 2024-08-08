@@ -32,6 +32,8 @@ const productsSchema = new mongoose.Schema({
     added_date:{
         type:Date,
         default:Date.now()
-    }
+    },offers:[{
+        type:String
+    }]
 })
 module.exports = mongoose.model('Product', productsSchema);

@@ -110,6 +110,27 @@
                                     <div class="product-gallery product-gallery-vertical">
                                         <div class="row">
                                             <figure class="product-main-image">
+                                                <% 
+                                            let bestDiscount = 0;
+                                            let hasDiscount = false;
+                                            let discountedPrice = productData.price;
+                                  
+                                            offers.forEach((item) => {
+                                              item.products.forEach((Product) => {
+                                                if (String(productData._id) === String(Product._id)) {
+                                                  if (item.discount > bestDiscount) {
+                                                    bestDiscount = item.discount;
+                                                    hasDiscount = true;
+                                                    discountedPrice = productData.price * (1 - bestDiscount / 100);
+                                                  }
+                                                }
+                                              });
+                                            });
+                                  
+                                            if (hasDiscount) { 
+                                          %>
+                                            <span class="product-label label-circle label-sale"><%= bestDiscount %>% OFF</span>
+                                          <% } %>
                                                 <img id="product-zoom" src="/uploads/<%= productData.images[0]%>"
                                                     data-zoom-image="/uploads/<%= productData.images[0]%>"
                                                     alt="product image">
@@ -161,23 +182,12 @@
                                         </div><!-- End .rating-container -->
 
                                         <div class="product-price">
-                                            <% let discountedPrice = productData.price; %>
-                                                    <% let hasDiscount = false; %>
-                                                    <% offers.forEach(item => { %>
-                                                        <% item.products.forEach(Product => { %>
-                                                            <% if(String(productData._id) == String(Product._id)) { %>
-                                                                <% hasDiscount = true; %>
-                                                                <% discountedPrice = productData.price * (1 - item.discount / 100); %>
-                                                            <% } %>
-                                                        <% }); %>
-                                                    <% }); %>
-                                                    
-                                                    <% if (hasDiscount) { %>
-                                                        <span class="new-price">₹<%= discountedPrice.toFixed(2) %></span>
-                                                        <span class="old-price text-primary" style="color:#16a8e6;"><s>₹<%= productData.price.toFixed(2) %></s></span>
-                                                    <% } else { %>
-                                                        ₹<%= productData.price.toFixed(2) %>
-                                                    <% } %>
+                                            <% if (hasDiscount) { %>
+                                                <span class="new-price">₹<%= discountedPrice.toFixed(2) %></span>
+                                                <span class="old-price text-primary" style="color:#16a8e6;"><s>₹<%= productData.price.toFixed(2) %></s></span>
+                                            <% } else { %>
+                                                ₹<%= productData.price.toFixed(2) %>
+                                            <% } %>
                                         </div><!-- End .product-price -->
 
                                         <div class="product-content">

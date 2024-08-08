@@ -32,8 +32,8 @@ const loadUserMain = async (req, res) => {
             const cartItems = await Cart.find({ user_id: userData._id })
             const category = await Category.find({ status: true });
             const product = await Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category');
-            const offers = await Offer.find({type:'PRODUCT'}).populate('products')
-            console.log(offers);
+            const offers = await Offer.find({type:'PRODUCT', status:'active'}).populate('products')
+           
             
             res.render('userHome', { userData, product, cartItems, category ,offers});
         } else {
