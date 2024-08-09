@@ -75,7 +75,10 @@ admin_route.post('/updateOffer',offerController.updateOffer);
 admin_route.post('/deleteOffer',offerController.deleteOffer);
 
 //coupon
-admin_route.get('/coupons',auth.isLogin,couponController.loadCoupon)
+admin_route.get('/coupons',auth.isLogin,couponController.loadCoupon);
+admin_route.post('/coupons/addCoupon',couponController.addCoupon);
+admin_route.post('/updateCoupon',couponController.updateCoupon);
+admin_route.post('/deleteCoupon',couponController.deleteCoupon);
 
 //logout 
 admin_route.get('/logout', logoutController.logout)

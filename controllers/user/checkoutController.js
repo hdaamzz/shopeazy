@@ -5,6 +5,7 @@ const Cart = require('../../models/cart');
 const PaymentType = require('../../models/paymentType');
 const Orders = require('../../models/userOrders');
 const Offer = require('../../models/offers');
+const Coupon = require('../../models/coupons')
 require('dotenv').config();
 const Razorpay = require('razorpay');
 
@@ -26,6 +27,7 @@ const razorpay = new Razorpay({
 
         if (userData) {
             const userid = userData._id;
+            const coupons = await Coupon.find({})
             const cartData = await Cart.find({ user_id: userid }).populate('product_id');
             const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
             const addressData = await Address.find({ user_id: userid });
@@ -82,7 +84,8 @@ const razorpay = new Razorpay({
                 cartData: cartItemsWithDiscounts, 
                 subtotal: subtotal.toFixed(2), 
                 paymentTypes,
-                offers
+                offers,
+                coupons
             });
         } else {
             res.redirect('/');
@@ -244,11 +247,66 @@ const loadOrderSummary = async (req, res) => {
 };
 
 
+const applyCoupon = async (req, res) => {
+    try {
+        const { couponCode, subtotal } = req.body;
+
+        // Input validation
+        if (typeof subtotal !== 'number' || isNaN(subtotal) || subtotal < 0) {
+            return res.status(400).json({ success: false, message: 'Invalid subtotal' });
+        }
+
+        // Case-insensitive coupon code search
+        const coupon = await Coupon.findOne({ couponId: { $regex: new RegExp(`^${couponCode}$`, 'i') } });
+
+        if (!coupon) {
+            return res.json({ success: false, message: 'Invalid coupon code' });
+        }
+
+        if (!coupon.is_active) {
+            return res.json({ success: false, message: 'This coupon is no longer active' });
+        }
+
+        if (new Date() > new Date(coupon.expiryDate)) {
+            return res.json({ success: false, message: 'This coupon has expired' });
+        }
+
+        if (subtotal < coupon.min_purchase_amount) {
+            return res.json({ success: false, message: `Minimum purchase amount for this coupon is ₹${coupon.min_purchase_amount}` });
+        }
+        if (subtotal > coupon.max_amount) {
+            return res.json({ success: false, message: `Maximum purchase amount for this coupon is ₹${coupon.max_amount}` });
+        }
+
+        let discountAmount = (subtotal * coupon.discount) / 100;
+        if (coupon.max_amount && discountAmount > coupon.max_amount) {
+            discountAmount = coupon.max_amount;
+        }
+
+        // Round to two decimal places
+        discountAmount = Math.round(discountAmount * 100) / 100;
+        const newTotal = Math.round((subtotal - discountAmount) * 100) / 100;
+
+        res.json({
+            success: true,
+            message: 'Coupon applied successfully',
+            discountAmount,
+            newTotal
+        });
+
+    } catch (error) {
+        console.error('Error applying coupon:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while applying the coupon' });
+    }
+};
+
+
 module.exports = {
     
     loadCheckout,
     placeOrder,
-    loadOrderSummary
+    loadOrderSummary,
+    applyCoupon
 
 
 };

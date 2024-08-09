@@ -173,7 +173,7 @@
                 <!-- Page Header -->
                 <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
                     <div class="container">
-                        <h1 class="page-title">Shopping Cart</h1>
+                        <h1 class="page-title">Shopping Checkout</h1>
                     </div>
                 </div>
 
@@ -194,6 +194,20 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-9 ">
+                                    <div class="cart-discount mb-5">
+                                        <form id="couponForm" action="#">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="couponCode"
+                                                    placeholder="coupon code">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary-2" type="submit"><i
+                                                            class="icon-long-arrow-right"></i></button>
+                                                </div>
+                                               
+                                            </div>
+                                            <br><div id="couponMessage"></div>
+                                        </form>
+                                    </div>
                                     <form id="ckeckoutForm">
                                         <div class="address-selection ">
                                             <div class="row">
@@ -244,6 +258,7 @@
                                                 Address</a>
 
                                         </button>
+                                        
                                 </div>
 
 
@@ -268,28 +283,32 @@
                                                                 <%= item.product_id.product_name %>
                                                             </a></td>
                                                         <td>
-                                                            <% 
-                                                            let discountedPrice = item.product_id.price;
-                                                            let hasDiscount = false;
-                                                            offers.forEach((offer) => {
+                                                            <% let discountedPrice=item.product_id.price; let
+                                                                hasDiscount=false; offers.forEach((offer)=> {
                                                                 offer.products.forEach((product) => {
-                                                                if (String(product._id) === String(item.product_id._id)) {
-                                                                    if (offer.discount > 0) {
-                                                                    discountedPrice = item.product_id.price * (1 - offer.discount / 100);
-                                                                    hasDiscount = true;
-                                                                    }
+                                                                if (String(product._id) === String(item.product_id._id))
+                                                                {
+                                                                if (offer.discount > 0) {
+                                                                discountedPrice = item.product_id.price * (1 -
+                                                                offer.discount / 100);
+                                                                hasDiscount = true;
+                                                                }
                                                                 }
                                                                 });
-                                                            });
-                                                            %>
-                                                            <% if (hasDiscount) { %>
-                                                     
-                                                      
-                                                                <span class="new-price"> ₹<%= discountedPrice.toFixed(2) %></span>
-                                                                <span class="old-price text-primary" style="color:#16a8e6;"><s> ₹<%= item.product_id.price.toFixed(2) %></s></span>
-                                                              <% } else { %>
-                                                                ₹<%= item.product_id.price.toFixed(2) %>
-                                                              <% } %>
+                                                                });
+                                                                %>
+                                                                <% if (hasDiscount) { %>
+
+
+                                                                    <span class="new-price"> ₹<%=
+                                                                            discountedPrice.toFixed(2) %></span>
+                                                                    <span class="old-price text-primary"
+                                                                        style="color:#16a8e6;"><s> ₹<%=
+                                                                                item.product_id.price.toFixed(2) %>
+                                                                                </s></span>
+                                                                    <% } else { %>
+                                                                        ₹<%= item.product_id.price.toFixed(2) %>
+                                                                            <% } %>
                                                         </td>
                                                     </tr>
                                                     <% }); %>
@@ -300,6 +319,10 @@
                                                                         <%= subtotal %>
                                                                     </span></td>
                                                                 <%}%>
+                                                        </tr>
+                                                        <tr id="couponDiscountRow" style="display: none;">
+                                                            <td>Coupon Discount:</td>
+                                                            <td>- ₹<span id="couponDiscount">0.00</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Shipping:</td>
@@ -1077,8 +1100,63 @@
                         console.error('Error during address update:', error);
                     }
                 }
-
+            
             });
+        </script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const couponForm = document.getElementById('couponForm');
+    if (couponForm) {
+        couponForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent the default form submission
+            
+            const couponCode = document.getElementById('couponCode').value;
+            const subtotal = parseFloat('<%= subtotal %>'); // Ensure subtotal is a number
+
+            console.log('Submitting coupon:', couponCode, 'Subtotal:', subtotal);
+
+            fetch('/applyCoupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ couponCode, subtotal })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Server response:', data);
+
+                if (data.success) {
+                document.getElementById('couponDiscountRow').style.display = 'table-row';
+                document.getElementById('couponDiscount').textContent = data.discountAmount.toFixed(2);
+                document.getElementById('cart-total').textContent = data.newTotal.toFixed(2);
+                
+                // Display success message
+                document.getElementById('couponMessage').innerHTML = `
+                    <p style="color: green;">${data.message}</p>
+                `;
+            } else {
+                // Display error message
+                document.getElementById('couponMessage').innerHTML = `
+                    <p style="color: red; ">${data.message}</p>
+                `;
+            }
+            })
+            .catch(error => {
+            console.error('Error applying coupon:', error);
+            
+            // Display error message for caught errors
+            document.getElementById('couponMessage').innerHTML = `
+                <p style="color: red; font-weight: bold;">An error occurred while applying the coupon</p>
+            `;
+        });
+
+            return false; // Ensure the form doesn't submit
+        });
+    } else {
+        console.error('Coupon form not found');
+    }
+});
         </script>
         <!-- Plugins JS File -->
         <script src="assets/js/jquery.min.js"></script>
