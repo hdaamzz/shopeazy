@@ -84,6 +84,7 @@ user_route.get('/checkout',auth.isLogin,checkoutController.loadCheckout)
 user_route.post('/placeOrder', checkoutController.placeOrder);
 user_route.get('/orderSummary',auth.isLogin, checkoutController.loadOrderSummary);
 user_route.post('/applyCoupon',checkoutController.applyCoupon)
+user_route.post('/removeCoupon',checkoutController.removeCoupon)
 
 
 //wallet 

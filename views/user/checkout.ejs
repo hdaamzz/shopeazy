@@ -197,15 +197,21 @@
                                     <div class="cart-discount mb-5">
                                         <form id="couponForm" action="#">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="couponCode"
-                                                    placeholder="coupon code">
+                                                <input type="text" class="form-control" id="couponCode" placeholder="coupon code">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-outline-primary-2" type="submit"><i
-                                                            class="icon-long-arrow-right"></i></button>
+                                                    <button class="btn btn-outline-primary-2" type="submit">
+                                                        <i class="icon-long-arrow-right"></i>
+                                                    </button>
                                                 </div>
-                                               
                                             </div>
-                                            <br><div id="couponMessage"></div>
+                                            <br>
+                                            <div id="couponMessage"></div>
+                                            <div id="appliedCoupon" style="display: none;">
+                                                <span id="appliedCouponCode"></span>
+                                                <button id="removeCoupon" class="btn btn-sm btn-outline-danger ml-2">
+                                                    <i class="icon-close"></i> Remove
+                                                </button>
+                                            </div>
                                         </form>
                                     </div>
                                     <form id="ckeckoutForm">
@@ -1105,13 +1111,36 @@
         </script>
         <script>
         document.addEventListener('DOMContentLoaded', function () {
-    const couponForm = document.getElementById('couponForm');
+            const couponForm = document.getElementById('couponForm');
+            const couponInput = document.getElementById('couponCode');
+            const appliedCouponDiv = document.getElementById('appliedCoupon');
+            const appliedCouponCode = document.getElementById('appliedCouponCode');
+            const removeCouponBtn = document.getElementById('removeCoupon');
+
+            function displayCouponMessage(message, isSuccess) {
+                const messageElement = document.getElementById('couponMessage');
+                messageElement.innerHTML = `
+                    <p style="color: ${isSuccess ? 'green' : 'red'}; font-weight: bold;">${message}</p>
+                `;
+            }
+
+            function showAppliedCoupon(couponCode) {
+                appliedCouponCode.textContent = `Applied Coupon: ${couponCode}`;
+                appliedCouponDiv.style.display = 'block';
+                couponInput.disabled = true;
+            }
+
+            function hideAppliedCoupon() {
+                appliedCouponDiv.style.display = 'none';
+                couponInput.disabled = false;
+                couponInput.value = '';
+            }
     if (couponForm) {
         couponForm.addEventListener('submit', function (e) {
-            e.preventDefault(); // Prevent the default form submission
+            e.preventDefault(); 
             
             const couponCode = document.getElementById('couponCode').value;
-            const subtotal = parseFloat('<%= subtotal %>'); // Ensure subtotal is a number
+            const subtotal = parseFloat('<%= subtotal %>'); 
 
             console.log('Submitting coupon:', couponCode, 'Subtotal:', subtotal);
 
@@ -1131,32 +1160,54 @@
                 document.getElementById('couponDiscount').textContent = data.discountAmount.toFixed(2);
                 document.getElementById('cart-total').textContent = data.newTotal.toFixed(2);
                 
-                // Display success message
-                document.getElementById('couponMessage').innerHTML = `
-                    <p style="color: green;">${data.message}</p>
-                `;
+                displayCouponMessage(data.message, true);
+                    showAppliedCoupon(couponCode);
             } else {
-                // Display error message
-                document.getElementById('couponMessage').innerHTML = `
-                    <p style="color: red; ">${data.message}</p>
-                `;
+                
+                displayCouponMessage(data.message, false);
             }
             })
             .catch(error => {
-            console.error('Error applying coupon:', error);
-            
-            // Display error message for caught errors
-            document.getElementById('couponMessage').innerHTML = `
-                <p style="color: red; font-weight: bold;">An error occurred while applying the coupon</p>
-            `;
-        });
+                console.error('Error applying coupon:', error);
+                displayCouponMessage('An error occurred while applying the coupon', false);
+            });
 
-            return false; // Ensure the form doesn't submit
+            return false;
         });
     } else {
         console.error('Coupon form not found');
     }
+
+    removeCouponBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const subtotal = parseFloat('<%= subtotal %>');
+        fetch('/removeCoupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({ subtotal })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('couponDiscountRow').style.display = 'none';
+                    document.getElementById('cart-total').textContent = data.newTotal.toFixed(2);
+                    displayCouponMessage('Coupon removed successfully', true);
+                    hideAppliedCoupon();
+                } else {
+                    displayCouponMessage(data.message, false);
+                }
+            })
+            .catch(error => {
+                console.error('Error removing coupon:', error);
+                displayCouponMessage('An error occurred while removing the coupon', false);
+            });
+    })
+    
 });
+
+
         </script>
         <!-- Plugins JS File -->
         <script src="assets/js/jquery.min.js"></script>

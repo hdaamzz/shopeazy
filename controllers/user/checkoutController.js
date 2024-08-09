@@ -119,7 +119,7 @@ const placeOrder = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid payment type' });
         }
 
-        // Fetch all active offers (both product and category)
+       
         const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
 
         const orderItems = cartItems.map(item => {
@@ -217,7 +217,7 @@ const placeOrder = async (req, res) => {
             );
         }
 
-        // Clear the cart
+       
         await Cart.deleteMany({ user_id });
 
     } catch (error) {
@@ -251,12 +251,12 @@ const applyCoupon = async (req, res) => {
     try {
         const { couponCode, subtotal } = req.body;
 
-        // Input validation
+       
         if (typeof subtotal !== 'number' || isNaN(subtotal) || subtotal < 0) {
             return res.status(400).json({ success: false, message: 'Invalid subtotal' });
         }
 
-        // Case-insensitive coupon code search
+       
         const coupon = await Coupon.findOne({ couponId: { $regex: new RegExp(`^${couponCode}$`, 'i') } });
 
         if (!coupon) {
@@ -283,7 +283,7 @@ const applyCoupon = async (req, res) => {
             discountAmount = coupon.max_amount;
         }
 
-        // Round to two decimal places
+        
         discountAmount = Math.round(discountAmount * 100) / 100;
         const newTotal = Math.round((subtotal - discountAmount) * 100) / 100;
 
@@ -299,14 +299,32 @@ const applyCoupon = async (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred while applying the coupon' });
     }
 };
+const removeCoupon =async (req, res) => {
+    try {
 
+       const subtotal = req.body.subtotal
+
+        res.json({
+            success: true,
+            message: 'Coupon removed successfully',
+            newTotal: subtotal
+        });
+    } catch (error) {
+        console.error('Error removing coupon:', error);
+        res.status(500).json({
+            success: false,
+            message: 'An error occurred while removing the coupon'
+        });
+    }
+}
 
 module.exports = {
     
     loadCheckout,
     placeOrder,
     loadOrderSummary,
-    applyCoupon
+    applyCoupon,
+    removeCoupon
 
 
 };
