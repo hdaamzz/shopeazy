@@ -230,14 +230,16 @@
                                     <tbody>
                                         <% order.items.forEach(item => { %>
                                             <tr>
-                                            <td class="variant-image "><img class="rounded mx-auto d-block" src="uploads/<%= item.product_id.images[0] %>"  alt="<%= item.product_id.product_name %>"></td>
-                                            <td><%= item.product_id.product_name %></td>
-                                            <td><%= item.quantity %></td>
-                                            <td>₹<%= item.product_id.price.toFixed(2) %></td>
-                                            <td>₹<%= (item.quantity * item.product_id.price).toFixed(2) %></td>
+                                                <td class="variant-image">
+                                                    <img class="rounded mx-auto d-block" src="uploads/<%= item.product_id.images[0] %>" alt="<%= item.name %>">
+                                                </td>
+                                                <td><%= item.name %></td>
+                                                <td><%= item.quantity %></td>
+                                                <td>₹<%= item.price.toFixed(2) %></td>
+                                                <td>₹<%= item.total.toFixed(2) %></td>
                                             </tr>
                                         <% }); %>
-                                        </tbody>
+                                    </tbody>
                                 </table>
                                 <div class="order-summary-footer">
                                     <div class="row">

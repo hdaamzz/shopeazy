@@ -268,7 +268,28 @@
                                                                 <%= item.product_id.product_name %>
                                                             </a></td>
                                                         <td>
-                                                            <%= (item.product_id.price * item.quantity).toFixed(2) %>
+                                                            <% 
+                                                            let discountedPrice = item.product_id.price;
+                                                            let hasDiscount = false;
+                                                            offers.forEach((offer) => {
+                                                                offer.products.forEach((product) => {
+                                                                if (String(product._id) === String(item.product_id._id)) {
+                                                                    if (offer.discount > 0) {
+                                                                    discountedPrice = item.product_id.price * (1 - offer.discount / 100);
+                                                                    hasDiscount = true;
+                                                                    }
+                                                                }
+                                                                });
+                                                            });
+                                                            %>
+                                                            <% if (hasDiscount) { %>
+                                                     
+                                                      
+                                                                <span class="new-price"> ₹<%= discountedPrice.toFixed(2) %></span>
+                                                                <span class="old-price text-primary" style="color:#16a8e6;"><s> ₹<%= item.product_id.price.toFixed(2) %></s></span>
+                                                              <% } else { %>
+                                                                ₹<%= item.product_id.price.toFixed(2) %>
+                                                              <% } %>
                                                         </td>
                                                     </tr>
                                                     <% }); %>

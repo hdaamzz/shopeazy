@@ -9,7 +9,7 @@ const productController = require("../controllers/admin/productController");
 const orderController = require("../controllers/admin/orderController");
 const logoutController = require("../controllers/admin/logoutController");
 const offerController = require('../controllers/admin/offerController');
-
+const couponController = require('../controllers/admin/couponController');
 
 const session = require("express-session");
 const auth = require('../middleware/adminAuth')
@@ -74,7 +74,8 @@ admin_route.get('/offers/category',auth.isLogin,offerController.loadCateOffer)
 admin_route.post('/updateOffer',offerController.updateOffer);
 admin_route.post('/deleteOffer',offerController.deleteOffer);
 
-
+//coupon
+admin_route.get('/coupons',auth.isLogin,couponController.loadCoupon)
 
 //logout 
 admin_route.get('/logout', logoutController.logout)

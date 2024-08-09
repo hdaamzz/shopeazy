@@ -466,23 +466,42 @@
                                             let bestDiscount = 0;
                                             let hasDiscount = false;
                                             let discountedPrice = product[i].price;
-                                  
+                                        
+                                            
                                             offers.forEach((item) => {
-                                              item.products.forEach((Product) => {
-                                                if (String(product[i]._id) === String(Product._id)) {
-                                                  if (item.discount > bestDiscount) {
-                                                    bestDiscount = item.discount;
-                                                    hasDiscount = true;
-                                                    discountedPrice = product[i].price * (1 - bestDiscount / 100);
-                                                  }
+                                                if (item.type === 'PRODUCT') {
+                                                    item.products.forEach((Product) => {
+                                                        if (String(product[i]._id) === String(Product._id)) {
+                                                            if (item.discount > bestDiscount) {
+                                                                bestDiscount = item.discount;
+                                                                hasDiscount = true;
+                                                                discountedPrice = product[i].price * (1 - bestDiscount / 100);
+                                                            }
+                                                        }
+                                                    });
                                                 }
-                                              });
                                             });
-                                  
+                                        
+                                            // Check for category offers
+                                            offers.forEach((item) => {
+                                                if (item.type === 'CATEGORY') {
+                                                    const categoryMatch = item.category.some(category => 
+                                                        String(product[i].category) === String(category)
+                                                    );
+                                                    
+                                                    if (categoryMatch && item.discount > bestDiscount) {
+                                                        bestDiscount = item.discount;
+                                                        hasDiscount = true;
+                                                        discountedPrice = product[i].price * (1 - bestDiscount / 100);
+                                                    }
+                                                }
+                                            });
+                                        
                                             if (hasDiscount) { 
-                                          %>
-                                            <span class="product-label label-circle label-sale"><%= bestDiscount %>% OFF</span>
-                                          <% } %>
+                                            %>
+                                                <span class="product-label label-circle label-sale"><%= bestDiscount %>% OFF</span>
+                                            <% } %>
+                                        
                                             <a href="/showProduct?id=<%= product[i]._id %>">
                                                 <img src="/uploads/<%= product[i].images[0]%>"
                                                     alt="Product image" class="product-image">

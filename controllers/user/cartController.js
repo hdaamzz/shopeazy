@@ -16,28 +16,55 @@ const loadCart = async (req, res) => {
   
       if (userData) {
         const userid = userData._id;
-        const offers = await Offer.find({ status: 'active', type: 'PRODUCT' }).populate('products');
+        const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
         const cartItems = await Cart.find({ user_id: userid }).populate('product_id');
         let subtotal = 0;
-        cartItems.forEach((item) => {
-          let discountedPrice = item.product_id.price;
+  
+        const cartItemsWithDiscounts = cartItems.map((cartItem) => {
+          let bestDiscount = 0;
           let hasDiscount = false;
-        
+          let discountedPrice = cartItem.product_id.price;
+  
           offers.forEach((offer) => {
-            offer.products.forEach((product) => {
-              if (String(product._id) === String(item.product_id._id)) {
-                if (offer.discount > 0) {
-                  discountedPrice = item.product_id.price * (1 - offer.discount / 100);
-                  hasDiscount = true;
+            if (offer.type === 'PRODUCT') {
+              offer.products.forEach((product) => {
+                if (String(cartItem.product_id._id) === String(product._id)) {
+                  if (offer.discount > bestDiscount) {
+                    bestDiscount = offer.discount;
+                    hasDiscount = true;
+                    discountedPrice = cartItem.product_id.price * (1 - bestDiscount / 100);
+                  }
                 }
+              });
+            } else if (offer.type === 'CATEGORY') {
+              const categoryMatch = offer.category.some(category => 
+                String(cartItem.product_id.category) === String(category._id)
+              );
+              
+              if (categoryMatch && offer.discount > bestDiscount) {
+                bestDiscount = offer.discount;
+                hasDiscount = true;
+                discountedPrice = cartItem.product_id.price * (1 - bestDiscount / 100);
               }
-            });
+            }
           });
-        
-          subtotal += discountedPrice * item.quantity;
+  
+          subtotal += discountedPrice * cartItem.quantity;
+  
+          return {
+            ...cartItem.toObject(),
+            bestDiscount,
+            hasDiscount,
+            discountedPrice
+          };
         });
   
-        res.render('cart', { userData, cartItems, offers, subtotal: subtotal.toFixed(2) });
+        res.render('cart', { 
+          userData, 
+          cartItems: cartItemsWithDiscounts, 
+          offers, 
+          subtotal: subtotal.toFixed(2) 
+        });
       } else {
         res.redirect('/');
       }

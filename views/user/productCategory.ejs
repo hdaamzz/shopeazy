@@ -145,18 +145,36 @@
                                                 <% 
                                                 let bestDiscount = 0;
                                                 let hasDiscount = false;
-                                                let discountedPrice = productData[i].price;
-                                      
+                                                let discountedPrice =productData[i].price;
+                                            
+                                                
                                                 offers.forEach((item) => {
-                                                  item.products.forEach((Product) => {
-                                                    if (String(productData[i]._id) === String(Product._id)) {
-                                                      if (item.discount > bestDiscount) {
-                                                        bestDiscount = item.discount;
-                                                        hasDiscount = true;
-                                                        discountedPrice = productData[i].price * (1 - bestDiscount / 100);
-                                                      }
+                                                    if (item.type === 'PRODUCT') {
+                                                        item.products.forEach((Product) => {
+                                                            if (String(productData[i]._id) === String(Product._id)) {
+                                                                if (item.discount > bestDiscount) {
+                                                                    bestDiscount = item.discount;
+                                                                    hasDiscount = true;
+                                                                    discountedPrice =productData[i].price * (1 - bestDiscount / 100);
+                                                                }
+                                                            }
+                                                        });
                                                     }
-                                                  });
+                                                });
+                                            
+                                                // Check for category offers
+                                                offers.forEach((item) => {
+                                                    if (item.type === 'CATEGORY') {
+                                                        const categoryMatch = item.category.some(category => 
+                                                            String(productData[i].category) === String(category)
+                                                        );
+                                                        
+                                                        if (categoryMatch && item.discount > bestDiscount) {
+                                                            bestDiscount = item.discount;
+                                                            hasDiscount = true;
+                                                            discountedPrice =productData[i].price * (1 - bestDiscount / 100);
+                                                        }
+                                                    }
                                                 });
                                       
                                                 if (hasDiscount) { 

@@ -4,6 +4,7 @@ const Address = require('../../models/userAddress');
 const Cart = require('../../models/cart');
 const PaymentType = require('../../models/paymentType');
 const Orders = require('../../models/userOrders');
+const Offer = require('../../models/offers');
 require('dotenv').config();
 const Razorpay = require('razorpay');
 
@@ -14,34 +15,83 @@ const razorpay = new Razorpay({
 
 
 
-const loadCheckout = async (req, res) => {
+  const loadCheckout = async (req, res) => {
     try {
-
         let userData;
         if (req.user) {
             userData = req.user;
         } else if (req.session.user_id) {
             userData = await User.findById(req.session.user_id);
         }
-        if (userData) {
-            const userid = userData._id
-            const cartData = await Cart.find({ user_id: userid }).populate('product_id');
-            const addressData = await Address.find({ user_id: userid });
-            let subtotal = 0;
-            cartData.forEach(item => {
-                subtotal += item.product_id.price * item.quantity;
-            });
-            const paymentTypes = await PaymentType.find({})
-            res.render('checkout', { userData, addressData, cartData, subtotal: subtotal.toFixed(2), paymentTypes })
-        } else {
-            res.redirect('/')
 
+        if (userData) {
+            const userid = userData._id;
+            const cartData = await Cart.find({ user_id: userid }).populate('product_id');
+            const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
+            const addressData = await Address.find({ user_id: userid });
+            const paymentTypes = await PaymentType.find({});
+
+            let subtotal = 0;
+            const cartItemsWithDiscounts = cartData.map((item) => {
+                let bestDiscount = 0;
+                let discountedPrice = item.product_id.price;
+                let hasDiscount = false;
+                let appliedOffer = null;
+
+                offers.forEach((offer) => {
+                    if (offer.type === 'PRODUCT') {
+                        offer.products.forEach((product) => {
+                            if (String(product._id) === String(item.product_id._id)) {
+                                if (offer.discount > bestDiscount) {
+                                    bestDiscount = offer.discount;
+                                    hasDiscount = true;
+                                    appliedOffer = offer;
+                                }
+                            }
+                        });
+                    } else if (offer.type === 'CATEGORY') {
+                        const categoryMatch = offer.category.some(category => 
+                            String(item.product_id.category) === String(category._id)
+                        );
+                        
+                        if (categoryMatch && offer.discount > bestDiscount) {
+                            bestDiscount = offer.discount;
+                            hasDiscount = true;
+                            appliedOffer = offer;
+                        }
+                    }
+                });
+
+                if (hasDiscount) {
+                    discountedPrice = item.product_id.price * (1 - bestDiscount / 100);
+                }
+
+                subtotal += discountedPrice * item.quantity;
+
+                return {
+                    ...item.toObject(),
+                    discountedPrice,
+                    hasDiscount,
+                    appliedOffer
+                };
+            });
+
+            res.render('checkout', { 
+                userData, 
+                addressData, 
+                cartData: cartItemsWithDiscounts, 
+                subtotal: subtotal.toFixed(2), 
+                paymentTypes,
+                offers
+            });
+        } else {
+            res.redirect('/');
         }
     } catch (error) {
         console.error(error);
         res.status(500).render('error', { message: 'Server error' });
     }
-}
+};
 const placeOrder = async (req, res) => {
     try {
         const { address_id, payment_type, total_amount } = req.body;
@@ -66,14 +116,50 @@ const placeOrder = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid payment type' });
         }
 
-        const orderItems = cartItems.map(item => ({
-            product_id: item.product_id._id,
-            name: item.product_id.product_name,
-            quantity: item.quantity,
-            price: item.product_id.price,
-            total: item.product_id.price * item.quantity
-        }));
+        // Fetch all active offers (both product and category)
+        const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
 
+        const orderItems = cartItems.map(item => {
+            let bestDiscount = 0;
+            let discountedPrice = item.product_id.price;
+
+            offers.forEach((offer) => {
+                if (offer.type === 'PRODUCT') {
+                    offer.products.forEach((product) => {
+                        if (String(product._id) === String(item.product_id._id)) {
+                            if (offer.discount > bestDiscount) {
+                                bestDiscount = offer.discount;
+                            }
+                        }
+                    });
+                } else if (offer.type === 'CATEGORY') {
+                    const categoryMatch = offer.category.some(category => 
+                        String(item.product_id.category) === String(category._id)
+                    );
+                    
+                    if (categoryMatch && offer.discount > bestDiscount) {
+                        bestDiscount = offer.discount;
+                    }
+                }
+            });
+
+            if (bestDiscount > 0) {
+                discountedPrice = item.product_id.price * (1 - bestDiscount / 100);
+            }
+
+            const finalPrice = parseFloat(discountedPrice.toFixed(2));
+
+            return {
+                product_id: item.product_id._id,
+                name: item.product_id.product_name,
+                quantity: item.quantity,
+                original_price: item.product_id.price,
+                price: finalPrice,
+                total: parseFloat((finalPrice * item.quantity).toFixed(2))
+            };
+        });
+
+        // Rest of the code remains the same
         const randomOrderId = Math.floor(1000 + Math.random() * 9000);
         const newOrder = new Orders({
             user_id,
