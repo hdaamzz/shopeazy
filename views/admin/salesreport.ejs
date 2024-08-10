@@ -66,110 +66,39 @@
 
     <script src="/dashboard-assets/js/config.js"></script>
     <style>
-       .image-upload-container {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .image-upload-container:hover {
-            border-color: #007bff;
-        }
-
-        .image-upload-input {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
+        .button1 {
+            color: #ffffff;
+            padding: 11px 32px;
+            font-size: 14px;
+            border-radius: 0.5em;
+            background: #8c57ff;
             cursor: pointer;
-            z-index: 2;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s;
+            box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
         }
 
-        .image-upload-label {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            background-color: #f8f9fa;
+        .button1:active {
+            color: #666;
+            box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+        }
+
+        .button2 {
+            color: #ffffff;
+            padding: 11px 32px;
+            font-size: 14px;
+            border-radius: 0.5em;
+            background: #8c57ff;
             cursor: pointer;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s;
+            box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
         }
 
-        .upload-placeholder {
-            text-align: center;
-            color: #6c757d;
+        .button2:active {
+            color: #666;
+            box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
         }
-
-        .upload-placeholder i {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .img-preview {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-
-        .image-actions {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: none;
-            z-index: 3;
-        }
-
-        .image-upload-container:hover .image-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-        }
-
-        .image-upload-container {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            border: 2px dashed #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .image-upload-input {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .upload-placeholder {
-            text-align: center;
-        }
-
-        .img-preview {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        input.error {
-            border-color: red;
-        }
-        label.error {
-            color: red;
-        }
-
     </style>
 
 </head>
@@ -249,15 +178,14 @@
                                             <div data-i18n="Product List">Product List</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/addProduct" class="menu-link">
                                             <div data-i18n="Add Product">Add Product</div>
                                         </a>
                                     </li>
-                                    
                                 </ul>
                             </li>
-                            <li class="menu-item active open">
+                            <li class="menu-item ">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Category">Category</div>
                                 </a>
@@ -265,11 +193,6 @@
                                     <li class="menu-item ">
                                         <a href="/admin/category" class="menu-link">
                                             <div data-i18n="List all category">List all category</div>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item active">
-                                        <a href="/admin/addProduct" class="menu-link">
-                                            <div data-i18n="Update Category">Update Category</div>
                                         </a>
                                     </li>
                                 </ul>
@@ -284,7 +207,7 @@
                                             <div data-i18n="Order List">Order List</div>
                                         </a>
                                     </li>
-                                   
+
                                 </ul>
                             </li>
                             <li class="menu-item ">
@@ -304,7 +227,7 @@
                                     <div data-i18n="Offers">Offers</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
+
                                     <li class="menu-item ">
                                         <a href="/admin/offers" class="menu-link">
                                             <div data-i18n="Product Offers">Product Offers</div>
@@ -322,7 +245,7 @@
                                     <div data-i18n="Coupons Management">Coupons Management</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
+
                                     <li class="menu-item ">
                                         <a href="/admin/coupons" class="menu-link">
                                             <div data-i18n="Coupen">Coupen</div>
@@ -330,13 +253,13 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item">
+                            <li class="menu-item  active open">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Sales Report">Sales Report</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
-                                    <li class="menu-item">
+
+                                    <li class="menu-item active">
                                         <a href="/admin/salesreport" class="menu-link">
                                             <div data-i18n="Report">Report</div>
                                         </a>
@@ -405,8 +328,7 @@
                                     </li>
                                     <li>
                                         <div class="d-grid px-4 pt-2 pb-1">
-                                            <a class="btn btn-danger d-flex" href="/admin/logout"
-                                                target="_blank">
+                                            <a class="btn btn-danger d-flex" href="/admin/logout" target="_blank">
                                                 <small class="align-middle">Logout</small>
                                                 <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
                                             </a>
@@ -423,105 +345,97 @@
                 <div class="content-wrapper">
 
                     <!-- Content -->
-             <form action="" method="POST" id="updateCategoryForm" >
-                <input type="hidden" id="hiddenid" name="hiddenid" value="<%= category._id %>">
+
                     <div class="container-xxl flex-grow-1 container-p-y">
-
-
-                        <div class="app-ecommerce">
-
-                            <!-- Add Product -->
-                            <div
-                                class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 gap-4 gap-md-0">
-
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h4 class="mb-1">Update Category</h4>
-                                    <p class="mb-0">Orders placed across your store</p>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-4">SALES REPORT</h5>
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-3">
+                                        <div class="form-floating form-floating-outline">
+                                            <select id="reportType" class="form-select">
+                                                <option value="daily">Daily</option>
+                                                <option value="weekly">Weekly</option>
+                                                <option value="monthly">Monthly</option>
+                                                <option value="yearly">Yearly</option>
+                                                <option value="custom">Custom Date Range</option>
+                                            </select>
+                                            <label for="reportType">Report Type</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="date" id="startDate" name="startDate" class="form-control">
+                                            <label for="startDate">Start Date</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="date" id="endDate" name="endDate" class="form-control">
+                                            <label for="endDate">End Date</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button id="generateReport" class="btn btn-primary w-100">Generate Report</button>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-content-center flex-wrap gap-4">
-                                    <!-- <button class="btn btn-outline-secondary waves-effect">Discard</button> -->
-                                   
-                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Update
-                                        Category</button>
+                                <div class="mt-3 d-flex justify-content-end">
+                                    <button id="downloadPdf" class="btn btn-warning me-2">Download PDF</button>
+                                    <button id="downloadExcel" class="btn btn-success">Download Excel</button>
                                 </div>
                             </div>
-
-                            <div class="row">
-
-                                <!-- First column-->
-                                <div class="col-12 col-lg-8">
-                                    <!-- Product Information -->
-                                    <div class="card mb-6">
-                                        <div class="card-header">
-                                            <h5 class="card-tile mb-0">Category information</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="form-floating form-floating-outline mb-5">
-                                                <div class="formgroup1">
-                                                    <label for="ecommerce-product-name" class="errMsgSignup">Category Name</label>
-                                                    <input type="text" class="form-control" id="ecommerce-product-name"
-                                                    placeholder="Product title" name="productTitle"
-                                                   value="<%= category.category_name %>">
-                                                
-                                                </div>
-                                                
-                                            </div>
-
-
-                                            <div class="row gx-5 mb-5">
-                                                <div class="col">
-                                                    
-                                                </div>
-                                                
-                                            </div>
-                                            <!-- Comment -->
-                                            <div class="form-control p-0 pt-1 comment-editor border-0 pb-1 ql-container ql-snow"  id="ecommerce-category-description">
-                                                
-                                                <div class="formgroup1">       
-                                                    <label class="mb-1 errMsgSignup">Description</label>                                            
-                                                        <input type="text" class="form-control" id="ecommerce-description"
-                                                        placeholder="Description" name="ProductDescription"
-                                                     value="<%= category.description %>">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
-
+                            <div class="card-body">
+                                <table id="salesReport" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Order</th>
+                                            <th>Total Amount</th>
+                                            <th>Discount</th>
+                                            <th>Coupon Deduction</th>
+                                            <th>Net Sales</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div id="summary">
+                                    <p>Overall Sales Count: <span id="overallCount"></span></p>
+                                    <p>Overall Order Amount: <span id="overallAmount"></span></p>
+                                    <p>Overall Discount: <span id="overallDiscount"></span></p>
                                 </div>
-                               
-
-                             
-                                <div class="col-12 col-lg-4">
-                                  
-                                    <div class="card mb-6">
-                                        <div class="card-header" >
-                                            <h5 class="card-title mb-0">Status</h5>
-                                        </div>
-                                        <div class="card-body">
-
-
-                                            <div class="form-floating form-floating-outline form-floating-select2 pt-2">
-                                                <div class="position-relative"><label for="product-status" class="errMsgSignup">Select Product Status</label>
-                                                    <select name="productOption" id="product-status" class="select2 form-select select2-hidden-accessible" data-placeholder="Select product status" >
-                                                    
-                                                    <option value="true" <%= category.is_listed === true ? 'selected' : '' %>>Listed</option>
-                                                    <option value="false" <%= category.is_listed === false ? 'selected' : '' %>>Unlisted</option>
-                                                </select>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                             
                             </div>
                         </div>
+
+
+
+
+                        <!-- Modal -->
+                        <!-- Preview Modal -->
+
+
+                        <!-- //edit button modaal -->
+                        <!-- Edit Product Modal -->
+
+
+
+                        <div class="row gy-6">
+                            <!-- Footer -->
+                            <footer class="content-footer footer bg-footer-theme">
+                            </footer>
+                            <!-- / Footer -->
+
+
+                            <div class="content-backdrop fade"></div>
+                        </div>
+                        <!-- Content wrapper -->
                     </div>
-                </form>
                     <!-- / Layout page -->
                 </div>
-                
+
                 <!-- Overlay -->
                 <div class="layout-overlay layout-menu-toggle"></div>
 
@@ -531,7 +445,6 @@
 
             </div>
             <!-- / Layout wrapper -->
-
 
 
 
@@ -559,128 +472,78 @@
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
             <script>
-           
-           document.addEventListener('DOMContentLoaded', function() {
-    const updateCategoryForm = document.getElementById('updateCategoryForm');
-    const name = document.getElementById('ecommerce-product-name');
-    const description = document.getElementById('ecommerce-description');
-    const status = document.getElementById('product-status');
-    const hidden = document.getElementById('hiddenid');
+                document.addEventListener('DOMContentLoaded', function() {
+                const reportType = document.getElementById('reportType');
+                const startDate = document.getElementById('startDate');
+                const endDate = document.getElementById('endDate');
 
-    updateCategoryForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+                function toggleDateInputs() {
+                    const isCustom = reportType.value === 'custom';
+                    startDate.disabled = !isCustom;
+                    endDate.disabled = !isCustom;
+                }
 
-        const nameValue = name.value.trim();
-        const descriptionValue = description.value.trim();
-        const statusValue = status.value.trim();
-        const hiddenId = hidden.value.trim();
-
-        validateRegisterForm(nameValue, descriptionValue, statusValue, hiddenId);
-    });
-
-    const setError = (element, message) => {
-        const formGroup = element.parentElement;
-        const errorDisplay = formGroup.querySelector('.errMsgSignup');
-        if (errorDisplay) {
-            errorDisplay.innerText = message;
-            element.classList.add('error');
-            errorDisplay.classList.add('error');
-            element.classList.remove('success');
-            errorDisplay.classList.remove('success');
-        }
-    };
-
-    const setSuccess = (element) => {
-        const formGroup = element.parentElement;
-        const errorDisplay = formGroup.querySelector('.errMsgSignup');
-        if (errorDisplay) {
-            errorDisplay.innerText = '';
-            element.classList.add('success');
-            errorDisplay.classList.add('success');
-            element.classList.remove('error');
-            errorDisplay.classList.remove('error');
-        }
-    };
-
-    const validateRegisterForm = async (nameValue, descriptionValue, statusValue, hiddenId) => {
-        let isValid = true;
-
-        if (nameValue === '') {
-            setError(name, 'Enter Category Name');
-            isValid = false;
-        } else if (nameValue.length < 5) {
-            setError(name, 'Please Enter Correct Category Name');
-            isValid = false;
-        } else {
-            setSuccess(name);
-        }
-
-        if (descriptionValue === '') {
-            setError(description, 'Enter Category Description');
-            isValid = false;
-        } else if (descriptionValue.length < 5) {
-            setError(description, 'Please Enter Correct Category Description');
-            isValid = false;
-        } else {
-            setSuccess(description);
-        }
-
-        if (!isValid) {
-            return;
-        }
-
-        try {
-            var formData = new FormData(updateCategoryForm);
-            const response = await fetch('/admin/updateCate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    hiddenid:hiddenId
-                    , productTitle:nameValue
-                    , productOption:statusValue
-                    , ProductDescription:descriptionValue
-                })
+                reportType.addEventListener('change', toggleDateInputs);
+                toggleDateInputs(); // Initial state
             });
+            </script>
 
-            const data = await response.json();
-            if (data.success) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: data.message,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = data.redirectUrl;
-                    }
+            <!-- <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const reportType = document.getElementById('reportType');
+                    const startDate = document.getElementById('startDate');
+                    const endDate = document.getElementById('endDate');
+                    const generateButton = document.getElementById('generateReport');
+                    const tableBody = document.querySelector('#salesReport tbody');
+
+                    reportType.addEventListener('change', function () {
+                        if (this.value === 'custom') {
+                            startDate.style.display = 'inline-block';
+                            endDate.style.display = 'inline-block';
+                        } else {
+                            startDate.style.display = 'none';
+                            endDate.style.display = 'none';
+                        }
+                    });
+
+                    generateButton.addEventListener('click', function () {
+                        // Here you would typically make an API call to get the data
+                        // For this example, we'll use dummy data
+                        const dummyData = [
+                            { date: '2024-08-10', count: 10, amount: 1000, discount: 50, coupon: 20 },
+                            { date: '2024-08-11', count: 15, amount: 1500, discount: 75, coupon: 30 },
+                            // Add more dummy data as needed
+                        ];
+
+                        // Clear existing table data
+                        tableBody.innerHTML = '';
+
+                        // Populate table with new data
+                        dummyData.forEach(row => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>${row.date}</td>
+                                <td>${row.count}</td>
+                                <td>$${row.amount.toFixed(2)}</td>
+                                <td>$${row.discount.toFixed(2)}</td>
+                                <td>$${row.coupon.toFixed(2)}</td>
+                                <td>$${(row.amount - row.discount - row.coupon).toFixed(2)}</td>
+                            `;
+                            tableBody.appendChild(tr);
+                        });
+
+                        // Update summary
+                        document.getElementById('overallCount').textContent = dummyData.reduce((sum, row) => sum + row.count, 0);
+                        document.getElementById('overallAmount').textContent = '$' + dummyData.reduce((sum, row) => sum + row.amount, 0).toFixed(2);
+                        document.getElementById('overallDiscount').textContent = '$' + dummyData.reduce((sum, row) => sum + row.discount + row.coupon, 0).toFixed(2);
+                    });
+
+                    // Implement PDF and Excel download functionality here
+                    // This typically involves using libraries like jsPDF and SheetJS
+                    // or making a backend request to generate the files
                 });
-            } else {
-                Swal.fire({
-                    title: 'Error!',
-                    text: data.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-
-        } catch (error) {
-            console.error('Error during update category:', error);
-            Swal.fire({
-                title: 'Error!',
-                text: 'An unexpected error occurred',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        }
-    }
-});
-
-      </script>
+            </script> -->
 
 </body>
 
 </html>
-
-<!-- beautify ignore:end -->

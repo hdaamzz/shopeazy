@@ -10,6 +10,7 @@ const orderController = require("../controllers/admin/orderController");
 const logoutController = require("../controllers/admin/logoutController");
 const offerController = require('../controllers/admin/offerController');
 const couponController = require('../controllers/admin/couponController');
+const salesController = require('../controllers/admin/salesController');
 
 const session = require("express-session");
 const auth = require('../middleware/adminAuth')
@@ -79,6 +80,11 @@ admin_route.get('/coupons',auth.isLogin,couponController.loadCoupon);
 admin_route.post('/coupons/addCoupon',couponController.addCoupon);
 admin_route.post('/updateCoupon',couponController.updateCoupon);
 admin_route.post('/deleteCoupon',couponController.deleteCoupon);
+
+
+//salesreport
+admin_route.get('/salesreport',auth.isLogin,salesController.loadSales)
+
 
 //logout 
 admin_route.get('/logout', logoutController.logout)
