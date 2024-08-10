@@ -663,6 +663,11 @@
                     const selectedPayment = document.getElementById('sort-option');
                     const totalAmount = parseFloat(document.getElementById('cart-total').textContent.trim());
 
+
+                    const couponDiscountElement = document.getElementById('couponDiscount');
+                    const couponDiscount = couponDiscountElement ? parseFloat(couponDiscountElement.textContent) : 0;
+
+
                     const address_id = selectedAddress.value;
                     const payment_type = selectedPayment.value;
                     const total_amount = totalAmount;
@@ -671,7 +676,8 @@
                         console.log('Sending order data:', {
                             address_id,
                             payment_type,
-                            total_amount
+                            total_amount,
+                            coupon_discount: couponDiscount
                         });
                         const response = await fetch('/placeOrder', {
                             method: 'POST',
@@ -681,7 +687,8 @@
                             body: JSON.stringify({
                                 address_id,
                                 payment_type,
-                                total_amount
+                                total_amount,
+                                coupon_discount: couponDiscount
                             })
                         });
 

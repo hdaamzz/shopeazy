@@ -97,7 +97,7 @@ const razorpay = new Razorpay({
 };
 const placeOrder = async (req, res) => {
     try {
-        const { address_id, payment_type, total_amount } = req.body;
+        const { address_id, payment_type, total_amount, coupon_discount } = req.body;
         const user_id = req.session.user_id;
 
         if (!address_id || !payment_type || !total_amount) {
@@ -175,7 +175,7 @@ const placeOrder = async (req, res) => {
             order_status: 'Pending',
             shipping_cost: 0,
             tax: 0,
-            discount: 0
+            discount: parseFloat(coupon_discount) || 0  // Add this line
         });
 
         await newOrder.save();
