@@ -61,7 +61,8 @@ user_route.post('/addAddress',dashboardController.addUserAddress)
 user_route.post('/updateAddress',dashboardController.updateUserAddress);
 user_route.post('/deleteAddress',dashboardController.deleteAddress);
 user_route.post('/updateUser',dashboardController.updateUserData);
-user_route.post('/cancelOrder',dashboardController.cancelOrder)
+user_route.post('/cancelOrder',dashboardController.cancelOrder);
+user_route.post('/returnOrder',dashboardController.returnOrder)
 
 
 //cart management

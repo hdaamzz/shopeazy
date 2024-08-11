@@ -5,6 +5,7 @@ const Cart = require('../../models/user/cart');
 const Orders = require('../../models/user/userOrders');
 const bcrypt = require('bcrypt');
 const Wallet = require('../../models/user/userwallet')
+const ReturnRequest= require('../../models/user/returnRequest')
 require('dotenv').config();
 
 
@@ -189,7 +190,7 @@ const cancelOrder = async (req, res) => {
                     transaction_id: `TRX-${randomID}`
                 });
             } else {
-                // Create new wallet
+                
                 wallet = new Wallet({
                     user_id: req.session.user_id,
                     balance: refundAmount,
@@ -213,7 +214,7 @@ const cancelOrder = async (req, res) => {
             await order.save();
         }
 
-        // Update product stock
+       
         for (const item of order.items) {
             await Product.findByIdAndUpdate(
                 item.product_id,
@@ -226,6 +227,43 @@ const cancelOrder = async (req, res) => {
     } catch (error) {
         console.error('Error cancelling order:', error);
         res.status(500).json({ success: false, message: 'Failed to cancel order' });
+    }
+};
+
+
+const returnOrder = async (req, res) => {
+    try {
+        const { order_id, return_reason } = req.body;
+        console.log( order_id, return_reason);
+        
+
+        const order = await Orders.findById(order_id);
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+        if (order.order_status !== 'Delivered') {
+            return res.status(400).json({ success: false, message: 'Only delivered orders can be returned' });
+        }
+
+       
+        const returnRequest = new ReturnRequest({
+            order_id: order._id,
+            user_id: req.session.user_id,
+            reason: return_reason,
+            status: 'Pending'
+        });
+
+        await returnRequest.save();
+
+       
+        order.order_status = 'Return Requested';
+        await order.save();
+
+        res.json({ success: true, message: "Return request submitted successfully" });
+    } catch (error) {
+        console.error('Error submitting return request:', error);
+        res.status(500).json({ success: false, message: 'Failed to submit return request' });
     }
 };
 
@@ -246,5 +284,6 @@ module.exports = {
     updateUserAddress,
     deleteAddress,
     updateUserData,
-    cancelOrder
+    cancelOrder,
+    returnOrder
 };

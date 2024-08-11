@@ -1,5 +1,8 @@
 const Products = require('../../models/admin/products');
-const Orders = require('../../models/user/userOrders')
+const Orders = require('../../models/user/userOrders');
+const ReturnRequest =require('../../models/user/returnRequest');
+const Wallet = require('../../models/user/userwallet');
+const User = require('../../models/user/userCredentials')
 
 
 const loadOrderList= async (req, res) => {
@@ -74,13 +77,113 @@ const cancelOrder = async (req, res) => {
     }
 };
 
+const loadReturnPage=async (req, res) => {
+    try {
+        const returnRequests = await ReturnRequest.find()
+            .populate('order_id')
+            .populate('user_id');
+        res.render('showReturns', { returnRequests });
+    } catch (error) {
+        console.error('Error fetching return requests:', error);
+        res.status(500).send('An error occurred while fetching return requests');
+    }
+};
 
+const updateReturnRequest = async (req, res) => {
+
+    try {
+        const { request_id, status, admin_response,orderId } = req.body;
+        console.log( request_id, status, admin_response,orderId );
+        
+
+        if (!request_id || !status || !admin_response) {
+            return res.status(400).json({ success: false, message: 'Missing required fields' });
+        }
+
+        const returnRequest = await ReturnRequest.findById(request_id).populate('order_id');
+        if (!returnRequest) {
+
+            return res.status(404).json({ success: false, message: 'Return request not found' });
+        }
+
+        const updateresponse = await ReturnRequest.findByIdAndUpdate(request_id, {
+            $set: {
+                status:status,
+                admin_response:admin_response,
+            }
+        }, { new: true });
+        // const updateorderstatus = await Orders.findByIdAndUpdate(returnRequest.order_id, {
+        //     $set: {
+        //        order_status:'Returned'
+        //     }
+        // }, { new: true });
+
+        const order = returnRequest.order_id;
+        
+        if (status === 'Approved') {
+            order.order_status = 'Returned';
+            
+            // if (order.payment_type.pay_type) {
+            //     const randomID = Math.floor(100000 + Math.random() * 900000);
+            //     const refundAmount = parseFloat(order.total_amount);
+
+            //     let wallet = await Wallet.findOne({ user_id: order.user_id });
+                
+            //     if (wallet) {
+            //         wallet.balance += refundAmount;
+            //         wallet.history.push({
+            //             amount: refundAmount,
+            //             transaction_type: "Returned",
+            //             description: "Product Return Refund",
+            //             transaction_id: `TRX-${randomID}`
+            //         });
+            //     } else {
+            //         wallet = new Wallet({
+            //             user_id: order.user_id,
+            //             balance: refundAmount,
+            //             history: [{
+            //                 amount: refundAmount,
+            //                 transaction_type: "Returned",
+            //                 description: "Product Return Refund",
+            //                 transaction_id: `TRX-${randomID}`
+            //             }]
+            //         });
+            //     }
+
+            //     await wallet.save({});
+            // }
+
+            for (const item of order.items) {
+                await Products.findByIdAndUpdate(
+                    item.product_id,
+                    { $inc: { stock: item.quantity } },
+                    { new: true}
+                );
+            }
+        } else if (status === 'Rejected') {
+            
+            const updateresponse = await ReturnRequest.findByIdAndUpdate(request_id, {
+                $set: {
+                    status:"Rejected",
+                    admin_response:admin_response,
+                }
+            }, { new: true });
+        }
+
+
+        res.json({ success: true, message: "Return request updated successfully" });
+    } catch (error) {
+        
+        console.error('Error updating return request:', error);
+        res.status(500).json({ success: false, message: 'Failed to update return request', error: error.message });
+    }
+};
 module.exports = {
     loadOrderList,
     loadupdateStatus,
     updateStatus,
-    cancelOrder
+    cancelOrder,
+    loadReturnPage,
+    updateReturnRequest
     
-
-
 }

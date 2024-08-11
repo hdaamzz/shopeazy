@@ -262,12 +262,15 @@
                                                                 <%= item.order_status %>
                                                             </td>
                                                             <td class="view-col">
-                                                                <% if(item.order_status !== 'Cancelled') {%>
-                                                                    <% if(item.order_status !== 'Delivered') {%>
-                                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                                    data-bs-target="#cancelOrderModal<%= item._id %>">CANCEL
-                                                                    ORDER</button>
-                                                                    <%}}%>
+                                                                <% if(item.order_status === 'Cancelled' || item.order_status === 'Return Requested' || item.order_status === 'Returned' ) { %>
+                                                                   
+                                                                <% } else if(item.order_status === 'Delivered') { %>
+                                                                    <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                            data-bs-target="#returnOrderModal<%= item._id %>">RETURN ORDER</button>
+                                                                <% } else { %>
+                                                                    <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                            data-bs-target="#cancelOrderModal<%= item._id %>">CANCEL ORDER</button>
+                                                                <% } %>
                                                             </td>
                                                         </tr>
                                                         <% }) %>
@@ -412,6 +415,34 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+
+                                              
+                                                    <% }) %>
+                                                    <% orderData.forEach((item, index) => { %>
+                                                        <div class="modal fade" id="returnOrderModal<%= item._id %>" tabindex="-1" aria-labelledby="returnOrderModalLabel<%= item._id %>" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="returnOrderModalLabel<%= item._id %>">Return Order</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body pr-3 pl-4">
+                                                                        <form id="returnOrderForm<%= item._id %>">
+                                                                            <div class="mb-3">
+                                                                                <label for="return_reason_<%= item._id %>" class="form-label">Return Reason</label>
+                                                                                <textarea class="form-control" id="return_reason_<%= item._id %>" name="return_reason" required></textarea>
+                                                                            </div>
+                                                                            <input type="hidden" name="order_id" value="<%= item._id %>">
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="button" class="btn btn-primary" onclick="submitReturnRequest('<%= item._id %>')">Submit Return Request</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     <% }) %>
 
 
@@ -892,6 +923,50 @@
 
 
         <script>
+            async function submitReturnRequest(orderId) {
+                const returnReason = document.getElementById(`return_reason_${orderId}`).value;
+                try {
+                  await  fetch('/returnOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        return_reason: returnReason
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+               if (data.success) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while submitting the return request');
+                    });
+                } catch (error) {
+                    
+                }
+               
+         }
             document.addEventListener('DOMContentLoaded', function () {
                 const addAddressForm = document.getElementById('addAddressForm');
                 const name = document.getElementById('name');
@@ -1124,6 +1199,8 @@
 
                     });
 
+                 
+
                
                 const setError = (element, message) => {
                     const formGroup1 = element.parentElement;
@@ -1278,6 +1355,7 @@
                         console.error('Error during address update:', error);
                     }
                 }
+               
 
 
 

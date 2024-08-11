@@ -66,6 +66,8 @@ admin_route.get('/orders',auth.isLogin,orderController.loadOrderList)
 admin_route.get('/updateStatus',auth.isLogin,orderController.loadupdateStatus)
 admin_route.post('/updateStatus',orderController.updateStatus);
 admin_route.post('/cancelOrder',orderController.cancelOrder)
+admin_route.get('/returnRequests',auth.isLogin,orderController.loadReturnPage)
+admin_route.post('/updateReturnRequest',orderController.updateReturnRequest)
 
 
 //offer

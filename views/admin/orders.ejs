@@ -347,7 +347,16 @@
                                             class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                             <div
                                                 class="dt-action-buttons d-flex align-items-start align-items-md-center justify-content-sm-center gap-4 pt-0">
-                                            </div>
+                                                <div class="dt-buttons btn-group flex-wrap">
+
+                                                    <a href="/admin/returnRequests"><button
+                                                            class="btn btn-secondary add-new btn-warning ms-n1 waves-effect waves-light"
+                                                            tabindex="0" aria-controls="DataTables_Table_0"
+                                                            type="button" data-bs-toggle="offcanvas"
+                                                            data-bs-target="#offcanvasEcommerceCategoryList"><span><span
+                                                                    class="d-none d-sm-inline-block">Return Requests</span></button></a>
+                                                </div>
+                                           
                                         </div>
                                     </div>
                                     <table class="datatables-customers table dataTable no-footer dtr-column"
@@ -432,7 +441,7 @@
 
 
                                                         <td>
-                                                            <% if(orders[i].order_status !== 'Cancelled' && orders[i].order_status !== 'Delivered') { %>
+                                                            <% if(orders[i].order_status !== 'Cancelled' && orders[i].order_status !== 'Delivered' && orders[i].order_status !== 'Returned') { %>
                                                                 <div class="d-flex justify-content-start align-items-center customer-country">
                                                                     <div>
                                                                         <span>
@@ -453,10 +462,11 @@
 
                                                                     <% if(orders[i].order_status !== 'Cancelled' ) {%>
                                                                         <% if(orders[i].order_status !== 'Delivered'){%>
+                                                                            <% if(orders[i].order_status !== 'Returned'){%>
                                                                     <span>
                                                                         <button id="cancel-order" class="btn btn-danger cancel-order" data-bs-toggle="modal"
                                                                         data-order-id="<%= orders[i]._id %>">CANCEL
-                                                                    </button> </span><%}%><%}%>
+                                                                    </button> </span><%}%><%}%><%}%>
 
                                                                 </div>
                                                             </div>

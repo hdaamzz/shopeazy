@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
+    data-theme="theme-default" data-assets-path="/dashboard-assets/" data-template="vertical-menu-template"
+    data-style="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>shopEazy</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
+    <meta name="keywords"
+        content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
+
+
+    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+    <!-- <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    '../../../../www.googletagmanager.com/gtm5445.html?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script> -->
+    <!-- End Google Tag Manager -->
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/newimages/logo.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/remixicon/remixicon.css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/flag-icons.css" />
+
+    <!-- Menu waves for no-customizer fix -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/node-waves/node-waves.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css"
+        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/dashboard-assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/pages/app-ecommerce-dashboard.css" />
+
+    <!-- Helpers -->
+    <script src="/dashboard-assets/vendor/js/helpers.js"></script>
+
+    <script src="/dashboard-assets/js/config.js"></script>
+    <style>
+       .image-upload-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .image-upload-container:hover {
+            border-color: #007bff;
+        }
+
+        .image-upload-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .image-upload-label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+
+        .upload-placeholder {
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .upload-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .img-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .image-actions {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            z-index: 3;
+        }
+
+        .image-upload-container:hover .image-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .image-upload-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .image-upload-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-placeholder {
+            text-align: center;
+        }
+
+        .img-preview {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        input.error {
+            border-color: red;
+        }
+        label.error {
+            color: red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
+            style="display: none; visibility: hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar  ">
+        <div class="layout-container">
+
+
+
+
+
+
+
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+
+
+                <div class="app-brand demo ">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo me-1">
+                            <span style="color:var(--bs-primary);">
+
+                            </span>
+                        </span>
+                        <img src="/assets/newimages/logo.png" width="150px" height="40px">
+                        <!-- <span class="app-brand-text demo menu-text fw-semibold ms-2">shopEazy</span> -->
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="menu-toggle-icon d-xl-block align-middle"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+
+
+                <ul class="menu-inner py-1">
+                    <!-- Dashboards -->
+
+
+                    <!-- Layouts -->
+
+                    <!-- Front Pages -->
+
+
+
+                    <!-- e-commerce-app menu start -->
+                    <li class="menu-item active open">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
+                            <div data-i18n="shopEazy">shopEazy</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item ">
+                                <a href="/admin/adminHome" class="menu-link">
+                                    <div data-i18n="Dashboard">Dashboard</div>
+                                </a>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Products">Products</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item ">
+                                        <a href="/admin/products" class="menu-link">
+                                            <div data-i18n="Product List">Product List</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item ">
+                                        <a href="/admin/addProduct" class="menu-link">
+                                            <div data-i18n="Add Product">Add Product</div>
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Category">Category</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item ">
+                                        <a href="/admin/category" class="menu-link">
+                                            <div data-i18n="List all category">List all category</div>
+                                        </a>
+                                    </li>
+                                   
+                                </ul>
+                            </li>
+                            <li class="menu-item active open">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Order">Order</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="/admin/orders" class="menu-link">
+                                            <div data-i18n="Order List">Order List</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="/admin/addProduct" class="menu-link">
+                                            <div data-i18n="Update Status">Update Status</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item active">
+                                        <a href="/admin/returnRequests" class="menu-link">
+                                            <div data-i18n="Return Requests">Return Requests</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Customer">Customer</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item ">
+                                        <a href="/admin/allCustomers" class="menu-link">
+                                            <div data-i18n="All Customers">All Customers</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Offers">Offers</div>
+                                </a>
+                                <ul class="menu-sub">
+                                   
+                                    <li class="menu-item ">
+                                        <a href="/admin/offers" class="menu-link">
+                                            <div data-i18n="Product Offers">Product Offers</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="/admin/offers/category" class="menu-link">
+                                            <div data-i18n="Category Offers">Category Offers</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Coupons Management">Coupons Management</div>
+                                </a>
+                                <ul class="menu-sub">
+                                   
+                                    <li class="menu-item ">
+                                        <a href="/admin/coupons" class="menu-link">
+                                            <div data-i18n="Coupen">Coupen</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Sales Report">Sales Report</div>
+                                </a>
+                                <ul class="menu-sub">
+                                   
+                                    <li class="menu-item">
+                                        <a href="/admin/salesreport" class="menu-link">
+                                            <div data-i18n="Report">Report</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div data-i18n="Banners">Banners</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="app-ecommerce-customer-all.html" class="menu-link">
+                                            <div data-i18n="Banner">Banner</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            <!-- / Menu -->
+            <!-- Navbar -->
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                            <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="/dashboard-assets/img/avatars/1.png" alt
+                                            class="w-px-40 h-auto rounded-circle">
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+                                    <li>
+                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 me-2">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="/dashboard-assets/img/avatars/1.png" alt
+                                                            class="w-px-40 h-auto rounded-circle">
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <!-- <h6 class="mb-0 small">John Doe</h6> -->
+                                                    <small class="text-muted">Admin</small>
+
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="pages-profile-user.html">
+                                            <i class="ri-user-3-line ri-22px me-2"></i>
+                                            <span class="align-middle">My Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="d-grid px-4 pt-2 pb-1">
+                                            <a class="btn btn-danger d-flex" href="/admin/logout"
+                                                target="_blank">
+                                                <small class="align-middle">Logout</small>
+                                                <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--/ User -->
+                        </ul>
+                    </div>
+                </nav>
+                <!-- / Navbar -->
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <div class="container mt-5">
+                        <h4 class="mb-4">Return Requests</h4>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>User</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% returnRequests.forEach(request => { %>
+                                    <tr>
+                                        <td><%= request.order_id.order_id %></td>
+                                        <td><%= request.user_id.user_name %></td>
+                                        <td><%= request.reason %></td>
+                                        <td><%= request.status %></td>
+                                        <td><%= request.created_at.toLocaleDateString() %></td>
+                                        <td>
+                                            <% if (request.status === 'Pending') { %>
+                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#responseModal<%= request._id%>">
+                                               Respond
+                                                <i class="icon-edit"></i>
+                                            </a>
+                                            <% } else { %>
+                                                <button class="btn btn-secondary btn-sm" disabled>Responded</button>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                
+                    <!-- Response Modal -->
+                    <% returnRequests.forEach(request => { %>
+
+                    <div class="modal fade" id="responseModal<%= request._id%>" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="responseModalLabel">Respond to Return Request</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="responseForm<%= request._id%>"  data-return-id="<%= request._id %>"  data-order-id="<%= request.order_id.order_id %>" class="response-form">
+                                        <input type="hidden" id="request_id<%= request._id%>" name="request_id">
+                                        <div class="mb-3">
+                                            <label for="status<%= request._id%>" class="form-label">Status</label>
+                                            <select class="form-select" id="status<%= request._id%>" name="status" required>
+                                                <option value="Approved">Approve</option>
+                                                <option value="Rejected">Reject</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="admin_response<%= request._id%>" class="form-label">Response</label>
+                                            <textarea class="form-control" id="admin_response<%= request._id%>" name="admin_response" required></textarea>
+                                        </div>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Submit</button>
+                                                    
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            
+                    <!-- / Layout page -->
+                </div>
+                
+                <!-- Overlay -->
+                <div class="layout-overlay layout-menu-toggle"></div>
+
+
+                <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+                <div class="drag-target"></div>
+
+            </div>
+            <!-- / Layout wrapper -->
+
+
+
+
+            <!-- Core JS -->
+            <!-- build:js assets/vendor/js/core.js -->
+            <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
+            <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
+            <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
+            <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
+            <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+            <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
+            <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
+            <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
+            <script src="/dashboard-assets/vendor/js/menu.js"></script>
+
+            <!-- endbuild -->
+
+            <!-- Vendors JS -->
+            <script src="/dashboard-assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+            <!-- Main JS -->
+            <script src="/dashboard-assets/js/main.js"></script>
+
+
+            <!-- Page JS -->
+            <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
+            <script>
+                const responseForms = document.querySelectorAll('.response-form');
+
+                responseForms.forEach(form => {
+                            form.addEventListener('submit', function (event) {
+                                event.preventDefault();
+                                const returnId = this.getAttribute('data-return-id');
+                                const orderId = this.getAttribute('data-order-id');
+                               
+                                console.log(returnId);
+                                
+                                const hiddenid = returnId
+                                const status = document.getElementById(`status${returnId}`);
+                                const adminResponse = document.getElementById(`admin_response${returnId}`);
+                                console.log(hiddenid,status);
+                                
+                                responseForm(
+                                    hiddenid,status,adminResponse,orderId
+                                );
+
+                            });
+                        });
+                        const responseForm = async (
+                            hiddenid,status,adminResponse,orderId
+                        ) => {
+
+                            const  responseValue =adminResponse.value.trim()
+                            const statusValue = status.value;
+                        
+                            console.log(hiddenid);
+                            
+
+                            try {
+                                const response = await fetch('/admin/updateReturnRequest', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        request_id :hiddenid,
+                                         status:statusValue, 
+                                         admin_response:responseValue,
+                                         orderId:orderId
+                                    })
+                                });
+                                const data = await response.json();
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.reload();
+                                        }
+                                    });
+                                    $('.modal').modal('hide');
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+                            } catch (error) {
+                                console.error('Error during address update:', error);
+                            }
+                        }
+
+
+
+
+
+
+        //         function openResponseModal(requestId) {
+        //             document.getElementById('request_id').value = requestId;
+        //             new bootstrap.Modal(document.getElementById('responseModal')).show();
+        //         }
+        //        async function submitResponse() {
+        //         const form = document.getElementById('responseForm');
+        //         const formData = new FormData(form);
+        //         try {
+        //             const response = await fetch('/admin/updateReturnRequest', {
+        //                 method: 'POST',
+        //                 body: formData
+        //             });
+
+        //             if (!response.ok) {
+        //                 throw new Error(`HTTP error! status: ${response.status}`);
+        //             }
+
+        //             const contentType = response.headers.get("content-type");
+        //             if (!contentType || !contentType.includes("application/json")) {
+        //                 throw new Error("Oops! We haven't received a JSON response from the server.");
+        //             }
+
+        //             const data = await response.json();
+        //             if (data.success) {
+        //             Swal.fire({
+        //                 title: 'Success!',
+        //                 text: data.message,
+        //                 icon: 'success',
+        //                 confirmButtonText: 'OK'
+        //             }).then((result) => {
+        //                 if (result.isConfirmed) {
+        //                     location.reload();
+        //                 }
+        //             });
+        //         } else {
+        //             Swal.fire({
+        //                 title: 'Error!',
+        //                 text: data.message,
+        //                 icon: 'error',
+        //                 confirmButtonText: 'OK'
+        //             });
+        //         }
+        //     } catch (error) {
+        //         console.error('Error:', error);
+        //         Swal.fire({
+        //             title: 'Error!',
+        //             text: `An error occurred: ${error.message}`,
+        //             icon: 'error',
+        //             confirmButtonText: 'OK'
+        //         });
+        //     }
+        // }
+            </script>
+  
+
+</body>
+
+</html>
+
+<!-- beautify ignore:end -->
