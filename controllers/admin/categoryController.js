@@ -1,4 +1,4 @@
-const Category = require('../../models/categoryList');
+const Category = require('../../models/admin/categoryList');
 
 
 const loadCategory = async (req, res) => {
@@ -23,7 +23,7 @@ const addCategory = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Description must be between 10 and 200 characters' });
         }
 
-        // Check if the category already exists
+        
         const existingCategory = await Category.findOne({ category_name: categoryTitle });
         if (existingCategory) {
             return res.status(400).json({ success: false, message: 'Category already exists' });
@@ -81,8 +81,6 @@ const loadUpdateCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
     try {
         const { hiddenid, productTitle, productOption, ProductDescription } = req.body;
-
-        console.log(hiddenid, productTitle, productOption, ProductDescription);
 
         await Category.findByIdAndUpdate(hiddenid, {
             $set: {

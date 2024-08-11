@@ -1,5 +1,5 @@
-const Products = require('../../models/products');
-const Orders = require('../../models/userOrders')
+const Products = require('../../models/admin/products');
+const Orders = require('../../models/user/userOrders')
 
 
 const loadOrderList= async (req, res) => {

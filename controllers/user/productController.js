@@ -1,8 +1,8 @@
-const User = require('../../models/userCredentials');
-const Category = require('../../models/categoryList');
-const Product = require('../../models/products');
-const Cart = require('../../models/cart');
-const Offer = require('../../models/offers');
+const User = require('../../models/user/userCredentials');
+const Category = require('../../models/admin/categoryList');
+const Product = require('../../models/admin/products');
+const Cart = require('../../models/user/cart');
+const Offer = require('../../models/admin/offers');
 require('dotenv').config();
 
 
@@ -61,14 +61,15 @@ const loadProductCategory = async (req, res) => {
         }
 
         const category = req.query.id;
-        const categoryData = await Category.findById(category);
-        const productData = await Product.find({ is_listed: true, category: category }).populate('category');
-
-       
-        const offers = await Offer.find({
-            status: 'active',
-            $or: [{ type: 'PRODUCT' }, { type: 'CATEGORY' }]
-        }).populate('products').populate('category');
+        const [categoryData, productData, offers] = await Promise.all([
+            Category.findById(category),
+            Product.find({ is_listed: true, category: category }).populate('category'),
+            Offer.find({
+              status: 'active',
+              $or: [{ type: 'PRODUCT' }, { type: 'CATEGORY' }]
+            }).populate('products').populate('category')
+          ]);
+          
 
         if (userData) {
             const cartItems = await Cart.find({ user_id: userData._id });
@@ -96,7 +97,6 @@ const loadShowProduct = async (req, res) => {
         const productData = await Product.findById(productId).populate('category');
         const allProductData = await Product.find({ category: productData.category._id });
 
-        // Fetch both product and category offers
         const offers = await Offer.find({
             status: 'active',
             $or: [

@@ -747,7 +747,16 @@
                         isValid = false;
                         setError(document.getElementById('expiryDate'), 'Select Expiry Date');
                     } else {
-                        setSuccess(document.getElementById('expiryDate'), 'Expiry Date');
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0); 
+                        const selectedDate = new Date(expiryDate);
+
+                        if (selectedDate <= today) {
+                            isValid = false;
+                            setError(document.getElementById('expiryDate'), 'Expiry date must be a future date');
+                        } else {
+                            setSuccess(document.getElementById('expiryDate'), 'Expiry Date');
+                        }
                     }
 
                     if (minPurchaseAmount === '') {
@@ -760,9 +769,16 @@
                         setSuccess(document.getElementById('min_purchase_amount'), 'Minimum Purchase Amount');
                     }
 
-                    if (maxAmount !== '' && maxAmount < 0) {
-                        isValid = false;
-                        setError(document.getElementById('max_amount'), 'Maximum Amount should be 0 or more');
+                    if (maxAmount !== '') {
+                        if (maxAmount < 0) {
+                            isValid = false;
+                            setError(document.getElementById('max_amount'), 'Maximum Amount should be 0 or more');
+                        } else if (parseFloat(maxAmount) <= parseFloat(minPurchaseAmount)) {
+                            isValid = false;
+                            setError(document.getElementById('max_amount'), 'Maximum Amount should be greater than Minimum Purchase Amount');
+                        } else {
+                            setSuccess(document.getElementById('max_amount'), 'Maximum Amount');
+                        }
                     } else {
                         setSuccess(document.getElementById('max_amount'), 'Maximum Amount');
                     }
@@ -895,14 +911,21 @@
                     } else {
                         setSuccess(description, 'Description');
                     }
-
                     if (expiryDateValue === '') {
                         isValid = false;
                         setError(expiryDate, 'Select Expiry Date');
                     } else {
-                        setSuccess(expiryDate, 'Expiry Date');
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0); 
+                        const selectedDate = new Date(expiryDateValue);
+                        if (selectedDate <= today) {
+                            isValid = false;
+                            setError(expiryDate, 'Expiry date must be a future date');
+                        } else {
+                            setSuccess(expiryDate, 'Expiry Date');
+                        }
+                       
                     }
-
                     if (minPurchaseAmountValue === '') {
                         isValid = false;
                         setError(minPurchaseAmount, 'Enter Minimum Purchase Amount');
@@ -916,7 +939,10 @@
                     if (maxAmountValue !== '' && maxAmountValue < 0) {
                         isValid = false;
                         setError(maxAmount, 'Maximum Amount should be 0 or more');
-                    } else {
+                    } else if (parseFloat(maxAmountValue) <= parseFloat(minPurchaseAmountValue)) {
+                            isValid = false;
+                            setError(maxAmount, 'Maximum Amount should be greater than Minimum Purchase Amount');
+                     } else {
                         setSuccess(maxAmount, 'Maximum Amount');
                     }
 

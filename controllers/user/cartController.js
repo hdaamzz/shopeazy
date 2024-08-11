@@ -1,7 +1,7 @@
-const User = require('../../models/userCredentials');
-const Cart = require('../../models/cart');
-const Wishlist = require('../../models/userwhishlist');
-const Offer =require('../../models/offers')
+const User = require('../../models/user/userCredentials');
+const Cart = require('../../models/user/cart');
+const Wishlist = require('../../models/user/userwhishlist');
+const Offer =require('../../models/admin/offers')
 require('dotenv').config();
 
 
@@ -16,8 +16,11 @@ const loadCart = async (req, res) => {
   
       if (userData) {
         const userid = userData._id;
-        const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
-        const cartItems = await Cart.find({ user_id: userid }).populate('product_id');
+        const [offers, cartItems] = await Promise.all([
+          Offer.find({ status: 'active' }).populate('products').populate('category'),
+          Cart.find({ user_id: userid }).populate('product_id')
+        ]);
+        
         let subtotal = 0;
   
         const cartItemsWithDiscounts = cartItems.map((cartItem) => {

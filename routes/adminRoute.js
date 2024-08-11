@@ -84,6 +84,8 @@ admin_route.post('/deleteCoupon',couponController.deleteCoupon);
 
 //salesreport
 admin_route.get('/salesreport',auth.isLogin,salesController.loadSales)
+admin_route.get('/salesreport/pdf', salesController.downloadPDF);
+admin_route.get('/salesreport/excel', salesController.downloadExcel);
 
 
 //logout 

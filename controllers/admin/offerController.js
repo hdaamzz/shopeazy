@@ -1,11 +1,14 @@
-const Category = require('../../models/categoryList');
-const Products = require('../../models/products');
-const Offer = require('../../models/offers')
+const Category = require('../../models/admin/categoryList');
+const Products = require('../../models/admin/products');
+const Offer = require('../../models/admin/offers')
 
 const loadOffer = async(req,res)=>{
     try {
-        const offer= await Offer.find({type:"PRODUCT"})
-        const products = await Products.find({is_listed:true})
+        const [offer, products] = await Promise.all([
+            Offer.find({ type: "PRODUCT" }),
+            Products.find({ is_listed: true })
+          ]);
+          
         res.render('offers',{products,offer})
     } catch (error) {
         
@@ -52,8 +55,11 @@ const addOffer= async(req,res)=>{
 
 const loadCateOffer =async(req,res)=>{
     try {
-        const offer= await Offer.find({type:"CATEGORY"})
-        const category = await Category.find({status:true})
+        const [offer, category] = await Promise.all([
+            Offer.find({ type: "CATEGORY" }),
+            Category.find({ status: true })
+          ]);
+          
         res.render('cateoffers',{category,offer})
     } catch (error) {
         

@@ -1,17 +1,20 @@
-const User = require('../../models/userCredentials');
-const Category = require('../../models/categoryList');
-const Product = require('../../models/products');
-const Cart = require('../../models/cart');
-const Offer = require('../../models/offers');
+const User = require('../../models/user/userCredentials');
+const Category = require('../../models/admin/categoryList');
+const Product = require('../../models/admin/products');
+const Cart = require('../../models/user/cart');
+const Offer = require('../../models/admin/offers');
 require('dotenv').config();
 
 
 
 const loadMain = async (req, res) => {
     try {
-        const category = await Category.find({ status: true });
-        const product = await Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category');
-        const offers = await Offer.find({status:'active'}).populate('products').populate('category');
+        const [category, product, offers] = await Promise.all([
+            Category.find({ status: true }),
+            Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category'),
+            Offer.find({ status: 'active' }).populate('products').populate('category')
+          ]);
+          
         res.render('userHome', { product, category ,offers});
     } catch (error) {
         console.log(error.message);
@@ -29,10 +32,13 @@ const loadUserMain = async (req, res) => {
         }
 
         if (userData) {
-            const cartItems = await Cart.find({ user_id: userData._id })
-            const category = await Category.find({ status: true });
-            const product = await Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category');
-            const offers = await Offer.find({ status:'active'}).populate('products').populate('category');
+            const [cartItems, category, product, offers] = await Promise.all([
+                Cart.find({ user_id: userData._id }),
+                Category.find({ status: true }),
+                Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category'),
+                Offer.find({ status: 'active' }).populate('products').populate('category')
+              ]);
+              
            
             
             res.render('userHome', { userData, product, cartItems, category ,offers});

@@ -1,17 +1,8 @@
-const User = require('../../models/userCredentials');
-const Category = require('../../models/categoryList');
-const Product = require('../../models/products');
-const Address = require('../../models/userAddress');
-const Cart = require('../../models/cart');
-const PaymentType = require('../../models/paymentType');
-const Orders = require('../../models/userOrders');
-const bcrypt = require('bcrypt');
+const User = require('../../models/user/userCredentials');
+const Product = require('../../models/admin/products');
+
 require('dotenv').config();
-const nodemailer = require('nodemailer');
-const passport = require('passport');
-const crypto = require('crypto');
-const path = require('path');
-const Razorpay = require('razorpay');
+
 
 
 

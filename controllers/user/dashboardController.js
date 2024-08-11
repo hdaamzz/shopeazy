@@ -1,19 +1,12 @@
-const User = require('../../models/userCredentials');
-const Category = require('../../models/categoryList');
-const Product = require('../../models/products');
-const Address = require('../../models/userAddress');
-const Cart = require('../../models/cart');
-const PaymentType = require('../../models/paymentType');
-const Orders = require('../../models/userOrders');
+const User = require('../../models/user/userCredentials');
+const Product = require('../../models/admin/products');
+const Address = require('../../models/user/userAddress');
+const Cart = require('../../models/user/cart');
+const Orders = require('../../models/user/userOrders');
 const bcrypt = require('bcrypt');
-const Wallet = require('../../models/userwallet')
+const Wallet = require('../../models/user/userwallet')
 require('dotenv').config();
-const nodemailer = require('nodemailer');
-const passport = require('passport');
-const crypto = require('crypto');
-const path = require('path');
-const Razorpay = require('razorpay');
-const paymentType = require('../../models/paymentType');
+
 
 const loadDashboard = async (req, res) => {
     try {
@@ -26,9 +19,12 @@ const loadDashboard = async (req, res) => {
         }
         if (userData) {
             const userid = userData._id
-            const orderData = await Orders.find({ user_id: userid }).populate('payment_type').populate('items');
-            const cartItems = await Cart.find({ user_id: userid })
-            const addressData = await Address.find({ user_id: userid });
+            const [orderData, cartItems, addressData] = await Promise.all([
+                Orders.find({ user_id: userid }).populate('payment_type').populate('items'),
+                Cart.find({ user_id: userid }),
+                Address.find({ user_id: userid })
+              ]);
+              
             res.render('dashboard', { userData, addressData, cartItems, orderData })
         } else {
             res.redirect('/')
@@ -189,7 +185,7 @@ const cancelOrder = async (req, res) => {
                 wallet.history.push({
                     amount: refundAmount,
                     transaction_type: "Cancelled",
-                    description: "Product Cancelling Refund",
+                    description: "Product Cancelled Refund",
                     transaction_id: `TRX-${randomID}`
                 });
             } else {

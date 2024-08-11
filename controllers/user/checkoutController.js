@@ -1,11 +1,11 @@
-const User = require('../../models/userCredentials');
-const Product = require('../../models/products');
-const Address = require('../../models/userAddress');
-const Cart = require('../../models/cart');
-const PaymentType = require('../../models/paymentType');
-const Orders = require('../../models/userOrders');
-const Offer = require('../../models/offers');
-const Coupon = require('../../models/coupons')
+const User = require('../../models/user/userCredentials');
+const Product = require('../../models/admin/products');
+const Address = require('../../models/user/userAddress');
+const Cart = require('../../models/user/cart');
+const PaymentType = require('../../models/admin/paymentType');
+const Orders = require('../../models/user/userOrders');
+const Offer = require('../../models/admin/offers');
+const Coupon = require('../../models/admin/coupons')
 require('dotenv').config();
 const Razorpay = require('razorpay');
 
@@ -27,11 +27,14 @@ const razorpay = new Razorpay({
 
         if (userData) {
             const userid = userData._id;
-            const coupons = await Coupon.find({})
-            const cartData = await Cart.find({ user_id: userid }).populate('product_id');
-            const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
-            const addressData = await Address.find({ user_id: userid });
-            const paymentTypes = await PaymentType.find({});
+            const [coupons, cartData, offers, addressData, paymentTypes] = await Promise.all([
+                Coupon.find({}),
+                Cart.find({ user_id: userid }).populate('product_id'),
+                Offer.find({ status: 'active' }).populate('products').populate('category'),
+                Address.find({ user_id: userid }),
+                PaymentType.find({})
+              ]);
+              
 
             let subtotal = 0;
             const cartItemsWithDiscounts = cartData.map((item) => {
@@ -162,7 +165,7 @@ const placeOrder = async (req, res) => {
             };
         });
 
-        // Rest of the code remains the same
+       
         const randomOrderId = Math.floor(1000 + Math.random() * 9000);
         const newOrder = new Orders({
             user_id,
@@ -175,7 +178,7 @@ const placeOrder = async (req, res) => {
             order_status: 'Pending',
             shipping_cost: 0,
             tax: 0,
-            discount: parseFloat(coupon_discount) || 0  // Add this line
+            discount: parseFloat(coupon_discount) || 0 
         });
 
         await newOrder.save();
@@ -208,7 +211,7 @@ const placeOrder = async (req, res) => {
             });
         }
 
-        // Update product stock
+       
         for (let item of cartItems) {
             await Product.findByIdAndUpdate(
                 item.product_id._id,

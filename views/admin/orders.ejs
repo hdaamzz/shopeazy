@@ -431,23 +431,20 @@
                                                         </td>
 
 
-                                                        <td><% if(orders[i].order_status !== 'Cancelled') {%>
-                                                            <div
-                                                                class="d-flex justify-content-start align-items-center customer-country">
-                                                                <div>
-                                                                    <span>
-                                                                        <a
-                                                                            href="/admin/updateStatus?id=<%= orders[i]._id%>">
-                                                                            <button type="button"
-                                                                                class="btn btn-primary">
-                                                                                EDIT
-                                                                            </button>
-                                                                        </a>
-                                                                     </span>
-
+                                                        <td>
+                                                            <% if(orders[i].order_status !== 'Cancelled' && orders[i].order_status !== 'Delivered') { %>
+                                                                <div class="d-flex justify-content-start align-items-center customer-country">
+                                                                    <div>
+                                                                        <span>
+                                                                            <a href="/admin/updateStatus?id=<%= orders[i]._id%>">
+                                                                                <button type="button" class="btn btn-primary">
+                                                                                    EDIT
+                                                                                </button>
+                                                                            </a>
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <%}%>
+                                                            <% } %>
                                                         </td>
                                                         <td>
                                                             <div

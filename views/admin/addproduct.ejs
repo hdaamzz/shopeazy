@@ -49,6 +49,9 @@
     <!-- Page CSS -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/css/pages/app-ecommerce-dashboard.css" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
     <!-- Helpers -->
     <script src="/dashboard-assets/vendor/js/helpers.js"></script>
 
@@ -432,67 +435,62 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-4 mb-3 ">
-                                                    
-                                                    <div class="image-upload-container ">
-                                                        <input type="file" class="image-upload-input" id="productImage1" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview1')" >
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <div class="image-upload-container">
+                                                        <input type="file" class="image-upload-input" id="productImage1" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview1', 1)">
                                                         <label for="productImage1" class="image-upload-label errMsgSignup">
-                                                            <div class="upload-placeholder ">
+                                                            <div class="upload-placeholder">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
-                                                                <span ">Click or drag image here</span>
+                                                                <span>Click or drag image here</span>
                                                             </div>
                                                             <img id="imagePreview1" src="#" alt="Preview" class="img-preview">
                                                         </label>
-                                                        <div class="image-actions" id="actions1">
-                                                           
-                                                        </div>
-                                                       
+                                                        <div class="image-actions" id="actions1"></div>
                                                     </div>
                                                     <div class="form-control formgroup1">
-                                                        <label for="diii1"class="errMsgSignup"></label>
-                                                        <input type="hidden" id="diii1" >
-
+                                                        <label for="diii1" class="errMsgSignup"></label>
+                                                        <input type="hidden" id="diii1">
                                                     </div>
+                                                    <button type="button" class="btn btn-primary mt-2" onclick="openCropper(1)">Crop Image</button>
                                                 </div>
+
                                                 <div class="col-md-4 mb-3">
-                                                    <div class="image-upload-container ">
-                                                        <input type="file" class="image-upload-input" id="productImage2" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview2')" >
+                                                    <div class="image-upload-container">
+                                                        <input type="file" class="image-upload-input" id="productImage2" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview2', 2)">
                                                         <label for="productImage2" class="image-upload-label errMsgSignup">
-                                                            <div class="upload-placeholder ">
+                                                            <div class="upload-placeholder">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
                                                             </div>
                                                             <img id="imagePreview2" src="#" alt="Preview" class="img-preview">
                                                         </label>
-                                                        <div class="image-actions" id="actions2">
-                                                           
-                                                        </div>
+                                                        <div class="image-actions" id="actions2"></div>
                                                     </div>
                                                     <div class="form-control formgroup1">
-                                                        <label for="diii3"class="errMsgSignup"></label>
-                                                        <input type="hidden" id="diii2" >
-
+                                                        <label for="diii2" class="errMsgSignup"></label>
+                                                        <input type="hidden" id="diii2">
                                                     </div>
+                                                    <button type="button" class="btn btn-primary mt-2" onclick="openCropper(2)">Crop Image</button>
                                                 </div>
+
                                                 <div class="col-md-4 mb-3">
-                                                    <div class="image-upload-container ">
-                                                        <input type="file" class="image-upload-input" id="productImage3" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview3')" >
+                                                    <div class="image-upload-container">
+                                                        <input type="file" class="image-upload-input" id="productImage3" name="productImage" accept="image/*" onchange="previewImage(this, 'imagePreview3', 3)">
                                                         <label for="productImage3" class="image-upload-label errMsgSignup">
-                                                            <div class="upload-placeholder ">
+                                                            <div class="upload-placeholder">
                                                                 <i class="fas fa-cloud-upload-alt"></i>
                                                                 <span>Click or drag image here</span>
                                                             </div>
                                                             <img id="imagePreview3" src="#" alt="Preview" class="img-preview">
                                                         </label>
-                                                        <div class="image-actions" id="actions3">
-                                                           
-                                                        </div>
+                                                        <div class="image-actions" id="actions3"></div>
                                                     </div>
                                                     <div class="form-control formgroup1">
-                                                        <label for="diii3"class="errMsgSignup"></label>
-                                                        <input type="hidden" id="diii3" >
-
+                                                        <label for="diii3" class="errMsgSignup"></label>
+                                                        <input type="hidden" id="diii3">
                                                     </div>
+                                                    <button type="button" class="btn btn-primary mt-2" onclick="openCropper(3)">Crop Image</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -573,6 +571,27 @@
                 </form>
                     <!-- / Layout page -->
                 </div>
+                <div class="modal fade" id="cropperModal" tabindex="-1" role="dialog" aria-labelledby="cropperModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cropperModalLabel">Crop Image</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="img-container" style="max-height: 70vh;">
+                                    <img id="cropperImage" src="" alt="Image to crop" style="max-width: 100%; max-height: 100%;">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="cropImage()">Crop</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Overlay -->
                 <div class="layout-overlay layout-menu-toggle"></div>
@@ -611,7 +630,8 @@
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
             <script>
-
+                let cropper;
+                let currentImageId;
                     function previewImage(input, previewId) {
                     const preview = document.getElementById(previewId);
                     const file = input.files[0];
@@ -631,6 +651,51 @@
                         input.closest('.image-upload-container').querySelector('.upload-placeholder').style.display = 'flex';
                     }
                 }
+                function openCropper(imageNumber) {
+                const input = document.getElementById(`productImage${imageNumber}`);
+                const file = input.files[0];
+                if (!file) {
+                    alert('Please select an image first.');
+                    return;
+                }
+
+                currentImageId = imageNumber;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('cropperImage').src = e.target.result;
+                    $('#cropperModal').modal('show');
+
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    cropper = new Cropper(document.getElementById('cropperImage'), {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                    });
+                }
+                reader.readAsDataURL(file);
+            }
+            function cropImage() {
+            if (!cropper) return;
+
+            const croppedCanvas = cropper.getCroppedCanvas();
+            croppedCanvas.toBlob((blob) => {
+                const file = new File([blob], `cropped_image_${currentImageId}.jpg`, { type: 'image/jpeg' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+
+                const fileInput = document.getElementById(`productImage${currentImageId}`);
+                fileInput.files = dataTransfer.files;
+
+                const preview = document.getElementById(`imagePreview${currentImageId}`);
+                preview.src = croppedCanvas.toDataURL('image/jpeg');
+                preview.style.display = 'block';
+
+                $('#cropperModal').modal('hide');
+            }, 'image/jpeg');
+        }
+
 
                 function triggerInputClick(inputId) {
                     document.getElementById(inputId).click();

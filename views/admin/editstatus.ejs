@@ -501,13 +501,14 @@
 
 
                                             <div class="form-floating form-floating-outline form-floating-select2 pt-2">
-                                                <div class="position-relative"><label for="product-status" class="errMsgSignup">Select Product Status</label>
-                                                    <select name="productOption" id="product-status" class="select2 form-select select2-hidden-accessible"  data-placeholder="Select product status" >
-                                                        
-                                                    <option value="Pending" <%= order.order_status === false ? 'selected' : '' %>>Pending</option>
-                                                    <option value="Processing" <%= order.order_status === false ? 'selected' : '' %>>Processing</option>
-                                                    <option value="Shipped" <%= order.order_status === false ? 'selected' : '' %>>Shipped</option>
-                                                    <option value="Delivered" <%= order.order_status === false ? 'selected' : '' %>>Delivered</option>
+                                                <div class="position-relative">
+                                                    <label for="product-status" class="errMsgSignup">Select Product Status</label>
+                                                    <select name="productOption" id="product-status" class="select2 form-select select2-hidden-accessible" data-placeholder="Select product status">
+                                                        <option value="Pending" <%= order.order_status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                                        <option value="Processing" <%= order.order_status === 'Processing' ? 'selected' : '' %>>Processing</option>
+                                                        <option value="Shipped" <%= order.order_status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                                                        <option value="Delivered" <%= order.order_status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             

@@ -1,11 +1,16 @@
-const Category = require('../../models/categoryList');
-const Products = require('../../models/products');
+const Category = require('../../models/admin/categoryList');
+const Products = require('../../models/admin/products');
+const path = require('path')
+const fs =require('fs')
 
 
 const loadProducts = async (req, res) => {
     try {
-        const product = await Products.find({}).populate('category');
-        const categories = await Category.find({});
+        const [product, categories] = await Promise.all([
+            Products.find({}).populate('category'),
+            Category.find({})
+          ]);
+          
         res.render('products', { product: product, categories: categories })
     } catch (error) {
         console.error('Error Load Produts:', error);
@@ -52,8 +57,11 @@ const loadUpdateProduct = async (req, res) => {
         const id = req.query.id
 
 
-        const productData = await Products.findById(id).populate('category')
-        const category = await Category.find({})
+        const [productData, category] = await Promise.all([
+            Products.findById(id).populate('category'),
+            Category.find({})
+          ]);
+          
         res.render('updateproduct', { productData, category })
     } catch (error) {
         console.error('Error Load Update Product:', error);
@@ -71,17 +79,22 @@ const updateProduct = async (req, res) => {
 
         let images = [];
 
-       
         for (let i = 1; i <= 3; i++) {
             const fieldName = `productImage${i}`;
-            if (req.files && req.files[fieldName]) {
-                images.push(req.files[fieldName][0].filename);
+            if (req.body[fieldName] && req.body[fieldName].startsWith('data:image')) {
+               
+                const base64Data = req.body[fieldName].replace(/^data:image\/\w+;base64,/, "");
+                const buffer = Buffer.from(base64Data, 'base64');
+                const imageName = `cropped_product_${hiddenId}_${i}.jpg`;
+                const imagePath = path.join(__dirname, '../../uploads/', imageName);
+                
+                fs.writeFileSync(imagePath, buffer);
+                images.push(imageName);
             } else if (req.body[`existingImage${i}`]) {
                 images.push(req.body[`existingImage${i}`]);
             }
         }
 
-   
         await Products.findByIdAndUpdate(hiddenId, {
             $set: {
                 product_name: req.body['productTitle'],
@@ -100,7 +113,6 @@ const updateProduct = async (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 };
-
 
 module.exports = {
     loadProducts,

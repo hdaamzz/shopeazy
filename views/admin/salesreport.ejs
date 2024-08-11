@@ -345,10 +345,13 @@
                 <div class="content-wrapper">
 
                     <!-- Content -->
-
+                    
+                        
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
                             <div class="card-header">
+                                <form id="salesReportForm" method="GET" action="/admin/salesreport">
+                                   
                                 <h5 class="card-title mb-4">SALES REPORT</h5>
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-3">
@@ -383,22 +386,41 @@
                                     <button id="downloadPdf" class="btn btn-warning me-2">Download PDF</button>
                                     <button id="downloadExcel" class="btn btn-success">Download Excel</button>
                                 </div>
+                                <input type="hidden" name="reportType" id="hiddenReportType">
+                                <input type="hidden" name="startDate" id="hiddenStartDate">
+                                <input type="hidden" name="endDate" id="hiddenEndDate">
+                                </form>
                             </div>
                             <div class="card-body">
                                 <table id="salesReport" class="table">
                                     <thead>
-                                        <tr>
+                                        <tr> 
+                                            <th>Order ID</th>
                                             <th>Date</th>
-                                            <th>Order</th>
+                                            <th>Items</th>
+                                            <th>Price</th>
                                             <th>Total Amount</th>
+                                            <th>Coupon</th>
                                             <th>Discount</th>
-                                            <th>Coupon Deduction</th>
-                                            <th>Net Sales</th>
                                         </tr>
                                     </thead>
+                                    <% orders?.forEach( items=> { %>
                                     <tbody>
-                                        <!-- Data will be populated here -->
+                                        <td><%= items.order_id %></td>
+                                        <td><%= new
+                                            Date(items.created_at.getTime()).toLocaleDateString("en-US",
+                                            {year: "numeric" , month: "long" ,day: "numeric" })%></td>
+                                            
+                                            
+                                        <td><%= items.items.length %><br></td>
+                                        <% let tot_price =0; items.items.forEach(x=> { tot_price += x.total; %>
+                                       
+                                        <%})%> <td><%= tot_price%><br></td>
+                                        <td><%= items.total_amount%><br></td>
+                                        <td><% if(items.discount > 0){%>Applied<%}else{%>Not Applied<%}%></td>
+                                        <td><% if(items.discount > 0){%><%= items.discount%><%}else{%>0.00<%}%></td>
                                     </tbody>
+                                    <%})%>
                                 </table>
                             </div>
                             <div class="card-footer">
@@ -484,65 +506,92 @@
                 }
 
                 reportType.addEventListener('change', toggleDateInputs);
-                toggleDateInputs(); // Initial state
+                toggleDateInputs();
+            });
+            </script>
+            <script>
+            generateReportBtn.addEventListener('click', function() {
+                const type = reportType.value;
+                document.getElementById('hiddenReportType').value = type;
+                if (type === 'custom') {
+                    document.getElementById('hiddenStartDate').value = startDate.value;
+                    document.getElementById('hiddenEndDate').value = endDate.value;
+                }
+                document.getElementById('salesReportForm').submit();
+            });
+            </script>
+            <script>
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const reportType = document.getElementById('reportType');
+                const startDate = document.getElementById('startDate');
+                const endDate = document.getElementById('endDate');
+                const generateReportBtn = document.getElementById('generateReport');
+                const downloadPdfBtn = document.getElementById('downloadPdf');
+                const downloadExcelBtn = document.getElementById('downloadExcel');
+                const salesReportForm = document.getElementById('salesReportForm');
+
+                function toggleDateInputs() {
+                    const isCustom = reportType.value === 'custom';
+                    startDate.disabled = !isCustom;
+                    endDate.disabled = !isCustom;
+                }
+
+                reportType.addEventListener('change', toggleDateInputs);
+                toggleDateInputs();
+
+                generateReportBtn.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                
+                const type = reportType.value;
+                document.getElementById('hiddenReportType').value = type;
+                
+                if (type === 'custom') {
+                    if (!startDate.value || !endDate.value) {
+                        alert('Please select both start and end dates for custom range');
+                        return;
+                    }
+                    document.getElementById('hiddenStartDate').value = startDate.value;
+                    document.getElementById('hiddenEndDate').value = endDate.value;
+                } else {
+                   
+                    document.getElementById('hiddenStartDate').value = '';
+                    document.getElementById('hiddenEndDate').value = '';
+                }
+                
+                salesReportForm.submit();
+            });
+
+                function calculateSummary() {
+                    const rows = document.querySelectorAll('#salesReport tbody tr');
+                    let totalCount = rows.length;
+                    let totalAmount = 0;
+                    let totalDiscount = 0;
+
+                    rows.forEach(row => {
+                        totalAmount += parseFloat(row.querySelector('td:nth-child(5)').textContent);
+                        totalDiscount += parseFloat(row.querySelector('td:nth-child(7)').textContent);
+                    });
+
+                    document.getElementById('overallCount').textContent = totalCount;
+                    document.getElementById('overallAmount').textContent = totalAmount.toFixed(2);
+                    document.getElementById('overallDiscount').textContent = totalDiscount.toFixed(2);
+                }
+
+                calculateSummary();
+
+                downloadPdfBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = '/admin/salesreport/pdf' + window.location.search;
+            });
+
+                downloadExcelBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = '/admin/salesreport/excel' + window.location.search;
+            });
             });
             </script>
 
-            <!-- <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const reportType = document.getElementById('reportType');
-                    const startDate = document.getElementById('startDate');
-                    const endDate = document.getElementById('endDate');
-                    const generateButton = document.getElementById('generateReport');
-                    const tableBody = document.querySelector('#salesReport tbody');
-
-                    reportType.addEventListener('change', function () {
-                        if (this.value === 'custom') {
-                            startDate.style.display = 'inline-block';
-                            endDate.style.display = 'inline-block';
-                        } else {
-                            startDate.style.display = 'none';
-                            endDate.style.display = 'none';
-                        }
-                    });
-
-                    generateButton.addEventListener('click', function () {
-                        // Here you would typically make an API call to get the data
-                        // For this example, we'll use dummy data
-                        const dummyData = [
-                            { date: '2024-08-10', count: 10, amount: 1000, discount: 50, coupon: 20 },
-                            { date: '2024-08-11', count: 15, amount: 1500, discount: 75, coupon: 30 },
-                            // Add more dummy data as needed
-                        ];
-
-                        // Clear existing table data
-                        tableBody.innerHTML = '';
-
-                        // Populate table with new data
-                        dummyData.forEach(row => {
-                            const tr = document.createElement('tr');
-                            tr.innerHTML = `
-                                <td>${row.date}</td>
-                                <td>${row.count}</td>
-                                <td>$${row.amount.toFixed(2)}</td>
-                                <td>$${row.discount.toFixed(2)}</td>
-                                <td>$${row.coupon.toFixed(2)}</td>
-                                <td>$${(row.amount - row.discount - row.coupon).toFixed(2)}</td>
-                            `;
-                            tableBody.appendChild(tr);
-                        });
-
-                        // Update summary
-                        document.getElementById('overallCount').textContent = dummyData.reduce((sum, row) => sum + row.count, 0);
-                        document.getElementById('overallAmount').textContent = '$' + dummyData.reduce((sum, row) => sum + row.amount, 0).toFixed(2);
-                        document.getElementById('overallDiscount').textContent = '$' + dummyData.reduce((sum, row) => sum + row.discount + row.coupon, 0).toFixed(2);
-                    });
-
-                    // Implement PDF and Excel download functionality here
-                    // This typically involves using libraries like jsPDF and SheetJS
-                    // or making a backend request to generate the files
-                });
-            </script> -->
 
 </body>
 

@@ -58,6 +58,10 @@
     <link rel="stylesheet" href="/dashboard-assets/vendor/libs/typeahead-js/typeahead.css" />
     <link rel="stylesheet" href="/dashboard-assets/vendor/libs/apex-charts/apex-charts.css" />
 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
     <!-- Page CSS -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/css/pages/app-ecommerce-dashboard.css" />
 
@@ -622,6 +626,28 @@
                 </form>
                     <!-- / Layout page -->
                 </div>
+
+                <div class="modal fade" id="cropperModal" tabindex="-1" role="dialog" aria-labelledby="cropperModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cropperModalLabel">Crop Image</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="img-container" style="max-height: 70vh;">
+                                    <img id="cropperImage" src="" alt="Image to crop" style="max-width: 100%; max-height: 100%;">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="cropImage()">Crop</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Overlay -->
                 <div class="layout-overlay layout-menu-toggle"></div>
@@ -660,29 +686,83 @@
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
             <script>
+
+            let cropper;
+            let currentImageId;
             function previewImage(input, previewId) {
                 const preview = document.getElementById(previewId);
                 const placeholder = input.closest('.image-upload-container').querySelector('.upload-placeholder');
                 const file = input.files[0];
 
                 if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = function () {
-                        preview.src = reader.result;
-                        preview.style.display = 'block';
-                        placeholder.style.display = 'none';
-                    }
-                    reader.readAsDataURL(file);
-                } else if (preview.src && preview.src !== window.location.href) {
-                    // If no new file is selected but there's an existing image, keep displaying it
-                    preview.style.display = 'block';
-                    placeholder.style.display = 'none';
-                } else {
-                    preview.src = "";
-                    preview.style.display = 'none';
-                    placeholder.style.display = 'flex';
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    openCropper(input.id, reader.result);
                 }
+                reader.readAsDataURL(file);
+            } else if (preview.src && preview.src !== window.location.href) {
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                preview.src = "";
+                preview.style.display = 'none';
+                placeholder.style.display = 'flex';
             }
+            }
+
+            function openCropper(inputId, imageSrc) {
+            currentImageId = inputId;
+            const cropperImage = document.getElementById('cropperImage');
+            cropperImage.src = imageSrc;
+            $('#cropperModal').modal('show');
+
+            $('#cropperModal').on('shown.bs.modal', function () {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(cropperImage, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    minCropBoxWidth: 200,
+                    minCropBoxHeight: 200,
+                    responsive: true,
+                    restore: false,
+                    center: true,
+                    highlight: false,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    toggleDragModeOnDblclick: false,
+                });
+            });
+        }
+                function cropImage() {
+                if (!cropper) return;
+
+                const croppedCanvas = cropper.getCroppedCanvas({
+                    width: 600,
+                    height: 600,
+                    imageSmoothingEnabled: true,
+                    imageSmoothingQuality: 'high',
+                });
+
+                croppedCanvas.toBlob((blob) => {
+                    const file = new File([blob], `cropped_${currentImageId}.jpg`, { type: 'image/jpeg' });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+
+                    const fileInput = document.getElementById(currentImageId);
+                    fileInput.files = dataTransfer.files;
+
+                    const preview = document.getElementById(currentImageId.replace('productImage', 'imagePreview'));
+                    preview.src = croppedCanvas.toDataURL('image/jpeg');
+                    preview.style.display = 'block';
+
+                    $('#cropperModal').modal('hide');
+                }, 'image/jpeg', 0.9);
+            }
+
+
+
 
             function triggerInputClick(inputId) {
                 document.getElementById(inputId).click();
@@ -807,6 +887,14 @@
 
                             try {
                                 var formData = new FormData(addProductForm);
+
+                                for (let i = 1; i <= 3; i++) {
+                                    const imageInput = document.getElementById(`productImage${i}`);
+                                    if (imageInput.files.length > 0) {
+                                        const preview = document.getElementById(`imagePreview${i}`);
+                                        formData.set(`productImage${i}`, preview.src);
+                                    }
+                                }
 
                                 const response = await fetch('/admin/updateProduct', {
                                         method: 'POST',

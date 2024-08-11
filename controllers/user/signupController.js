@@ -1,4 +1,4 @@
-const User = require('../../models/userCredentials');
+const User = require('../../models/user/userCredentials');
 
 const bcrypt = require('bcrypt');
 require('dotenv').config();

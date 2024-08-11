@@ -1,4 +1,4 @@
-const Coupon = require('../../models/coupons');
+const Coupon = require('../../models/admin/coupons');
 
 const loadCoupon = async(req,res)=>{
     try {

@@ -32,6 +32,7 @@ user_route.use(session({
 
 }));
 
+
 // home page 
 user_route.get('/', auth.isLogout, homeController.loadMain);
 user_route.get('/home', auth.isLogin, homeController.checkGoogleAuthStatus, homeController.loadUserMain);
@@ -78,6 +79,8 @@ user_route.post('/remove-from-wishlist', cartController.removeWishlistItem);
 //search&filters
 user_route.get('/search-results', searchFilterController.searchResults);
 user_route.get('/serch',searchFilterController.shopFilter)
+
+
 
 //check out section
 user_route.get('/checkout',auth.isLogin,checkoutController.loadCheckout)
