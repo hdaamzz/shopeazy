@@ -15,6 +15,7 @@ const adminRoute = require('./routes/adminRoute')
 const passport = require('./controllers/user/googlePassport');
 
 
+
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 app.use('/dashboard-assets', express.static(path.join(__dirname, './public/dashboard-assets')));
 app.use('/lib', express.static(path.join(__dirname, 'public/lib')));
