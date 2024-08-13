@@ -243,7 +243,7 @@
                         <div class="row balance-header">
                             <div class="col-md-6">
                                 <h2>Wallet Balance</h2>
-                                <h4>Current Balance: ₹ <%= wallet[0].balance %></h4>
+                                <h4>Current Balance: ₹ <%= wallet[0]?.balance %></h4>
                             </div>
                             <div class="col-md-6 text-end">
                                 <!-- <button class="btn btn-primary me-2">Add Funds</button>
@@ -285,7 +285,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% wallet.forEach(item=>{ %>
+                                <% wallet?.forEach(item=>{ %>
                                     <% item.history.forEach(hist=>{ %>
                                 <tr>
                                     <td><%=hist.transaction_id%></td>

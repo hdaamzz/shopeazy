@@ -45,6 +45,10 @@ const userOrdersSchema = new mongoose.Schema({
             type: Number,
             required: true,
             min: 1
+        },status: {
+            type: String,
+            enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled','Return Requested','Returned','Rejected'],
+            default: 'Pending'
         },
         price: {
             type: Number,
@@ -69,11 +73,13 @@ const userOrdersSchema = new mongoose.Schema({
         enum: ['Pending', 'Completed', 'Failed'],
         default: 'Pending'
     },
-    order_status: {
-        type: String,
-        enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled','Return Requested','Returned'],
-        default: 'Pending'
-    },cancellation_reason:{
+
+    // order_status: {
+    //     type: String,
+    //     enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled','Return Requested','Returned','Rejected'],
+    //     default: 'Pending'
+    // }
+    cancellation_reason:{
         type:String
     },
     shipping_cost: {

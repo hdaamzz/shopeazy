@@ -21,7 +21,7 @@ const loadDashboard = async (req, res) => {
         if (userData) {
             const userid = userData._id
             const [orderData, cartItems, addressData] = await Promise.all([
-                Orders.find({ user_id: userid }).populate('payment_type').populate('items'),
+                Orders.find({ user_id: userid }).populate('payment_type').populate('items').populate('items.product_id').sort({created_at:-1}),
                 Cart.find({ user_id: userid }),
                 Address.find({ user_id: userid })
               ]);
