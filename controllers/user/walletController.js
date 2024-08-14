@@ -19,7 +19,7 @@ const loadWallet = async(req,res)=>{
             ]),
             User.findById(req.session.user_id)
           ]);
-          console.log(walletData);
+
           
           
        

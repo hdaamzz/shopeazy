@@ -50,6 +50,9 @@ const userOrdersSchema = new mongoose.Schema({
             enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled','Return Requested','Returned','Rejected'],
             default: 'Pending'
         },
+        cancellation_reason:{
+            type:String
+        },
         price: {
             type: Number,
             required: true

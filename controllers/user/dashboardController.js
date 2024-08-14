@@ -165,17 +165,18 @@ const updateUserData = async (req, res) => {
 
 const cancelOrder = async (req, res) => {
     try {
-        const { _id, cancel_reason } = req.body;
+        const { _id, cancel_reason,item_id } = req.body;
        
 
-        const order = await Orders.findById(_id).populate('payment_type');
+        const order = await Orders.findById(_id).populate('payment_type').populate('items.product_id');
         if (!order) {
             return res.status(404).json({ success: false, message: 'Order not found' });
         }
+        const products = order.items.find(product=>product._id.equals(item_id))
         
         if(order.payment_type.pay_type == "UPI PAYMENT"){
             const randomID = Math.floor(100000 + Math.random() * 900000);
-            const refundAmount = parseFloat(order.total_amount);
+            const refundAmount = parseFloat(products.total);
 
            
             let wallet = await Wallet.findOne({ user_id: req.session.user_id });
@@ -205,12 +206,12 @@ const cancelOrder = async (req, res) => {
 
             await wallet.save();
 
-            order.order_status = 'Cancelled';
-            order.cancellation_reason = cancel_reason;
+            products.status = 'Cancelled';
+            products.cancellation_reason = cancel_reason;
             await order.save();
         } else {
-            order.order_status = 'Cancelled';
-            order.cancellation_reason = cancel_reason;
+            products.status = 'Cancelled';
+            products.cancellation_reason = cancel_reason;
             await order.save();
         }
 

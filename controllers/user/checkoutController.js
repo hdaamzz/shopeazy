@@ -161,6 +161,7 @@ const placeOrder = async (req, res) => {
                 quantity: item.quantity,
                 original_price: item.product_id.price,
                 price: finalPrice,
+                status:'Pending',
                 total: parseFloat((finalPrice * item.quantity).toFixed(2))
             };
         });
@@ -175,7 +176,6 @@ const placeOrder = async (req, res) => {
             total_amount: parseFloat(total_amount),
             payment_type: payment_type_objId._id,
             payment_status: 'Pending',
-            order_status: 'Pending',
             shipping_cost: 0,
             tax: 0,
             discount: parseFloat(coupon_discount) || 0 

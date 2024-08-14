@@ -218,190 +218,128 @@
                                                 your password and account details</a>.</p>
                                         </div>
 
-                                        <div class="tab-pane fade" id="tab-orders" role="tabpanel"
-                                            aria-labelledby="tab-orders-link">
-                                            <h5>Orders List</h5>
-                                            <table class="table table-cart table-mobile">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Order Id</th>
-                                                        <th>Price</th>
-                                                        <th>Address Name</th>
-                                                        <th>Status</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-
-
-
-
-
-                                                <tbody>
-                                                    <% orderData.forEach((item, index)=> { %>
-                                                        <tr>
-                                                            <td class="product-col">
-                                                                <div class="product">
-                                                                    <h3 class="product-title">
-                                                                        <span style="color: #495057;">Orderd date :<%=
-                                                                                item.created_at.toLocaleDateString() %>
-                                                                                </span><br>
-                                                                        <a href="#" data-bs-toggle="modal"
-                                                                            data-bs-target="#orderModal<%= item._id %>">#
-                                                                            <%= item?.order_id %></a>
-
-                                                                    </h3>
-
+                                        <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+                                            <% if (orderData && orderData.length > 0) { %>
+                                                <div class="order-list">
+                                                    <% orderData.forEach(order => { %>
+                                                        <div class="card mb-4 order-card">
+                                                            <div class="card-header bg-light">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-md-6 pl-5">
+                                                                        <h6 class="mb-0">Order <%= order.order_id %></h6>
+                                                                    </div>
+                                                                    <div class="col-md-6 text-md-end">
+                                                                        <small class="text-muted">Ordered on <%= new Date(order.created_at).toLocaleDateString() %></small>
+                                                                    </div>
                                                                 </div>
-                                                            </td>
-                                                            <td class="price-col">₹<%= item.total_amount %>
-                                                            </td>
-                                                            <td class="product-title">
-                                                                To: <%= item.address_id.name %>
-                                                            </td>
-                                                            <td class="total-col">
-                                                                <%= item.order_status %>
-                                                            </td>
-                                                            <td class="view-col">
-                                                                <% if(item.order_status === 'Cancelled' || item.order_status === 'Return Requested' || item.order_status === 'Returned' ) { %>
-                                                                   
-                                                                <% } else if(item.order_status === 'Delivered') { %>
-                                                                    <button class="btn btn-danger" data-bs-toggle="modal"
-                                                                            data-bs-target="#returnOrderModal<%= item._id %>">RETURN ORDER</button>
-                                                                <% } else { %>
-                                                                    <button class="btn btn-danger" data-bs-toggle="modal"
-                                                                            data-bs-target="#cancelOrderModal<%= item._id %>">CANCEL ORDER</button>
-                                                                <% } %>
-                                                            </td>
-                                                        </tr>
-                                                        <% }) %>
-                                                </tbody>
-                                            </table>
-                                            <a href="/shop" class="btn btn-outline-primary-2"><span>GO
-                                                    SHOP</span><i class="icon-long-arrow-right"></i></a>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-4">
+                                                                        <strong>Total Amount:</strong> ₹<%= order.total_amount.toFixed(2) %>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <strong>Ship to:</strong> <%= order.address_id.name %> , 
+                                                                        <%= order.address_id.address %>  , <%= order.address_id.town_city %> , <%= order.address_id.state %> <br>
+                                                                    </div> 
+                                                                </div>
+                                                                <button class="btn btn-outline-primary btn-sm" onclick="toggleOrderDetails('<%= order._id %>')">
+                                                                    View Order Details
+                                                                </button>
+                                                                <div class="order-products mt-3" id="order-products-<%= order._id %>" style="display: none;">
+                                                                    <h6 class="mb-3">Ordered Items:</h6>
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-sm table-borderless">
+                                                                            <thead class="table-light">
+                                                                                <tr>
+                                                                                    <th>Product</th>
+                                                                                    <th>Price</th>
+                                                                                    <th>Quantity</th>
+                                                                                    <th>Total</th>
+                                                                                    <th>Status</th>
+                                                                                    <th>Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <% order.items.forEach(item => { %>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <div class="d-flex align-items-center">
+                                                                                                <img src="/uploads/<%= item?.product_id?.images[0] %>" alt="<%= item.name %>" class="img-thumbnail me-2" style="width: 50px; height: 50px; object-fit: cover;">
+                                                                                                <span><a
+                                                                                                    href="/showProduct?id=<%= item.product_id._id %>">
+                                                                                                    <%= item.name %>
+                                                                                                </a></span>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>₹<%= item.price.toFixed(2) %></td>
+                                                                                        <td><%= item.quantity %></td>
+                                                                                        <td>₹<%= item.total %></td>
+                                                                                        <td>
+                                                                                            <span class="badge bg-<%= item.status === 'Delivered' ? 'success' : 'primary' %>">
+                                                                                                <%= item.status %>
+                                                                                            </span>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <% if (item.status === 'Cancelled') { %>
+                                                                                                <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Cancelled</button>
+                                                                                            <% } else if (item.status === 'Delivered') { %>
+                                                                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                                                data-bs-target="#returnOrderModal<%= item._id %>">RETURN ORDER</button>
+                                                                                            <% } else if (['Pending'].includes(item.status)) { %>
+                                                                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                                                    data-bs-target="#cancelOrderModal<%= item._id %>">CANCEL ORDER</button>
+                                                                                            <% } %>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                <% }) %>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <% }) %>
+                                                </div>
+                                            <% } else { %>
+                                                <div class="text-center py-5">
+                                                    <p class="lead">You haven't placed any orders yet.</p>
+                                                    <a href="/shop" class="btn btn-primary mt-3">
+                                                        Start Shopping <i class="bi bi-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                            <% } %>
                                         </div>
 
 
-                                        <% orderData.forEach((item, index)=> { %>
-                                            <div class="modal fade" id="orderModal<%= item._id %>" tabindex="-1"
-                                                aria-labelledby="orderModalLabel<%= item._id %>" aria-hidden="true">
-                                                <div class="modal-dialog modal-xl">
-                                                    <!-- Changed to modal-xl for extra large width -->
-                                                    <div class="modal-content pr-2 pl-4">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="orderModalLabel<%= item._id %>">
-                                                                Order Details</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <h6>Order Information</h6>
-                                                                    <p><strong>Order ID:</strong> <span>
-                                                                            <%= item?.order_id %>
-                                                                        </span></p>
-                                                                    <p><strong>Order Date:</strong> <span>
-                                                                            <%= item.created_at.toLocaleDateString() %>
-                                                                        </span></p>
-                                                                    <p><strong>Total Amount:</strong> <span>₹<%=
-                                                                                item.total_amount %></span></p>
-                                                                    <p><strong>Order Status:</strong> <span>
-                                                                            <%= item.order_status %>
-                                                                        </span></p>
-                                                                    <p><strong>Payment Type:</strong> <span>
-                                                                            <%= item.payment_type.pay_type %>
-                                                                        </span></p>
-                                                                    <p><strong>Payment Status:</strong> <span>
-                                                                            <%= item.payment_status %>
-                                                                        </span></p>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <h6>Shipping Address</h6>
-                                                                    <p>
-                                                                        <%= item.address_id.name %>
-                                                                    </p>
-                                                                    <p>
-                                                                        <%= item.address_id.address %>
-                                                                    </p>
-                                                                    <p>
-                                                                        <%= item.address_id.town_city %>, <%=
-                                                                                item.address_id.state %>
-                                                                                <%= item.address_id.pin_code %>
-                                                                    </p>
-                                                                    <p>
-                                                                        <%= item.address_id.phone_number %>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-4">
-                                                                <div class="col-12">
-                                                                    <h6>Order Items</h6>
-                                                                    <table class="table">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Product</th>
-                                                                                <th>Quantity </th>
-                                                                                <th> Price</th>
-                                                                                <th>Total</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <% item.items.forEach(product=> { %>
-                                                                                <tr class="text-align: center">
-                                                                                    <td>
-                                                                                        <%= product.name %>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <%= product.quantity %>
-                                                                                    </td>
-                                                                                    <td>₹<%= product.price %>
-                                                                                    </td>
-                                                                                    <td>₹<%= product.total %>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <% }) %>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <% }) %>
-
-
-                                                <% orderData.forEach((item, index)=> { %>
-                                                    <!-- Cancel Order Modal -->
-                                                    <div class="modal fade" id="cancelOrderModal<%= item._id %>"
+                                                <% orderData.forEach((item)=> { %>
+                                                    <% item.items.forEach(products => { %>
+                                                    <div class="modal fade" id="cancelOrderModal<%= products._id %>"
                                                         tabindex="-1"
-                                                        aria-labelledby="cancelOrderModalLabel<%= item._id %>"
+                                                        aria-labelledby="cancelOrderModalLabel<%= products._id %>"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content pr-5 pl-5">
                                                                 <div class="modal-header">
                                                                     <h6 class="modal-title"
-                                                                        id="cancelOrderModalLabel<%= item._id %>">Cancel
+                                                                        id="cancelOrderModalLabel<%= products._id %>">Cancel
                                                                         Order</h6>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
                                                                 </div>
-                                                                <form id="cancelOrderForm<%= item._id %>"
-                                                                    data-cancel-id="<%= item._id %>"
+                                                                <form id="cancelOrderForm<%= products._id %>"
+                                                                    data-cancel-id="<%= products._id %>"
+                                                                    data-order-id="<%= item?.id %>"
                                                                     class="cancel-order-form">
 
                                                                     <div class="modal-body">
                                                                         <div class="mb-3 form-group">
-                                                                            <label for="cancelReason<%= item._id %>"
+                                                                            <label for="cancelReason<%= products._id %>"
                                                                                 class="form-label errMsg">Reason for
                                                                                 Cancellation</label>
                                                                             <textarea class="form-control"
-                                                                                id="cancelReason<%= item._id %>"
+                                                                                id="cancelReason<%= products._id %>"
                                                                                 rows="3" ></textarea>
                                                                         </div>
                                                                     </div>
@@ -415,12 +353,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-
-                                              
                                                     <% }) %>
+                                                    <% }) %>
+
+
                                                     <% orderData.forEach((item, index) => { %>
-                                                        <div class="modal fade" id="returnOrderModal<%= item._id %>" tabindex="-1" aria-labelledby="returnOrderModalLabel<%= item._id %>" aria-hidden="true">
+                                                        <% item.items.forEach(products => { %>
+                                                        <div class="modal fade" id="returnOrderModal<%= products._id %>" tabindex="-1" aria-labelledby="returnOrderModalLabel<%= products._id %>" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
@@ -443,7 +382,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    <% }) %>
+                                                    <% }) %><% }) %>
 
 
                                                         
@@ -914,7 +853,16 @@
         <script src="assets/js/owl.carousel.min.js"></script>
         <!-- Main JS File -->
         <script src="assets/js/main.js"></script>
-
+        <script>
+            function toggleOrderDetails(orderId) {
+        const orderProducts = document.getElementById(`order-products-${orderId}`);
+        if (orderProducts.style.display === 'none') {
+            orderProducts.style.display = 'block';
+        } else {
+            orderProducts.style.display = 'none';
+        }
+    }
+        </script>
 
         <script>
             async function submitReturnRequest(orderId) {
@@ -1181,13 +1129,15 @@
                     cancelOrderForm.forEach(form => {
                         form.addEventListener('submit', function (e) {
                             e.preventDefault();
-                            const orderId = this.getAttribute('data-cancel-id')
+                            const itemId = this.getAttribute('data-cancel-id')
+                            const orderId = this.getAttribute('data-order-id')
                             console.log(orderId);
-
-                            const reason = document.getElementById(`cancelReason${orderId}`)
+                            console.log(itemId);
+                            
+                            const reason = document.getElementById(`cancelReason${itemId}`)
                             console.log(reason);
 
-                            cancelFormValidate(reason, orderId)
+                            cancelFormValidate(reason, orderId,itemId)
 
                         });
 
@@ -1353,7 +1303,7 @@
 
 
 
-                async function cancelFormValidate(reason, orderId) {
+                async function cancelFormValidate(reason, orderId,itemId) {
                         const reasonValue = reason.value.trim();
                         let isValid = true;
 
@@ -1388,7 +1338,8 @@
                                 },
                                 body: JSON.stringify({
                                     _id: orderId,
-                                    cancel_reason: reasonValue
+                                    cancel_reason: reasonValue,
+                                    item_id:itemId
                                 })
                             });
                             const data = await response.json();
