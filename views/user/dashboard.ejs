@@ -218,35 +218,46 @@
                                                 your password and account details</a>.</p>
                                         </div>
 
-                                        <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-                                            <% if (orderData && orderData.length > 0) { %>
+                                        <div class="tab-pane fade" id="tab-orders" role="tabpanel"
+                                            aria-labelledby="tab-orders-link">
+                                            <% if (orderData && orderData.length> 0) { %>
                                                 <div class="order-list">
-                                                    <% orderData.forEach(order => { %>
+                                                    <% orderData.forEach(order=> { %>
                                                         <div class="card mb-4 order-card">
                                                             <div class="card-header bg-light">
                                                                 <div class="row align-items-center">
                                                                     <div class="col-md-6 pl-5">
-                                                                        <h6 class="mb-0">Order <%= order.order_id %></h6>
+                                                                        <h6 class="mb-0">Order <%= order.order_id %>
+                                                                        </h6>
                                                                     </div>
                                                                     <div class="col-md-6 text-md-end">
-                                                                        <small class="text-muted">Ordered on <%= new Date(order.created_at).toLocaleDateString() %></small>
+                                                                        <small class="text-muted">Ordered on <%= new
+                                                                                Date(order.created_at).toLocaleDateString()
+                                                                                %></small>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="row mb-3">
                                                                     <div class="col-md-4">
-                                                                        <strong>Total Amount:</strong> ₹<%= order.total_amount.toFixed(2) %>
+                                                                        <strong>Total Amount:</strong> ₹<%=
+                                                                            order.total_amount.toFixed(2) %>
                                                                     </div>
                                                                     <div class="col-md-4">
-                                                                        <strong>Ship to:</strong> <%= order.address_id.name %> , 
-                                                                        <%= order.address_id.address %>  , <%= order.address_id.town_city %> , <%= order.address_id.state %> <br>
-                                                                    </div> 
+                                                                        <strong>Ship to:</strong>
+                                                                        <%= order.address_id.name %> ,
+                                                                            <%= order.address_id.address %> , <%=
+                                                                                    order.address_id.town_city %> , <%=
+                                                                                        order.address_id.state %> <br>
+                                                                    </div>
                                                                 </div>
-                                                                <button class="btn btn-outline-primary btn-sm" onclick="toggleOrderDetails('<%= order._id %>')">
+                                                                <button class="btn btn-outline-primary btn-sm"
+                                                                    onclick="toggleOrderDetails('<%= order._id %>')">
                                                                     View Order Details
                                                                 </button>
-                                                                <div class="order-products mt-3" id="order-products-<%= order._id %>" style="display: none;">
+                                                                <div class="order-products mt-3"
+                                                                    id="order-products-<%= order._id %>"
+                                                                    style="display: none;">
                                                                     <h6 class="mb-3">Ordered Items:</h6>
                                                                     <div class="table-responsive">
                                                                         <table class="table table-sm table-borderless">
@@ -261,400 +272,509 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                <% order.items.forEach(item => { %>
+                                                                                <% order.items.forEach(item=> { %>
                                                                                     <tr>
                                                                                         <td>
-                                                                                            <div class="d-flex align-items-center">
-                                                                                                <img src="/uploads/<%= item?.product_id?.images[0] %>" alt="<%= item.name %>" class="img-thumbnail me-2" style="width: 50px; height: 50px; object-fit: cover;">
+                                                                                            <div
+                                                                                                class="d-flex align-items-center">
+                                                                                                <img src="/uploads/<%= item?.product_id?.images[0] %>"
+                                                                                                    alt="<%= item.name %>"
+                                                                                                    class="img-thumbnail me-2"
+                                                                                                    style="width: 50px; height: 50px; object-fit: cover;">
                                                                                                 <span><a
-                                                                                                    href="/showProduct?id=<%= item.product_id._id %>">
-                                                                                                    <%= item.name %>
-                                                                                                </a></span>
+                                                                                                        href="/showProduct?id=<%= item.product_id._id %>">
+                                                                                                        <%= item.name %>
+                                                                                                    </a></span>
                                                                                             </div>
                                                                                         </td>
-                                                                                        <td>₹<%= item.price.toFixed(2) %></td>
-                                                                                        <td><%= item.quantity %></td>
-                                                                                        <td>₹<%= item.total %></td>
+                                                                                        <td>₹<%= item.price.toFixed(2)
+                                                                                                %>
+                                                                                        </td>
                                                                                         <td>
-                                                                                            <span class="badge bg-<%= item.status === 'Delivered' ? 'success' : 'primary' %>">
+                                                                                            &nbsp;&nbsp;&nbsp;&nbsp; <%= item.quantity %>
+                                                                                        </td>
+                                                                                        <td>₹<%= item.total %>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <span
+                                                                                                class="badge bg-<%= item.status === 'Delivered' ? 'success' : 'primary' %>">
                                                                                                 <%= item.status %>
                                                                                             </span>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <% if (item.status === 'Cancelled') { %>
-                                                                                                <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Cancelled</button>
-                                                                                            <% } else if (item.status === 'Delivered') { %>
-                                                                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                                                                data-bs-target="#returnOrderModal<%= item._id %>">RETURN ORDER</button>
-                                                                                            <% } else if (['Pending'].includes(item.status)) { %>
-                                                                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                                                                    data-bs-target="#cancelOrderModal<%= item._id %>">CANCEL ORDER</button>
-                                                                                            <% } %>
+                                                                                            <% if
+                                                                                                (item.status==='Cancelled'
+                                                                                                ) { %>
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-outline-secondary btn-sm"
+                                                                                                    disabled>Cancelled</button>
+                                                                                                <% } else if
+                                                                                                    (item.status==='Delivered'
+                                                                                                    ) { %>
+                                                                                                    <button
+                                                                                                        class="btn btn-danger"
+                                                                                                        data-bs-toggle="modal"
+                                                                                                        data-bs-target="#returnOrderModal<%= item._id %>">RETURN
+                                                                                                        ORDER</button>
+                                                                                                    <% } else if
+                                                                                                        (['Pending','Shipped','Processing'].includes(item.status))
+                                                                                                        { %>
+                                                                                                        <button
+                                                                                                            class="btn btn-danger"
+                                                                                                            data-bs-toggle="modal"
+                                                                                                            data-bs-target="#cancelOrderModal<%= item._id %>">CANCEL
+                                                                                                            ORDER</button>
+                                                                                                        <% } %>
                                                                                         </td>
                                                                                     </tr>
-                                                                                <% }) %>
+                                                                                    <% }) %>
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    <% }) %>
+                                                        <% }) %>
                                                 </div>
-                                            <% } else { %>
-                                                <div class="text-center py-5">
-                                                    <p class="lead">You haven't placed any orders yet.</p>
-                                                    <a href="/shop" class="btn btn-primary mt-3">
-                                                        Start Shopping <i class="bi bi-arrow-right"></i>
-                                                    </a>
-                                                </div>
-                                            <% } %>
+                                                <% } else { %>
+                                                    <div class="text-center py-5">
+                                                        <p class="lead">You haven't placed any orders yet.</p>
+                                                        <a href="/shop" class="btn btn-primary mt-3">
+                                                            Start Shopping <i class="bi bi-arrow-right"></i>
+                                                        </a>
+                                                    </div>
+                                                    <% } %>
                                         </div>
 
 
-                                                <% orderData.forEach((item)=> { %>
-                                                    <% item.items.forEach(products => { %>
-                                                    <div class="modal fade" id="cancelOrderModal<%= products._id %>"
-                                                        tabindex="-1"
-                                                        aria-labelledby="cancelOrderModalLabel<%= products._id %>"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content pr-5 pl-5">
-                                                                <div class="modal-header">
-                                                                    <h6 class="modal-title"
-                                                                        id="cancelOrderModalLabel<%= products._id %>">Cancel
-                                                                        Order</h6>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <form id="cancelOrderForm<%= products._id %>"
-                                                                    data-cancel-id="<%= products._id %>"
-                                                                    data-order-id="<%= item?.id %>"
-                                                                    class="cancel-order-form">
-
-                                                                    <div class="modal-body">
-                                                                        <div class="mb-3 form-group">
-                                                                            <label for="cancelReason<%= products._id %>"
-                                                                                class="form-label errMsg">Reason for
-                                                                                Cancellation</label>
-                                                                            <textarea class="form-control"
-                                                                                id="cancelReason<%= products._id %>"
-                                                                                rows="3" ></textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger">Cancel Order</button>
-                                                                    </div>
-                                                                </form>
+                                        <% orderData.forEach((item)=> { %>
+                                            <% item.items.forEach(products=> { %>
+                                                <div class="modal fade" id="cancelOrderModal<%= products._id %>"
+                                                    tabindex="-1"
+                                                    aria-labelledby="cancelOrderModalLabel<%= products._id %>"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content pr-5 pl-5">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title"
+                                                                    id="cancelOrderModalLabel<%= products._id %>">Cancel
+                                                                    Order</h6>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
+                                                            <form id="cancelOrderForm<%= products._id %>"
+                                                                data-cancel-id="<%= products._id %>"
+                                                                data-order-id="<%= item?.id %>"
+                                                                class="cancel-order-form">
+
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3 form-group">
+                                                                        <label for="cancelReason<%= products._id %>"
+                                                                            class="form-label errMsg">Reason for
+                                                                            Cancellation</label>
+                                                                        <textarea class="form-control"
+                                                                            id="cancelReason<%= products._id %>"
+                                                                            rows="3"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-danger">Cancel
+                                                                        Order</button>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <% }) %>
                                                     <% }) %>
-                                                    <% }) %>
 
 
-                                                    <% orderData.forEach((item, index) => { %>
-                                                        <% item.items.forEach(products => { %>
-                                                        <div class="modal fade" id="returnOrderModal<%= products._id %>" tabindex="-1" aria-labelledby="returnOrderModalLabel<%= products._id %>" aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="returnOrderModalLabel<%= item._id %>">Return Order</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body pr-3 pl-4">
-                                                                        <form id="returnOrderForm<%= item._id %>">
-                                                                            <div class="mb-3">
-                                                                                <label for="return_reason_<%= item._id %>" class="form-label">Return Reason</label>
-                                                                                <textarea class="form-control" id="return_reason_<%= item._id %>" name="return_reason" required></textarea>
-                                                                            </div>
-                                                                            <input type="hidden" name="order_id" value="<%= item._id %>">
-                                                                        </form>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                        <button type="button" class="btn btn-primary" onclick="submitReturnRequest('<%= item._id %>')">Submit Return Request</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    <% }) %><% }) %>
-
-
-                                                        
-
-                                                        <div class="tab-pane fade" id="tab-address" role="tabpanel"
-                                                            aria-labelledby="tab-address-link">
-                                                            <p>The following addresses will be used on the checkout page
-                                                                by default.</p>
-                                                            <div class="row">
-                                                                <% if (addressData && addressData.length> 0) { %>
-                                                                    <% addressData.forEach(function(address) { %>
-                                                                        <div class="col-lg-6">
-                                                                            <div class="card card-dashboard">
-                                                                                <div class="card-body">
-                                                                                    <p>
-                                                                                        <b>
-                                                                                            <%= address?.name %>
-                                                                                        </b><br>
-                                                                                        <%= address?.address %><br>
-                                                                                            <%= address?.town_city %>
-                                                                                                <br>
-                                                                                                <%= address?.pin_code %>
-                                                                                                    <br>
-                                                                                                    <%= address?.landmark
-                                                                                                        %> <br>
-                                                                                                        <%= address.phone_number
-                                                                                                            %><br>
-                                                                                                            <%= address.state
-                                                                                                                %><br>
-                                                                                                                <a href="#"
-                                                                                                                    class="btn btn-primary"
-                                                                                                                    data-bs-toggle="modal"
-                                                                                                                    data-bs-target="#editAddressModal<%= address._id %>">
-                                                                                                                    Edit
-                                                                                                                    Address<i
-                                                                                                                        class="icon-edit"></i>
-                                                                                                                </a>
-                                                                                                                <button
-                                                                                                                    class="btn btn-danger delete-address"
-                                                                                                                    data-address-id="<%= address._id %>">
-                                                                                                                    Delete
-                                                                                                                    Address<i
-                                                                                                                        class="icon-trash"></i>
-                                                                                                                </button>
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <% }); %>
-                                                                            <% } else { %>
-                                                                                <p>No addresses found.</p>
-                                                                                <% } %>
-                                                            </div>
-                                                        </div>
-
-
-
-
-
-
-                                                        <div class="tab-pane fade" id="tab-addaddress" role="tabpanel"
-                                                            aria-labelledby="tab-addaddress-link">
-
-                                                            <form id="addAddressForm">
-
-                                                                <div class="form-group">
-                                                                    <label for="name"
-                                                                        class="form-label errMsg">Name</label>
-                                                                    <input type="text" class="form-control" id="name">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="phone" class="form-label errMsg">Phone
-                                                                        Number</label>
-                                                                    <input type="tel" class="form-control" id="phone">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="address"
-                                                                        class="form-label errMsg">Address</label>
-                                                                    <textarea class="form-control" id="address"
-                                                                        rows="3"></textarea>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="city"
-                                                                        class="form-label errMsg">Town/City</label>
-                                                                    <input type="text" class="form-control" id="city">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="pincode"
-                                                                        class="form-label errMsg">PinCode</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pincode">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="landmark"
-                                                                        class="form-label errMsg">Landmark <span
-                                                                            style="color: #495057;">(optional)</span></label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="landmark">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="state"
-                                                                        class="form-label errMsg">State</label>
-                                                                    <input type="text" class="form-control" id="state">
-                                                                </div>
-                                                                <input type="hidden" id="hiddenid"
-                                                                    value="<%= userData?._id%>">
-
-
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-primary-2">Submit</button>
-                                                            </form>
-
-                                                        </div>
-
-
-                                                        <!-- Address Edit Modal -->
-
-                                                        <% if (addressData && addressData.length> 0) { %>
-                                                            <% addressData.forEach(function(address) { %>
+                                                        <% orderData.forEach((item, index)=> { %>
+                                                            <% item.items.forEach(products=> { %>
                                                                 <div class="modal fade"
-                                                                    id="editAddressModal<%= address._id %>"
+                                                                    id="returnOrderModal<%= products._id %>"
                                                                     tabindex="-1"
-                                                                    aria-labelledby="editAddressModalLabel"
+                                                                    aria-labelledby="returnOrderModalLabel<%= products._id %>"
                                                                     aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-dialog">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title"
-                                                                                    id="editAddressModalLabel">Edit
-                                                                                    Address</h5>
+                                                                                    id="returnOrderModalLabel<%= products._id %>">
+                                                                                    Return Order</h5>
                                                                                 <button type="button" class="btn-close"
                                                                                     data-bs-dismiss="modal"
                                                                                     aria-label="Close"></button>
                                                                             </div>
-                                                                            <div class="modal-body pl-5 pr-5">
+                                                                            <div class="modal-body pr-3 pl-4">
                                                                                 <form
-                                                                                    id="editAddressForm<%= address._id %>"
-                                                                                    class="edit-address-form"
-                                                                                    data-address-id="<%= address._id %>">
-                                                                                    <div class="mb-3 form-group">
+                                                                                    id="returnOrderForm<%= products._id %>">
+                                                                                    <div class="mb-3">
                                                                                         <label
-                                                                                            for="edit-name-<%= address._id %>"
-                                                                                            class="form-label errMsg">Name</label>
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            id="edit-name-<%= address._id %>"
-                                                                                            value="<%=address.name%>">
-                                                                                    </div>
-                                                                                    <div class="mb-3 form-group">
-                                                                                        <label
-                                                                                            for="edit-phone-<%= address._id %>"
-                                                                                            class="form-label errMsg">Phone
-                                                                                            Number</label>
-                                                                                        <input type="tel"
-                                                                                            class="form-control"
-                                                                                            id="edit-phone-<%= address._id %>"
-                                                                                            value="<%=address.phone_number%>">
-                                                                                    </div>
-                                                                                    <div class="mb-3 form-group">
-                                                                                        <label
-                                                                                            for="edit-address-<%= address._id %>"
-                                                                                            class="form-label errMsg">Address</label>
+                                                                                            for="return_reason_<%= products._id %>"
+                                                                                            class="form-label">Return
+                                                                                            Reason</label>
                                                                                         <textarea class="form-control"
-                                                                                            id="edit-address-<%= address._id %>"
-                                                                                            rows="3"><%= address.address %></textarea>
-
+                                                                                            id="return_reason_<%= products._id %>"
+                                                                                            name="return_reason"
+                                                                                            required></textarea>
                                                                                     </div>
-                                                                                    <div class="mb-3 form-group">
-                                                                                        <label
-                                                                                            for="edit-city-<%= address._id %>"
-                                                                                            class="form-label errMsg">Town/City</label>
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            id="edit-city-<%= address._id %>"
-                                                                                            value="<%=address.town_city%>">
-                                                                                    </div>
-                                                                                    <div class="mb-3 form-group">
-                                                                                        <label
-                                                                                            for="edit-pincode-<%= address._id %>"
-                                                                                            class="form-label errMsg">PinCode</label>
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            id="edit-pincode-<%= address._id %>"
-                                                                                            value="<%=address.pin_code%>">
-                                                                                    </div>
-                                                                                    <div class="mb-3 form-group">
-                                                                                        <label
-                                                                                            for="edit-landmark-<%= address._id %>"
-                                                                                            class="form-label errMsg">Landmark
-                                                                                            <span
-                                                                                                class="text-muted">(optional)</span></label>
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            id="edit-landmark-<%= address._id %>"
-                                                                                            value="<%=address.landmark%>">
-                                                                                    </div>
-                                                                                    <div class="mb-3 form-group">
-                                                                                        <label
-                                                                                            for="edit-state-<%= address._id %>"
-                                                                                            class="form-label errMsg">State</label>
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            id="edit-state-<%= address._id %>"
-                                                                                            value="<%=address.state%>">
-                                                                                    </div>
-                                                                                    <input type="hidden"
-                                                                                        id="edit-hiddenid-<%= address._id %>"
-                                                                                        value="<%= address._id%>">
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-primary">Save
-                                                                                        changes</button>
+                                                                                    <input type="hidden" name="order_id"
+                                                                                        value="<%= item._id %>">
+                                                                                    <input type="hidden" name="item_id"
+                                                                                        value="<%= products._id %>">
                                                                                 </form>
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button"
                                                                                     class="btn btn-secondary"
                                                                                     data-bs-dismiss="modal">Close</button>
-
+                                                                                <button type="button"
+                                                                                    class="btn btn-primary"
+                                                                                    onclick="submitReturnRequest('<%= products._id %>','<%= item._id%>')">Submit
+                                                                                    Return Request</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <% }); %>
-                                                                    <% } else { %>
-                                                                        <p>No addresses found.</p>
-                                                                        <% } %>
-                                                                            <div class="tab-pane fade" id="tab-account"
-                                                                                role="tabpanel"
-                                                                                aria-labelledby="tab-account-link">
-                                                                                <form id="updateUserForm" action="#">
-                                                                                    <label>Name *</label>
+                                                                <% }) %>
+                                                                    <% }) %>
+
+
+
+
+                                                                        <div class="tab-pane fade" id="tab-address"
+                                                                            role="tabpanel"
+                                                                            aria-labelledby="tab-address-link">
+                                                                            <p>The following addresses will be used on
+                                                                                the checkout page
+                                                                                by default.</p>
+                                                                            <div class="row">
+                                                                                <% if (addressData &&
+                                                                                    addressData.length> 0) { %>
+                                                                                    <% addressData.forEach(function(address)
+                                                                                        { %>
+                                                                                        <div class="col-lg-6">
+                                                                                            <div
+                                                                                                class="card card-dashboard">
+                                                                                                <div class="card-body">
+                                                                                                    <p>
+                                                                                                        <b>
+                                                                                                            <%= address?.name
+                                                                                                                %>
+                                                                                                        </b><br>
+                                                                                                        <%= address?.address
+                                                                                                            %><br>
+                                                                                                            <%= address?.town_city
+                                                                                                                %>
+                                                                                                                <br>
+                                                                                                                <%= address?.pin_code
+                                                                                                                    %>
+                                                                                                                    <br>
+                                                                                                                    <%= address?.landmark
+                                                                                                                        %>
+                                                                                                                        <br>
+                                                                                                                        <%= address.phone_number
+                                                                                                                            %>
+                                                                                                                            <br>
+                                                                                                                            <%= address.state
+                                                                                                                                %>
+                                                                                                                                <br>
+                                                                                                                                <a href="#"
+                                                                                                                                    class="btn btn-primary"
+                                                                                                                                    data-bs-toggle="modal"
+                                                                                                                                    data-bs-target="#editAddressModal<%= address._id %>">
+                                                                                                                                    Edit
+                                                                                                                                    Address<i
+                                                                                                                                        class="icon-edit"></i>
+                                                                                                                                </a>
+                                                                                                                                <button
+                                                                                                                                    class="btn btn-danger delete-address"
+                                                                                                                                    data-address-id="<%= address._id %>">
+                                                                                                                                    Delete
+                                                                                                                                    Address<i
+                                                                                                                                        class="icon-trash"></i>
+                                                                                                                                </button>
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <% }); %>
+                                                                                            <% } else { %>
+                                                                                                <p>No addresses found.
+                                                                                                </p>
+                                                                                                <% } %>
+                                                                            </div>
+                                                                        </div>
+
+
+
+
+
+
+                                                                        <div class="tab-pane fade" id="tab-addaddress"
+                                                                            role="tabpanel"
+                                                                            aria-labelledby="tab-addaddress-link">
+
+                                                                            <form id="addAddressForm">
+
+                                                                                <div class="form-group">
+                                                                                    <label for="name"
+                                                                                        class="form-label errMsg">Name</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control" id="name">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="phone"
+                                                                                        class="form-label errMsg">Phone
+                                                                                        Number</label>
+                                                                                    <input type="tel"
+                                                                                        class="form-control" id="phone">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="address"
+                                                                                        class="form-label errMsg">Address</label>
+                                                                                    <textarea class="form-control"
+                                                                                        id="address"
+                                                                                        rows="3"></textarea>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="city"
+                                                                                        class="form-label errMsg">Town/City</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control" id="city">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="pincode"
+                                                                                        class="form-label errMsg">PinCode</label>
+                                                                                    <input type="number"
+                                                                                        class="form-control"
+                                                                                        id="pincode">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="landmark"
+                                                                                        class="form-label errMsg">Landmark
+                                                                                        <span
+                                                                                            style="color: #495057;">(optional)</span></label>
                                                                                     <input type="text"
                                                                                         class="form-control"
-                                                                                        id="userName1"
-                                                                                        value="<%= userData?.user_name %>"
-                                                                                        autocomplete="userName">
-                                                                                    <small class="form-text">This will
-                                                                                        be how your name
-                                                                                        will be displayed in the account
-                                                                                        section and in
-                                                                                        reviews</small>
+                                                                                        id="landmark">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="state"
+                                                                                        class="form-label errMsg">State</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control" id="state">
+                                                                                </div>
+                                                                                <input type="hidden" id="hiddenid"
+                                                                                    value="<%= userData?._id%>">
 
-                                                                                    <label>Current password (required to
-                                                                                        make
-                                                                                        changes)</label>
-                                                                                    <input type="password"
-                                                                                        class="form-control"
-                                                                                        id="currentPassword"
-                                                                                        autocomplete="currentPassword">
 
-                                                                                    <label>New password (leave blank to
-                                                                                        keep current
-                                                                                        password)</label>
-                                                                                    <input type="password"
-                                                                                        class="form-control"
-                                                                                        id="newPassword"
-                                                                                        autocomplete="new-password">
+                                                                                <button type="submit"
+                                                                                    class="btn btn-outline-primary-2">Submit</button>
+                                                                            </form>
 
-                                                                                    <label>Confirm new password</label>
-                                                                                    <input type="password"
-                                                                                        class="form-control mb-2"
-                                                                                        id="confirmPassword"
-                                                                                        autocomplete="confirmPassword">
+                                                                        </div>
 
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-outline-primary-2">
-                                                                                        <span>SAVE CHANGES</span>
-                                                                                        <i
-                                                                                            class="icon-long-arrow-right"></i>
-                                                                                    </button>
-                                                                                </form>
-                                                                            </div><!-- .End .tab-pane -->
+
+                                                                        <!-- Address Edit Modal -->
+
+                                                                        <% if (addressData && addressData.length> 0) {
+                                                                            %>
+                                                                            <% addressData.forEach(function(address) {
+                                                                                %>
+                                                                                <div class="modal fade"
+                                                                                    id="editAddressModal<%= address._id %>"
+                                                                                    tabindex="-1"
+                                                                                    aria-labelledby="editAddressModalLabel"
+                                                                                    aria-hidden="true">
+                                                                                    <div
+                                                                                        class="modal-dialog modal-dialog-centered">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title"
+                                                                                                    id="editAddressModalLabel">
+                                                                                                    Edit
+                                                                                                    Address</h5>
+                                                                                                <button type="button"
+                                                                                                    class="btn-close"
+                                                                                                    data-bs-dismiss="modal"
+                                                                                                    aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="modal-body pl-5 pr-5">
+                                                                                                <form
+                                                                                                    id="editAddressForm<%= address._id %>"
+                                                                                                    class="edit-address-form"
+                                                                                                    data-address-id="<%= address._id %>">
+                                                                                                    <div
+                                                                                                        class="mb-3 form-group">
+                                                                                                        <label
+                                                                                                            for="edit-name-<%= address._id %>"
+                                                                                                            class="form-label errMsg">Name</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            id="edit-name-<%= address._id %>"
+                                                                                                            value="<%=address.name%>">
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="mb-3 form-group">
+                                                                                                        <label
+                                                                                                            for="edit-phone-<%= address._id %>"
+                                                                                                            class="form-label errMsg">Phone
+                                                                                                            Number</label>
+                                                                                                        <input
+                                                                                                            type="tel"
+                                                                                                            class="form-control"
+                                                                                                            id="edit-phone-<%= address._id %>"
+                                                                                                            value="<%=address.phone_number%>">
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="mb-3 form-group">
+                                                                                                        <label
+                                                                                                            for="edit-address-<%= address._id %>"
+                                                                                                            class="form-label errMsg">Address</label>
+                                                                                                        <textarea
+                                                                                                            class="form-control"
+                                                                                                            id="edit-address-<%= address._id %>"
+                                                                                                            rows="3"><%= address.address %></textarea>
+
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="mb-3 form-group">
+                                                                                                        <label
+                                                                                                            for="edit-city-<%= address._id %>"
+                                                                                                            class="form-label errMsg">Town/City</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            id="edit-city-<%= address._id %>"
+                                                                                                            value="<%=address.town_city%>">
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="mb-3 form-group">
+                                                                                                        <label
+                                                                                                            for="edit-pincode-<%= address._id %>"
+                                                                                                            class="form-label errMsg">PinCode</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            id="edit-pincode-<%= address._id %>"
+                                                                                                            value="<%=address.pin_code%>">
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="mb-3 form-group">
+                                                                                                        <label
+                                                                                                            for="edit-landmark-<%= address._id %>"
+                                                                                                            class="form-label errMsg">Landmark
+                                                                                                            <span
+                                                                                                                class="text-muted">(optional)</span></label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            id="edit-landmark-<%= address._id %>"
+                                                                                                            value="<%=address.landmark%>">
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="mb-3 form-group">
+                                                                                                        <label
+                                                                                                            for="edit-state-<%= address._id %>"
+                                                                                                            class="form-label errMsg">State</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            class="form-control"
+                                                                                                            id="edit-state-<%= address._id %>"
+                                                                                                            value="<%=address.state%>">
+                                                                                                    </div>
+                                                                                                    <input type="hidden"
+                                                                                                        id="edit-hiddenid-<%= address._id %>"
+                                                                                                        value="<%= address._id%>">
+                                                                                                    <button
+                                                                                                        type="submit"
+                                                                                                        class="btn btn-primary">Save
+                                                                                                        changes</button>
+                                                                                                </form>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-secondary"
+                                                                                                    data-bs-dismiss="modal">Close</button>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <% }); %>
+                                                                                    <% } else { %>
+                                                                                        <p>No addresses found.</p>
+                                                                                        <% } %>
+                                                                                            <div class="tab-pane fade"
+                                                                                                id="tab-account"
+                                                                                                role="tabpanel"
+                                                                                                aria-labelledby="tab-account-link">
+                                                                                                <form
+                                                                                                    id="updateUserForm"
+                                                                                                    action="#">
+                                                                                                    <label>Name
+                                                                                                        *</label>
+                                                                                                    <input type="text"
+                                                                                                        class="form-control"
+                                                                                                        id="userName1"
+                                                                                                        value="<%= userData?.user_name %>"
+                                                                                                        autocomplete="userName">
+                                                                                                    <small
+                                                                                                        class="form-text">This
+                                                                                                        will
+                                                                                                        be how your name
+                                                                                                        will be
+                                                                                                        displayed in the
+                                                                                                        account
+                                                                                                        section and in
+                                                                                                        reviews</small>
+
+                                                                                                    <label>Current
+                                                                                                        password
+                                                                                                        (required to
+                                                                                                        make
+                                                                                                        changes)</label>
+                                                                                                    <input
+                                                                                                        type="password"
+                                                                                                        class="form-control"
+                                                                                                        id="currentPassword"
+                                                                                                        autocomplete="currentPassword">
+
+                                                                                                    <label>New password
+                                                                                                        (leave blank to
+                                                                                                        keep current
+                                                                                                        password)</label>
+                                                                                                    <input
+                                                                                                        type="password"
+                                                                                                        class="form-control"
+                                                                                                        id="newPassword"
+                                                                                                        autocomplete="new-password">
+
+                                                                                                    <label>Confirm new
+                                                                                                        password</label>
+                                                                                                    <input
+                                                                                                        type="password"
+                                                                                                        class="form-control mb-2"
+                                                                                                        id="confirmPassword"
+                                                                                                        autocomplete="confirmPassword">
+
+                                                                                                    <button
+                                                                                                        type="submit"
+                                                                                                        class="btn btn-outline-primary-2">
+                                                                                                        <span>SAVE
+                                                                                                            CHANGES</span>
+                                                                                                        <i
+                                                                                                            class="icon-long-arrow-right"></i>
+                                                                                                    </button>
+                                                                                                </form>
+                                                                                            </div>
+                                                                                            <!-- .End .tab-pane -->
                                     </div>
                                 </div><!-- End .col-lg-9 -->
                             </div><!-- End .row -->
@@ -855,60 +975,63 @@
         <script src="assets/js/main.js"></script>
         <script>
             function toggleOrderDetails(orderId) {
-        const orderProducts = document.getElementById(`order-products-${orderId}`);
-        if (orderProducts.style.display === 'none') {
-            orderProducts.style.display = 'block';
-        } else {
-            orderProducts.style.display = 'none';
-        }
-    }
+                const orderProducts = document.getElementById(`order-products-${orderId}`);
+                if (orderProducts.style.display === 'none') {
+                    orderProducts.style.display = 'block';
+                } else {
+                    orderProducts.style.display = 'none';
+                }
+            }
         </script>
 
         <script>
-            async function submitReturnRequest(orderId) {
-                const returnReason = document.getElementById(`return_reason_${orderId}`).value;
+            async function submitReturnRequest(itemId, orderId) {
+                const returnReason = document.getElementById(`return_reason_${itemId}`).value;
+                console.log(itemId, orderId, returnReason);
+
                 try {
-                  await  fetch('/returnOrder', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        order_id: orderId,
-                        return_reason: returnReason
+                    await fetch('/returnOrder', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            order_id: orderId,
+                            item_id: itemId,
+                            return_reason: returnReason
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-               if (data.success) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: data.message,
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.reload();
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: data.message,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while submitting the return request');
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: data.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: data.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while submitting the return request');
+                        });
                 } catch (error) {
-                    
+
                 }
-               
-         }
+
+            }
             document.addEventListener('DOMContentLoaded', function () {
                 const addAddressForm = document.getElementById('addAddressForm');
                 const name = document.getElementById('name');
@@ -1124,28 +1247,28 @@
                     userUpdateValidate(userName, currentPassword, newPassword, confirmPassword);
                 });
 
-                
-                    const cancelOrderForm = document.querySelectorAll('.cancel-order-form')
-                    cancelOrderForm.forEach(form => {
-                        form.addEventListener('submit', function (e) {
-                            e.preventDefault();
-                            const itemId = this.getAttribute('data-cancel-id')
-                            const orderId = this.getAttribute('data-order-id')
-                            console.log(orderId);
-                            console.log(itemId);
-                            
-                            const reason = document.getElementById(`cancelReason${itemId}`)
-                            console.log(reason);
 
-                            cancelFormValidate(reason, orderId,itemId)
+                const cancelOrderForm = document.querySelectorAll('.cancel-order-form')
+                cancelOrderForm.forEach(form => {
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        const itemId = this.getAttribute('data-cancel-id')
+                        const orderId = this.getAttribute('data-order-id')
+                        console.log(orderId);
+                        console.log(itemId);
 
-                        });
+                        const reason = document.getElementById(`cancelReason${itemId}`)
+                        console.log(reason);
+
+                        cancelFormValidate(reason, orderId, itemId)
 
                     });
 
-                 
+                });
 
-               
+
+
+
                 const setError = (element, message) => {
                     const formGroup1 = element.parentElement;
                     const errorDisplay = formGroup1.querySelector('.errMsg');
@@ -1299,27 +1422,27 @@
                         console.error('Error during address update:', error);
                     }
                 }
-               
 
 
 
-                async function cancelFormValidate(reason, orderId,itemId) {
-                        const reasonValue = reason.value.trim();
-                        let isValid = true;
 
-                        if (reasonValue === "") {
-                            setError(reason, 'Enter a reason for cancellation')
-                            isValid = false;
-                        } else if (reasonValue.length < 5) {
-                            setError(reason, 'Enter proper reason')
-                            isValid = false;
-                        } else {
-                            setSuccess(reason, "Reason for Cancellation")
-                        }
+                async function cancelFormValidate(reason, orderId, itemId) {
+                    const reasonValue = reason.value.trim();
+                    let isValid = true;
 
-                        if (!isValid) {
-                            return
-                        }
+                    if (reasonValue === "") {
+                        setError(reason, 'Enter a reason for cancellation')
+                        isValid = false;
+                    } else if (reasonValue.length < 5) {
+                        setError(reason, 'Enter proper reason')
+                        isValid = false;
+                    } else {
+                        setSuccess(reason, "Reason for Cancellation")
+                    }
+
+                    if (!isValid) {
+                        return
+                    }
                     const result = await Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
@@ -1339,7 +1462,7 @@
                                 body: JSON.stringify({
                                     _id: orderId,
                                     cancel_reason: reasonValue,
-                                    item_id:itemId
+                                    item_id: itemId
                                 })
                             });
                             const data = await response.json();
@@ -1373,7 +1496,7 @@
                 }
 
                 async function deleteAddress(addressId) {
-                   
+
                     const result = await Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
@@ -1402,7 +1525,7 @@
                                     'Your address has been deleted.',
                                     'success'
                                 ).then(() => {
-                                   
+
                                     location.reload();
                                 });
                             } else {
@@ -1465,7 +1588,7 @@
                 }
             });
         </script>
-       
+
 
 
     </body>

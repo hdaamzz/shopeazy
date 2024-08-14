@@ -377,13 +377,17 @@
 
                                                 </th>
                                                 <th class="text-nowrap sorting" tabindex="0"
+                                                aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                aria-label="Customer Id: activate to sort column ascending">ITEMS
+                                            </th>
+                                                <th class="text-nowrap sorting" tabindex="0"
                                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                                     aria-label="Customer Id: activate to sort column ascending">AMOUNT
                                                 </th>
                                                 <th class="text-nowrap sorting" tabindex="0"
                                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    aria-label="Total Spent: activate to sort column ascending"> ORDER
-                                                    STATUS
+                                                    aria-label="Total Spent: activate to sort column ascending"> SHIP TO
+                                                   
                                                 </th>
                                                 <th class="text-nowrap sorting" tabindex="0"
                                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
@@ -392,12 +396,9 @@
                                                 </th>
                                                 <th class="text-nowrap sorting" tabindex="0"
                                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    aria-label="Total Spent: activate to sort column ascending">ACTION
+                                                    aria-label="Total Spent: activate to sort column ascending">PAYMENT TYPE
                                                 </th>
-                                                <th class="text-nowrap sorting" tabindex="0"
-                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    aria-label="Total Spent: activate to sort column ascending">CANCEL
-                                                </th>
+                                               
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -429,49 +430,39 @@
                                                                 {year: "numeric" , month: "long" ,day: "numeric" })%>
                                                         </td>
                                                         <td class="  dt-checkboxes-cell">
-                                                            <%= orders[i].total_amount %>
+                                                            <%= orders[i].items.length %>
                                                         </td>
                                                         <td><span class="text-heading">
-                                                                <%= orders[i].order_status %>
+                                                            <%= orders[i].total_amount %>
                                                             </span></td>
                                                         <td> <span>
-                                                                <%= orders[i].user_id.user_name %>
+                                                            <%= orders[i].address_id.name %>
                                                             </span>
                                                         </td>
 
 
                                                         <td>
-                                                            <% if(orders[i].order_status !== 'Cancelled' && orders[i].order_status !== 'Delivered' && orders[i].order_status !== 'Returned') { %>
-                                                                <div class="d-flex justify-content-start align-items-center customer-country">
-                                                                    <div>
-                                                                        <span>
-                                                                            <a href="/admin/updateStatus?id=<%= orders[i]._id%>">
-                                                                                <button type="button" class="btn btn-primary">
-                                                                                    EDIT
-                                                                                </button>
-                                                                            </a>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            <% } %>
+                                                            <%= orders[i].user_id.user_name %>
                                                         </td>
                                                         <td>
                                                             <div
                                                                 class="d-flex justify-content-start align-items-center customer-country">
                                                                 <div>
+                                                                    
+                                                                    <span><%= orders[i].payment_type.pay_type %></span>
+                                                                    
 
-                                                                    <% if(orders[i].order_status !== 'Cancelled' ) {%>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                       <!-- <% if(orders[i].order_status !== 'Cancelled' ) {%>
                                                                         <% if(orders[i].order_status !== 'Delivered'){%>
                                                                             <% if(orders[i].order_status !== 'Returned'){%>
                                                                     <span>
                                                                         <button id="cancel-order" class="btn btn-danger cancel-order" data-bs-toggle="modal"
                                                                         data-order-id="<%= orders[i]._id %>">CANCEL
-                                                                    </button> </span><%}%><%}%><%}%>
-
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
+                                                                    </button> </span><%}%><%}%><%}%> -->
+                                                  
                                                         <td>
                                                             <h6 class="mb-0"></h6>
                                                             <% } }else{ %>
@@ -564,9 +555,7 @@
                                                         </span></p>
                                                     <p><strong>Total Amount:</strong> <span>₹<%= orders[i].total_amount
                                                                 %></span></p>
-                                                    <p><strong>Order Status:</strong> <span>
-                                                            <%= orders[i].order_status %>
-                                                        </span></p>
+                                                   
                                                     <p><strong>Payment Type:</strong> <span>
                                                             <%= orders[i].payment_type.pay_type %>
                                                         </span></p>
@@ -597,9 +586,13 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Product</th>
+                                                               
                                                                 <th>Quantity </th>
-                                                                <th> Price</th>
                                                                 <th>Total</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                                <th></th>
+                                                               
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -608,12 +601,38 @@
                                                                     <td>
                                                                         <%= product.name %>
                                                                     </td>
+                                                                    
+                                                                    
                                                                     <td>
                                                                         <%= product.quantity %>
                                                                     </td>
-                                                                    <td>₹<%= product.price %>
-                                                                    </td>
                                                                     <td>₹<%= product.total %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= product.status%>
+                                                                    </td>
+                                                                    <td><% if(product.status !== 'Cancelled' && product.status !== 'Delivered' && product.status !== 'Returned' && product.status !=='Return Requested' && product.status !=='Return Rejected') { %>
+                                                                        <div class="d-flex justify-content-start align-items-center customer-country">
+                                                                            <div>
+                                                                                <span>
+                                                                                    <a href="/admin/updateStatus?itemid=<%= product._id%>&orderid=<%= orders[i]._id %>">
+                                                                                        <button type="button" class="btn btn-primary">
+                                                                                            EDIT
+                                                                                        </button>
+                                                                                    </a>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    <% } %></td>
+                                                                    <td>
+                                                                        <% if(product.status !== 'Cancelled' && product.status !== 'Delivered' && product.status !== 'Returned' && product.status !== 'Return Requested' && product.status !=='Return Rejected') { %>
+                                                                            <button class="btn btn-danger cancel-order" 
+                                                                            data-bs-dismiss="modal"
+                                                                            data-order-id="<%= orders[i]._id %>" 
+                                                                            data-item-id="<%= product._id %>">
+                                                                        CANCEL
+                                                                    </button>
+                                                                        <% } %>
                                                                     </td>
                                                                 </tr>
                                                                 <% }) %>
@@ -678,70 +697,77 @@
 
                                         <!-- Page JS -->
                                         <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
+
                                         <script>
-                                            document.addEventListener('DOMContentLoaded', function () {
-                                                var modals = document.querySelectorAll('.modal');
-                                                modals.forEach(function (modal) {
-                                                    new bootstrap.Modal(modal);
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                // Get all cancel order buttons
+                                                const cancelButtons = document.querySelectorAll('.cancel-order');
+                                                
+                                                // Add click event listener to each button
+                                                cancelButtons.forEach(button => {
+                                                    button.addEventListener('click', function(event) {
+                                                        // Prevent default action
+                                                        event.preventDefault();
+                                                        
+                                                        // Get order and item IDs from data attributes
+                                                        const orderId = this.getAttribute('data-order-id');
+                                                        const itemId = this.getAttribute('data-item-id');
+                                                        
+                                                        // Set a small timeout to allow the modal to close before showing SweetAlert
+                                                        setTimeout(() => {
+                                                            cancelOrder(orderId, itemId);
+                                                        }, 300);
+                                                    });
                                                 });
                                             });
-                                            const cancelButtons = document.querySelectorAll('.cancel-order');
-cancelButtons.forEach(button => {
-    button.addEventListener('click', function (event) {
-        event.preventDefault();
-        const orderId = this.getAttribute('data-order-id');
-        cancelOrder(orderId);
-    });
-});
+                                            async function cancelOrder(orderId, itemId) {
+                                            const result = await Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "You won't be able to revert this!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'Yes, Cancel it!'
+                                            });
 
-async function cancelOrder(orderId) {
-    const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Cancel it!'
-    });
+                                            if (result.isConfirmed) {
+                                                try {
+                                                    const response = await fetch('/admin/cancelOrder', {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                        },
+                                                        body: JSON.stringify({ _id: orderId, itemId: itemId })
+                                                    });
 
-    if (result.isConfirmed) {
-        try {
-            const response = await fetch('/admin/cancelOrder', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ _id: orderId })
-            });
+                                                    const data = await response.json();
 
-            const data = await response.json();
-
-            if (data.success) {
-                Swal.fire(
-                    'Cancelled!',
-                    'Your order has been canceled and stock has been updated.',
-                    'success'
-                ).then(() => {
-                    location.reload();
-                });
-            } else {
-                Swal.fire(
-                    'Error!',
-                    data.message,
-                    'error'
-                );
-            }
-        } catch (error) {
-            console.error('Error during order cancellation:', error);
-            Swal.fire(
-                'Error!',
-                'An error occurred while cancelling the order.',
-                'error'
-            );
-        }
-    }
-}
+                                                    if (data.success) {
+                                                        Swal.fire(
+                                                            'Cancelled!',
+                                                            'Order has been canceled and stock has been updated.',
+                                                            'success'
+                                                        ).then(() => {
+                                                            location.reload();
+                                                        });
+                                                    } else {
+                                                        Swal.fire(
+                                                            'Error!',
+                                                            data.message,
+                                                            'error'
+                                                        );
+                                                    }
+                                                } catch (error) {
+                                                    console.error('Error during order cancellation:', error);
+                                                    Swal.fire(
+                                                        'Error!',
+                                                        'An error occurred while cancelling the order.',
+                                                        'error'
+                                                    );
+                                                }
+                                            }
+                                        }
                                         </script>
 
 

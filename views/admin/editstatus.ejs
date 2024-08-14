@@ -423,7 +423,8 @@
                 <div class="content-wrapper">
 
              <form action="" method="POST" id="update-order-status" >
-                <input type="hidden" id="hiddenid" name="hiddenid" value="<%= order._id %>">
+                <input type="hidden" id="hiddenid" name="orderid" value="<%= order._id %>">
+                <input type="hidden" id="hiddenitemid" name="itemid" value="<%= products._id %>">
                     <div class="container-xxl flex-grow-1 container-p-y">
 
 
@@ -475,12 +476,26 @@
                                             </div>
                                             <!-- Comment -->
                                             <div class="form-control p-0 pt-1 comment-editor border-0 pb-1 ql-container ql-snow"  id="ecommerce-category-description">
-                                                
-                                                <div class="formgroup1">       
-                                                    <label class="mb-1 errMsgSignup">User Name</label>                                            
-                                                        <input type="text" class="form-control" id="ecommerce-description"
-                                                        placeholder="Description" name="ProductDescription"
-                                                     value="<%= order.user_id.user_name %>" disabled>
+                                                <div class="col-md-6">
+                                                    <p><strong>Order Date:</strong> <span>
+                                                        <%= order?.created_at.toLocaleDateString() %>
+                                                    </span></p>
+                                                    <p><strong>Product ID:</strong> <span>
+                                                            <%= products?._id %>
+                                                        </span></p>
+                                                        <p><strong>Product Name:</strong> <span>
+                                                            <%= products?.name %>
+                                                        </span></p>
+                                                   
+                                                    <p><strong>Product Quantity:</strong> <span><%= products?.quantity
+                                                                %></span></p>
+                                                   
+                                                    <p><strong>Product Total Price:</strong> <span>
+                                                        ₹<%= products?.total  %>
+                                                        </span></p>
+                                                    <p><strong>Payment Status:</strong> <span>
+                                                            <%= order.payment_status %>
+                                                        </span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -504,10 +519,10 @@
                                                 <div class="position-relative">
                                                     <label for="product-status" class="errMsgSignup">Select Product Status</label>
                                                     <select name="productOption" id="product-status" class="select2 form-select select2-hidden-accessible" data-placeholder="Select product status">
-                                                        <option value="Pending" <%= order.order_status === 'Pending' ? 'selected' : '' %>>Pending</option>
-                                                        <option value="Processing" <%= order.order_status === 'Processing' ? 'selected' : '' %>>Processing</option>
-                                                        <option value="Shipped" <%= order.order_status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
-                                                        <option value="Delivered" <%= order.order_status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                                        <option value="Pending" <%= products?.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                                        <option value="Processing" <%= products?.status === 'Processing' ? 'selected' : '' %>>Processing</option>
+                                                        <option value="Shipped" <%= products?.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                                                        <option value="Delivered" <%= products?.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -566,18 +581,20 @@
 
             const status = document.getElementById('product-status');
             const hidden = document.getElementById('hiddenid');
+            const hiddenitem = document.getElementById('hiddenitemid')
 
             updateCategoryForm.addEventListener('submit', function(event) {
                 event.preventDefault();
                 const statusValue = status.value.trim();
                 const hiddenId = hidden.value.trim();
+                const hiddenitemId = hiddenitem.value.trim();
 
-                validateRegisterForm( statusValue, hiddenId);
+                validateRegisterForm( statusValue, hiddenId,hiddenitemId);
             });
 
            
 
-            const validateRegisterForm = async (statusValue, hiddenId) => {
+            const validateRegisterForm = async (statusValue, hiddenId,hiddenitemId) => {
 
                 try {
                     var formData = new FormData(updateCategoryForm);
@@ -588,7 +605,8 @@
                         },
                         body: JSON.stringify({
                             hiddenid:hiddenId
-                            , productOption:statusValue
+                            , productOption:statusValue,
+                            hiddenitemId
                         })
                     });
 

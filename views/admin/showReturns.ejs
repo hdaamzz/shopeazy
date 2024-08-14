@@ -432,10 +432,10 @@
                             <thead>
                                 <tr>
                                     <th>Order ID</th>
+                                    <th>Item Name</th>
                                     <th>User</th>
-                                    <th>Reason</th>
                                     <th>Status</th>
-                                    <th>Created At</th>
+                                    <th>Requested date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -443,8 +443,9 @@
                                 <% returnRequests.forEach(request => { %>
                                     <tr>
                                         <td><%= request.order_id.order_id %></td>
+                                        <td><%= request.item.name %></td>
                                         <td><%= request.user_id.user_name %></td>
-                                        <td><%= request.reason %></td>
+                                        
                                         <td><%= request.status %></td>
                                         <td><%= request.created_at.toLocaleDateString() %></td>
                                         <td>
@@ -463,7 +464,7 @@
                             </tbody>
                         </table>
                     </div>
-                
+                    
                     <!-- Response Modal -->
                     <% returnRequests.forEach(request => { %>
 
@@ -475,8 +476,10 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="responseForm<%= request._id%>"  data-return-id="<%= request._id %>"  data-order-id="<%= request.order_id.order_id %>" class="response-form">
+                                    <form id="responseForm<%= request._id%>"  data-return-id="<%= request._id %>"  data-order-id="<%= request.order_id.order_id %>" data-item-id="<%= request.item._id %>"  class="response-form">
                                         <input type="hidden" id="request_id<%= request._id%>" name="request_id">
+                                       
+
                                         <div class="mb-3">
                                             <label for="status<%= request._id%>" class="form-label">Status</label>
                                             <select class="form-select" id="status<%= request._id%>" name="status" required>
@@ -548,6 +551,7 @@
                                 event.preventDefault();
                                 const returnId = this.getAttribute('data-return-id');
                                 const orderId = this.getAttribute('data-order-id');
+                                const itemId = this.getAttribute('data-item-id');
                                
                                 console.log(returnId);
                                 
@@ -557,13 +561,13 @@
                                 console.log(hiddenid,status);
                                 
                                 responseForm(
-                                    hiddenid,status,adminResponse,orderId
+                                    hiddenid,status,adminResponse,orderId,itemId
                                 );
 
                             });
                         });
                         const responseForm = async (
-                            hiddenid,status,adminResponse,orderId
+                            hiddenid,status,adminResponse,orderId,itemId
                         ) => {
 
                             const  responseValue =adminResponse.value.trim()
@@ -582,7 +586,8 @@
                                         request_id :hiddenid,
                                          status:statusValue, 
                                          admin_response:responseValue,
-                                         orderId:orderId
+                                         orderId:orderId,
+                                         itemId
                                     })
                                 });
                                 const data = await response.json();

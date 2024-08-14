@@ -24,6 +24,7 @@ const userCrendtialsSchema = new mongoose.Schema({
     user_name: {
         type:String,
         required: function() { return !this.googleId; }
-    }
+    },resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
 module.exports = mongoose.model('Users', userCrendtialsSchema);

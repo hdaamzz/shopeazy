@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
 const returnRequestSchema = new mongoose.Schema({
+    item_id: { 
+        type: mongoose.Schema.Types.ObjectId},
     order_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order', required: true
@@ -10,7 +12,7 @@ const returnRequestSchema = new mongoose.Schema({
     },
     reason: {
         type: String,
-        required: true
+       
     },
     status: {
         type: String,

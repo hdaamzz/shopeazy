@@ -234,21 +234,23 @@ const cancelOrder = async (req, res) => {
 
 const returnOrder = async (req, res) => {
     try {
-        const { order_id, return_reason } = req.body;
-        console.log( order_id, return_reason);
+        const { order_id, return_reason ,item_id} = req.body;
+        console.log( order_id, return_reason,item_id);
         
 
         const order = await Orders.findById(order_id);
         if (!order) {
             return res.status(404).json({ success: false, message: 'Order not found' });
         }
-
-        if (order.order_status !== 'Delivered') {
+        const products = order.items.find(product=>product._id.equals(item_id))
+        if (products.status !== 'Delivered') {
             return res.status(400).json({ success: false, message: 'Only delivered orders can be returned' });
         }
 
+        
        
         const returnRequest = new ReturnRequest({
+            item_id:products._id,
             order_id: order._id,
             user_id: req.session.user_id,
             reason: return_reason,
@@ -258,7 +260,7 @@ const returnOrder = async (req, res) => {
         await returnRequest.save();
 
        
-        order.order_status = 'Return Requested';
+        products.status = 'Return Requested';
         await order.save();
 
         res.json({ success: true, message: "Return request submitted successfully" });
