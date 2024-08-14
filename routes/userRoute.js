@@ -48,6 +48,10 @@ user_route.get('/auth/google/callback', auth.isLogout, signupController.googleAu
 
 //login 
 user_route.post('/signin', loginController.verifyLogin)
+user_route.get('/forgotPassword',loginController.loadForgotPassword);
+user_route.post('/forgotPassword',loginController.forgotPassword)
+user_route.get('/reset-password',loginController.loadResetPassword);
+user_route.post('/reset-password',loginController.resetPassword)
 
 //product sections
 user_route.get('/shop',productController.loadShop)
