@@ -301,7 +301,7 @@
                                                                                                 <%= item.status %>
                                                                                             </span>
                                                                                         </td>
-                                                                                        <td>
+                                                                                        <td class="pt-0 pb-0">
                                                                                             <% if
                                                                                                 (item.status==='Cancelled'
                                                                                                 ) { %>
@@ -311,11 +311,17 @@
                                                                                                 <% } else if
                                                                                                     (item.status==='Delivered'
                                                                                                     ) { %>
-                                                                                                    <button
+                                                                                                        <div  style="display: flex;flex-direction: column;">
+                                                                                                            <button
                                                                                                         class="btn btn-danger"
                                                                                                         data-bs-toggle="modal"
                                                                                                         data-bs-target="#returnOrderModal<%= item._id %>">RETURN
                                                                                                         ORDER</button>
+                                                                                                        <a href="/downloadInvoice?itemId=<%= item._id %>&orderId=<%= order.order_id %>"
+                                                                                                             class="btn btn-primary mt-1" target="_blank">GET INVOICE</a>
+
+                                                                                                        </div>
+                                                                                                    
                                                                                                     <% } else if
                                                                                                         (['Pending','Shipped','Processing'].includes(item.status))
                                                                                                         { %>

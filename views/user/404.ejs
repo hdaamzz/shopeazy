@@ -196,7 +196,6 @@
                                                             <!-- <img src="assets/images/menu/banner-1.jpg" alt="Banner"> -->
 
                                                             <div class="banner-content banner-content-top">
-                                                                <!-- <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div> -->
                                                             </div><!-- End .banner-content -->
                                                         </a>
                                                     </div><!-- End .banner banner-overlay -->
@@ -235,33 +234,16 @@
 
                   
 
-            <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-color:#f6f6f6">
+            <div class="error-content text-center" style="background-color: #f6f6f6;">
             	<div class="container">
-            		<div class="form-box">
-            			<div class="form-tab">
-	            			
-							<div class="tab-content">
-							    <div class="tab-pane fade active show text-center" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-                                    <h5>FORGOT PASSWORD</h5>
-							    	<form  id="forgot-password-form">
-							    		<div class="form-group">
-							    			<label for="email"">Email address *</label>
-                                            <input type="email" class="form-control" id="email" name="email" required>
-							    		</div>
-
-							    		<div class="form-footer">
-							    			<button type="submit" class="btn btn-primary"><span>Reset Password</span>
-			            						<i class="icon-long-arrow-right"></i></button>
-							    		</div>
-							    	</form>
-							    	
-							    </div>
-							    
-							</div><!-- End .tab-content -->
-						</div><!-- End .form-tab -->
-            		</div><!-- End .form-box -->
+            		<h1 class="error-title">Error 404</h1><!-- End .error-title -->
+            		<p>We are sorry, the page you've requested is not available.</p>
+            		<a href="index.html" class="btn btn-outline-primary-2 btn-minwidth-lg">
+            			<span>BACK TO HOMEPAGE</span>
+            			<i class="icon-long-arrow-right"></i>
+            		</a>
             	</div><!-- End .container -->
-            </div>
+        	</div>
 
             
 
@@ -384,29 +366,6 @@
         <!-- Main JS File -->
         <script src="assets/js/main.js"></script>
     </body>
-    <script>
-        document.getElementById('forgot-password-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            
-            try {
-                const response = await fetch('/forgotPassword', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email }),
-                });
-                const data = await response.json();
-                if (data.success) {
-                    alert(data.msg);
-                } else {
-                    alert(data.msg);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        });
-    </script>
+
 
     <%- include('../layouts/footer.ejs') %>

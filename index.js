@@ -35,10 +35,10 @@ app.use('/admin', adminRoute);
 
 app.use((err,req,res,next)=>{
     console.error(err.stack);
-    res.status(500).send('something went wrong');
-})
+    res.status(500).render('404');
+});
 
-
+ 
 
 app.listen(3000, () => {
     console.log(`http://localhost:3000`);

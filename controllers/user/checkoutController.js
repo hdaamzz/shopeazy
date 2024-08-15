@@ -121,6 +121,12 @@ const placeOrder = async (req, res) => {
         if (!payment_type_objId) {
             return res.status(400).json({ success: false, message: 'Invalid payment type' });
         }
+        if (parseFloat(total_amount) > 1000 && payment_type_objId.pay_type === "CASH ON DELIVERY") {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Cash on Delivery is not available for orders above ₹1000. Please choose a different payment method.'
+            });
+        }
 
        
         const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');

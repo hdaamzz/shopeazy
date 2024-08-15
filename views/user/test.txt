@@ -367,3 +367,173 @@
             		</div><!-- End .form-box -->
             	</div><!-- End .container -->
             </div>
+
+
+
+const loadSales = async (req, res) => {
+    try {
+        // ... (existing code for date filtering)
+
+        const orders = await Order.find(query);
+
+        // Aggregate data for the chart
+        const chartData = await Order.aggregate([
+            { $match: query },
+            { $group: {
+                _id: { $dateToString: { format: "%Y-%m-%d", date: "$created_at" } },
+                totalSales: { $sum: "$total_amount" }
+            }},
+            { $sort: { _id: 1 } }
+        ]);
+
+        res.render('salesreport', { orders, chartData });
+    } catch (error) {
+        console.error('Error in loadSales:', error.message);
+        res.status(500).send('An error occurred while loading sales data');
+    }
+};
+
+
+
+
+
+
+            const getTopLists = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        let dateFilter = {};
+
+        if (startDate && endDate) {
+            dateFilter = {
+                created_at: {
+                    $gte: new Date(startDate),
+                    $lte: new Date(endDate)
+                }
+            };
+        }
+
+        // Top 10 Products
+        const topProducts = await Order.aggregate([
+            { $match: dateFilter },
+            { $unwind: "$items" },
+            { $group: {
+                _id: "$items.product_id",
+                totalQuantity: { $sum: "$items.quantity" },
+                totalRevenue: { $sum: { $multiply: ["$items.price", "$items.quantity"] } }
+            }},
+            { $sort: { totalQuantity: -1 } },
+            { $limit: 10 },
+            { $lookup: {
+                from: "products",
+                localField: "_id",
+                foreignField: "_id",
+                as: "productDetails"
+            }},
+            { $unwind: "$productDetails" },
+            { $project: {
+                name: "$productDetails.product_name",
+                totalQuantity: 1,
+                totalRevenue: 1
+            }}
+        ]);
+
+        // Top 10 Categories
+        const topCategories = await Order.aggregate([
+            { $match: dateFilter },
+            { $unwind: "$items" },
+            { $lookup: {
+                from: "products",
+                localField: "items.product_id",
+                foreignField: "_id",
+                as: "product"
+            }},
+            { $unwind: "$product" },
+            { $group: {
+                _id: "$product.category",
+                totalQuantity: { $sum: "$items.quantity" },
+                totalRevenue: { $sum: { $multiply: ["$items.price", "$items.quantity"] } }
+            }},
+            { $sort: { totalQuantity: -1 } },
+            { $limit: 10 },
+            { $lookup: {
+                from: "categories",
+                localField: "_id",
+                foreignField: "_id",
+                as: "categoryDetails"
+            }},
+            { $unwind: "$categoryDetails" },
+            { $project: {
+                name: "$categoryDetails.name",
+                totalQuantity: 1,
+                totalRevenue: 1
+            }}
+        ]);
+
+        // Top 10 Brands
+        const topBrands = await Order.aggregate([
+            { $match: dateFilter },
+            { $unwind: "$items" },
+            { $lookup: {
+                from: "products",
+                localField: "items.product_id",
+                foreignField: "_id",
+                as: "product"
+            }},
+            { $unwind: "$product" },
+            { $group: {
+                _id: "$product.brand",
+                totalQuantity: { $sum: "$items.quantity" },
+                totalRevenue: { $sum: { $multiply: ["$items.price", "$items.quantity"] } }
+            }},
+            { $sort: { totalQuantity: -1 } },
+            { $limit: 10 }
+        ]);
+
+        res.json({ topProducts, topCategories, topBrands });
+    } catch (error) {
+        console.error('Error in getTopLists:', error.message);
+        res.status(500).json({ error: 'An error occurred while fetching top lists' });
+    }
+};
+
+module.exports = {
+    loadSales,
+    downloadPDF,
+    downloadExcel,
+    getTopLists
+};
+
+
+<h1>Admin Dashboard</h1>
+
+<div>
+    <h2>Sales Chart</h2>
+    <select id="chartFilter">
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+        <option value="yearly">Yearly</option>
+    </select>
+    <canvas id="salesChart"></canvas>
+</div>
+
+<div>
+    <h2>Top 10 Products</h2>
+    <ul id="topProducts"></ul>
+</div>
+
+<div>
+    <h2>Top 10 Categories</h2>
+    <ul id="topCategories"></ul>
+</div>
+
+<div>
+    <h2>Top 10 Brands</h2>
+    <ul id="topBrands"></ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // JavaScript to handle chart rendering and fetching top lists
+    // You'll need to implement this part to update the chart and lists dynamically
+</script>
