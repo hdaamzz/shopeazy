@@ -12,7 +12,64 @@
 
   <title>shopEazy</title>
 
-
+  <style type="text/css">	
+            
+    .apexcharts-legend {	
+      display: flex;	
+      overflow: auto;	
+      padding: 0 10px;	
+    }	
+    .apexcharts-legend.apx-legend-position-bottom, .apexcharts-legend.apx-legend-position-top {	
+      flex-wrap: wrap	
+    }	
+    .apexcharts-legend.apx-legend-position-right, .apexcharts-legend.apx-legend-position-left {	
+      flex-direction: column;	
+      bottom: 0;	
+    }	
+    .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-left, .apexcharts-legend.apx-legend-position-top.apexcharts-align-left, .apexcharts-legend.apx-legend-position-right, .apexcharts-legend.apx-legend-position-left {	
+      justify-content: flex-start;	
+    }	
+    .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center, .apexcharts-legend.apx-legend-position-top.apexcharts-align-center {	
+      justify-content: center;  	
+    }	
+    .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-right, .apexcharts-legend.apx-legend-position-top.apexcharts-align-right {	
+      justify-content: flex-end;	
+    }	
+    .apexcharts-legend-series {	
+      cursor: pointer;	
+      line-height: normal;	
+    }	
+    .apexcharts-legend.apx-legend-position-bottom .apexcharts-legend-series, .apexcharts-legend.apx-legend-position-top .apexcharts-legend-series{	
+      display: flex;	
+      align-items: center;	
+    }	
+    .apexcharts-legend-text {	
+      position: relative;	
+      font-size: 14px;	
+    }	
+    .apexcharts-legend-text *, .apexcharts-legend-marker * {	
+      pointer-events: none;	
+    }	
+    .apexcharts-legend-marker {	
+      position: relative;	
+      display: inline-block;	
+      cursor: pointer;	
+      margin-right: 3px;	
+      border-style: solid;
+    }	
+      
+    .apexcharts-legend.apexcharts-align-right .apexcharts-legend-series, .apexcharts-legend.apexcharts-align-left .apexcharts-legend-series{	
+      display: inline-block;	
+    }	
+    .apexcharts-legend-series.apexcharts-no-click {	
+      cursor: auto;	
+    }	
+    .apexcharts-legend .apexcharts-hidden-zero-series, .apexcharts-legend .apexcharts-hidden-null-series {	
+      display: none !important;	
+    }	
+    .apexcharts-inactive-legend {	
+      opacity: 0.45;	
+    }</style>
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
   <meta name="keywords"
     content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
@@ -306,7 +363,246 @@
         <!-- / Navbar -->
         <!-- Content wrapper -->
         <div class="content-wrapper">
-
+          <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <div>
+                <h5 class="card-title mb-0">Expense Ratio</h5>
+                <p class="text-body mb-0">Spending on various categories</p>
+              </div>
+              <div class="dropdown d-none d-sm-flex">
+                <button type="button" class="btn dropdown-toggle px-0" data-bs-toggle="dropdown"
+                  aria-expanded="false"><i class="ri-calendar-2-line"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end" >
+                  <li><a href="javascript:void(0);"
+                      class="dropdown-item d-flex align-items-center waves-effect">Today</a></li>
+                  <li><a href="javascript:void(0);"
+                      class="dropdown-item d-flex align-items-center waves-effect">Yesterday</a></li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center waves-effect">Last 7
+                      Days</a></li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center waves-effect">Last 30
+                      Days</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center waves-effect">Current
+                      Month</a></li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center waves-effect">Last
+                      Month</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body" style="position: relative;">
+              <div id="donutChart" style="min-height: 357.7px;display: flex;justify-content: center;">
+                <div id="apexchartsb4u9qzro" class="apexcharts-canvas apexchartsb4u9qzro apexcharts-theme-light"
+                  style="width: 469px; height: 357.7px;"><svg id="SvgjsSvg5492" width="469" height="357.7"
+                    xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xmlns:svgjs="http://svgjs.dev" class="apexcharts-svg" xmlns:data="ApexChartsNS"
+                    transform="translate(0, 0)" style="background: transparent;">
+                    <foreignObject x="0" y="0" width="469" height="357.7">
+                      <div class="apexcharts-legend apexcharts-align-center apx-legend-position-bottom"
+                        xmlns="http://www.w3.org/1999/xhtml"
+                        style="inset: auto 0px 1px; position: absolute; max-height: 195px;">
+                        <div class="apexcharts-legend-series" rel="1" seriesname="Operational" data:collapsed="false"
+                          style="margin: 3px 10px;"><span class="apexcharts-legend-marker" rel="1"
+                            data:collapsed="false"
+                            style="background: rgb(253, 216, 53) !important; color: rgb(253, 216, 53); height: 10px; width: 10px; left: -3px; top: 0px; border-width: 0px; border-color: rgb(255, 255, 255); border-radius: 12px;"></span><span
+                            class="apexcharts-legend-text" rel="1" i="0" data:default-text="Operational"
+                            data:collapsed="false"
+                            style="color: rgb(109, 103, 119); font-size: 13px; font-weight: 400; font-family: Inter;">Operational</span>
+                        </div>
+                        <div class="apexcharts-legend-series" rel="2" seriesname="Networking" data:collapsed="false"
+                          style="margin: 3px 10px;"><span class="apexcharts-legend-marker" rel="2"
+                            data:collapsed="false"
+                            style="background: rgb(255, 161, 161) !important; color: rgb(255, 161, 161); height: 10px; width: 10px; left: -3px; top: 0px; border-width: 0px; border-color: rgb(255, 255, 255); border-radius: 12px;"></span><span
+                            class="apexcharts-legend-text" rel="2" i="1" data:default-text="Networking"
+                            data:collapsed="false"
+                            style="color: rgb(109, 103, 119); font-size: 13px; font-weight: 400; font-family: Inter;">Networking</span>
+                        </div>
+                        <div class="apexcharts-legend-series" rel="3" seriesname="Hiring" data:collapsed="false"
+                          style="margin: 3px 10px;"><span class="apexcharts-legend-marker" rel="3"
+                            data:collapsed="false"
+                            style="background: rgb(115, 103, 240) !important; color: rgb(115, 103, 240); height: 10px; width: 10px; left: -3px; top: 0px; border-width: 0px; border-color: rgb(255, 255, 255); border-radius: 12px;"></span><span
+                            class="apexcharts-legend-text" rel="3" i="2" data:default-text="Hiring"
+                            data:collapsed="false"
+                            style="color: rgb(109, 103, 119); font-size: 13px; font-weight: 400; font-family: Inter;">Hiring</span>
+                        </div>
+                        <div class="apexcharts-legend-series" rel="4" seriesname="RxD" data:collapsed="false"
+                          style="margin: 3px 10px;"><span class="apexcharts-legend-marker" rel="4"
+                            data:collapsed="false"
+                            style="background: rgb(41, 218, 199) !important; color: rgb(41, 218, 199); height: 10px; width: 10px; left: -3px; top: 0px; border-width: 0px; border-color: rgb(255, 255, 255); border-radius: 12px;"></span><span
+                            class="apexcharts-legend-text" rel="4" i="3" data:default-text="R%26D"
+                            data:collapsed="false"
+                            style="color: rgb(109, 103, 119); font-size: 13px; font-weight: 400; font-family: Inter;">R&amp;D</span>
+                        </div>
+                      </div>
+                    </foreignObject>
+                    <g id="SvgjsG5494" class="apexcharts-inner apexcharts-graphical" transform="translate(12, 0)">
+                      <defs id="SvgjsDefs5493">
+                        <clipPath id="gridRectMaskb4u9qzro">
+                          <rect id="SvgjsRect5496" width="453" height="325" x="-3" y="-1" rx="0" ry="0" opacity="1"
+                            stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                        </clipPath>
+                        <clipPath id="forecastMaskb4u9qzro"></clipPath>
+                        <clipPath id="nonForecastMaskb4u9qzro"></clipPath>
+                        <clipPath id="gridRectMarkerMaskb4u9qzro">
+                          <rect id="SvgjsRect5497" width="451" height="327" x="-2" y="-2" rx="0" ry="0" opacity="1"
+                            stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                        </clipPath>
+                      </defs>
+                      <g id="SvgjsG5498" class="apexcharts-pie">
+                        <g id="SvgjsG5499" transform="translate(0, 0) scale(1)">
+                          <circle id="SvgjsCircle5500" r="98.51463414634146" cx="223.5" cy="161.5" fill="transparent">
+                          </circle>
+                          <g id="SvgjsG5501" class="apexcharts-slices">
+                            <g id="SvgjsG5502" class="apexcharts-series apexcharts-pie-series" seriesName="Operational"
+                              rel="1" data:realIndex="0">
+                              <path id="SvgjsPath5503"
+                                d="M 223.5 9.939024390243901 A 151.5609756097561 151.5609756097561 0 0 1 292.9492586832714 296.2127677546755 L 268.64201814412644 249.06329904053905 A 98.51463414634146 98.51463414634146 0 0 0 223.5 62.985365853658536 L 223.5 9.939024390243901 z"
+                                fill="rgba(253,216,53,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt"
+                                stroke-width="0" stroke-dasharray="0"
+                                class="apexcharts-pie-area apexcharts-donut-slice-0" index="0" j="0"
+                                data:angle="152.72727272727272" data:startAngle="0" data:strokeWidth="0" data:value="42"
+                                data:pathOrig="M 223.5 9.939024390243901 A 151.5609756097561 151.5609756097561 0 0 1 292.9492586832714 296.2127677546755 L 268.64201814412644 249.06329904053905 A 98.51463414634146 98.51463414634146 0 0 0 223.5 62.985365853658536 L 223.5 9.939024390243901 z">
+                              </path>
+                            </g>
+                            <g id="SvgjsG5506" class="apexcharts-series apexcharts-pie-series" seriesName="Networking"
+                              rel="2" data:realIndex="1">
+                              <path id="SvgjsPath5507"
+                                d="M 292.9492586832714 296.2127677546755 A 151.5609756097561 151.5609756097561 0 0 1 228.3087165550486 312.98467108217346 L 226.62566576078157 259.96503620341275 A 98.51463414634146 98.51463414634146 0 0 0 268.64201814412644 249.06329904053905 L 292.9492586832714 296.2127677546755 z"
+                                fill="rgba(255,161,161,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt"
+                                stroke-width="0" stroke-dasharray="0"
+                                class="apexcharts-pie-area apexcharts-donut-slice-1" index="0" j="1"
+                                data:angle="25.454545454545467" data:startAngle="152.72727272727272"
+                                data:strokeWidth="0" data:value="7"
+                                data:pathOrig="M 292.9492586832714 296.2127677546755 A 151.5609756097561 151.5609756097561 0 0 1 228.3087165550486 312.98467108217346 L 226.62566576078157 259.96503620341275 A 98.51463414634146 98.51463414634146 0 0 0 268.64201814412644 249.06329904053905 L 292.9492586832714 296.2127677546755 z">
+                              </path>
+                            </g>
+                            <g id="SvgjsG5510" class="apexcharts-series apexcharts-pie-series" seriesName="Hiring"
+                              rel="3" data:realIndex="2">
+                              <path id="SvgjsPath5511"
+                                d="M 228.3087165550486 312.98467108217346 A 151.5609756097561 151.5609756097561 0 0 1 71.95810172279366 163.90466095779254 L 124.99776611981588 163.06302962256515 A 98.51463414634146 98.51463414634146 0 0 0 226.62566576078157 259.96503620341275 L 228.3087165550486 312.98467108217346 z"
+                                fill="rgba(115,103,240,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt"
+                                stroke-width="0" stroke-dasharray="0"
+                                class="apexcharts-pie-area apexcharts-donut-slice-2" index="0" j="2"
+                                data:angle="90.90909090909093" data:startAngle="178.1818181818182" data:strokeWidth="0"
+                                data:value="25"
+                                data:pathOrig="M 228.3087165550486 312.98467108217346 A 151.5609756097561 151.5609756097561 0 0 1 71.95810172279366 163.90466095779254 L 124.99776611981588 163.06302962256515 A 98.51463414634146 98.51463414634146 0 0 0 226.62566576078157 259.96503620341275 L 228.3087165550486 312.98467108217346 z">
+                              </path>
+                            </g>
+                            <g id="SvgjsG5514" class="apexcharts-series apexcharts-pie-series" seriesName="RxD" rel="4"
+                              data:realIndex="3">
+                              <path id="SvgjsPath5515"
+                                d="M 71.95810172279366 163.90466095779254 A 151.5609756097561 151.5609756097561 0 0 1 223.47354761971502 9.939026698649542 L 223.48280595281477 62.985367354122204 A 98.51463414634146 98.51463414634146 0 0 0 124.99776611981588 163.06302962256515 L 71.95810172279366 163.90466095779254 z"
+                                fill="rgba(41,218,199,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt"
+                                stroke-width="0" stroke-dasharray="0"
+                                class="apexcharts-pie-area apexcharts-donut-slice-3" index="0" j="3"
+                                data:angle="90.90909090909088" data:startAngle="269.0909090909091" data:strokeWidth="0"
+                                data:value="25"
+                                data:pathOrig="M 71.95810172279366 163.90466095779254 A 151.5609756097561 151.5609756097561 0 0 1 223.47354761971502 9.939026698649542 L 223.48280595281477 62.985367354122204 A 98.51463414634146 98.51463414634146 0 0 0 124.99776611981588 163.06302962256515 L 71.95810172279366 163.90466095779254 z">
+                              </path>
+                            </g>
+                            <g id="SvgjsG5504" class="apexcharts-datalabels"><text id="SvgjsText5505"
+                                font-family="Inter" x="345.0131852582696" y="132.02122022351574" text-anchor="middle"
+                                dominant-baseline="auto" font-size="15px" font-weight="normal" fill="#ffffff"
+                                class="apexcharts-text apexcharts-pie-label" style="font-family: Inter;">42%</text></g>
+                            <g id="SvgjsG5508" class="apexcharts-datalabels"><text id="SvgjsText5509"
+                                font-family="Inter" x="254.90299301666252" y="282.53018085715826" text-anchor="middle"
+                                dominant-baseline="auto" font-size="15px" font-weight="normal" fill="#ffffff"
+                                class="apexcharts-text apexcharts-pie-label" style="font-family: Inter;">7%</text></g>
+                            <g id="SvgjsG5512" class="apexcharts-datalabels"><text id="SvgjsText5513"
+                                font-family="Inter" x="137.2140352118629" y="251.99411544018406" text-anchor="middle"
+                                dominant-baseline="auto" font-size="15px" font-weight="normal" fill="#ffffff"
+                                class="apexcharts-text apexcharts-pie-label" style="font-family: Inter;">25%</text></g>
+                            <g id="SvgjsG5516" class="apexcharts-datalabels"><text id="SvgjsText5517"
+                                font-family="Inter" x="134.3862852614071" y="73.78911986412581" text-anchor="middle"
+                                dominant-baseline="auto" font-size="15px" font-weight="normal" fill="#ffffff"
+                                class="apexcharts-text apexcharts-pie-label" style="font-family: Inter;">25%</text></g>
+                          </g>
+                        </g>
+                        <g id="SvgjsG5518" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)">
+                          <text id="SvgjsText5519" font-family="Inter" x="223.5" y="151.5" text-anchor="middle"
+                            dominant-baseline="auto" font-size="0.9375rem" font-weight="500" fill="#433c50"
+                            class="apexcharts-text apexcharts-datalabel-label"
+                            style="font-family: Inter;">Operational</text><text id="SvgjsText5520" font-family="Inter"
+                            x="223.5" y="187.5" text-anchor="middle" dominant-baseline="auto" font-size="0.9375rem"
+                            font-weight="500" fill="#6d6777" class="apexcharts-text apexcharts-datalabel-value"
+                            style="font-family: Inter;">42%</text></g>
+                      </g>
+                      <line id="SvgjsLine5521" x1="0" y1="0" x2="447" y2="0" stroke="#b6b6b6" stroke-dasharray="0"
+                        stroke-width="1" stroke-linecap="butt" class="apexcharts-ycrosshairs"></line>
+                      <line id="SvgjsLine5522" x1="0" y1="0" x2="447" y2="0" stroke-dasharray="0" stroke-width="0"
+                        stroke-linecap="butt" class="apexcharts-ycrosshairs-hidden"></line>
+                    </g>
+                    <g id="SvgjsG5495" class="apexcharts-annotations"></g>
+                  </svg>
+                  <div class="apexcharts-tooltip apexcharts-theme-dark">
+                    <div class="apexcharts-tooltip-series-group" style="order: 1;"><span
+                        class="apexcharts-tooltip-marker" style="background-color: rgb(253, 216, 53);"></span>
+                      <div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;">
+                        <div class="apexcharts-tooltip-y-group"><span
+                            class="apexcharts-tooltip-text-y-label"></span><span
+                            class="apexcharts-tooltip-text-y-value"></span></div>
+                        <div class="apexcharts-tooltip-goals-group"><span
+                            class="apexcharts-tooltip-text-goals-label"></span><span
+                            class="apexcharts-tooltip-text-goals-value"></span></div>
+                        <div class="apexcharts-tooltip-z-group"><span
+                            class="apexcharts-tooltip-text-z-label"></span><span
+                            class="apexcharts-tooltip-text-z-value"></span></div>
+                      </div>
+                    </div>
+                    <div class="apexcharts-tooltip-series-group" style="order: 2;"><span
+                        class="apexcharts-tooltip-marker" style="background-color: rgb(255, 161, 161);"></span>
+                      <div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;">
+                        <div class="apexcharts-tooltip-y-group"><span
+                            class="apexcharts-tooltip-text-y-label"></span><span
+                            class="apexcharts-tooltip-text-y-value"></span></div>
+                        <div class="apexcharts-tooltip-goals-group"><span
+                            class="apexcharts-tooltip-text-goals-label"></span><span
+                            class="apexcharts-tooltip-text-goals-value"></span></div>
+                        <div class="apexcharts-tooltip-z-group"><span
+                            class="apexcharts-tooltip-text-z-label"></span><span
+                            class="apexcharts-tooltip-text-z-value"></span></div>
+                      </div>
+                    </div>
+                    <div class="apexcharts-tooltip-series-group" style="order: 3;"><span
+                        class="apexcharts-tooltip-marker" style="background-color: rgb(115, 103, 240);"></span>
+                      <div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;">
+                        <div class="apexcharts-tooltip-y-group"><span
+                            class="apexcharts-tooltip-text-y-label"></span><span
+                            class="apexcharts-tooltip-text-y-value"></span></div>
+                        <div class="apexcharts-tooltip-goals-group"><span
+                            class="apexcharts-tooltip-text-goals-label"></span><span
+                            class="apexcharts-tooltip-text-goals-value"></span></div>
+                        <div class="apexcharts-tooltip-z-group"><span
+                            class="apexcharts-tooltip-text-z-label"></span><span
+                            class="apexcharts-tooltip-text-z-value"></span></div>
+                      </div>
+                    </div>
+                    <div class="apexcharts-tooltip-series-group" style="order: 4;"><span
+                        class="apexcharts-tooltip-marker" style="background-color: rgb(41, 218, 199);"></span>
+                      <div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;">
+                        <div class="apexcharts-tooltip-y-group"><span
+                            class="apexcharts-tooltip-text-y-label"></span><span
+                            class="apexcharts-tooltip-text-y-value"></span></div>
+                        <div class="apexcharts-tooltip-goals-group"><span
+                            class="apexcharts-tooltip-text-goals-label"></span><span
+                            class="apexcharts-tooltip-text-goals-value"></span></div>
+                        <div class="apexcharts-tooltip-z-group"><span
+                            class="apexcharts-tooltip-text-z-label"></span><span
+                            class="apexcharts-tooltip-text-z-value"></span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="resize-triggers">
+                <div class="expand-trigger">
+                  <div style="width: 510px; height: 379px;"></div>
+                </div>
+                <div class="contract-trigger"></div>
+              </div>
+            </div>
+          </div>
           <!-- Content -->
 
           <div class="container-xxl flex-grow-1 container-p-y">
