@@ -105,6 +105,8 @@ user_route.get('/wallet',auth.isLogin,walletController.loadWallet);
 user_route.get('/logout', auth.isLogin, logoutController.userLogout);
 
 
+
+
 module.exports = user_route;
 
 

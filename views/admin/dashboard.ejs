@@ -70,11 +70,35 @@
     .apexcharts-inactive-legend {	
       opacity: 0.45;	
     }</style>
+     <style>
+      .chart-container {
+          width: 45%;
+          margin: 10px;
+          display: inline-block;
+      }
+      .table-container {
+          height: 300px;
+          overflow-y: auto;
+      }
+      table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+      th, td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+      }
+      th {
+          background-color: #f2f2f2;
+      }
+  </style>
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
   <meta name="keywords"
     content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
   <!-- Canonical SEO -->
   <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
   <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
@@ -362,265 +386,122 @@
         </nav>
         <!-- / Navbar -->
         <!-- Content wrapper -->
-        <div class="content-wrapper">
-          <div class="card">
-            <div class="card-header d-flex align-items-center justify-content-between">
-              <div>
-                <h5 class="card-title mb-0">Expense Ratio</h5>
-                <p class="text-body mb-0">Spending on various categories</p>
-              </div>
-              <div class="dropdown d-none d-sm-flex">
-                <button type="button" class="btn dropdown-toggle px-0" data-bs-toggle="dropdown"
-                  aria-expanded="false"><i class="ri-calendar-2-line"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end" >
-                  <li><a href="javascript:void(0);"
-                      class="dropdown-item d-flex align-items-center waves-effect">Today</a></li>
-                  <li><a href="javascript:void(0);"
-                      class="dropdown-item d-flex align-items-center waves-effect">Yesterday</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center waves-effect">Last 7
-                      Days</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center waves-effect">Last 30
-                      Days</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center waves-effect">Current
-                      Month</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center waves-effect">Last
-                      Month</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="card-body" style="position: relative;">
-              <div id="donutChart" style="min-height: 357.7px;display: flex;justify-content: center;">
-                <div id="apexchartsb4u9qzro" class="apexcharts-canvas apexchartsb4u9qzro apexcharts-theme-light"
-                  style="width: 469px; height: 357.7px;"><svg id="SvgjsSvg5492" width="469" height="357.7"
-                    xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xmlns:svgjs="http://svgjs.dev" class="apexcharts-svg" xmlns:data="ApexChartsNS"
-                    transform="translate(0, 0)" style="background: transparent;">
-                    <foreignObject x="0" y="0" width="469" height="357.7">
-                      <div class="apexcharts-legend apexcharts-align-center apx-legend-position-bottom"
-                        xmlns="http://www.w3.org/1999/xhtml"
-                        style="inset: auto 0px 1px; position: absolute; max-height: 195px;">
-                        <div class="apexcharts-legend-series" rel="1" seriesname="Operational" data:collapsed="false"
-                          style="margin: 3px 10px;"><span class="apexcharts-legend-marker" rel="1"
-                            data:collapsed="false"
-                            style="background: rgb(253, 216, 53) !important; color: rgb(253, 216, 53); height: 10px; width: 10px; left: -3px; top: 0px; border-width: 0px; border-color: rgb(255, 255, 255); border-radius: 12px;"></span><span
-                            class="apexcharts-legend-text" rel="1" i="0" data:default-text="Operational"
-                            data:collapsed="false"
-                            style="color: rgb(109, 103, 119); font-size: 13px; font-weight: 400; font-family: Inter;">Operational</span>
-                        </div>
-                        <div class="apexcharts-legend-series" rel="2" seriesname="Networking" data:collapsed="false"
-                          style="margin: 3px 10px;"><span class="apexcharts-legend-marker" rel="2"
-                            data:collapsed="false"
-                            style="background: rgb(255, 161, 161) !important; color: rgb(255, 161, 161); height: 10px; width: 10px; left: -3px; top: 0px; border-width: 0px; border-color: rgb(255, 255, 255); border-radius: 12px;"></span><span
-                            class="apexcharts-legend-text" rel="2" i="1" data:default-text="Networking"
-                            data:collapsed="false"
-                            style="color: rgb(109, 103, 119); font-size: 13px; font-weight: 400; font-family: Inter;">Networking</span>
-                        </div>
-                        <div class="apexcharts-legend-series" rel="3" seriesname="Hiring" data:collapsed="false"
-                          style="margin: 3px 10px;"><span class="apexcharts-legend-marker" rel="3"
-                            data:collapsed="false"
-                            style="background: rgb(115, 103, 240) !important; color: rgb(115, 103, 240); height: 10px; width: 10px; left: -3px; top: 0px; border-width: 0px; border-color: rgb(255, 255, 255); border-radius: 12px;"></span><span
-                            class="apexcharts-legend-text" rel="3" i="2" data:default-text="Hiring"
-                            data:collapsed="false"
-                            style="color: rgb(109, 103, 119); font-size: 13px; font-weight: 400; font-family: Inter;">Hiring</span>
-                        </div>
-                        <div class="apexcharts-legend-series" rel="4" seriesname="RxD" data:collapsed="false"
-                          style="margin: 3px 10px;"><span class="apexcharts-legend-marker" rel="4"
-                            data:collapsed="false"
-                            style="background: rgb(41, 218, 199) !important; color: rgb(41, 218, 199); height: 10px; width: 10px; left: -3px; top: 0px; border-width: 0px; border-color: rgb(255, 255, 255); border-radius: 12px;"></span><span
-                            class="apexcharts-legend-text" rel="4" i="3" data:default-text="R%26D"
-                            data:collapsed="false"
-                            style="color: rgb(109, 103, 119); font-size: 13px; font-weight: 400; font-family: Inter;">R&amp;D</span>
-                        </div>
+        <div class="container-fluid py-4">
+          <div class="row">
+              <div class="col-12">
+                  <div class="card mb-4">
+                      <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                          <h6>Dashboard Overview</h6>
+                          <div class="form-group mb-0">
+                              <label for="timeFrame" class="mr-2">Time Frame:</label>
+                              <select id="timeFrame" class="form-select form-select-sm" onchange="updateDashboard()">
+                                  <option value="yearly" <%= timeFrame === 'yearly' ? 'selected' : '' %>>Yearly</option>
+                                  <option value="monthly" <%= timeFrame === 'monthly' ? 'selected' : '' %>>Monthly</option>
+                                  <option value="weekly" <%= timeFrame === 'weekly' ? 'selected' : '' %>>Weekly</option>
+                                  <option value="daily" <%= timeFrame === 'daily' ? 'selected' : '' %>>Daily</option>
+                              </select>
+                          </div>
                       </div>
-                    </foreignObject>
-                    <g id="SvgjsG5494" class="apexcharts-inner apexcharts-graphical" transform="translate(12, 0)">
-                      <defs id="SvgjsDefs5493">
-                        <clipPath id="gridRectMaskb4u9qzro">
-                          <rect id="SvgjsRect5496" width="453" height="325" x="-3" y="-1" rx="0" ry="0" opacity="1"
-                            stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
-                        </clipPath>
-                        <clipPath id="forecastMaskb4u9qzro"></clipPath>
-                        <clipPath id="nonForecastMaskb4u9qzro"></clipPath>
-                        <clipPath id="gridRectMarkerMaskb4u9qzro">
-                          <rect id="SvgjsRect5497" width="451" height="327" x="-2" y="-2" rx="0" ry="0" opacity="1"
-                            stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
-                        </clipPath>
-                      </defs>
-                      <g id="SvgjsG5498" class="apexcharts-pie">
-                        <g id="SvgjsG5499" transform="translate(0, 0) scale(1)">
-                          <circle id="SvgjsCircle5500" r="98.51463414634146" cx="223.5" cy="161.5" fill="transparent">
-                          </circle>
-                          <g id="SvgjsG5501" class="apexcharts-slices">
-                            <g id="SvgjsG5502" class="apexcharts-series apexcharts-pie-series" seriesName="Operational"
-                              rel="1" data:realIndex="0">
-                              <path id="SvgjsPath5503"
-                                d="M 223.5 9.939024390243901 A 151.5609756097561 151.5609756097561 0 0 1 292.9492586832714 296.2127677546755 L 268.64201814412644 249.06329904053905 A 98.51463414634146 98.51463414634146 0 0 0 223.5 62.985365853658536 L 223.5 9.939024390243901 z"
-                                fill="rgba(253,216,53,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt"
-                                stroke-width="0" stroke-dasharray="0"
-                                class="apexcharts-pie-area apexcharts-donut-slice-0" index="0" j="0"
-                                data:angle="152.72727272727272" data:startAngle="0" data:strokeWidth="0" data:value="42"
-                                data:pathOrig="M 223.5 9.939024390243901 A 151.5609756097561 151.5609756097561 0 0 1 292.9492586832714 296.2127677546755 L 268.64201814412644 249.06329904053905 A 98.51463414634146 98.51463414634146 0 0 0 223.5 62.985365853658536 L 223.5 9.939024390243901 z">
-                              </path>
-                            </g>
-                            <g id="SvgjsG5506" class="apexcharts-series apexcharts-pie-series" seriesName="Networking"
-                              rel="2" data:realIndex="1">
-                              <path id="SvgjsPath5507"
-                                d="M 292.9492586832714 296.2127677546755 A 151.5609756097561 151.5609756097561 0 0 1 228.3087165550486 312.98467108217346 L 226.62566576078157 259.96503620341275 A 98.51463414634146 98.51463414634146 0 0 0 268.64201814412644 249.06329904053905 L 292.9492586832714 296.2127677546755 z"
-                                fill="rgba(255,161,161,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt"
-                                stroke-width="0" stroke-dasharray="0"
-                                class="apexcharts-pie-area apexcharts-donut-slice-1" index="0" j="1"
-                                data:angle="25.454545454545467" data:startAngle="152.72727272727272"
-                                data:strokeWidth="0" data:value="7"
-                                data:pathOrig="M 292.9492586832714 296.2127677546755 A 151.5609756097561 151.5609756097561 0 0 1 228.3087165550486 312.98467108217346 L 226.62566576078157 259.96503620341275 A 98.51463414634146 98.51463414634146 0 0 0 268.64201814412644 249.06329904053905 L 292.9492586832714 296.2127677546755 z">
-                              </path>
-                            </g>
-                            <g id="SvgjsG5510" class="apexcharts-series apexcharts-pie-series" seriesName="Hiring"
-                              rel="3" data:realIndex="2">
-                              <path id="SvgjsPath5511"
-                                d="M 228.3087165550486 312.98467108217346 A 151.5609756097561 151.5609756097561 0 0 1 71.95810172279366 163.90466095779254 L 124.99776611981588 163.06302962256515 A 98.51463414634146 98.51463414634146 0 0 0 226.62566576078157 259.96503620341275 L 228.3087165550486 312.98467108217346 z"
-                                fill="rgba(115,103,240,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt"
-                                stroke-width="0" stroke-dasharray="0"
-                                class="apexcharts-pie-area apexcharts-donut-slice-2" index="0" j="2"
-                                data:angle="90.90909090909093" data:startAngle="178.1818181818182" data:strokeWidth="0"
-                                data:value="25"
-                                data:pathOrig="M 228.3087165550486 312.98467108217346 A 151.5609756097561 151.5609756097561 0 0 1 71.95810172279366 163.90466095779254 L 124.99776611981588 163.06302962256515 A 98.51463414634146 98.51463414634146 0 0 0 226.62566576078157 259.96503620341275 L 228.3087165550486 312.98467108217346 z">
-                              </path>
-                            </g>
-                            <g id="SvgjsG5514" class="apexcharts-series apexcharts-pie-series" seriesName="RxD" rel="4"
-                              data:realIndex="3">
-                              <path id="SvgjsPath5515"
-                                d="M 71.95810172279366 163.90466095779254 A 151.5609756097561 151.5609756097561 0 0 1 223.47354761971502 9.939026698649542 L 223.48280595281477 62.985367354122204 A 98.51463414634146 98.51463414634146 0 0 0 124.99776611981588 163.06302962256515 L 71.95810172279366 163.90466095779254 z"
-                                fill="rgba(41,218,199,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt"
-                                stroke-width="0" stroke-dasharray="0"
-                                class="apexcharts-pie-area apexcharts-donut-slice-3" index="0" j="3"
-                                data:angle="90.90909090909088" data:startAngle="269.0909090909091" data:strokeWidth="0"
-                                data:value="25"
-                                data:pathOrig="M 71.95810172279366 163.90466095779254 A 151.5609756097561 151.5609756097561 0 0 1 223.47354761971502 9.939026698649542 L 223.48280595281477 62.985367354122204 A 98.51463414634146 98.51463414634146 0 0 0 124.99776611981588 163.06302962256515 L 71.95810172279366 163.90466095779254 z">
-                              </path>
-                            </g>
-                            <g id="SvgjsG5504" class="apexcharts-datalabels"><text id="SvgjsText5505"
-                                font-family="Inter" x="345.0131852582696" y="132.02122022351574" text-anchor="middle"
-                                dominant-baseline="auto" font-size="15px" font-weight="normal" fill="#ffffff"
-                                class="apexcharts-text apexcharts-pie-label" style="font-family: Inter;">42%</text></g>
-                            <g id="SvgjsG5508" class="apexcharts-datalabels"><text id="SvgjsText5509"
-                                font-family="Inter" x="254.90299301666252" y="282.53018085715826" text-anchor="middle"
-                                dominant-baseline="auto" font-size="15px" font-weight="normal" fill="#ffffff"
-                                class="apexcharts-text apexcharts-pie-label" style="font-family: Inter;">7%</text></g>
-                            <g id="SvgjsG5512" class="apexcharts-datalabels"><text id="SvgjsText5513"
-                                font-family="Inter" x="137.2140352118629" y="251.99411544018406" text-anchor="middle"
-                                dominant-baseline="auto" font-size="15px" font-weight="normal" fill="#ffffff"
-                                class="apexcharts-text apexcharts-pie-label" style="font-family: Inter;">25%</text></g>
-                            <g id="SvgjsG5516" class="apexcharts-datalabels"><text id="SvgjsText5517"
-                                font-family="Inter" x="134.3862852614071" y="73.78911986412581" text-anchor="middle"
-                                dominant-baseline="auto" font-size="15px" font-weight="normal" fill="#ffffff"
-                                class="apexcharts-text apexcharts-pie-label" style="font-family: Inter;">25%</text></g>
-                          </g>
-                        </g>
-                        <g id="SvgjsG5518" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)">
-                          <text id="SvgjsText5519" font-family="Inter" x="223.5" y="151.5" text-anchor="middle"
-                            dominant-baseline="auto" font-size="0.9375rem" font-weight="500" fill="#433c50"
-                            class="apexcharts-text apexcharts-datalabel-label"
-                            style="font-family: Inter;">Operational</text><text id="SvgjsText5520" font-family="Inter"
-                            x="223.5" y="187.5" text-anchor="middle" dominant-baseline="auto" font-size="0.9375rem"
-                            font-weight="500" fill="#6d6777" class="apexcharts-text apexcharts-datalabel-value"
-                            style="font-family: Inter;">42%</text></g>
-                      </g>
-                      <line id="SvgjsLine5521" x1="0" y1="0" x2="447" y2="0" stroke="#b6b6b6" stroke-dasharray="0"
-                        stroke-width="1" stroke-linecap="butt" class="apexcharts-ycrosshairs"></line>
-                      <line id="SvgjsLine5522" x1="0" y1="0" x2="447" y2="0" stroke-dasharray="0" stroke-width="0"
-                        stroke-linecap="butt" class="apexcharts-ycrosshairs-hidden"></line>
-                    </g>
-                    <g id="SvgjsG5495" class="apexcharts-annotations"></g>
-                  </svg>
-                  <div class="apexcharts-tooltip apexcharts-theme-dark">
-                    <div class="apexcharts-tooltip-series-group" style="order: 1;"><span
-                        class="apexcharts-tooltip-marker" style="background-color: rgb(253, 216, 53);"></span>
-                      <div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;">
-                        <div class="apexcharts-tooltip-y-group"><span
-                            class="apexcharts-tooltip-text-y-label"></span><span
-                            class="apexcharts-tooltip-text-y-value"></span></div>
-                        <div class="apexcharts-tooltip-goals-group"><span
-                            class="apexcharts-tooltip-text-goals-label"></span><span
-                            class="apexcharts-tooltip-text-goals-value"></span></div>
-                        <div class="apexcharts-tooltip-z-group"><span
-                            class="apexcharts-tooltip-text-z-label"></span><span
-                            class="apexcharts-tooltip-text-z-value"></span></div>
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-md-6 mb-4">
+                                  <div class="chart-container">
+                                      <canvas id="orderStatusChart"></canvas>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mb-4">
+                                  <div class="chart-container">
+                                      <canvas id="salesChart"></canvas>
+                                  </div>
+                              </div>
+                          </div>
                       </div>
-                    </div>
-                    <div class="apexcharts-tooltip-series-group" style="order: 2;"><span
-                        class="apexcharts-tooltip-marker" style="background-color: rgb(255, 161, 161);"></span>
-                      <div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;">
-                        <div class="apexcharts-tooltip-y-group"><span
-                            class="apexcharts-tooltip-text-y-label"></span><span
-                            class="apexcharts-tooltip-text-y-value"></span></div>
-                        <div class="apexcharts-tooltip-goals-group"><span
-                            class="apexcharts-tooltip-text-goals-label"></span><span
-                            class="apexcharts-tooltip-text-goals-value"></span></div>
-                        <div class="apexcharts-tooltip-z-group"><span
-                            class="apexcharts-tooltip-text-z-label"></span><span
-                            class="apexcharts-tooltip-text-z-value"></span></div>
-                      </div>
-                    </div>
-                    <div class="apexcharts-tooltip-series-group" style="order: 3;"><span
-                        class="apexcharts-tooltip-marker" style="background-color: rgb(115, 103, 240);"></span>
-                      <div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;">
-                        <div class="apexcharts-tooltip-y-group"><span
-                            class="apexcharts-tooltip-text-y-label"></span><span
-                            class="apexcharts-tooltip-text-y-value"></span></div>
-                        <div class="apexcharts-tooltip-goals-group"><span
-                            class="apexcharts-tooltip-text-goals-label"></span><span
-                            class="apexcharts-tooltip-text-goals-value"></span></div>
-                        <div class="apexcharts-tooltip-z-group"><span
-                            class="apexcharts-tooltip-text-z-label"></span><span
-                            class="apexcharts-tooltip-text-z-value"></span></div>
-                      </div>
-                    </div>
-                    <div class="apexcharts-tooltip-series-group" style="order: 4;"><span
-                        class="apexcharts-tooltip-marker" style="background-color: rgb(41, 218, 199);"></span>
-                      <div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;">
-                        <div class="apexcharts-tooltip-y-group"><span
-                            class="apexcharts-tooltip-text-y-label"></span><span
-                            class="apexcharts-tooltip-text-y-value"></span></div>
-                        <div class="apexcharts-tooltip-goals-group"><span
-                            class="apexcharts-tooltip-text-goals-label"></span><span
-                            class="apexcharts-tooltip-text-goals-value"></span></div>
-                        <div class="apexcharts-tooltip-z-group"><span
-                            class="apexcharts-tooltip-text-z-label"></span><span
-                            class="apexcharts-tooltip-text-z-value"></span></div>
-                      </div>
-                    </div>
                   </div>
-                </div>
               </div>
-              <div class="resize-triggers">
-                <div class="expand-trigger">
-                  <div style="width: 510px; height: 379px;"></div>
-                </div>
-                <div class="contract-trigger"></div>
+          </div>
+      
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="card mb-4">
+                      <div class="card-header pb-0">
+                          <h6>Best Selling Products</h6>
+                      </div>
+                      <div class="card-body px-0 pt-0 pb-2">
+                          <div class="table-responsive p-0">
+                              <table class="table align-items-center mb-0">
+                                  <thead>
+                                      <tr>
+                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Rank</th>
+                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Product Name</th>
+                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sales</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <% bestSellingProducts.forEach((product, index) => { %>
+                                      <tr>
+                                          <td>
+                                              <div class="d-flex px-2 py-1">
+                                                  <div class="d-flex flex-column justify-content-center">
+                                                      <h6 class="mb-0 text-sm"><%= index + 1 %></h6>
+                                                  </div>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <p class="text-xs font-weight-bold mb-0"><%= product.name %></p>
+                                          </td>
+                                          <td class="align-middle text-center text-sm">
+                                              <span class="badge badge-sm bg-gradient-success"><%= product.sales %></span>
+                                          </td>
+                                      </tr>
+                                      <% }); %>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
+      
+              <div class="col-md-6">
+                  <div class="card mb-4">
+                      <div class="card-header pb-0">
+                          <h6>Best Selling Categories</h6>
+                      </div>
+                      <div class="card-body px-0 pt-0 pb-2">
+                          <div class="table-responsive p-0">
+                              <table class="table align-items-center mb-0">
+                                  <thead>
+                                      <tr>
+                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Rank</th>
+                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category Name</th>
+                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sales</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <% bestSellingCategories.forEach((category, index) => { %>
+                                      <tr>
+                                          <td>
+                                              <div class="d-flex px-2 py-1">
+                                                  <div class="d-flex flex-column justify-content-center">
+                                                      <h6 class="mb-0 text-sm"><%= index + 1 %></h6>
+                                                  </div>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <p class="text-xs font-weight-bold mb-0"><%= category.name %></p>
+                                          </td>
+                                          <td class="align-middle text-center text-sm">
+                                              <span class="badge badge-sm bg-gradient-info"><%= category.sales %></span>
+                                          </td>
+                                      </tr>
+                                      <% }); %>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
-          <!-- Content -->
-
-          <div class="container-xxl flex-grow-1 container-p-y">
-
-
-            <div class="row gy-6">
-              <!-- Footer -->
-              <footer class="content-footer footer bg-footer-theme">
-              </footer>
-              <!-- / Footer -->
-
-
-              <div class="content-backdrop fade"></div>
-            </div>
-            <!-- Content wrapper -->
-          </div>
-          <!-- / Layout page -->
-        </div>
+      </div>
 
         <!-- Overlay -->
         <div class="layout-overlay layout-menu-toggle"></div>
@@ -655,6 +536,69 @@
 
       <!-- Page JS -->
       <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
+      <script>
+        const orderStatusData = <%- JSON.stringify(orderStatusData) %>;
+        const salesData = <%- JSON.stringify(salesData) %>;
+    
+        // Create Order Status Chart
+        const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+        new Chart(orderStatusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Delivered', 'Canceled', 'Returned'],
+                datasets: [{
+                    data: [orderStatusData.delivered, orderStatusData.canceled, orderStatusData.returned],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(255, 205, 86, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    title: {
+                        display: true,
+                        text: 'Order Status Distribution'
+                    }
+                }
+            }
+        });
+    
+        // Create Sales Chart
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: salesData.labels,
+                datasets: [{
+                    label: 'Sales',
+                    data: salesData.values,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Sales Over Time'
+                    }
+                }
+            }
+        });
+    
+        function updateDashboard() {
+            const timeFrame = document.getElementById('timeFrame').value;
+            window.location.href = `/admin/adminHome?timeFrame=${timeFrame}`;
+        }
+    </script>
 
 </body>
 

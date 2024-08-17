@@ -537,3 +537,31 @@ module.exports = {
     // JavaScript to handle chart rendering and fetching top lists
     // You'll need to implement this part to update the chart and lists dynamically
 </script>
+
+
+ // const orderStatusCounts = await Orders.aggregate([
+        //     { $unwind: "$items" },
+        //     {
+        //         $group: {
+        //             _id: "$items.status",
+        //             count: { $sum: 1 }
+        //         }
+        //     }
+        // ]);
+
+        // // Process the aggregation results
+        // const processedData = {
+        //     delivered: 0,
+        //     canceled: 0,
+        //     returned: 0
+        // };
+
+        // orderStatusCounts.forEach(status => {
+        //     if (status._id === 'Delivered') {
+        //         processedData.delivered = status.count;
+        //     } else if (status._id === 'Cancelled') {
+        //         processedData.canceled = status.count;
+        //     } else if (status._id === 'Returned') {
+        //         processedData.returned = status.count;
+        //     }
+        // });
