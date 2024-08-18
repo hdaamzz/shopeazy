@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../../models/user/userCredentials');
 const Product = require('../../models/admin/products');
 const Address = require('../../models/user/userAddress');
@@ -8,6 +9,7 @@ const Offer = require('../../models/admin/offers');
 const Coupon = require('../../models/admin/coupons')
 require('dotenv').config();
 const Razorpay = require('razorpay');
+const { validationResult } = require('express-validator');
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -98,14 +100,16 @@ const razorpay = new Razorpay({
         res.status(500).render('error', { message: 'Server error' });
     }
 };
+
 const placeOrder = async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, errors: errors.array() });
+        }
+
         const { address_id, payment_type, total_amount, coupon_discount } = req.body;
         const user_id = req.session.user_id;
-
-        if (!address_id || !payment_type || !total_amount) {
-            return res.status(400).json({ success: false, message: 'Missing required fields' });
-        }
 
         const address = await Address.findById(address_id);
         if (!address) {
@@ -121,6 +125,7 @@ const placeOrder = async (req, res) => {
         if (!payment_type_objId) {
             return res.status(400).json({ success: false, message: 'Invalid payment type' });
         }
+
         if (parseFloat(total_amount) > 1000 && payment_type_objId.pay_type === "CASH ON DELIVERY") {
             return res.status(400).json({ 
                 success: false, 
@@ -128,51 +133,9 @@ const placeOrder = async (req, res) => {
             });
         }
 
-       
         const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
+        const orderItems = calculateOrderItems(cartItems, offers);
 
-        const orderItems = cartItems.map(item => {
-            let bestDiscount = 0;
-            let discountedPrice = item.product_id.price;
-
-            offers.forEach((offer) => {
-                if (offer.type === 'PRODUCT') {
-                    offer.products.forEach((product) => {
-                        if (String(product._id) === String(item.product_id._id)) {
-                            if (offer.discount > bestDiscount) {
-                                bestDiscount = offer.discount;
-                            }
-                        }
-                    });
-                } else if (offer.type === 'CATEGORY') {
-                    const categoryMatch = offer.category.some(category => 
-                        String(item.product_id.category) === String(category._id)
-                    );
-                    
-                    if (categoryMatch && offer.discount > bestDiscount) {
-                        bestDiscount = offer.discount;
-                    }
-                }
-            });
-
-            if (bestDiscount > 0) {
-                discountedPrice = item.product_id.price * (1 - bestDiscount / 100);
-            }
-
-            const finalPrice = parseFloat(discountedPrice.toFixed(2));
-
-            return {
-                product_id: item.product_id._id,
-                name: item.product_id.product_name,
-                quantity: item.quantity,
-                original_price: item.product_id.price,
-                price: finalPrice,
-                status:'Pending',
-                total: parseFloat((finalPrice * item.quantity).toFixed(2))
-            };
-        });
-
-       
         const randomOrderId = Math.floor(1000 + Math.random() * 9000);
         const newOrder = new Orders({
             user_id,
@@ -190,13 +153,7 @@ const placeOrder = async (req, res) => {
         await newOrder.save();
 
         if (payment_type_objId.pay_type === "UPI PAYMENT") {
-            const razorpayOrder = await razorpay.orders.create({
-                amount: Math.round(parseFloat(total_amount) * 100),
-                currency: "INR",
-                receipt: newOrder._id.toString(),
-                payment_capture: 1
-            });
-            newOrder.payment_status="Completed";
+            const razorpayOrder = await createRazorpayOrder(newOrder, total_amount);
             newOrder.razorpay_order_id = razorpayOrder.id;
             await newOrder.save();
 
@@ -217,16 +174,7 @@ const placeOrder = async (req, res) => {
             });
         }
 
-       
-        for (let item of cartItems) {
-            await Product.findByIdAndUpdate(
-                item.product_id._id,
-                { $inc: { stock: -item.quantity } },
-                { new: true }
-            );
-        }
-
-       
+        await updateProductStock(cartItems);
         await Cart.deleteMany({ user_id });
 
     } catch (error) {
@@ -234,6 +182,56 @@ const placeOrder = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
     }
 };
+
+function calculateOrderItems(cartItems, offers) {
+    return cartItems.map(item => {
+        let bestDiscount = 0;
+        let discountedPrice = item.product_id.price;
+
+        offers.forEach((offer) => {
+            if (offer.type === 'PRODUCT' && offer.products.some(product => String(product._id) === String(item.product_id._id))) {
+                bestDiscount = Math.max(bestDiscount, offer.discount);
+            } else if (offer.type === 'CATEGORY' && offer.category.some(category => String(item.product_id.category) === String(category._id))) {
+                bestDiscount = Math.max(bestDiscount, offer.discount);
+            }
+        });
+
+        if (bestDiscount > 0) {
+            discountedPrice = item.product_id.price * (1 - bestDiscount / 100);
+        }
+
+        const finalPrice = parseFloat(discountedPrice.toFixed(2));
+
+        return {
+            product_id: item.product_id._id,
+            name: item.product_id.product_name,
+            quantity: item.quantity,
+            original_price: item.product_id.price,
+            price: finalPrice,
+            status: 'Pending',
+            total: parseFloat((finalPrice * item.quantity).toFixed(2))
+        };
+    });
+}
+
+async function createRazorpayOrder(order, total_amount) {
+    return await razorpay.orders.create({
+        amount: Math.round(parseFloat(total_amount) * 100),
+        currency: "INR",
+        receipt: order._id.toString(),
+        payment_capture: 1
+    });
+}
+
+async function updateProductStock(cartItems, session) {
+    for (let item of cartItems) {
+        await Product.findByIdAndUpdate(
+            item.product_id._id,
+            { $inc: { stock: -item.quantity } },
+            { new: true, session }
+        );
+    }
+}
 
 const loadOrderSummary = async (req, res) => {
     try {
