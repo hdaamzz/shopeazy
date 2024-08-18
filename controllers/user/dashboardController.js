@@ -9,6 +9,19 @@ const ReturnRequest= require('../../models/user/returnRequest');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 require('dotenv').config();
+const Razorpay = require('razorpay');
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
+});
+async function createRazorpayOrder(order, amount) {
+    return await razorpay.orders.create({
+        amount: Math.round(parseFloat(amount) * 100),
+        currency: "INR",
+        receipt: order._id.toString(),
+        payment_capture: 1
+    });
+}
 
 
 const loadDashboard = async (req, res) => {
@@ -364,9 +377,37 @@ const downloadInvoice = async (req, res) => {
   };
 
 
+  const initiateRepayment = async (req, res) => {
+    try {
+        const { orderId, amount } = req.body;
+        
+        const order = await Orders.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
 
+        if (order.payment_status !== 'Failed') {
+            return res.status(400).json({ success: false, message: 'This order does not require repayment' });
+        }
 
+        const razorpayOrder = await createRazorpayOrder(order, amount);
+        order.razorpay_order_id = razorpayOrder.id;
+        await order.save();
 
+        res.status(200).json({ 
+            success: true, 
+            key: process.env.RAZORPAY_KEY_ID,
+            message: 'Repayment initiated successfully', 
+            orderId: order._id,
+            razorpayOrderId: razorpayOrder.id,
+            amount: razorpayOrder.amount,
+            currency: razorpayOrder.currency
+        });
+    } catch (error) {
+        console.error('Error in initiateRepayment:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+};
 
 
 
@@ -381,5 +422,6 @@ module.exports = {
     updateUserData,
     cancelOrder,
     returnOrder,
-    downloadInvoice
+    downloadInvoice,
+    initiateRepayment
 };

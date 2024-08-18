@@ -244,6 +244,17 @@
                                                                             order.total_amount.toFixed(2) %>
                                                                     </div>
                                                                     <div class="col-md-4">
+                                                                        <strong>Payment Status:</strong>
+                                                                            <% if(order.payment_status === 'Completed') {%><span class="text-success">
+                                                                                Completed
+                                                                            </span><%} else if(order.payment_status === 'Failed') {%><span class="text-danger">
+                                                                                Failed
+                                                                            </span><% } else {%><span class="text-warning">
+                                                                                Pending
+                                                                            </span>
+                                                                       <%}%>
+                                                                    </div>
+                                                                    <div class="col-md-4">
                                                                         <strong>Ship to:</strong>
                                                                         <%= order.address_id.name %> ,
                                                                             <%= order.address_id.address %> , <%=
@@ -251,6 +262,9 @@
                                                                                         order.address_id.state %> <br>
                                                                     </div>
                                                                 </div>
+                                                               <% if (order.payment_status === 'Failed') { %>
+                                                                    <button class="btn btn-warning" onclick="initiateRepayment('<%= order._id %>', <%= order.total_amount %>)">Repay</button>
+                                                                <% } %>
                                                                 <button class="btn btn-outline-primary btn-sm"
                                                                     onclick="toggleOrderDetails('<%= order._id %>')">
                                                                     View Order Details
@@ -979,6 +993,7 @@
         <script src="assets/js/owl.carousel.min.js"></script>
         <!-- Main JS File -->
         <script src="assets/js/main.js"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script>
             function toggleOrderDetails(orderId) {
                 const orderProducts = document.getElementById(`order-products-${orderId}`);
@@ -991,6 +1006,144 @@
         </script>
 
         <script>
+              function initiateRepayment(orderId, amount) {
+            fetch('/initiate-repayment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ orderId, amount })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    var options = {
+                        key: data.key,
+                        amount: data.amount,
+                        currency: data.currency,
+                        name: "ShopEazy",
+                        description: "Order Repayment",
+                        order_id: data.razorpayOrderId,
+                        handler: function (response) {
+                            handlePaymentResponse(response, orderId);
+                        },
+                        prefill: {
+                            name: "<%= userData.name %>",
+                            email: "<%= userData.email %>",
+                            contact: "<%= userData.phone %>"
+                        },
+                        theme: {
+                            color: "#3399cc"
+                        }
+                    };
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+                    rzp1.on('payment.failed', function (response){
+                        handlePaymentFailure(response, orderId);
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An error occurred while initiating repayment. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        }
+
+        async function handlePaymentResponse(response, orderId) {
+        try {
+            const result = await fetch('/verifyPayment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                    orderId: orderId
+                })
+            });
+
+            const data = await result.json();
+
+            if (data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Your payment was successful and your order has been updated.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = `/orderSummary?id=${orderId}`;
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Payment Failed',
+                    text: 'Your payment was not successful. Please try again or contact support.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An error occurred while processing your payment. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    }
+
+            async function handlePaymentFailure(response, orderId) {
+                try {
+                    const result = await fetch('/payment-failed', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            razorpay_order_id: response.error.metadata.order_id,
+                            orderId: orderId
+                        })
+                    });
+
+                    const data = await result.json();
+
+                    Swal.fire({
+                        title: 'Payment Failed',
+                        text: 'Your payment was not successful. Please try again or choose a different payment method.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while processing your payment. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+            window.initiateRepayment = initiateRepayment;
+            window.handlePaymentResponse = handlePaymentResponse;
+            window.handlePaymentFailure = handlePaymentFailure;
+
+
             async function submitReturnRequest(itemId, orderId) {
                 const returnReason = document.getElementById(`return_reason_${itemId}`).value;
                 console.log(itemId, orderId, returnReason);
@@ -1202,6 +1355,9 @@
 
                 }
             });
+        </script>
+        <script>
+          
         </script>
 
         <script>

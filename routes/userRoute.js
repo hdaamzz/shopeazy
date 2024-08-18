@@ -67,8 +67,9 @@ user_route.post('/deleteAddress',dashboardController.deleteAddress);
 user_route.post('/updateUser',dashboardController.updateUserData);
 user_route.post('/cancelOrder',dashboardController.cancelOrder);
 user_route.post('/returnOrder',dashboardController.returnOrder);
-user_route.get('/downloadInvoice',dashboardController.downloadInvoice)
-
+user_route.get('/downloadInvoice',dashboardController.downloadInvoice);
+user_route.post('/initiate-repayment',dashboardController.initiateRepayment)
+        
 
 //cart management
 user_route.get('/cart' ,auth.isLogin,cartController.loadCart);
@@ -91,6 +92,9 @@ user_route.get('/serch',searchFilterController.shopFilter)
 //check out section
 user_route.get('/checkout',auth.isLogin,checkoutController.loadCheckout)
 user_route.post('/placeOrder', checkoutController.placeOrder);
+user_route.post('/updateOrderStatus/:orderId',checkoutController.updateOrderStatus);
+user_route.post('/verifyPayment',checkoutController.verifyPayment);
+user_route.post('/payment-failed', checkoutController.paymentFailure)
 user_route.get('/orderSummary',auth.isLogin, checkoutController.loadOrderSummary);
 user_route.post('/applyCoupon',checkoutController.applyCoupon)
 user_route.post('/removeCoupon',checkoutController.removeCoupon)

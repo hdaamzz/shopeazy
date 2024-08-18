@@ -691,6 +691,9 @@
                                 coupon_discount: couponDiscount
                             })
                         });
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
 
                         const data = await response.json();
 
@@ -721,41 +724,6 @@
                                     handlePaymentFailure(response, data.orderId);
                                 });
 
-                                // function handlePaymentFailure(response, orderId) {
-                                //     fetch('/payment-failed', {
-                                //         method: 'POST',
-                                //         headers: {
-                                //             'Content-Type': 'application/json',
-                                //         },
-                                //         body: JSON.stringify({
-                                //             razorpay_order_id: response.error.metadata.order_id,
-                                //             orderId: orderId
-                                //         })
-                                //     })
-                                //     .then(res => res.json())
-                                //     .then(data => {
-                                //         Swal.fire({
-                                //             title: 'Payment Failed',
-                                //             text: 'Your payment was not successful. Please try again or choose a different payment method.',
-                                //             icon: 'error',
-                                //             confirmButtonText: 'OK'
-                                //         }).then((result) => {
-                                //             if (result.isConfirmed) {
-                                //                 window.location.href = `/order?id=${orderId}`;
-                                //             }
-                                //         });
-                                //     })
-                                //     .catch(error => {
-                                //         console.error('Error:', error);
-                                //         Swal.fire({
-                                //             title: 'Error!',
-                                //             text: 'An error occurred while processing your payment. Please try again.',
-                                //             icon: 'error',
-                                //             confirmButtonText: 'OK'
-                                //         });
-                                //     });
-                                // }
-
 
                             } else {
                                 Swal.fire({
@@ -779,9 +747,6 @@
                         }
                     } catch (error) {
                         console.error('Error details:', error);
-                        if (error.response) {
-                            console.error('Server responded with:', error.response.data);
-                        }
                         Swal.fire({
                             title: 'Error!',
                             text: `There was an error placing your order: ${error.message}`,
@@ -793,7 +758,7 @@
                 
                 async function handlePaymentResponse(response, orderId) {
                     try {
-                        const result = await fetch('/verify-payment', {
+                        const result = await fetch('/verifyPayment', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -809,6 +774,13 @@
                         const data = await result.json();
 
                         if (data.success) {
+                            await fetch(`/updateOrderStatus/${orderId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ status: 'completed' })
+                        });
                             Swal.fire({
                                 title: 'Success!',
                                 text: 'Your payment was successful and your order has been placed.',
@@ -820,6 +792,13 @@
                                 }
                             });
                         } else {
+                            await fetch(`/updateOrderStatus/${orderId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ status: 'failed' })
+                            });
                             Swal.fire({
                                 title: 'Payment Failed',
                                 text: 'Your payment was not successful. Please try again or choose a different payment method.',
@@ -827,7 +806,7 @@
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = `/order?id=${orderId}`;
+                                    window.location.href = `/orderSummary?id=${orderId}`;
                                 }
                             });
                         }
@@ -864,7 +843,7 @@
                             confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                window.location.href = `/order?id=${orderId}`;
+                                window.location.href = `/orderSummary?id=${orderId}`;
                             }
                         });
                     } catch (error) {
@@ -879,14 +858,6 @@
                 }
             });
         </script>
-
-
-
-
-
-
-
-
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
