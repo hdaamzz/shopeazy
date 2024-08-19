@@ -410,10 +410,10 @@
                                   </div>
                               </div>
                               <div class="col-md-6 mb-4">
-                                  <div class="chart-container">
-                                      <canvas id="salesChart"></canvas>
-                                  </div>
-                              </div>
+                                <div class="chart-container" style="position: relative; height:300px; width:100%">
+                                    <canvas id="salesChart"></canvas>
+                                </div>
+                            </div>
                           </div>
                       </div>
                   </div>
@@ -540,7 +540,7 @@
         const orderStatusData = <%- JSON.stringify(orderStatusData) %>;
         const salesData = <%- JSON.stringify(salesData) %>;
     
-        // Create Order Status Chart
+      
         const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
         new Chart(orderStatusCtx, {
             type: 'doughnut',
@@ -567,28 +567,71 @@
             }
         });
     
-        // Create Sales Chart
+       
         const salesCtx = document.getElementById('salesChart').getContext('2d');
         new Chart(salesCtx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: salesData.labels,
                 datasets: [{
                     label: 'Sales',
                     data: salesData.values,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
+                    backgroundColor: 'rgba(255, 206, 86, 0.8)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true }
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '₹' + value.toLocaleString();
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    }
                 },
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Sales Over Time'
+                        text: 'Sales Over Time',
+                        align: 'start',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += '₹' + context.parsed.y.toLocaleString();
+                                }
+                                return label;
+                            }
+                        }
                     }
                 }
             }

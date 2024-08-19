@@ -113,11 +113,38 @@ async function getOrderStatusCounts(timeFrame) {
 }
 
 async function getSalesData(timeFrame) {
-    const matchStage = getTimeFrameMatchStage(timeFrame);
+    let query = {};
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    switch (timeFrame) {
+        case 'daily':
+            query.created_at = { $gte: today };
+            break;
+        case 'weekly':
+            const oneWeekAgo = new Date(today);
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            query.created_at = { $gte: oneWeekAgo };
+            break;
+        case 'monthly':
+            const oneMonthAgo = new Date(today);
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            query.created_at = { $gte: oneMonthAgo };
+            break;
+        case 'yearly':
+            const oneYearAgo = new Date(today);
+            oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+            query.created_at = { $gte: oneYearAgo };
+            break;
+        default:
+            // No filter
+            break;
+    }
+
     const groupingFormat = getGroupingFormat(timeFrame);
 
     return await Orders.aggregate([
-        matchStage,
+        { $match: query },
         {
             $group: {
                 _id: {
@@ -149,15 +176,15 @@ function getGroupingFormat(timeFrame) {
         case 'yearly':
             return "%Y";
         case 'monthly':
-            return "%Y-%m";
+            return "%Y-%m-%d";
         case 'weekly':
-            return "%Y-W%V";
         case 'daily':
             return "%Y-%m-%d";
         default:
             return "%Y-%m-%d";
     }
 }
+
 
 async function getBestSellingProducts(timeFrame) {
     const matchStage = getTimeFrameMatchStage(timeFrame);
