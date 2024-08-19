@@ -108,8 +108,10 @@ const placeOrder = async (req, res) => {
             return res.status(400).json({ success: false, errors: errors.array() });
         }
 
-        const { address_id, payment_type, total_amount, coupon_discount } = req.body;
+        const { address_id, payment_type, total_amount, coupon_discount,couponPercent } = req.body;
         const user_id = req.session.user_id;
+        // console.log(couponPercent);
+        
 
         const address = await Address.findById(address_id);
         if (!address) {
@@ -134,7 +136,7 @@ const placeOrder = async (req, res) => {
         }
 
         const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
-        const orderItems = calculateOrderItems(cartItems, offers);
+        const orderItems = calculateOrderItems(cartItems, offers,couponPercent);
 
         const randomOrderId = Math.floor(1000 + Math.random() * 9000);
         const newOrder = new Orders({
@@ -184,10 +186,16 @@ const placeOrder = async (req, res) => {
     }
 };
 
-function calculateOrderItems(cartItems, offers) {
+function calculateOrderItems(cartItems, offers,couponPercent) {
     return cartItems.map(item => {
         let bestDiscount = 0;
-        let discountedPrice = item.product_id.price;
+        let discountedPrice
+        if(couponPercent > 0){
+            discountedPrice = item.product_id.price * (1 - couponPercent / 100);
+        }else{
+            discountedPrice = item.product_id.price
+        }
+       
 
         offers.forEach((offer) => {
             if (offer.type === 'PRODUCT' && offer.products.some(product => String(product._id) === String(item.product_id._id))) {
@@ -199,9 +207,14 @@ function calculateOrderItems(cartItems, offers) {
 
         if (bestDiscount > 0) {
             discountedPrice = item.product_id.price * (1 - bestDiscount / 100);
+            if(couponPercent > 0){
+                discountedPrice = discountedPrice * (1 - couponPercent / 100);
+            }
         }
 
         const finalPrice = parseFloat(discountedPrice.toFixed(2));
+
+
 
         return {
             product_id: item.product_id._id,
@@ -403,7 +416,8 @@ const applyCoupon = async (req, res) => {
             discountAmount = coupon.max_amount;
         }
 
-        
+        discountPercent=coupon.discount;
+       
         discountAmount = Math.round(discountAmount * 100) / 100;
         const newTotal = Math.round((subtotal - discountAmount) * 100) / 100;
 
@@ -411,6 +425,7 @@ const applyCoupon = async (req, res) => {
             success: true,
             message: 'Coupon applied successfully',
             discountAmount,
+            discountPercent,
             newTotal
         });
 

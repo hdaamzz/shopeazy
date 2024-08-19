@@ -1,16 +1,20 @@
 
 const userLogout = (req, res) => {
-    // req.logout((err) => {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     delete req.session.user_id;
-    //     delete req.user;
+    // if(req.session.user_id){
+    //      delete req.session.user_id;
     //     res.redirect('/');
-    // });
-    delete req.session.user_id;
-        delete req.user;
-        res.redirect('/');
+    // }else{
+        req.logout((err) => {
+            if (err) {
+                console.log(err);
+            }
+            delete req.session.user_id;
+            delete req.user;
+            res.redirect('/');
+        });
+    // }
+    
+   
 
 };
 

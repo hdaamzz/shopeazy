@@ -245,7 +245,7 @@
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <strong>Payment Status:</strong>
-                                                                            <% if(order.payment_status === 'Completed') {%><span class="text-success">
+                                                                            <% if(order.payment_status === 'Completed' || 'completed') {%><span class="text-success">
                                                                                 Completed
                                                                             </span><%} else if(order.payment_status === 'Failed') {%><span class="text-danger">
                                                                                 Failed

@@ -186,7 +186,7 @@
                                         <p><strong>Order ID:</strong> #<%= order?.order_id %></p>
                                         <p><strong>Total Amount:</strong> ₹ <%= order.total_amount.toFixed(2) %></p>
                                         <p><strong>Discount:</strong> ₹<%= order?.discount %></p>
-                                        <p><strong>Status:</strong> <%= order.order_status %></p>
+                                        <p><strong>Payment Status:</strong> <%= order.payment_status %></p>
                                         <p><strong>Ordered Date:</strong> <%= 
                                             new Date(order.created_at).toLocaleDateString("en-US", {
                                               year: "numeric",

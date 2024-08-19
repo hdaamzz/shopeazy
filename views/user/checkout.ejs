@@ -329,6 +329,7 @@
                                                         <tr id="couponDiscountRow" style="display: none;">
                                                             <td>Coupon Discount:</td>
                                                             <td>- ₹<span id="couponDiscount">0.00</span></td>
+                                                            <td><span id="couponPercent">0.00</span>%</td>
                                                         </tr>
                                                         <tr>
                                                             <td>Shipping:</td>
@@ -361,6 +362,7 @@
                                         </button>
                                     </div>
                                 </aside>
+                                
                                 </form>
                             </div>
                         </div>
@@ -665,8 +667,10 @@
 
 
                     const couponDiscountElement = document.getElementById('couponDiscount');
+                    const couponPercentElement = document.getElementById('couponPercent');
                     const couponDiscount = couponDiscountElement ? parseFloat(couponDiscountElement.textContent) : 0;
-
+                    const couponPercent = couponPercentElement ? parseFloat(couponPercentElement.textContent) : 0;
+                    console.log(couponDiscount,couponPercent)
 
                     const address_id = selectedAddress.value;
                     const payment_type = selectedPayment.value;
@@ -677,7 +681,8 @@
                             address_id,
                             payment_type,
                             total_amount,
-                            coupon_discount: couponDiscount
+                            coupon_discount: couponDiscount,
+                            couponPercent
                         });
                         const response = await fetch('/placeOrder', {
                             method: 'POST',
@@ -688,7 +693,8 @@
                                 address_id,
                                 payment_type,
                                 total_amount,
-                                coupon_discount: couponDiscount
+                                coupon_discount: couponDiscount,
+                                couponPercent
                             })
                         });
                         if (!response.ok) {
@@ -779,7 +785,7 @@
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ status: 'completed' })
+                            body: JSON.stringify({ status: 'Completed' })
                         });
                             Swal.fire({
                                 title: 'Success!',
@@ -1259,8 +1265,11 @@
                 console.log('Server response:', data);
 
                 if (data.success) {
+                    console.log(data.discountPercent);
+                    
                 document.getElementById('couponDiscountRow').style.display = 'table-row';
                 document.getElementById('couponDiscount').textContent = data.discountAmount.toFixed(2);
+                document.getElementById('couponPercent').textContent = data.discountPercent;
                 document.getElementById('cart-total').textContent = data.newTotal.toFixed(2);
                 
                 displayCouponMessage(data.message, true);

@@ -30,6 +30,7 @@ const loadUserMain = async (req, res) => {
 
             userData = await User.findById(req.session.user_id);
         }
+         
 
         if (userData) {
             const [cartItems, category, product, offers] = await Promise.all([

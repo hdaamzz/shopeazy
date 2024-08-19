@@ -77,7 +77,7 @@ const cancelOrder = async (req, res) => {
 
         
         for (const item of order.items) {
-            await Products.findByIdAndUpdate(
+            await Product.findByIdAndUpdate(
                 item.product_id,
                 { $inc: { stock: item.quantity } }
             );
@@ -150,8 +150,10 @@ const updateReturnRequest = async (req, res) => {
         const order = await Orders.findOne(
             { order_id: orderId, "items._id": itemId }
         ).populate('payment_type');
+        const products =  order.items.find(product=>product._id.equals(itemId))
+        console.log(products);
         const currentItem = order.items[0];
-        const currentTotal = currentItem.total;
+        const currentTotal = products.total;
         const userID = order.user_id;
         
 
