@@ -61,25 +61,25 @@ user_route.get('/showProduct', productController.loadShowProduct)
 
 //user dashboard
 user_route.get('/dashboard',auth.isLogin,dashboardController.loadDashboard)
-user_route.post('/addAddress',dashboardController.addUserAddress)
-user_route.post('/updateAddress',dashboardController.updateUserAddress);
-user_route.post('/deleteAddress',dashboardController.deleteAddress);
-user_route.post('/updateUser',dashboardController.updateUserData);
-user_route.post('/cancelOrder',dashboardController.cancelOrder);
-user_route.post('/returnOrder',dashboardController.returnOrder);
-user_route.get('/downloadInvoice',dashboardController.downloadInvoice);
-user_route.post('/initiate-repayment',dashboardController.initiateRepayment)
+user_route.post('/addAddress', auth.isLogin,dashboardController.addUserAddress)
+user_route.post('/updateAddress', auth.isLogin,dashboardController.updateUserAddress);
+user_route.post('/deleteAddress', auth.isLogin,dashboardController.deleteAddress);
+user_route.post('/updateUser', auth.isLogin,dashboardController.updateUserData);
+user_route.post('/cancelOrder', auth.isLogin,dashboardController.cancelOrder);
+user_route.post('/returnOrder', auth.isLogin,dashboardController.returnOrder);
+user_route.get('/downloadInvoice', auth.isLogin,dashboardController.downloadInvoice);
+user_route.post('/initiate-repayment', auth.isLogin,dashboardController.initiateRepayment)
         
 
 //cart management
 user_route.get('/cart' ,auth.isLogin,cartController.loadCart);
 user_route.get('/nonUserCart',auth.isLogout,cartController.loaduserCart);
-user_route.post('/addCartItem',cartController.addCartItem)
-user_route.post('/update-cart-quantity',cartController.updateCartQuantity)
-user_route.post('/remove-from-cart', cartController.removeCartItem);
-user_route.get('/wishlist',cartController.loadWishlist)
-user_route.post('/addWishlistItem',cartController.addWishlistItem)
-user_route.post('/remove-from-wishlist', cartController.removeWishlistItem);
+user_route.post('/addCartItem', auth.isLogin,cartController.addCartItem)
+user_route.post('/update-cart-quantity', auth.isLogin,cartController.updateCartQuantity)
+user_route.post('/remove-from-cart', auth.isLogin, cartController.removeCartItem);
+user_route.get('/wishlist', auth.isLogin,cartController.loadWishlist)
+user_route.post('/addWishlistItem', auth.isLogin,cartController.addWishlistItem)
+user_route.post('/remove-from-wishlist', auth.isLogin, cartController.removeWishlistItem);
 
 
 
@@ -91,13 +91,13 @@ user_route.get('/serch',searchFilterController.shopFilter)
 
 //check out section
 user_route.get('/checkout',auth.isLogin,checkoutController.loadCheckout)
-user_route.post('/placeOrder', checkoutController.placeOrder);
-user_route.post('/updateOrderStatus/:orderId',checkoutController.updateOrderStatus);
-user_route.post('/verifyPayment',checkoutController.verifyPayment);
-user_route.post('/payment-failed', checkoutController.paymentFailure)
-user_route.get('/orderSummary',auth.isLogin, checkoutController.loadOrderSummary);
-user_route.post('/applyCoupon',checkoutController.applyCoupon)
-user_route.post('/removeCoupon',checkoutController.removeCoupon)
+user_route.post('/placeOrder', auth.isLogin, checkoutController.placeOrder);
+user_route.post('/updateOrderStatus/:orderId', auth.isLogin,checkoutController.updateOrderStatus);
+user_route.post('/verifyPayment', auth.isLogin,checkoutController.verifyPayment);
+user_route.post('/payment-failed', auth.isLogin, checkoutController.paymentFailure)
+user_route.get('/orderSummary', auth.isLogin,auth.isLogin, checkoutController.loadOrderSummary);
+user_route.post('/applyCoupon', auth.isLogin,checkoutController.applyCoupon)
+user_route.post('/removeCoupon', auth.isLogin,checkoutController.removeCoupon)
 
 
 //wallet 

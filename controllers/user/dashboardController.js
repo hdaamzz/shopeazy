@@ -189,7 +189,7 @@ const cancelOrder = async (req, res) => {
         }
         const products = order.items.find(product=>product._id.equals(item_id))
         
-        if(order.payment_type.pay_type == "UPI PAYMENT"){
+        if(order.payment_type.pay_type == "UPI PAYMENT" && order.payment_status == 'Completed'){
             const randomID = Math.floor(100000 + Math.random() * 900000);
             const refundAmount = parseFloat(products.total);
 
@@ -386,7 +386,7 @@ const downloadInvoice = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Order not found' });
         }
 
-        if (order.payment_status !== 'Failed') {
+        if (order.payment_status !== 'Failed' && order.payment_status !== 'Pending') {
             return res.status(400).json({ success: false, message: 'This order does not require repayment' });
         }
 

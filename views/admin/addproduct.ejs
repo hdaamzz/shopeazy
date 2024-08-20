@@ -276,18 +276,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item">
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                    <div data-i18n="Banners">Banners</div>
-                                </a>
-                                <ul class="menu-sub">
-                                    <li class="menu-item">
-                                        <a href="app-ecommerce-customer-all.html" class="menu-link">
-                                            <div data-i18n="Banner">Banner</div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -576,7 +564,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="cropperModalLabel">Crop Image</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -586,7 +574,9 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn-close" id="modalCloseBtn" aria-label="Close">
+                                   
+                                </button>
                                 <button type="button" class="btn btn-primary" onclick="cropImage()">Crop</button>
                             </div>
                         </div>
@@ -630,6 +620,11 @@
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
             <script>
+             document.getElementById('modalCloseBtn').addEventListener('click', function() {
+                var myModal = bootstrap.Modal.getInstance(document.getElementById('cropperModal'));
+                myModal.hide();
+            });
+
                 let cropper;
                 let currentImageId;
                     function previewImage(input, previewId) {

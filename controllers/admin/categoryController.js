@@ -81,22 +81,49 @@ const loadUpdateCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
     try {
         const { hiddenid, productTitle, productOption, ProductDescription } = req.body;
+        
+        const existingCat = await Category.findOne({
+            category_name: productTitle,
+            _id: { $ne: hiddenid }
+        });
 
-        await Category.findByIdAndUpdate(hiddenid, {
+        if (existingCat) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Category already exists', 
+                redirectUrl: "/admin/category" 
+            });
+        }
+
+        const updatedCategory = await Category.findByIdAndUpdate(hiddenid, {
             $set: {
                 category_name: productTitle,
                 status: productOption,
                 description: ProductDescription
             }
-        });
+        }, { new: true });
+
+        if (!updatedCategory) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Category not found', 
+                redirectUrl: "/admin/category" 
+            });
+        }
         
-        res.status(200).json({ success: true, message: 'Category updated successfully', redirectUrl: '/admin/category' });
+        res.status(200).json({ 
+            success: true, 
+            message: 'Category updated successfully', 
+            redirectUrl: '/admin/category' 
+        });
     } catch (error) {
         console.error('Error during category update:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'An error occurred while processing your request' 
+        });
     }
 };
-
 
 
 module.exports = {

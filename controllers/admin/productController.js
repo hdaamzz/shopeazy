@@ -6,14 +6,26 @@ const fs =require('fs')
 
 const loadProducts = async (req, res) => {
     try {
-        const [product, categories] = await Promise.all([
-            Products.find({}).populate('category'),
-            Category.find({})
-          ]);
-          
-        res.render('products', { product: product, categories: categories })
+        const page = parseInt(req.query.page) || 1;
+        const limit = 10;
+        const skip = (page - 1) * limit;
+
+        const [products, categories, totalProducts] = await Promise.all([
+            Products.find({}).populate('category').skip(skip).limit(limit),
+            Category.find({}),
+            Products.countDocuments({})
+        ]);
+
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        res.render('products', { 
+            product: products, 
+            categories: categories,
+            currentPage: page,
+            totalPages: totalPages
+        });
     } catch (error) {
-        console.error('Error Load Produts:', error);
+        console.error('Error Loading Products:', error);
         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }

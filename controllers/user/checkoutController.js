@@ -110,7 +110,6 @@ const placeOrder = async (req, res) => {
 
         const { address_id, payment_type, total_amount, coupon_discount,couponPercent } = req.body;
         const user_id = req.session.user_id;
-        // console.log(couponPercent);
         
 
         const address = await Address.findById(address_id);
@@ -138,7 +137,7 @@ const placeOrder = async (req, res) => {
         const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
         const orderItems = calculateOrderItems(cartItems, offers,couponPercent);
 
-        const randomOrderId = Math.floor(1000 + Math.random() * 9000);
+        const randomOrderId = Math.floor(10000 + Math.random() * 90000);
         const newOrder = new Orders({
             user_id,
             order_id: `ORD-${randomOrderId}`,
@@ -333,7 +332,7 @@ const paymentFailure = async (req, res) => {
         const updatedOrder = await Orders.findByIdAndUpdate(
             orderId,
             { 
-                payment_status: 'Failed',
+                payment_status: 'Failed' || 'Pending',
                 'payment_details.razorpay_order_id': razorpay_order_id
             },
             { new: true }

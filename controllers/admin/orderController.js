@@ -5,12 +5,32 @@ const Wallet = require('../../models/user/userwallet');
 const User = require('../../models/user/userCredentials')
 
 
-const loadOrderList= async (req, res) => {
+const loadOrderList = async (req, res) => {
     try {
-        const orders = await Orders.find({}).populate('user_id').populate('items.product_id').populate('payment_type').sort({created_at:-1});
-        res.render('orders', { orders })
+        const page = parseInt(req.query.page) || 1;
+        const limit = 10; 
+        const skip = (page - 1) * limit;
+
+        const [orders, totalOrders] = await Promise.all([
+            Orders.find({})
+                .populate('user_id')
+                .populate('items.product_id')
+                .populate('payment_type')
+                .sort({created_at: -1})
+                .skip(skip)
+                .limit(limit),
+            Orders.countDocuments({})
+        ]);
+
+        const totalPages = Math.ceil(totalOrders / limit);
+
+        res.render('orders', { 
+            orders: orders,
+            currentPage: page,
+            totalPages: totalPages
+        });
     } catch (error) {
-        console.error('Error Load Produts:', error);
+        console.error('Error Loading Orders:', error);
         res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
     }
 }
@@ -34,6 +54,20 @@ const loadupdateStatus= async (req, res) => {
 const updateStatus = async (req, res) => {
     try {
         const { hiddenid, productOption, hiddenitemId } = req.body;
+
+        if(productOption ==='Delivered'){
+            const updatedPaymentStatus = await Orders.findOneAndUpdate(
+                { 
+                    _id: hiddenid 
+                },
+                { 
+                    $set: { 
+                        payment_status: 'Completed' 
+                    } 
+                },
+                { new: true, runValidators: true }
+            );
+        }
         const updatedOrder = await Orders.findOneAndUpdate(
             { 
                 _id: hiddenid, 

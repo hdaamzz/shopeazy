@@ -25,7 +25,9 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }));
-
+app.set('view engine','ejs');
+app.set('views', './views/user');
+app.set('views', './views/admin');
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,9 +35,13 @@ app.use(passport.session());
 app.use('/', userRoute);
 app.use('/admin', adminRoute);
 
-app.use((err,req,res,next)=>{
-    console.error(err.stack);
-    res.status(500).render('404');
+app.use((req,res,next)=>{
+    if(req.originalUrl.startsWith('/admin')){
+        res.status(500).render('admin404')
+    }else{
+        res.status(500).render('404');
+    }
+    
 });
 
  

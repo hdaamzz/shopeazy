@@ -245,11 +245,11 @@
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <strong>Payment Status:</strong>
-                                                                            <% if(order.payment_status === 'Completed' || 'completed') {%><span class="text-success">
+                                                                            <% if(order.payment_status === 'Completed') {%><span class="text-success">
                                                                                 Completed
                                                                             </span><%} else if(order.payment_status === 'Failed') {%><span class="text-danger">
                                                                                 Failed
-                                                                            </span><% } else {%><span class="text-warning">
+                                                                            </span><% } else if(order.payment_status === 'Pending') {%><span class="text-warning">
                                                                                 Pending
                                                                             </span>
                                                                        <%}%>
@@ -262,9 +262,11 @@
                                                                                         order.address_id.state %> <br>
                                                                     </div>
                                                                 </div>
-                                                               <% if (order.payment_status === 'Failed') { %>
+                                                               <% if (order.payment_status === 'Failed' ) { %>
                                                                     <button class="btn btn-warning" onclick="initiateRepayment('<%= order._id %>', <%= order.total_amount %>)">Repay</button>
-                                                                <% } %>
+                                                                <% } else if(order.payment_status === 'Pending'){ %> 
+                                                                    <button class="btn btn-warning" onclick="initiateRepayment('<%= order._id %>', <%= order.total_amount %>)">Repay</button>
+                                                                    <%}%>
                                                                 <button class="btn btn-outline-primary btn-sm"
                                                                     onclick="toggleOrderDetails('<%= order._id %>')">
                                                                     View Order Details
@@ -337,7 +339,7 @@
                                                                                                         </div>
                                                                                                     
                                                                                                     <% } else if
-                                                                                                        (['Pending','Shipped','Processing'].includes(item.status))
+                                                                                                        (['Pending','Shipped','Processing'].includes(item.status)  && order.payment_status == 'Completed')
                                                                                                         { %>
                                                                                                         <button
                                                                                                             class="btn btn-danger"

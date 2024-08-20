@@ -250,18 +250,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item">
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                    <div data-i18n="Banners">Banners</div>
-                                </a>
-                                <ul class="menu-sub">
-                                    <li class="menu-item">
-                                        <a href="app-ecommerce-customer-all.html" class="menu-link">
-                                            <div data-i18n="Banner">Banner</div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                           
                         </ul>
                     </li>
                 </ul>
@@ -475,49 +464,58 @@
                                         </tbody>
                                     </table>
                                     <div class="row mx-1 d-flex justify-content-center pt-4">
-                                        <!-- <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
-                                                aria-live="polite">Showing 1 to 10 of 100 entries</div>
-                                        </div> -->
                                         <div class="col-sm-12 col-md-6 d-flex justify-content-center">
-                                            <div class="dataTables_paginate paging_simple_numbers"
-                                                id="DataTables_Table_0_paginate">
+                                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                                                 <ul class="pagination">
-                                                    <li class="paginate_button page-item previous disabled"
-                                                        id="DataTables_Table_0_previous"><a
-                                                            aria-controls="DataTables_Table_0" aria-disabled="true"
-                                                            role="link" data-dt-idx="previous" tabindex="-1"
-                                                            class="page-link"><i class="ri-arrow-left-s-line"></i></a>
+                                                    <li class="paginate_button page-item previous <%= currentPage === 1 ? 'disabled' : '' %>" id="DataTables_Table_0_previous">
+                                                        <a href="?page=<%= currentPage - 1 %>" aria-controls="DataTables_Table_0" role="link" data-dt-idx="previous" tabindex="-1" class="page-link">
+                                                            <i class="ri-arrow-left-s-line"></i>
+                                                        </a>
                                                     </li>
-                                                    <li class="paginate_button page-item active"><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            aria-current="page" data-dt-idx="0" tabindex="0"
-                                                            class="page-link">1</a></li>
-                                                    <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="1" tabindex="0" class="page-link">2</a></li>
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="2" tabindex="0" class="page-link">3</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="3" tabindex="0" class="page-link">4</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="4" tabindex="0" class="page-link">5</a></li> -->
-                                                    <!-- <li class="paginate_button page-item disabled"
-                                                        id="DataTables_Table_0_ellipsis"><a
-                                                            aria-controls="DataTables_Table_0" aria-disabled="true"
-                                                            role="link" data-dt-idx="ellipsis" tabindex="-1"
-                                                            class="page-link">…</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="9" tabindex="0" class="page-link">10</a></li> -->
-                                                    <li class="paginate_button page-item next"
-                                                        id="DataTables_Table_0_next"><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="next" tabindex="0" class="page-link"><i
-                                                                class="ri-arrow-right-s-line"></i></a></li>
+                                                    
+                                                    <% 
+                                                        const visiblePages = 5;
+                                                        let startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+                                                        let endPage = Math.min(totalPages, startPage + visiblePages - 1);
+                                                        
+                                                        if (endPage - startPage + 1 < visiblePages) {
+                                                            startPage = Math.max(1, endPage - visiblePages + 1);
+                                                        }
+                                                    %>
+                                    
+                                                    <% if (startPage > 1) { %>
+                                                        <li class="paginate_button page-item">
+                                                            <a href="?page=1" aria-controls="DataTables_Table_0" role="link" tabindex="0" class="page-link">1</a>
+                                                        </li>
+                                                        <% if (startPage > 2) { %>
+                                                            <li class="paginate_button page-item disabled">
+                                                                <span class="page-link">...</span>
+                                                            </li>
+                                                        <% } %>
+                                                    <% } %>
+                                    
+                                                    <% for(let i = startPage; i <= endPage; i++) { %>
+                                                        <li class="paginate_button page-item <%= currentPage === i ? 'active' : '' %>">
+                                                            <a href="?page=<%= i %>" aria-controls="DataTables_Table_0" role="link" aria-current="page" data-dt-idx="<%= i - 1 %>" tabindex="0" class="page-link"><%= i %></a>
+                                                        </li>
+                                                    <% } %>
+                                    
+                                                    <% if (endPage < totalPages) { %>
+                                                        <% if (endPage < totalPages - 1) { %>
+                                                            <li class="paginate_button page-item disabled">
+                                                                <span class="page-link">...</span>
+                                                            </li>
+                                                        <% } %>
+                                                        <li class="paginate_button page-item">
+                                                            <a href="?page=<%= totalPages %>" aria-controls="DataTables_Table_0" role="link" tabindex="0" class="page-link"><%= totalPages %></a>
+                                                        </li>
+                                                    <% } %>
+                                    
+                                                    <li class="paginate_button page-item next <%= currentPage === totalPages ? 'disabled' : '' %>" id="DataTables_Table_0_next">
+                                                        <a href="?page=<%= currentPage + 1 %>" aria-controls="DataTables_Table_0" role="link" data-dt-idx="next" tabindex="0" class="page-link">
+                                                            <i class="ri-arrow-right-s-line"></i>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
