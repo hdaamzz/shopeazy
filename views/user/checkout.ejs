@@ -213,6 +213,11 @@
                                                 </button>
                                             </div>
                                         </form>
+                                        <button type="button" class="btn btn-outline-primary mb-3 pr-3 pl-3"
+                                            id="coupon-btn"><a href="" data-bs-toggle="modal"
+                                                data-bs-target="#showCouponModal">Show coupons</a>
+
+                                        </button>
                                     </div>
                                     <form id="ckeckoutForm">
                                         <div class="address-selection ">
@@ -285,7 +290,7 @@
                                             <tbody>
                                                 <% cartData.forEach(item=> { %>
                                                     <tr>
-                                                        <td><a href="#">
+                                                        <td><a href="/showProduct?id=<%= item.product_id._id %>">
                                                                 <%= item.product_id.product_name %>
                                                             </a></td>
                                                         <td>
@@ -422,6 +427,25 @@
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="showCouponModal" tabindex="-1" aria-labelledby="showCouponModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editAddressModalLabel">Coupons</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pl-5 pr-5">
+                            <% coupons.forEach((x)=>{ %>
+                            <div class="mb-3 form-group">
+                                <%= x.couponId %> <span class="text-danger"><%= x.discount %>% Off</span>
+                            </div>
+                            <%})%>
+                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -717,8 +741,7 @@
                                     },
                                     prefill: {
                                         name: "<%= userData.name %>",
-                                        email: "<%= userData.email %>",
-                                        contact: "<%= userData.phone %>"
+                                        email: "<%= userData.email %>"
                                     },
                                     theme: {
                                         color: "#3399cc"
@@ -969,7 +992,7 @@
                     if (pinValue === '') {
                         isValid = false;
                         setError(pin, 'Enter PinCode')
-                    } else if (pinValue.length > 7) {
+                    } else if (pinValue.length !== 6) {
                         isValid = false;
                         setError(pin, 'Invalid Pin')
                     }
@@ -1162,7 +1185,7 @@
                     if (edit_pinValue === '') {
                         isValid = false;
                         setError(edit_pin, 'Enter PinCode');
-                    } else if (edit_pinValue.length > 7) {
+                    } else if (edit_pinValue.length !== 6) {
                         isValid = false;
                         setError(edit_pin, 'Invalid Pin');
                     } else {

@@ -1296,7 +1296,7 @@
                     if (pinValue === '') {
                         isValid = false;
                         setError(pin, 'Enter PinCode')
-                    } else if (pinValue.length > 7) {
+                    } else if (pinValue.length > 7 && pinValue.length < 5) {
                         isValid = false;
                         setError(pin, 'Invalid Pin')
                     }
@@ -1533,7 +1533,7 @@
                     if (edit_pinValue === '') {
                         isValid = false;
                         setError(edit_pin, 'Enter PinCode');
-                    } else if (edit_pinValue.length > 7) {
+                    } else if (edit_pinValue.length !== 6) {
                         isValid = false;
                         setError(edit_pin, 'Invalid Pin');
                     } else {

@@ -23,14 +23,14 @@ const addCategory = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Description must be between 10 and 200 characters' });
         }
 
-        
-        const existingCategory = await Category.findOne({ category_name: categoryTitle });
+        const title = categoryTitle.toUpperCase()
+        const existingCategory = await Category.findOne({ category_name: title });
         if (existingCategory) {
             return res.status(400).json({ success: false, message: 'Category already exists' });
         }
 
         const category = {
-            category_name: categoryTitle,
+            category_name: title,
             description,
             status: categoryoption === 'true'
         };
@@ -81,9 +81,9 @@ const loadUpdateCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
     try {
         const { hiddenid, productTitle, productOption, ProductDescription } = req.body;
-        
+        const title = productTitle.toUpperCase()
         const existingCat = await Category.findOne({
-            category_name: productTitle,
+            category_name: title,
             _id: { $ne: hiddenid }
         });
 
@@ -97,7 +97,7 @@ const updateCategory = async (req, res) => {
 
         const updatedCategory = await Category.findByIdAndUpdate(hiddenid, {
             $set: {
-                category_name: productTitle,
+                category_name: title,
                 status: productOption,
                 description: ProductDescription
             }
