@@ -85,6 +85,8 @@ user_route.post('/remove-from-wishlist', auth.isLogin, cartController.removeWish
 
 //search&filters
 user_route.get('/search-results', searchFilterController.searchResults);
+
+
 user_route.get('/serch',searchFilterController.shopFilter)
 
 

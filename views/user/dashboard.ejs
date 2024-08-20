@@ -1712,6 +1712,25 @@
 
                 async function userUpdateValidate(userName, currentPassword, newPassword, confirmPassword) {
 
+                    // let isValid = true;
+                    // const nameRegex = /^[a-zA-Z\s]+$/;
+                    // if (!nameRegex.test(userName)) {
+                    //     setError(reason, 'Enter a Proper Name')
+                    //     isValid = false;
+                    // } else if (reasonValue.length < 5) {
+                    //     setError(reason, 'Enter proper reason')
+                    //     isValid = false;
+                    // } else {
+                    //     setSuccess(reason, "Reason for Cancellation")
+                    // }
+
+                    // if (!isValid) {
+                    //     return
+                    // }
+
+
+
+
                     if (!userName || !currentPassword) {
                         Swal.fire('Error', 'Name and current password are required', 'error');
                         return;

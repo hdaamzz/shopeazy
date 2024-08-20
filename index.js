@@ -11,7 +11,7 @@ const path = require('path');
 const config = require("./config/config");
 const session = require('express-session');
 const userRoute = require('./routes/userRoute');
-const adminRoute = require('./routes/adminRoute')
+const adminRoute = require('./routes/adminRoute');
 const passport = require('./controllers/user/googlePassport');
 
 
