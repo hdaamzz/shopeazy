@@ -701,10 +701,19 @@
 
                 const addCoupon = async (couponId, discount, description, expiryDate, minPurchaseAmount, maxAmount, isActive) => {
                     let isValid = true;
+                    const nameRegex = /^[a-zA-Z0-9]+$/;
+                    
+
 
                     if (couponId === '') {
                         isValid = false;
                         setError(document.getElementById('couponId'), 'Enter Coupon ID');
+                    } else if (!nameRegex.test(couponId)) {
+                        setError(document.getElementById('couponId'), 'Coupon Name should only contain letters and numbers');
+                    isValid = false;
+                    } else if (couponId.length < 4) {
+                        setError(document.getElementById('couponId'), 'Coupon Name should minimum 3 letters');
+                        isValid = false;
                     } else {
                         setSuccess(document.getElementById('couponId'), 'Coupon ID');
                     }
@@ -870,10 +879,19 @@
                     const isActiveValue = isActive.checked;
 
                     let isValid = true;
+                    const nameRegex = /^[a-zA-Z0-9]+$/;
+                
+
 
                     if (couponIdValue === '') {
                         isValid = false;
                         setError(couponId, 'Enter Coupon ID');
+                    }else if (!nameRegex.test(couponIdValue)) {
+                        setError(couponId, 'Coupon Name should only contain letters and numbers');
+                        isValid = false;
+                    }else if (couponIdValue.length < 4) {
+                        setError(couponId, 'Coupon Name should minimum 3 letters');
+                        isValid = false;
                     } else {
                         setSuccess(couponId, 'Coupon ID');
                     }

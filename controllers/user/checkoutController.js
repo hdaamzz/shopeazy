@@ -133,7 +133,40 @@ const placeOrder = async (req, res) => {
                 message: 'Cash on Delivery is not available for orders above ₹1000. Please choose a different payment method.'
             });
         }
+    if (payment_type_objId.pay_type === "UPI PAYMENT") {
+            const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
+            const orderItems = calculateOrderItems(cartItems, offers,couponPercent);
+    
+            const randomOrderId = Math.floor(10000 + Math.random() * 90000);
+            const newOrder = new Orders({
+                user_id,
+                order_id: `ORD-${randomOrderId}`,
+                address_id: address,
+                items: orderItems,
+                total_amount: parseFloat(total_amount),
+                payment_type: payment_type_objId._id,
+                payment_status: 'Processing',
+                shipping_cost: 0,
+                tax: 0,
+                discount: parseFloat(coupon_discount) || 0 
+            });
+    
+            await newOrder.save();
+            const razorpayOrder = await createRazorpayOrder(newOrder, total_amount);
+            newOrder.razorpay_order_id = razorpayOrder.id;
+            await newOrder.save();
 
+            res.status(200).json({ 
+                success: true, 
+                key: process.env.RAZORPAY_KEY_ID,
+                message: 'Order created successfully', 
+                orderId: newOrder._id,
+                razorpayOrderId: razorpayOrder.id,
+                amount: razorpayOrder.amount,
+                currency: razorpayOrder.currency
+            });
+
+    }else{
         const offers = await Offer.find({ status: 'active' }).populate('products').populate('category');
         const orderItems = calculateOrderItems(cartItems, offers,couponPercent);
 
@@ -152,29 +185,18 @@ const placeOrder = async (req, res) => {
         });
 
         await newOrder.save();
+        res.status(200).json({ 
+            success: true, 
+            message: 'Order created successfully', 
+            orderId: newOrder._id
+        });
 
-        if (payment_type_objId.pay_type === "UPI PAYMENT") {
-            const razorpayOrder = await createRazorpayOrder(newOrder, total_amount);
-            newOrder.razorpay_order_id = razorpayOrder.id;
-            await newOrder.save();
-
-            res.status(200).json({ 
-                success: true, 
-                key: process.env.RAZORPAY_KEY_ID,
-                message: 'Order created successfully', 
-                orderId: newOrder._id,
-                razorpayOrderId: razorpayOrder.id,
-                amount: razorpayOrder.amount,
-                currency: razorpayOrder.currency
-            });
-        } else {
-            await newOrder.save();
-            res.status(200).json({ 
-                success: true, 
-                message: 'Order created successfully', 
-                orderId: newOrder._id
-            });
-        }
+    }
+        // if (payment_type_objId.pay_type === "UPI PAYMENT") {
+           
+        // } else {
+           
+        // }
 
         await updateProductStock(cartItems);
         await Cart.deleteMany({ user_id });

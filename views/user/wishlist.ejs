@@ -444,7 +444,7 @@
                 const userId = this.getAttribute('data-user-id');
                 const quantity = 1; 
                 try {
-                   await fetch('/addCartItem', {
+                   await fetch('/wishlistToCart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -462,9 +462,9 @@
                         })
                     } else {
                         Swal.fire({
-                            title: 'Error!',
+                            title: 'info',
                             text: data.message,
-                            icon: 'error',
+                            icon: 'info',
                             confirmButtonText: 'OK'
                         });
                     }

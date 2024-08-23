@@ -12,7 +12,7 @@ const loadOrderList = async (req, res) => {
         const skip = (page - 1) * limit;
 
         const [orders, totalOrders] = await Promise.all([
-            Orders.find({})
+            Orders.find({ payment_status: { $nin: ["Processing", "Failed"] } })
                 .populate('user_id')
                 .populate('items.product_id')
                 .populate('payment_type')

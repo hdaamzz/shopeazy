@@ -133,7 +133,21 @@
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
         }
+        .modal-xl {
+            max-width: 90vw;
+        }
+
+        .cropper-container {
+            height: 80vh;
+            width: 100%;
+        }
+
+        #cropperImage {
+            max-width: 100%;
+            max-height: 100%;
+        }
     </style>
+    
 
 </head>
 
@@ -276,6 +290,7 @@
                                     </li>
                                 </ul>
                             </li>
+
                         </ul>
                     </li>
                 </ul>
@@ -564,25 +579,22 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="cropperModalLabel">Crop Image</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="img-container" style="max-height: 70vh;">
-                                    <img id="cropperImage" src="" alt="Image to crop" style="max-width: 100%; max-height: 100%;">
+                                <div class="cropper-container">
+                                    <img id="cropperImage" src="" alt="Image to crop">
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn-close" id="modalCloseBtn" aria-label="Close">
-                                   
-                                </button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-primary" onclick="cropImage()">Crop</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                
                 <!-- Overlay -->
                 <div class="layout-overlay layout-menu-toggle"></div>
 
@@ -620,33 +632,30 @@
             <!-- Page JS -->
             <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
             <script>
-             document.getElementById('modalCloseBtn').addEventListener('click', function() {
-                var myModal = bootstrap.Modal.getInstance(document.getElementById('cropperModal'));
-                myModal.hide();
-            });
+            let cropper;
+            let currentImageId;
 
-                let cropper;
-                let currentImageId;
-                    function previewImage(input, previewId) {
-                    const preview = document.getElementById(previewId);
-                    const file = input.files[0];
-                    const reader = new FileReader();
+            function previewImage(input, previewId) {
+                const preview = document.getElementById(previewId);
+                const file = input.files[0];
+                const reader = new FileReader();
 
-                    reader.onloadend = function () {
-                        preview.src = reader.result;
-                        preview.style.display = 'block';
-                        input.closest('.image-upload-container').querySelector('.upload-placeholder').style.display = 'none';
-                    }
-
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    } else {
-                        preview.src = "";
-                        preview.style.display = 'none';
-                        input.closest('.image-upload-container').querySelector('.upload-placeholder').style.display = 'flex';
-                    }
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                    preview.style.display = 'block';
+                    input.closest('.image-upload-container').querySelector('.upload-placeholder').style.display = 'none';
                 }
-                function openCropper(imageNumber) {
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = "";
+                    preview.style.display = 'none';
+                    input.closest('.image-upload-container').querySelector('.upload-placeholder').style.display = 'flex';
+                }
+            }
+
+            function openCropper(imageNumber) {
                 const input = document.getElementById(`productImage${imageNumber}`);
                 const file = input.files[0];
                 if (!file) {
@@ -667,34 +676,39 @@
                     cropper = new Cropper(document.getElementById('cropperImage'), {
                         aspectRatio: 1,
                         viewMode: 1,
+                        minContainerWidth: 800,
+                        minContainerHeight: 600,
                     });
                 }
                 reader.readAsDataURL(file);
             }
+
             function cropImage() {
-            if (!cropper) return;
+                if (!cropper) return;
 
-            const croppedCanvas = cropper.getCroppedCanvas();
-            croppedCanvas.toBlob((blob) => {
-                const file = new File([blob], `cropped_image_${currentImageId}.jpg`, { type: 'image/jpeg' });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
+                const croppedCanvas = cropper.getCroppedCanvas({
+                    width: 800,
+                    height: 800
+                });
+                croppedCanvas.toBlob((blob) => {
+                    const file = new File([blob], `cropped_image_${currentImageId}.jpg`, { type: 'image/jpeg' });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
 
-                const fileInput = document.getElementById(`productImage${currentImageId}`);
-                fileInput.files = dataTransfer.files;
+                    const fileInput = document.getElementById(`productImage${currentImageId}`);
+                    fileInput.files = dataTransfer.files;
 
-                const preview = document.getElementById(`imagePreview${currentImageId}`);
-                preview.src = croppedCanvas.toDataURL('image/jpeg');
-                preview.style.display = 'block';
+                    const preview = document.getElementById(`imagePreview${currentImageId}`);
+                    preview.src = croppedCanvas.toDataURL('image/jpeg');
+                    preview.style.display = 'block';
 
-                $('#cropperModal').modal('hide');
-            }, 'image/jpeg');
-        }
+                    $('#cropperModal').modal('hide');
+                }, 'image/jpeg');
+            }
 
-
-                function triggerInputClick(inputId) {
-                    document.getElementById(inputId).click();
-                }
+            function triggerInputClick(inputId) {
+                document.getElementById(inputId).click();
+            }
 
 
 

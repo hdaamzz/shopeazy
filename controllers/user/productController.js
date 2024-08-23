@@ -30,7 +30,28 @@ const loadShop = async (req, res) => {
         }
 
         const [allProducts, category,offers] = await Promise.all([
-            Product.find({ is_listed: true }).sort(sortOptions).populate('category'),
+            Product.aggregate([
+                {
+                  $match: { is_listed: true }
+                },
+                {
+                  $lookup: {
+                    from: 'categories', 
+                    localField: 'category',
+                    foreignField: '_id',
+                    as: 'category'
+                  }
+                },
+                {
+                  $unwind: '$category'
+                },
+                {
+                  $match: { 'category.status': true }
+                },
+                {
+                  $sort: { added_date: -1 }
+                }
+              ]),
             Category.find({ status: true }),
             Offer.find({status:'active'}).populate('products').populate('category')
 

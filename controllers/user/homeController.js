@@ -11,7 +11,28 @@ const loadMain = async (req, res) => {
     try {
         const [category, product, offers] = await Promise.all([
             Category.find({ status: true }),
-            Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category'),
+            Product.aggregate([
+                {
+                  $match: { is_listed: true }
+                },
+                {
+                  $lookup: {
+                    from: 'categories', 
+                    localField: 'category',
+                    foreignField: '_id',
+                    as: 'category'
+                  }
+                },
+                {
+                  $unwind: '$category'
+                },
+                {
+                  $match: { 'category.status': true }
+                },
+                {
+                  $sort: { added_date: -1 }
+                }
+              ]),
             Offer.find({ status: 'active' }).populate('products').populate('category')
           ]);
           
@@ -36,7 +57,28 @@ const loadUserMain = async (req, res) => {
             const [cartItems, category, product, offers] = await Promise.all([
                 Cart.find({ user_id: userData._id }),
                 Category.find({ status: true }),
-                Product.find({ is_listed: true }).sort({ added_date: -1 }).populate('category'),
+                Product.aggregate([
+                    {
+                      $match: { is_listed: true }
+                    },
+                    {
+                      $lookup: {
+                        from: 'categories', 
+                        localField: 'category',
+                        foreignField: '_id',
+                        as: 'category'
+                      }
+                    },
+                    {
+                      $unwind: '$category'
+                    },
+                    {
+                      $match: { 'category.status': true }
+                    },
+                    {
+                      $sort: { added_date: -1 }
+                    }
+                  ]),
                 Offer.find({ status: 'active' }).populate('products').populate('category')
               ]);
               

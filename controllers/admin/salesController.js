@@ -63,8 +63,6 @@ const loadSales = async (req, res) => {
         res.status(500).send('An error occurred while loading sales data');
     }
 };
-
-
 const downloadPDF = async (req, res) => {
     try {
         let { reportType, startDate, endDate } = req.query;
@@ -118,6 +116,31 @@ const downloadPDF = async (req, res) => {
 
         const orders = await Order.find(query);
 
+        let grandTotal = 0;
+        let grandDiscount = 0;
+
+        const orderRows = orders.map(order => {
+            grandTotal += order.total_amount;
+            grandDiscount += order.discount;
+            return [
+                order.order_id,
+                new Date(order.created_at).toLocaleDateString(),
+                order.items.map(item => item.quantity).join(', '),
+                order.items.map(item => item.price).join(', '),
+                order.total_amount.toFixed(2),
+                order.discount > 0 ? 'Applied' : 'Not Applied',
+                order.discount > 0 ? order.discount.toFixed(2) : '0.00'
+            ];
+        });
+
+        const grandTotalRow = [
+            { text: 'Grand Total', colSpan: 4, alignment: 'right', bold: true },
+            {}, {}, {},
+            { text: grandTotal.toFixed(2), bold: true },
+            { text: 'Total Discount', bold: true },
+            { text: grandDiscount.toFixed(2), bold: true }
+        ];
+
         const fonts = {
             Helvetica: {
                 normal: 'Helvetica',
@@ -140,15 +163,8 @@ const downloadPDF = async (req, res) => {
                         widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
                         body: [
                             ['Order ID', 'Date', 'Items', 'Price', 'Total Amount', 'Coupon Deduction', 'Discount'],
-                            ...orders.map(order => [
-                                order.order_id,
-                                new Date(order.created_at).toLocaleDateString(),
-                                order.items.map(item => item.quantity).join(', '),
-                                order.items.map(item => item.price).join(', '),
-                                order.total_amount,
-                                order.discount > 0 ? 'Applied' : 'Not Applied',
-                                order.discount > 0 ? order.discount : '0.00'
-                            ])
+                            ...orderRows,
+                            grandTotalRow
                         ]
                     }
                 }
@@ -183,6 +199,8 @@ const downloadPDF = async (req, res) => {
         res.status(500).send('An error occurred while generating the PDF');
     }
 };
+
+
 
 
 
@@ -251,6 +269,9 @@ const downloadExcel = async (req, res) => {
 
         worksheet.addRow(['Order ID', 'Date', 'Items', 'Price', 'Total Amount', 'Coupon Deduction', 'Discount']);
 
+        let grandTotal = 0;
+        let grandDiscount = 0;
+
         orders.forEach(order => {
             worksheet.addRow([
                 order.order_id,
@@ -261,10 +282,20 @@ const downloadExcel = async (req, res) => {
                 order.discount > 0 ? 'Applied' : 'Not Applied',
                 order.discount > 0 ? order.discount : '0.00'
             ]);
+            grandTotal += order.total_amount;
+            grandDiscount += order.discount;
         });
 
+       
+        worksheet.addRow([
+            'Grand Total', '', '', '', 
+            grandTotal.toFixed(2), 'Total Discount', grandDiscount.toFixed(2)
+        ]);
+
+       
         worksheet.getRow(1).font = { bold: true, size: 16 };
         worksheet.getRow(5).font = { bold: true };
+        worksheet.getRow(worksheet.rowCount).font = { bold: true };  
         worksheet.columns.forEach(column => {
             column.width = 15;
         });

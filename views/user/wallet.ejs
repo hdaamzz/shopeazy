@@ -243,7 +243,9 @@
                         <div class="row balance-header">
                             <div class="col-md-6">
                                 <h2>Wallet Balance</h2>
-                                <h4>Current Balance: ₹ <%= wallet[0]?.balance %></h4>
+                                <% if(wallet[0]?.balance){%>
+                                <h4>Current Balance: ₹ <%= wallet[0]?.balance %></h4><%}else{%><h4>Current Balance: ₹ 0</h4>
+                                    <%}%>
                             </div>
                             <div class="col-md-6 text-end">
                                 <!-- <button class="btn btn-primary me-2">Add Funds</button>

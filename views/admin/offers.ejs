@@ -756,10 +756,15 @@
                         const addForm = async (title, description, discount, products) => {
 
                             let isValid = true;
+                            const nameRegex = /[a-zA-Z0-9]+$/;
+                    
 
                             if (title === '') {
                                 isValid = false;
                                 setError(document.getElementById('offerTitle'), 'Enter Title');
+                            }else if (!nameRegex.test(title)) {
+                                setError(document.getElementById('offerTitle'), 'Offer Name should only contain letters and numbers');
+                                 isValid = false;
                             } else if (title.length < 3) {
                                 isValid = false;
                                 setError(document.getElementById('offerTitle'), 'Title should be more than 2 letters');
@@ -888,10 +893,15 @@
 
 
                             let isValid = true;
+                            const nameRegex = /[a-zA-Z0-9]+$/;
 
+                            
                             if (edit_titleValue === '') {
                                 isValid = false;
                                 setError(offerTitle, 'Enter Title');
+                            }else if (!nameRegex.test(edit_titleValue)) {
+                                setError(offerTitle, 'Offer Name should only contain letters and numbers');
+                                 isValid = false;
                             } else if (edit_titleValue.length < 3) {
                                 isValid = false;
                                 setError(offerTitle, 'Title should be more than 2 letters');

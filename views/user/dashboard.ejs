@@ -251,6 +251,8 @@
                                                                                 Failed
                                                                             </span><% } else if(order.payment_status === 'Pending') {%><span class="text-warning">
                                                                                 Pending
+                                                                            </span><% } else if(order.payment_status === 'Processing') {%><span class="text-warning">
+                                                                                Processing
                                                                             </span>
                                                                        <%}%>
                                                                     </div>
@@ -266,7 +268,9 @@
                                                                     <button class="btn btn-warning" onclick="initiateRepayment('<%= order._id %>', <%= order.total_amount %>)">Repay</button>
                                                                 <% } else if(order.payment_status === 'Pending'){ %> 
                                                                     <button class="btn btn-warning" onclick="initiateRepayment('<%= order._id %>', <%= order.total_amount %>)">Repay</button>
-                                                                    <%}%>
+                                                                    <%} else if(order.payment_status === 'Processing'){%>
+                                                                        <button class="btn btn-warning" onclick="initiateRepayment('<%= order._id %>', <%= order.total_amount %>)">Repay</button>
+                                                                        <%}%>
                                                                 <button class="btn btn-outline-primary btn-sm"
                                                                     onclick="toggleOrderDetails('<%= order._id %>')">
                                                                     View Order Details
@@ -1711,26 +1715,7 @@
                 }
 
                 async function userUpdateValidate(userName, currentPassword, newPassword, confirmPassword) {
-
-                    // let isValid = true;
-                    // const nameRegex = /^[a-zA-Z\s]+$/;
-                    // if (!nameRegex.test(userName)) {
-                    //     setError(reason, 'Enter a Proper Name')
-                    //     isValid = false;
-                    // } else if (reasonValue.length < 5) {
-                    //     setError(reason, 'Enter proper reason')
-                    //     isValid = false;
-                    // } else {
-                    //     setSuccess(reason, "Reason for Cancellation")
-                    // }
-
-                    // if (!isValid) {
-                    //     return
-                    // }
-
-
-
-
+                    const nameRegex = /^[a-zA-Z\s]+$/;
                     if (!userName || !currentPassword) {
                         Swal.fire('Error', 'Name and current password are required', 'error');
                         return;
@@ -1738,6 +1723,15 @@
 
                     if (newPassword && newPassword !== confirmPassword) {
                         Swal.fire('Error', 'New passwords do not match', 'error');
+                        return;
+                    }
+                    // if (newPassword.length < 7) {
+                    //     Swal.fire('Error', 'New passwords need minimun 8 letters', 'error');
+                    //     return;
+                    // }
+
+                    if (!nameRegex.test(userName)) {
+                        Swal.fire('Error', 'Username should only contain letters and spaces', 'error');
                         return;
                     }
 

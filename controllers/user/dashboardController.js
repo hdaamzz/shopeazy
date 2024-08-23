@@ -23,6 +23,15 @@ async function createRazorpayOrder(order, amount) {
     });
 }
 
+const securePassword = async (password) => {
+    try {
+        const passwordHash = await bcrypt.hash(password, 10);
+        return passwordHash;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 
 const loadDashboard = async (req, res) => {
     try {
@@ -126,16 +135,15 @@ const updateUserData = async (req, res) => {
         const userId = req.session.user_id;
 
         const user = await User.findById(userId);
-
+        console.log(userName, currentPassword, newPassword);
+        
         if (!user) {
             return res.json({ success: false, message: 'User not found' });
         }
 
-
         if (typeof currentPassword !== 'string') {
             return res.json({ success: false, message: 'Current password must be a string' });
         }
-
 
         try {
             const isMatch = await bcrypt.compare(currentPassword, user.password);
@@ -147,26 +155,20 @@ const updateUserData = async (req, res) => {
             return res.json({ success: false, message: 'Error verifying password' });
         }
 
-
         if (newPassword) {
             if (typeof newPassword !== 'string' || newPassword.length < 8) {
                 return res.json({ success: false, message: 'New password need at least 8 characters' });
             }
 
-            const spasswords = await securePassword(newPassword);
+            const hashedPassword = await securePassword(newPassword);
 
             await User.findByIdAndUpdate(userId, {
-                $set: {
-                    user_name: userName,
-                    password: spasswords
-                }
+                password: hashedPassword,
+                user_name: userName,
             });
         } else {
-
             await User.findByIdAndUpdate(userId, {
-                $set: {
-                    user_name: userName
-                }
+                user_name: userName,
             });
         }
 
@@ -175,7 +177,7 @@ const updateUserData = async (req, res) => {
         console.error('Error updating user:', error);
         res.status(500).json({ success: false, message: 'An error occurred while updating user information' });
     }
-}
+};
 
 
 const cancelOrder = async (req, res) => {
@@ -386,7 +388,7 @@ const downloadInvoice = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Order not found' });
         }
 
-        if (order.payment_status !== 'Failed' && order.payment_status !== 'Pending') {
+        if (order.payment_status !== 'Failed' && order.payment_status !== 'Processing' ) {
             return res.status(400).json({ success: false, message: 'This order does not require repayment' });
         }
 
