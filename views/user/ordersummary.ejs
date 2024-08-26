@@ -4,7 +4,7 @@
         <div class="page-wrapper">
             <header class="header">
                 <div class="header-top">
-                    <div class="container mb-2 pt-2 pb-2">
+                    <div class="container mb-lg-2 pt-lg-2 pb-lg-2 mb-sm-0 pt-sm-0 pb-sm-0">
                         <div class="header-left">
                         </div><!-- End .header-left -->
 
@@ -43,103 +43,7 @@
                                     <li>
                                         <a href="category.html" class="sf-with-ul">Shop</a>
 
-                                        <div class="megamenu megamenu-md">
-                                            <div class="row no-gutters">
-                                                <div class="col-md-8">
-                                                    <div class="menu-col">
-                                                        <div class="col-lg-9">
-                                                            <h2 class="mb-4">Select a Shipping Address</h2>
-                                                            <button type="button" class="btn btn-outline-primary mb-3"
-                                                                id="add-address-btn">
-                                                                <i class="icon-plus"></i> Add New Address
-                                                            </button>
-                                                            <div class="address-selection">
-                                                                <form id="checkout-form" action="/place-order"
-                                                                    method="POST">
-                                                                    <div class="row">
-
-                                                                        <div class="col-md-6">
-                                                                            <div class="menu-title">Shop with sidebar
-                                                                            </div>
-                                                                            <!-- End .menu-title -->
-                                                                            <ul>
-                                                                                <li><a href="category-list.html">Shop
-                                                                                        List</a></li>
-                                                                                <li><a href="category-2cols.html">Shop
-                                                                                        Grid 2
-                                                                                        Columns</a></li>
-                                                                                <li><a href="category.html">Shop Grid 3
-                                                                                        Columns</a>
-                                                                                </li>
-                                                                                <li><a href="category-4cols.html">Shop
-                                                                                        Grid 4
-                                                                                        Columns</a></li>
-                                                                                <li><a href="category-market.html"><span>Shop
-                                                                                            Market<span
-                                                                                                class="tip tip-new">New</span></span></a>
-                                                                                </li>
-                                                                            </ul>
-
-                                                                            <div class="menu-title">Shop no sidebar
-                                                                            </div>
-                                                                            <!-- End .menu-title -->
-                                                                            <ul>
-                                                                                <li><a href="category-boxed.html"><span>Shop
-                                                                                            Boxed
-                                                                                            No Sidebar<span
-                                                                                                class="tip tip-hot">Hot</span></span></a>
-                                                                                </li>
-                                                                                <li><a href="category-fullwidth.html">Shop
-                                                                                        Fullwidth
-                                                                                        No Sidebar</a></li>
-                                                                            </ul>
-                                                                        </div><!-- End .col-md-6 -->
-
-                                                                        <div class="col-md-6">
-                                                                            <div class="menu-title">Product Category
-                                                                            </div>
-                                                                            <!-- End .menu-title -->
-                                                                            <ul>
-                                                                                <li><a
-                                                                                        href="product-category-boxed.html">Product
-                                                                                        Category Boxed</a></li>
-                                                                                <li><a
-                                                                                        href="product-category-fullwidth.html"><span>Product
-                                                                                            Category Fullwidth<span
-                                                                                                class="tip tip-new">New</span></span></a>
-                                                                                </li>
-                                                                            </ul>
-                                                                            <div class="menu-title">Shop Pages</div>
-                                                                            <!-- End .menu-title -->
-                                                                            <ul>
-                                                                                <li><a href="cart.html">Cart</a></li>
-                                                                                <li><a href="checkout.html">Checkout</a>
-                                                                                </li>
-                                                                                <li><a href="wishlist.html">Wishlist</a>
-                                                                                </li>
-                                                                                <li><a href="#">My Account</a></li>
-                                                                            </ul>
-                                                                        </div><!-- End .col-md-6 -->
-                                                                    </div><!-- End .row -->
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- End .menu-col -->
-                                                </div><!-- End .col-md-8 -->
-
-                                                <div class="col-md-4">
-                                                    <div class="banner banner-overlay">
-                                                        <a href="category.html" class="banner banner-menu">
-                                                            <!-- <img src="assets/images/menu/banner-1.jpg" alt="Banner"> -->
-
-                                                            <div class="banner-content banner-content-top">
-                                                                <!-- <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div> -->
-                                                            </div><!-- End .banner-content -->
-                                                        </a>
-                                                    </div><!-- End .banner banner-overlay -->
-                                                </div><!-- End .col-md-4 -->
-                                            </div><!-- End .row -->
-                                        </div><!-- End .megamenu megamenu-md -->
+                                        
                                     </li>
                                 </ul><!-- End .menu -->
                             </nav><!-- End .main-nav -->
@@ -353,14 +257,32 @@
         <div class="mobile-menu-container">
             <div class="mobile-menu-wrapper">
                 <span class="mobile-menu-close"><i class="icon-close"></i></span>
+                <nav class="mobile-nav">
+                    <ul class="mobile-menu">
+                        <li class="active">
+                            <a href="#">Order Summary</a>
 
-                <form action="#" method="get" class="mobile-search">
-                    <label for="mobile-search" class="sr-only">Search</label>
-                    <input type="search" class="form-control" name="mobile-search" id="mobile-search"
-                        placeholder="Search in..." required>
-                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                </form>
-
+                        </li>
+                        <li>
+                            <a href="/">Home</a>  
+                        </li>
+                        <li>
+                            <a href="/shop">Shop</a>  
+                        </li>
+                        <li>
+                            <a href="/wishlist">Wishlist</a>  
+                        </li>
+                        <li>
+                            <a href="/cart">Cart</a>  
+                        </li>
+                        <li>
+                            <a href="/dashboard">My Account</a>  
+                        </li>
+                        <li>
+                            <a href="/wallet">Wallet</a>  
+                        </li>
+                    </ul>
+                </nav>
 
                 <div class="social-icons">
                     <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>

@@ -40,6 +40,7 @@ user_route.get('/home', auth.isLogin, homeController.checkGoogleAuthStatus, home
 
 // sign up
 user_route.post('/signup', signupController.registerUser);
+user_route.post('/loginsignup',signupController.registerUser);
 user_route.get('/otpValidate', auth.isLogout, signupController.loadOtp);
 user_route.post('/otpValidate', signupController.verifyOtp);
 user_route.post('/resendOtp', signupController.resendOtp);
@@ -47,6 +48,8 @@ user_route.get('/auth/google', auth.isLogout, signupController.googleAuth);
 user_route.get('/auth/google/callback', auth.isLogout, signupController.googleAuthCallback);
 
 //login 
+user_route.get('/login',loginController.loadLogin)
+user_route.post('/loginsignin', loginController.verifyLogin);
 user_route.post('/signin', loginController.verifyLogin)
 user_route.get('/forgotPassword',loginController.loadForgotPassword);
 user_route.post('/forgotPassword',loginController.forgotPassword)

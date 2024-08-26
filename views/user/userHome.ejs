@@ -4,7 +4,7 @@
         <div class="page-wrapper">
             <header class="header header-intro-clearance header-4">
                 <div class="header-top">
-                    <div class="container mb-2 pt-2 pb-2">
+                    <div class="container mb-lg-2 pt-lg-2 pb-lg-2 mb-sm-0 pt-sm-0 pb-sm-0">
                         <div class="header-left">
                             <a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a>
                         </div><!-- End .header-left -->
@@ -752,12 +752,8 @@
             <div class="mobile-menu-wrapper">
                 <span class="mobile-menu-close"><i class="icon-close"></i></span>
 
-                <form action="#" method="get" class="mobile-search">
-                    <label for="mobile-search" class="sr-only">Search</label>
-                    <input type="search" class="form-control" name="mobile-search" id="mobile-search"
-                        placeholder="Search in..." required>
-                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                </form>
+
+
 
                 <ul class="nav nav-pills-mobile nav-border-anim" role="tablist">
                     <li class="nav-item">
@@ -775,61 +771,34 @@
                         aria-labelledby="mobile-menu-link">
                         <nav class="mobile-nav">
                             <ul class="mobile-menu">
-
-                                <li>
-                                    <a href="category.html">Shop</a>
-                                    <ul>
-                                        <li><a href="category-list.html">sample</a></li>
-                                        <li><a href="category-2cols.html">Sample2</a></li>
-
-                                    </ul>
+                                <li class="active">
+                                    <a href="#">Home</a>  
+        
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
-                                    <ul>
-                                        <li><a href="product.html">Sample</a></li>
-                                        <li><a href="product-centered.html">Sample2</a></li>
-
-                                    </ul>
+                                    <a href="/shop">Shop</a>  
                                 </li>
-                                <!-- <li>
-                                    <a href="#">Pages</a>
-                                    <ul>
-                                        <li>
-                                            <a href="about.html">About</a>
-
-                                            <ul>
-                                                <li><a href="about.html">About 01</a></li>
-                                                <li><a href="about-2.html">About 02</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="contact.html">Contact</a>
-
-                                            <ul>
-                                                <li><a href="contact.html">Contact 01</a></li>
-                                                <li><a href="contact-2.html">Contact 02</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="login.html">Login</a></li>
-                                        <li><a href="faq.html">FAQs</a></li>
-                                        <li><a href="404.html">Error 404</a></li>
-                                        <li><a href="coming-soon.html">Coming Soon</a></li>
-                                    </ul>
-                                </li>-->
-
                                 <li>
-                                    <a href="elements-list.html">Elements</a>
-                                    <ul>
-
-                                    </ul>
-                        </nav><!-- End .mobile-nav -->
+                                    <a href="/wishlist">Wishlist</a>  
+                                </li>
+                                <li>
+                                    <a href="/cart">Cart</a>  
+                                </li>
+                                <li>
+                                    <a href="/dashboard">My Account</a>  
+                                </li>
+                                <li>
+                                    <a href="/wallet">Wallet</a>  
+                                </li>
+                            </ul>
+                        </nav>
                     </div><!-- .End .tab-pane -->
                     <div class="tab-pane fade" id="mobile-cats-tab" role="tabpanel" aria-labelledby="mobile-cats-link">
                         <nav class="mobile-cats-nav">
                             <ul class="mobile-cats-menu">
-                                <li><a class="mobile-cats-lead" href="#">Daily offers</a></li>
-                                <li><a class="mobile-cats-lead" href="#">Gift Ideas</a></li>
+                                <%category.forEach(x=>{ %>
+                                    <li><a class="mobile-cats-lead" href="/productCategories?id=<%=x._id%>"><%= x.category_name%></a></li>
+                                   <%})%>
 
                             </ul><!-- End .mobile-cats-menu -->
                         </nav><!-- End .mobile-cats-nav -->

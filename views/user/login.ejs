@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>shopEazy</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/newimages/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/newimages/logo.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    
+    <link rel="shortcut icon" href="assets/newimages/logo.png">
+    <meta name="apple-mobile-web-app-title" content="shopEazy">
+    <meta name="application-name" content="shopEazy">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/skins/skin-demo-4.css">
+    <link rel="stylesheet" href="assets/css/demos/demo-4.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        
+        input.error {
+            border-color: red;
+        }
+        textarea.error {
+            border-color: red;
+        }
+        label.error {
+            color: red;
+        }
+    </style>
+   
+   <style>
+        body {
+            background-color: #f6f6f6;
+            padding: 20px;
+        }
+        .wallet-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .balance-header {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .transaction-type-deposit {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .transaction-type-withdrawal {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .transaction-type-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+
+    <body>
+        <div class="page-wrapper">
+            <header class="header">
+                <div class="header-top">
+                    <div class="container mb-lg-2 pt-lg-2 pb-lg-2 mb-sm-0 pt-sm-0 pb-sm-0">
+                        <div class="header-left">
+                        </div><!-- End .header-left -->
+
+                        <div class="header-right">
+                            <ul class="top-menu">
+                                <!-- <li>
+                            <a href="#">Links</a>
+                            <ul>
+                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                            </ul>
+                        </li> -->
+                            </ul><!-- End .top-menu -->
+                        </div><!-- End .header-right -->
+                    </div><!-- End .container -->
+                </div><!-- End .header-top -->
+
+                <div class="header-middle sticky-header">
+                    <div class="container">
+                        <div class="header-left">
+                            <button class="mobile-menu-toggler">
+                                <span class="sr-only">Toggle mobile menu</span>
+                                <i class="icon-bars"></i>
+                            </button>
+
+                            <a href="/" class="logo">
+                                <img src="assets/newimages/logo.png" alt="shopEazy Logo" width="105" height="25">
+                            </a>
+
+                            <nav class="main-nav">
+                                <ul class="menu sf-arrows">
+                                    <li class="megamenu-container active">
+                                        <a href="/" class="sf-with-ul">Home</a>
+
+
+                                    </li>
+                                    <li>
+                                        <a href="category.html" class="sf-with-ul">Shop</a>
+
+                                        
+                                    </li>
+                                </ul><!-- End .menu -->
+                            </nav><!-- End .main-nav -->
+                        </div><!-- End .header-left -->
+
+
+
+                        <div class="header-right">
+                            <div class="header-search">
+                                <a href="#" class="search-toggle" role="button" title="Search"><i
+                                        class="icon-search"></i></a>
+                                <form action="#" method="get">
+                                    <div class="header-search-wrapper">
+                                        <label for="q" class="sr-only">Search</label>
+                                        <input type="search" class="form-control" name="q" id="q"
+                                            placeholder="Search in..." required>
+                                    </div><!-- End .header-search-wrapper -->
+                                </form>
+                            </div><!-- End .header-search -->
+
+
+
+
+
+                        </div><!-- End .header-right -->
+                    </div><!-- End .container -->
+                </div><!-- End .header-middle -->
+            </header><!-- End .header -->
+           
+
+                  
+
+            <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background: radial-gradient(666px at 0.4% 48%, rgb(202, 204, 227) 0%, rgb(89, 89, 99) 97.5%);">
+            	<div class="container">
+            		<div class="form-box">
+            			<div class="form-tab">
+	            			<ul class="nav nav-pills nav-fill" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="false">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="true">Register</a>
+                                </li>
+                            </ul>
+							<div class="tab-content">
+                                <div class="tab-pane fade" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+							    	<form id="login-form">
+                                        <div class="form-group">
+                                            <label for="singin-email" class="errMsg">Username or email
+                                                address *</label>
+                                            <input type="text" class="form-control" id="singin-email"
+                                                name="signin-email">
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="singin-password" class="errMsg">Password *</label>
+                                            <input type="password" class="form-control" id="singin-password"
+                                                name="signin-password">
+                                        </div><!-- End .form-group -->
+
+                                        <p class="main-error text-danger"></p>
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>LOG IN</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <p class="main-error1 text-danger"></p>
+                                            <a href="/forgotPassword" class="forgot-link">Forgot Your Password?</a>
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row justify-content-center">
+                                            <div class="col-sm-6">
+                                                <a href='/auth/google' class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+							    </div><!-- .End .tab-pane -->
+                                <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                    <!-- Register form content -->
+                                <form id="signup-form">
+                                    <form id="signup-form">
+
+                                        <div class="form-group">
+                                            <label for="register-phone" class="errMsgSignup">User name
+                                                *</label>
+                                            <input type="text" class="form-control" id="register-name"
+                                                name="register-name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="register-email" class="errMsgSignup">Your email
+                                                address *</label>
+
+                                            <input type="email" class="form-control" id="register-email"
+                                                name="register-email">
+                                        </div><!-- End .form-group -->
+                                        <div class="form-group">
+                                            <label for="register-phone" class="errMsgSignup">Password
+                                                *</label>
+                                            <input type="password" class="form-control"
+                                                id="register-password0" name="register-password0">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="register-password" class="errMsgSignup">Confirm
+                                                password *</label>
+                                            <input type="password" class="form-control"
+                                                id="register-password" name="register-password">
+                                        </div>
+
+                                        <!-- End .form-group -->
+                                        <p class="main-error1 text-danger"></p>
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>SIGN UP</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+                                        </div><!-- End .form-footer -->
+                                    </form>
+							    </div><!-- .End .tab-pane -->
+							</div><!-- End .tab-content -->
+						</div><!-- End .form-tab -->
+            		</div><!-- End .form-box -->
+            	</div><!-- End .container -->
+            </div>
+
+
+
+            
+            <footer class="footer">
+
+                <div class="footer-middle">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget widget-about">
+                                    <img src="assets/newimages/logo.png" class="footer-logo" alt="Footer Logo"
+                                        width="150" height="25">
+                                    <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
+                                        vulputate magna eros eu erat. </p>
+
+                                    <div class="widget-call">
+                                        <i class="icon-phone"></i>
+                                        Got Question? Call us 24/7
+                                        <a href="tel:#">+0123 456 789</a>
+                                    </div><!-- End .widget-call -->
+                                </div><!-- End .widget about-widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="about.html">About shopEazy</a></li>
+                                        <li><a href="#">Our Services</a></li>
+                                        <li><a href="#">How to shop on shopEazy</a></li>
+                                        <li><a href="faq.html">FAQ</a></li>
+                                        <li><a href="contact.html">Contact us</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="#">Payment Methods</a></li>
+                                        <li><a href="#">Money-back guarantee!</a></li>
+                                        <li><a href="#">Returns</a></li>
+                                        <li><a href="#">Shipping</a></li>
+                                        <li><a href="#">Terms and conditions</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="widget">
+                                    <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                                    <ul class="widget-list">
+                                        <li><a href="#">Sign In</a></li>
+                                        <li><a href="cart.html">View Cart</a></li>
+                                        <li><a href="#">My Wishlist</a></li>
+                                        <li><a href="#">Track My Order</a></li>
+                                        <li><a href="#">Help</a></li>
+                                    </ul><!-- End .widget-list -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                </div><!-- End .footer-middle -->
+
+                <div class="footer-bottom">
+                    <div class="container">
+                        <p class="footer-copyright">Copyright © 2024 shopEazy Store. All Rights Reserved.</p>
+                        <!-- End .footer-copyright -->
+                        <figure class="footer-payments">
+                            <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                        </figure><!-- End .footer-payments -->
+                    </div><!-- End .container -->
+                </div><!-- End .footer-bottom -->
+            </footer><!-- End .footer -->
+        </div><!-- End .page-wrapper -->
+        <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+        <div class="mobile-menu-container">
+            <div class="mobile-menu-wrapper">
+                <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+                <form action="#" method="get" class="mobile-search">
+                    <label for="mobile-search" class="sr-only">Search</label>
+                    <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                        placeholder="Search in..." required>
+                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                </form>
+
+
+                <div class="social-icons">
+                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+                </div><!-- End .social-icons -->
+            </div><!-- End .mobile-menu-wrapper -->
+        </div><!-- End .mobile-menu-container -->
+
+        <!-- Sign in / Register Modal -->
+
+        <!-- Plugins JS File -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/jquery.hoverIntent.min.js"></script>
+        <script src="assets/js/jquery.waypoints.min.js"></script>
+        <script src="assets/js/superfish.min.js"></script>
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <script src="assets/js/bootstrap-input-spinner.js"></script>
+        <!-- Main JS File -->
+        <script src="assets/js/main.js"></script>
+
+        <script>
+
+            const form = document.getElementById('login-form');
+            const email = document.getElementById('singin-email');
+            const password = document.getElementById('singin-password');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const emailVal = email.value.trim();
+                const passVal = password.value.trim();
+
+                validateForm(emailVal, passVal);
+            });
+
+            function isValidEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+
+            const setError = (element, message) => {
+                console.log(element, message);
+                const formGroup = element.parentElement;
+                const errorDisplay = formGroup.querySelector('.errMsg');
+
+                errorDisplay.innerText = message; formGroup
+                element.classList.add('error');
+                errorDisplay.classList.add('error');
+                element.classList.remove('success');
+                errorDisplay.classList.remove('success');
+            }
+
+            const setSuccess = (element, message) => {
+                const formGroup = element.parentElement;
+                const errorDisplay = formGroup.querySelector('.errMsg');
+
+                errorDisplay.innerText = message;
+                element.classList.add('success');
+                errorDisplay.classList.add('success');
+                element.classList.remove('error');
+                errorDisplay.classList.remove('error');
+            }
+
+            const validateForm = async (emailVal, passVal) => {
+
+                let isValid = true;
+
+                if (emailVal === '') {
+                    setError(email, 'Enter your email');
+                    isValid = false;
+                } else if (!isValidEmail(emailVal)) {
+                    setError(email, 'Enter a valid email');
+                    isValid = false;
+                } else {
+                    setSuccess(email, 'Username or email address');
+                }
+
+                if (passVal === '') {
+                    setError(password, 'Enter your password');
+                    isValid = false;
+                } else {
+                    setSuccess(password, 'Password');
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+                const response = await fetch('/loginsignin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: emailVal,
+                        password: passVal
+                    })
+                });
+
+                const message = await response.json();
+
+                if (message.success) {
+                    window.location.href = '/home';
+                } else if (!message.success) {
+
+                    document.querySelector('.main-error').innerText = message.msg;
+
+                    email.classList.add('error');
+                    email.classList.remove('success');
+                    password.classList.add('error');
+                    password.classList.remove('success');
+                }
+            }
+        </script>
+        <script>
+            const signupform = document.getElementById('signup-form');
+            const username = document.getElementById('register-name');
+            const useremail = document.getElementById('register-email');
+            const userpassword = document.getElementById('register-password0');
+            const userconfirmPassword = document.getElementById('register-password');
+
+            signupform.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const nameValue = username.value.trim();
+                const emailValue = useremail.value.trim();
+                const passValue = userpassword.value.trim();
+                const confirmPassValue = userconfirmPassword.value.trim();
+
+                validateRegisterForm(nameValue, emailValue, passValue, confirmPassValue);
+            });
+
+            function userisValidEmail(useremail) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(useremail).toLowerCase());
+            }
+
+            const setError1 = (element, message) => {
+                const formGroup1 = element.parentElement;
+                const errorDisplay = formGroup1.querySelector('.errMsgSignup');
+
+                errorDisplay.innerText = message;
+                element.classList.add('error');
+                errorDisplay.classList.add('error');
+                element.classList.remove('success');
+                errorDisplay.classList.remove('success');
+            }
+
+            const setSuccess1 = (element, message) => {
+                const formGroup1 = element.parentElement;
+                const errorDisplay = formGroup1.querySelector('.errMsgSignup');
+
+                errorDisplay.innerText = message;
+                element.classList.add('success');
+                errorDisplay.classList.add('success');
+                element.classList.remove('error');
+                errorDisplay.classList.remove('error');
+            }
+
+            const validateRegisterForm = async (nameValue, emailValue, passValue, confirmPassValue) => {
+                let isValid = true;
+
+                if (passValue === '') {
+                    setError1(userpassword, 'Enter your password');
+                    isValid = false;
+                } else if (passValue.length < 8) {
+                    setError1(userpassword, 'Password must be at least 8 characters long');
+                    isValid = false;
+                } else {
+                    setSuccess1(userpassword, 'Password *');
+                }
+                if (emailValue === '') {
+                    setError1(useremail, 'Enter your email');
+                    isValid = false;
+                } else if (!userisValidEmail(emailValue)) {
+                    setError1(useremail, 'Enter a valid email');
+                    isValid = false;
+                } else {
+                    setSuccess1(useremail, 'Your email address *');
+                }
+
+                if (confirmPassValue === '') {
+                    setError1(userconfirmPassword, 'Enter your confirm password');
+                    isValid = false;
+                } else if (passValue !== confirmPassValue) {
+                    setError1(userconfirmPassword, 'Your password and confirm password do not match');
+                    isValid = false;
+                } else {
+                    setSuccess1(userconfirmPassword, 'Confirm password *');
+                }
+                const nameRegex = /^[a-zA-Z\s]+$/;
+                if (nameValue === '') {
+                    setError1(username, 'Enter your name');
+                    isValid = false;
+                } else if (!nameRegex.test(nameValue)) {
+                    setError1(username, 'Name should only contain letters and spaces');
+                    isValid = false;
+                } else {
+                    setSuccess1(username, 'User name *');
+                }
+                if (passValue !== confirmPassValue) {
+                    setError1(userconfirmPassword, 'Your password and confirm password do not match');
+                    isValid = false;
+                } else {
+                    setSuccess1(userconfirmPassword, 'Confirm password *');
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+
+                try {
+                    const response = await fetch('/loginsignup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: emailValue,
+                            password: confirmPassValue,
+                            name: nameValue
+                        })
+                    });
+
+                    const message = await response.json();
+
+                    if (message.success) {
+                        window.location.href = message.redirectUrl || '/otpValidate';
+                    } else {
+                        document.querySelector('.main-error1').innerText = message.message || 'An error occurred during signup';
+                        useremail.classList.add('error');
+                        useremail.classList.remove('success');
+                    }
+                } catch (error) {
+                    console.error('Error during signup:', error);
+                    document.querySelector('.main-error').innerText = 'An unexpected error occurred. Please try again.';
+                }
+            }
+        </script>
+
+    </body>
+
+    <%- include('../layouts/footer.ejs') %>

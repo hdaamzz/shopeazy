@@ -4,6 +4,13 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 require('dotenv').config();
 
+const loadLogin = async(req,res)=>{
+    try {
+        res.render('login')
+    } catch (error) {
+        
+    }
+}
 
 
 
@@ -137,7 +144,8 @@ module.exports = {
     forgotPassword,
     resetPassword,
     loadForgotPassword,
-    loadResetPassword
+    loadResetPassword,
+    loadLogin
 
 
 };
