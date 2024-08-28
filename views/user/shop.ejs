@@ -156,9 +156,9 @@
                                             // Check for category offers
                                             offers.forEach((item) => {
                                                 if (item.type === 'CATEGORY') {
-                                                    const categoryMatch = item.category.some(category => 
-                                                        String(product[i].category) === String(category)
-                                                    );
+                                                    const categoryMatch = Array.isArray(item.category)
+                                                        ? item.category.some(category => String(product[i].category) === String(category._id))
+                                                        : String(product[i].category) === String(item.category._id);
                                                     
                                                     if (categoryMatch && item.discount > bestDiscount) {
                                                         bestDiscount = item.discount;
@@ -244,46 +244,66 @@
                                 <div class="widget widget-clean">
                                     <label></label>
                                     <a href="#" class="sidebar-filter-clear">Clean All</a>
-                                </div><!-- End .widget -->
-
+                                </div>
+                        
                                 <div class="widget widget-collapsible">
                                     <h3 class="widget-title">
-                                        <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true"
-                                            aria-controls="widget-2">
-                                           Filters
+                                        <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
+                                            Filters
                                         </a>
-                                    </h3><!-- End .widget-title -->
-
+                                    </h3>
+                        
                                     <div class="collapse show" id="widget-2">
                                         <div class="widget-body">
                                             <div class="filter-items">
-                                        
                                                 <form action="/shop" id="advanced-search-form" method="GET">
                                                     <div class="widget widget-collapsible">
                                                         <h3 class="widget-title">
-                                                            <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
+                                                            <a data-toggle="collapse" href="#widget-category" role="button" aria-expanded="true" aria-controls="widget-category">
+                                                                Category
+                                                            </a>
+                                                        </h3>
+                                                        <div class="collapse show" id="widget-category">
+                                                            <div class="widget-body">
+                                                                <div class="filter-items">
+                                                                    <% categories.forEach(category => { %>
+                                                                        <div class="filter-item">
+                                                                            <div class="custom-control custom-checkbox">
+                                                                                <input type="checkbox" class="custom-control-input" id="category-<%= category._id %>" name="category" value="<%= category._id %>">
+                                                                                <label class="custom-control-label" for="category-<%= category._id %>"><%= category.category_name %></label>
+                                                                            </div>
+                                                                        </div>
+                                                                    <% }); %>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget widget-collapsible">
+                                                        <h3 class="widget-title">
+                                                            <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
                                                                 Name
                                                             </a>
                                                         </h3>
-                                                        <div class="collapse show" id="widget-2">
+                                                        <div class="collapse show" id="widget-4">
                                                             <div class="widget-body">
                                                                 <div class="filter-items">
                                                                     <div class="filter-item">
                                                                         <div class="custom-control custom-radio">
                                                                             <input type="radio" class="custom-control-input" id="name_asc" name="sort" value="name_asc">
-                                                                            <label class="custom-control-label" for="name_asc">aA - zZ</label>
+                                                                            <label class="custom-control-label" for="name_asc">A - Z</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="filter-item">
                                                                         <div class="custom-control custom-radio">
                                                                             <input type="radio" class="custom-control-input" id="name_desc" name="sort" value="name_desc">
-                                                                            <label class="custom-control-label" for="name_desc">zZ - aA</label>
+                                                                            <label class="custom-control-label" for="name_desc">Z - A</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
                                                     <div class="widget widget-collapsible">
                                                         <h3 class="widget-title">
                                                             <a data-toggle="collapse" href="#widget-3" role="button" aria-expanded="true" aria-controls="widget-3">
@@ -309,14 +329,17 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                        
                                                     <div class="load-more-container text-center">
                                                         <button type="submit" class="btn btn-outline-darker btn-load-more">Apply <i class="icon-refresh"></i></button>
                                                     </div>
                                                 </form>
-                            </div><!-- End .sidebar-filter-wrapper -->
-
-                           
-                        </aside><!-- End .sidebar-filter -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
                     </div><!-- End .container -->
                 </div><!-- End .page-content -->
             </main><!-- End .main -->
@@ -535,37 +558,57 @@
 
 <script>
     document.getElementById('advanced-search-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        const searchParams = new URLSearchParams(formData);
-        
-        // Get the current URL
-        const currentUrl = new URL(window.location.href);
-        
-        // Update or add the sort parameter
-        for (let [key, value] of searchParams) {
-            if (value) {
-                currentUrl.searchParams.set(key, value);
-            } else {
-                currentUrl.searchParams.delete(key);
-            }
-        }
-        
-        // Redirect to the updated URL
-        window.location.href = currentUrl.toString();
-    });
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const searchParams = new URLSearchParams();
+    
+   
+    const categories = formData.getAll('category');
+    if (categories.length > 0) {
+        searchParams.append('category', categories.join(','));
+    }
+    
+   
+    const sort = formData.get('sort');
+    if (sort) {
+        searchParams.append('sort', sort);
+    }
+    
+   
+    const currentUrl = new URL(window.location.href);
+    
+    
+    for (let [key, value] of searchParams) {
+        currentUrl.searchParams.set(key, value);
+    }
+    
+   
+    window.location.href = currentUrl.toString();
+});
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentSort = '<%= sort %>';
-        if (currentSort) {
-            const radio = document.querySelector(`input[name="sort"][value="${currentSort}"]`);
-            if (radio) {
-                radio.checked = true;
+document.addEventListener('DOMContentLoaded', function() {
+   
+    const currentSort = '<%= sort %>';
+    if (currentSort) {
+        const radio = document.querySelector(`input[name="sort"][value="${currentSort}"]`);
+        if (radio) {
+            radio.checked = true;
+        }
+    }
+    
+   
+    const selectedCategories = '<%= selectedCategories %>'.split(',');
+    selectedCategories.forEach(category => {
+        if (category) {
+            const checkbox = document.querySelector(`input[name="category"][value="${category}"]`);
+            if (checkbox) {
+                checkbox.checked = true;
             }
         }
     });
-</script>   <!-- Plugins JS File -->
+});
+</script>  
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.hoverIntent.min.js"></script>

@@ -41,69 +41,14 @@
 
                                     </li>
                                     <li>
-                                        <a href="category.html" class="sf-with-ul">Shop</a>
+                                        <a href="/shop" class="sf-with-ul">Shop</a>
 
                                         <div class="megamenu megamenu-md">
                                             <div class="row no-gutters">
-                                                <div class="col-md-8">
-                                                    <div class="menu-col">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="menu-title">Shop with sidebar</div>
-                                                                <!-- End .menu-title -->
-                                                                <ul>
-                                                                    <li><a href="category-list.html">Shop List</a></li>
-                                                                    <li><a href="category-2cols.html">Shop Grid 2
-                                                                            Columns</a></li>
-                                                                    <li><a href="category.html">Shop Grid 3 Columns</a>
-                                                                    </li>
-                                                                    <li><a href="category-4cols.html">Shop Grid 4
-                                                                            Columns</a></li>
-                                                                    <li><a href="category-market.html"><span>Shop
-                                                                                Market<span
-                                                                                    class="tip tip-new">New</span></span></a>
-                                                                    </li>
-                                                                </ul>
-
-                                                                <div class="menu-title">Shop no sidebar</div>
-                                                                <!-- End .menu-title -->
-                                                                <ul>
-                                                                    <li><a href="category-boxed.html"><span>Shop Boxed
-                                                                                No Sidebar<span
-                                                                                    class="tip tip-hot">Hot</span></span></a>
-                                                                    </li>
-                                                                    <li><a href="category-fullwidth.html">Shop Fullwidth
-                                                                            No Sidebar</a></li>
-                                                                </ul>
-                                                            </div><!-- End .col-md-6 -->
-
-                                                            <div class="col-md-6">
-                                                                <div class="menu-title">Product Category</div>
-                                                                <!-- End .menu-title -->
-                                                                <ul>
-                                                                    <li><a href="product-category-boxed.html">Product
-                                                                            Category Boxed</a></li>
-                                                                    <li><a href="product-category-fullwidth.html"><span>Product
-                                                                                Category Fullwidth<span
-                                                                                    class="tip tip-new">New</span></span></a>
-                                                                    </li>
-                                                                </ul>
-                                                                <div class="menu-title">Shop Pages</div>
-                                                                <!-- End .menu-title -->
-                                                                <ul>
-                                                                    <li><a href="/cart">Cart</a></li>
-                                                                    <li><a href="/checkout">Checkout</a></li>
-                                                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                                                    <li><a href="#">My Account</a></li>
-                                                                </ul>
-                                                            </div><!-- End .col-md-6 -->
-                                                        </div><!-- End .row -->
-                                                    </div><!-- End .menu-col -->
-                                                </div><!-- End .col-md-8 -->
-
+                                               
                                                 <div class="col-md-4">
                                                     <div class="banner banner-overlay">
-                                                        <a href="category.html" class="banner banner-menu">
+                                                        <a href="/shop" class="banner banner-menu">
                                                             <!-- <img src="assets/images/menu/banner-1.jpg" alt="Banner"> -->
 
                                                             <div class="banner-content banner-content-top">
@@ -163,7 +108,9 @@
                 <div class="page-content">
                     <div class="cart">
                         <div class="container">
-                            <div class="row">
+                           
+                                <% if(cartItems.length !== 0 ){ %>
+                                    <div class="row">
                                 <div class="col-lg-9">
                                     <table class="table table-cart table-mobile">
                                         <thead>
@@ -176,6 +123,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+
 
                                             <% cartItems.forEach(item=> { %>
                                                 <tr>
@@ -235,21 +183,10 @@
                                         </tbody>
 
                                     </table>
+                                    
                                     <div class="cart-bottom">
-                                        <!-- <div class="cart-discount">
-			            				<form action="#">
-			            					<div class="input-group">
-				        						<input type="text" class="form-control" required placeholder="coupon code">
-				        						<div class="input-group-append">
-													<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-												</div>
-			        						</div>
-			            				</form>
-			            			</div> -->
-
-
-                                    </div><!-- End .cart-bottom -->
-                                </div><!-- End .col-lg-9 -->
+                                    </div>
+                                </div>
                                 <aside class="col-lg-3">
                                     <div class="summary summary-cart">
                                         <h3 class="summary-title">Cart Total</h3>
@@ -314,16 +251,24 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-
+                                       <% if(cartItems.length !== 0 ){ %>
                                         <a href="/checkout"
                                             class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
                                             CHECKOUT</a>
-                                    </div><!-- End .summary -->
+                                        <%}%>
+                                    </div>
 
                                     <a href="/" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
                                             SHOPPING</span><i class="icon-refresh"></i></a>
-                                </aside><!-- End .col-lg-3 -->
-                            </div><!-- End .row -->
+                                </aside></div>
+                                 <%} else {%> <div class="row" style="display: flex;justify-content: center;">
+
+                                    <div style="display: flex;">
+                                        <h5>Cart is empty !</h5>
+                                    </div>
+                                </div>
+                                  <%}%>
+                            
                         </div><!-- End .container -->
                     </div><!-- End .cart -->
                 </div><!-- End .page-content -->

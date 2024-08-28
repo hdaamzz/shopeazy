@@ -78,7 +78,8 @@ const loadCart = async (req, res) => {
 };
 const loaduserCart = async (req, res) => {
   try {
-    res.render('emptycart');
+   
+    res.redirect('/cart')
 
   } catch (error) {
     console.log('Error Load emptyCart Page', error.message);

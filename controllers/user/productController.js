@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../../models/user/userCredentials');
 const Category = require('../../models/admin/categoryList');
 const Product = require('../../models/admin/products');
@@ -7,9 +8,73 @@ require('dotenv').config();
 
 
 
+// const loadShop = async (req, res) => {
+//     try {
+//         const { sort } = req.query; 
+
+//         let sortOptions = {};
+//         switch (sort) {
+//             case 'name_asc':
+//                 sortOptions = { product_name: 1 };
+//                 break;
+//             case 'name_desc':
+//                 sortOptions = { product_name: -1 };
+//                 break;
+//             case 'price_asc':
+//                 sortOptions = { price: 1 };
+//                 break;
+//             case 'price_desc':
+//                 sortOptions = { price: -1 };
+//                 break;
+//             default:
+//                 sortOptions = { product_name: 1 }; 
+//         }
+
+//         const [allProducts, category,offers] = await Promise.all([
+//             Product.aggregate([
+//                 {
+//                   $match: { is_listed: true }
+//                 },
+//                 {
+//                   $lookup: {
+//                     from: 'categories', 
+//                     localField: 'category',
+//                     foreignField: '_id',
+//                     as: 'category'
+//                   }
+//                 },
+//                 {
+//                   $unwind: '$category'
+//                 },
+//                 {
+//                   $match: { 'category.status': true }
+//                 },
+//                 {
+//                   $sort: { added_date: -1 }
+//                 }
+//               ]),
+//             Category.find({ status: true }),
+//             Offer.find({status:'active'}).populate('products').populate('category')
+
+//         ]);
+
+//         let userData;
+//         if (req.user) {
+//             userData = req.user;
+//         } else if (req.session.user_id) {
+//             userData = await User.findById(req.session.user_id);
+//         }
+
+//         res.render('shop', { product: allProducts, category, userData ,offers, sort: sort || '' });
+
+//     } catch (error) {
+//         console.error('Error loading shop:', error);
+//         res.status(500).render('error', { message: 'Failed to load shop' });
+//     }
+// };
 const loadShop = async (req, res) => {
     try {
-        const { sort } = req.query; 
+        const { sort, category: selectedCategories } = req.query;
 
         let sortOptions = {};
         switch (sort) {
@@ -26,35 +91,40 @@ const loadShop = async (req, res) => {
                 sortOptions = { price: -1 };
                 break;
             default:
-                sortOptions = { product_name: 1 }; 
+                sortOptions = { product_name: 1 };
         }
 
-        const [allProducts, category,offers] = await Promise.all([
+        let matchStage = { is_listed: true };
+        if (selectedCategories) {
+            const categoryIds = selectedCategories.split(',').map(id => new mongoose.Types.ObjectId(id));
+            matchStage['category'] = { $in: categoryIds };
+        }
+
+        const [allProducts, categories, offers] = await Promise.all([
             Product.aggregate([
                 {
-                  $match: { is_listed: true }
+                    $match: matchStage
                 },
                 {
-                  $lookup: {
-                    from: 'categories', 
-                    localField: 'category',
-                    foreignField: '_id',
-                    as: 'category'
-                  }
+                    $lookup: {
+                        from: 'categories',
+                        localField: 'category',
+                        foreignField: '_id',
+                        as: 'categoryDetails'
+                    }
                 },
                 {
-                  $unwind: '$category'
+                    $unwind: '$categoryDetails' 
                 },
                 {
-                  $match: { 'category.status': true }
+                    $match: { 'categoryDetails.status': true } 
                 },
                 {
-                  $sort: { added_date: -1 }
+                    $sort: sortOptions
                 }
-              ]),
+            ]),
             Category.find({ status: true }),
-            Offer.find({status:'active'}).populate('products').populate('category')
-
+            Offer.find({ status: 'active' }).populate('products').populate('category')
         ]);
 
         let userData;
@@ -64,13 +134,21 @@ const loadShop = async (req, res) => {
             userData = await User.findById(req.session.user_id);
         }
 
-        res.render('shop', { product: allProducts, category, userData ,offers, sort: sort || '' });
+        res.render('shop', { 
+            product: allProducts, 
+            categories, 
+            userData, 
+            offers, 
+            sort: sort || '',
+            selectedCategories: selectedCategories || ''
+        });
 
     } catch (error) {
         console.error('Error loading shop:', error);
-        res.status(500).render('error', { message: 'Failed to load shop' });
+        res.status(500).render('404', { message: 'Failed to load shop' });
     }
 };
+
 
 const loadProductCategory = async (req, res) => {
     try {

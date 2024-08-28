@@ -97,7 +97,7 @@ const razorpay = new Razorpay({
         }
     } catch (error) {
         console.error(error);
-        res.status(500).render('error', { message: 'Server error' });
+        res.status(500).render('404', { message: 'Server error' });
     }
 };
 
@@ -111,7 +111,8 @@ const placeOrder = async (req, res) => {
         const { address_id, payment_type, total_amount, coupon_discount,couponPercent } = req.body;
         const user_id = req.session.user_id;
         
-
+       
+        
         const address = await Address.findById(address_id);
         if (!address) {
             return res.status(400).json({ success: false, message: 'Invalid address ID' });

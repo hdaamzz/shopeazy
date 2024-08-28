@@ -7,7 +7,7 @@ const isLogin = async (req, res, next) => {
         if (req.session.user_id && user.is_block == 0) {
 
         } else {
-            return res.redirect('/')
+            return res.redirect('/login')
         }
         return next();
     } catch (error) {
