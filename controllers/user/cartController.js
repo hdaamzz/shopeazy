@@ -96,12 +96,12 @@ const addCartItem = async (req, res) => {
 
 
     if (cartItem) {
-      cartItem.quantity += parseInt(quantity);
-
+      // cartItem.quantity += parseInt(quantity);
+      return res.json({success: false, message: "This product already in cart"})
       if (cartItem.quantity > 5) {
         return res.json({ success: false, message: "Maximum quanity reached" });
       }
-      await cartItem.save();
+      // await cartItem.save();
     } else {
       cartItem = new Cart({
         user_id: userId,
@@ -200,7 +200,7 @@ const addWishlistItem = async (req, res) => {
 
 
     if (cartItem) {
-      res.json({ success: false,message:"This product already in cart" });
+      res.json({ success: false,message:"This product already in wishlist" });
     } else {
       wishlistItem = new Wishlist({
         user_id: userId,

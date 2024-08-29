@@ -77,7 +77,7 @@ user_route.post('/initiate-repayment', auth.isLogin,dashboardController.initiate
 //cart management
 user_route.get('/cart' ,auth.isLogin,cartController.loadCart);
 user_route.get('/nonUserCart',auth.isLogout,cartController.loaduserCart);
-user_route.post('/addCartItem', auth.isLogin,cartController.addCartItem)
+user_route.post('/addCartItem', auth.isLogin,cartController.addCartItem);
 user_route.post('/wishlistToCart', auth.isLogin,cartController.wishlistToCart)
 
 user_route.post('/update-cart-quantity', auth.isLogin,cartController.updateCartQuantity)
