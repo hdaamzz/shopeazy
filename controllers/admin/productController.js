@@ -1,135 +1,186 @@
 const Category = require('../../models/admin/categoryList');
 const Products = require('../../models/admin/products');
-const path = require('path')
-const fs =require('fs')
+const path = require('path');
+const fs = require('fs');
+const { HTTP_STATUS } = require('../../utils/constants');
+
+// Constants
+const PRODUCTS_PER_PAGE = 10;
+const IMAGE_COUNT = 3;
+const BASE64_IMAGE_PREFIX = 'data:image';
 
 
 const loadProducts = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = 10;
-        const skip = (page - 1) * limit;
+        const skip = (page - 1) * PRODUCTS_PER_PAGE;
 
         const [products, categories, totalProducts] = await Promise.all([
-            Products.find({}).populate('category').skip(skip).limit(limit),
+            Products.find({})
+                .populate('category')
+                .skip(skip)
+                .limit(PRODUCTS_PER_PAGE),
             Category.find({}),
             Products.countDocuments({})
         ]);
 
-        const totalPages = Math.ceil(totalProducts / limit);
+        const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
-        res.render('products', { 
-            product: products, 
-            categories: categories,
+        res.render('products', {
+            product: products,
+            categories,
             currentPage: page,
-            totalPages: totalPages
+            totalPages
         });
     } catch (error) {
-        console.error('Error Loading Products:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+        console.error('Error loading products:', error);
+        res.status(HTTP_STATUS.SERVER_ERROR).json({
+            success: false,
+            message: 'An error occurred while loading products'
+        });
     }
-}
+};
 
 const loadAddProduct = async (req, res) => {
     try {
-        const category = await Category.find({});
-        res.render('addproduct', { category: category })
+        const categories = await Category.find({});
+        res.render('addproduct', { category: categories });
     } catch (error) {
-        console.error('Error Load Add Produt:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+        console.error('Error loading add product page:', error);
+        res.status(HTTP_STATUS.SERVER_ERROR).json({
+            success: false,
+            message: 'An error occurred while loading add product page'
+        });
     }
-}
+};
 
 const addProduct = async (req, res) => {
     try {
         const images = req.files.map(file => file.filename);
-        
+
         const productData = {
-            product_name: req.body['productTitle'],
-            description: req.body['ProductDescription'],
-            images: images,
-            category: req.body['categorySelection'],
-            is_listed: req.body['productOption'],
-            stock: parseInt(req.body['productCount']),
-            price: parseFloat(req.body['productPrice'])
+            product_name: req.body.productTitle,
+            description: req.body.ProductDescription,
+            images,
+            category: req.body.categorySelection,
+            is_listed: req.body.productOption,
+            stock: parseInt(req.body.productCount),
+            price: parseFloat(req.body.productPrice)
         };
 
         const newProduct = new Products(productData);
         await newProduct.save();
 
-        res.status(200).json({ success: true, message: 'Product added successfully', redirectUrl: '/admin/products' });
+        res.status(HTTP_STATUS.OK).json({
+            success: true,
+            message: 'Product added successfully',
+            redirectUrl: '/admin/products'
+        });
     } catch (error) {
-        console.error('Error Adding Product:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+        console.error('Error adding product:', error);
+        res.status(HTTP_STATUS.SERVER_ERROR).json({
+            success: false,
+            message: 'An error occurred while adding product'
+        });
     }
 };
+
 
 const loadUpdateProduct = async (req, res) => {
     try {
-        const id = req.query.id
+        const { id } = req.query;
 
-
-        const [productData, category] = await Promise.all([
+        const [product, categories] = await Promise.all([
             Products.findById(id).populate('category'),
             Category.find({})
-          ]);
-          
-        res.render('updateproduct', { productData, category })
+        ]);
+
+        if (!product) {
+            return res.status(HTTP_STATUS.NOT_FOUND).redirect('/admin/products');
+        }
+
+        res.render('updateproduct', { productData: product, category: categories });
     } catch (error) {
-        console.error('Error Load Update Product:', error);
-        res.status(500).render('error500', {
+        console.error('Error loading update product page:', error);
+        res.status(HTTP_STATUS.SERVER_ERROR).render('error500', {
             success: false,
-            message: 'An error occurred while processing your request'
+            message: 'An error occurred while loading product'
         });
     }
-}
+};
 
 const updateProduct = async (req, res) => {
     try {
-        const hiddenId = req.body['hiddenid'];
-        const existingProduct = await Products.findById(hiddenId);
+        const { hiddenid } = req.body;
 
-        let images = [];
-
-        for (let i = 1; i <= 3; i++) {
-            const fieldName = `productImage${i}`;
-            if (req.body[fieldName] && req.body[fieldName].startsWith('data:image')) {
-               
-                const base64Data = req.body[fieldName].replace(/^data:image\/\w+;base64,/, "");
-                const buffer = Buffer.from(base64Data, 'base64');
-                const imageName = `cropped_product_${hiddenId}_${i}.jpg`;
-                const imagePath = path.join(__dirname, '../../uploads/', imageName);
-                
-                fs.writeFileSync(imagePath, buffer);
-                images.push(imageName);
-            } else if (req.body[`existingImage${i}`]) {
-                images.push(req.body[`existingImage${i}`]);
-            }
+        const existingProduct = await Products.findById(hiddenid);
+        if (!existingProduct) {
+            return res.status(HTTP_STATUS.NOT_FOUND).json({
+                success: false,
+                message: 'Product not found'
+            });
         }
 
-        await Products.findByIdAndUpdate(hiddenId, {
+        const images = processProductImages(req.body, hiddenid);
+
+        await Products.findByIdAndUpdate(hiddenid, {
             $set: {
-                product_name: req.body['productTitle'],
-                description: req.body['ProductDescription'],
-                images: images,
-                category: req.body['categorySelection'],
-                is_listed: req.body['productOption'],
-                stock: parseInt(req.body['productCount']),
-                price: parseFloat(req.body['productPrice'])
+                product_name: req.body.productTitle,
+                description: req.body.ProductDescription,
+                images,
+                category: req.body.categorySelection,
+                is_listed: req.body.productOption,
+                stock: parseInt(req.body.productCount),
+                price: parseFloat(req.body.productPrice)
             }
         });
 
-        res.status(200).json({ success: true, message: 'Product updated successfully', redirectUrl: '/admin/products' });
+        res.status(HTTP_STATUS.OK).json({
+            success: true,
+            message: 'Product updated successfully',
+            redirectUrl: '/admin/products'
+        });
     } catch (error) {
-        console.error('Error Updating Product:', error);
-        res.status(500).json({ success: false, message: 'An error occurred while processing your request' });
+        console.error('Error updating product:', error);
+        res.status(HTTP_STATUS.SERVER_ERROR).json({
+            success: false,
+            message: 'An error occurred while updating product'
+        });
     }
 };
+
+function processProductImages(requestBody, productId) {
+    const images = [];
+
+    for (let i = 1; i <= IMAGE_COUNT; i++) {
+        const imageField = `productImage${i}`;
+        const existingImageField = `existingImage${i}`;
+
+        if (requestBody[imageField] && requestBody[imageField].startsWith(BASE64_IMAGE_PREFIX)) {
+            const imageName = saveBase64Image(requestBody[imageField], productId, i);
+            images.push(imageName);
+        } else if (requestBody[existingImageField]) {
+            images.push(requestBody[existingImageField]);
+        }
+    }
+
+    return images;
+}
+
+function saveBase64Image(base64String, productId, index) {
+    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+    const imageName = `cropped_product_${productId}_${index}.jpg`;
+    const imagePath = path.join(__dirname, '../../uploads/', imageName);
+
+    fs.writeFileSync(imagePath, buffer);
+    return imageName;
+}
 
 module.exports = {
     loadProducts,
     loadAddProduct,
     addProduct,
     loadUpdateProduct,
-    updateProduct,
-}
+    updateProduct
+};

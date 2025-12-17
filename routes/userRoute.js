@@ -2,17 +2,29 @@ const express = require('express')
 const user_route = express();
 const bodyparser = require('body-parser');
 const session = require('express-session');
-const config = require("../config/config");
-const logoutController = require("../controllers/user/logoutController");
-const homeController = require('../controllers/user/homeController');
-const signupController = require('../controllers/user/signupController');
-const loginController = require('../controllers/user/loginController');
-const productController = require('../controllers/user/productController');
-const dashboardController = require('../controllers/user/dashboardController');
-const cartController = require('../controllers/user/cartController');
-const searchFilterController = require('../controllers/user/searchFilterController');
-const checkoutController = require('../controllers/user/checkoutController');
-const walletController =require("../controllers/user/walletController");
+const logoutController = require("../controllers/user/auth/logoutController");
+const homeController = require('../controllers/user/home/homeController');
+const signupController = require('../controllers/user/auth/signupController');
+const loginController = require('../controllers/user/auth/loginController');
+const productController = require('../controllers/user/product/productController');
+const dashboardController = require('../controllers/user/profile/dashboardController');
+const cartController = require('../controllers/user/cart/cartController');
+const wishlistController = require('../controllers/user/cart/wishlistController');
+const searchFilterController = require('../controllers/user/product/searchFilterController');
+const checkoutController = require('../controllers/user/checkout/checkoutController');
+const walletController =require("../controllers/user/profile/walletController");
+const orderController =require("../controllers/user/checkout/orderController");
+const paymentController =require("../controllers/user/checkout/paymentController");
+const addressController =require("../controllers/user/profile/addressController");
+const invoiceController =require("../controllers/user/order/invoiceController");
+const orderManagementController =require("../controllers/user/order/orderManagementController");
+const profileController =require("../controllers/user/profile/profileController");
+const repaymentController =require("../controllers/user/order/repaymentController");
+
+
+
+
+
 const auth = require("../middleware/userAuth")
 const nocache = require('nocache')
 
@@ -25,7 +37,7 @@ user_route.use(nocache())
 user_route.use(bodyparser.json())
 user_route.use(bodyparser.urlencoded({ extended: true }))
 user_route.use(session({
-    secret: config.sessionSecret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     rolling: false,
     saveUninitialized: true,
@@ -64,27 +76,36 @@ user_route.get('/showProduct', productController.loadShowProduct)
 
 //user dashboard
 user_route.get('/dashboard',auth.isLogin,dashboardController.loadDashboard)
-user_route.post('/addAddress', auth.isLogin,dashboardController.addUserAddress)
-user_route.post('/updateAddress', auth.isLogin,dashboardController.updateUserAddress);
-user_route.post('/deleteAddress', auth.isLogin,dashboardController.deleteAddress);
-user_route.post('/updateUser', auth.isLogin,dashboardController.updateUserData);
-user_route.post('/cancelOrder', auth.isLogin,dashboardController.cancelOrder);
-user_route.post('/returnOrder', auth.isLogin,dashboardController.returnOrder);
-user_route.get('/downloadInvoice', auth.isLogin,dashboardController.downloadInvoice);
-user_route.post('/initiate-repayment', auth.isLogin,dashboardController.initiateRepayment)
+
+
+user_route.post('/addAddress', auth.isLogin,addressController.addUserAddress)
+user_route.post('/updateAddress', auth.isLogin,addressController.updateUserAddress);
+user_route.post('/deleteAddress', auth.isLogin,addressController.deleteAddress);
+
+
+user_route.post('/updateUser', auth.isLogin,profileController.updateUserData);
+
+user_route.post('/cancelOrder', auth.isLogin,orderManagementController.cancelOrder);
+user_route.post('/returnOrder', auth.isLogin,orderManagementController.returnOrder);
+
+
+user_route.get('/downloadInvoice', auth.isLogin,invoiceController.downloadInvoice);
+
+user_route.post('/initiate-repayment', auth.isLogin,repaymentController.initiateRepayment)
         
 
 //cart management
 user_route.get('/cart' ,auth.isLogin,cartController.loadCart);
-user_route.get('/nonUserCart',auth.isLogout,cartController.loaduserCart);
+user_route.get('/nonUserCart',auth.isLogout,cartController.loadUserCart);
 user_route.post('/addCartItem', auth.isLogin,cartController.addCartItem);
-user_route.post('/wishlistToCart', auth.isLogin,cartController.wishlistToCart)
-
+user_route.post('/wishlistToCart', auth.isLogin,cartController.moveWishlistToCart)
 user_route.post('/update-cart-quantity', auth.isLogin,cartController.updateCartQuantity)
 user_route.post('/remove-from-cart', auth.isLogin, cartController.removeCartItem);
-user_route.get('/wishlist', auth.isLogin,cartController.loadWishlist)
-user_route.post('/addWishlistItem', auth.isLogin,cartController.addWishlistItem)
-user_route.post('/remove-from-wishlist', auth.isLogin, cartController.removeWishlistItem);
+
+
+user_route.get('/wishlist', auth.isLogin,wishlistController.loadWishlist)
+user_route.post('/addWishlistItem', auth.isLogin,wishlistController.addWishlistItem)
+user_route.post('/remove-from-wishlist', auth.isLogin, wishlistController.removeWishlistItem);
 
 
 
@@ -98,13 +119,18 @@ user_route.get('/serch',searchFilterController.shopFilter)
 
 //check out section
 user_route.get('/checkout',auth.isLogin,checkoutController.loadCheckout)
-user_route.post('/placeOrder', auth.isLogin, checkoutController.placeOrder);
-user_route.post('/updateOrderStatus/:orderId', auth.isLogin,checkoutController.updateOrderStatus);
-user_route.post('/verifyPayment', auth.isLogin,checkoutController.verifyPayment);
-user_route.post('/payment-failed', auth.isLogin, checkoutController.paymentFailure)
-user_route.get('/orderSummary', auth.isLogin,auth.isLogin, checkoutController.loadOrderSummary);
 user_route.post('/applyCoupon', auth.isLogin,checkoutController.applyCoupon)
 user_route.post('/removeCoupon', auth.isLogin,checkoutController.removeCoupon)
+
+
+
+user_route.post('/placeOrder', auth.isLogin, orderController.placeOrder);
+user_route.post('/updateOrderStatus/:orderId', auth.isLogin,orderController.updateOrderStatus);
+user_route.get('/orderSummary', auth.isLogin,auth.isLogin, orderController.loadOrderSummary);
+
+
+user_route.post('/verifyPayment', auth.isLogin,paymentController.verifyPayment);
+user_route.post('/payment-failed', auth.isLogin, paymentController.handlePaymentFailure)
 
 
 //wallet 

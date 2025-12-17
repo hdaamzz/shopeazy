@@ -8,7 +8,6 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
     console.log(error);
 })
 const path = require('path');
-const config = require("./config/config");
 const session = require('express-session');
 const userRoute = require('./routes/userRoute');
 const adminRoute = require('./routes/adminRoute');
@@ -21,7 +20,7 @@ app.use('/dashboard-assets', express.static(path.join(__dirname, './public/dashb
 app.use('/lib', express.static(path.join(__dirname, 'public/lib')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(session({
-    secret: config.sessionSecret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
 }));
