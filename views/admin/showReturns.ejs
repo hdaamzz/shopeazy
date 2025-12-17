@@ -431,16 +431,16 @@
                             <tbody>
                                 <% returnRequests.forEach(request => { %>
                                     <tr>
-                                        <td><%= request.order_id.order_id %></td>
-                                        <td><%= request.item.name %></td>
-                                        <td><%= request.user_id.user_name %></td>
+                                        <td><%= request?.order_id?.order_id %></td>
+                                        <td><%= request?.item?.name %></td>
+                                        <td><%= request?.user_id?.user_name %></td>
                                         
-                                        <td><%= request.status %></td>
-                                        <td><%= request.created_at.toLocaleDateString() %></td>
+                                        <td><%= request?.status %></td>
+                                        <td><%= request?.created_at.toLocaleDateString() %></td>
                                         <td>
-                                            <% if (request.status === 'Pending') { %>
+                                            <% if (request?.status === 'Pending') { %>
                                                 <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#responseModal<%= request._id%>">
+                                                data-bs-target="#responseModal<%= request?._id%>">
                                                Respond
                                                 <i class="icon-edit"></i>
                                             </a>
@@ -457,7 +457,7 @@
                     <!-- Response Modal -->
                     <% returnRequests.forEach(request => { %>
 
-                    <div class="modal fade" id="responseModal<%= request._id%>" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="responseModal<%= request?._id%>" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -465,20 +465,20 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="responseForm<%= request._id%>"  data-return-id="<%= request._id %>"  data-order-id="<%= request.order_id.order_id %>" data-item-id="<%= request.item._id %>"  class="response-form">
-                                        <input type="hidden" id="request_id<%= request._id%>" name="request_id">
+                                    <form id="responseForm<%= request?._id%>"  data-return-id="<%= request?._id %>"  data-order-id="<%= request?.order_id?.order_id %>" data-item-id="<%= request?.item?._id %>"  class="response-form">
+                                        <input type="hidden" id="request_id<%= request?._id%>" name="request_id">
                                        
 
                                         <div class="mb-3">
-                                            <label for="status<%= request._id%>" class="form-label">Status</label>
-                                            <select class="form-select" id="status<%= request._id%>" name="status" required>
+                                            <label for="status<%= request?._id%>" class="form-label">Status</label>
+                                            <select class="form-select" id="status<%= request?._id%>" name="status" required>
                                                 <option value="Approved">Approve</option>
                                                 <option value="Rejected">Reject</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="admin_response<%= request._id%>" class="form-label">Response</label>
-                                            <textarea class="form-control" id="admin_response<%= request._id%>" name="admin_response" required></textarea>
+                                            <label for="admin_response<%= request?._id%>" class="form-label">Response</label>
+                                            <textarea class="form-control" id="admin_response<%= request?._id%>" name="admin_response" required></textarea>
                                         </div>
                                     
                                 </div>

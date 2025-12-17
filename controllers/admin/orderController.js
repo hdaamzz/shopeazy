@@ -84,6 +84,7 @@ const updateStatus = async (req, res) => {
         if (!updatedOrder) {
             return res.status(404).json({ success: false, message: 'Order or item not found' });
         }
+        
 
         res.status(200).json({ success: true, message: 'Order status updated successfully', redirectUrl: '/admin/orders' });
     } catch (error) {
@@ -131,6 +132,8 @@ const loadReturnPage = async (req, res) => {
             .populate('user_id')
             .lean();
 
+            // console.log(returnRequests);
+            
        
         returnRequests = returnRequests.map(request => {
             if (request.order_id && request.order_id.items) {
@@ -143,6 +146,9 @@ const loadReturnPage = async (req, res) => {
             }
             return request;
         });
+
+        console.log(returnRequests);
+        
 
         res.render('showReturns', { returnRequests });
     } catch (error) {

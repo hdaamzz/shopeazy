@@ -1,0 +1,132 @@
+ <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="card">
+
+                            <div class="card-datatable table-responsive">
+                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                    <div class="card-header d-flex rounded-0 flex-wrap pb-md-5 pt-5">
+                                        <div class="me-5 pe-5">
+                                            <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input
+                                                        id="search" type="search"
+                                                        class="form-control form-control-sm ms-0"
+                                                        placeholder="Search customer"
+                                                        aria-controls="DataTables_Table_0"></label></div>
+                                        </div>
+                                        <div
+                                            class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                            <div
+                                                class="dt-action-buttons d-flex align-items-start align-items-md-center justify-content-sm-center gap-4 pt-0">
+                                                <div class="dt-buttons btn-group flex-wrap">
+
+                                                    <a href="/admin/addProduct"><button
+                                                            class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light"
+                                                            tabindex="0" aria-controls="DataTables_Table_0"
+                                                            type="button" data-bs-toggle="offcanvas"
+                                                            data-bs-target="#offcanvasEcommerceCategoryList"><span><i
+                                                                    class="ri-add-line me-0 me-sm-1"></i><span
+                                                                    class="d-none d-sm-inline-block">Add
+                                                                    Product</span></button></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="datatables-customers table dataTable no-footer dtr-column"
+                                        id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info"
+                                        style="width: 1043px;">
+                                        <thead>
+                                            <tr>
+
+                                                <th class="sorting sorting_desc" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                    aria-label="Customer: activate to sort column ascending"
+                                                    aria-sort="descending">PRODUCT NAME</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Country: activate to sort column ascending">CATEGORY
+
+                                                </th>
+                                                <th class="text-nowrap sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                    aria-label="Customer Id: activate to sort column ascending">PRICE
+                                                </th>
+                                                <th class="text-nowrap sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                    aria-label="Total Spent: activate to sort column ascending">STATUS
+                                                </th>
+                                                <th class="text-nowrap sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                    aria-label="Total Spent: activate to sort column ascending">ACTION
+                                                </th>
+                                                <th class="text-nowrap sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                    aria-label="Total Spent: activate to sort column ascending">
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if ( 2> 0) { %>
+                                                <% for (let i=0; i < 2; i++) { %>
+                                                    <tr class="odd">
+                                                        <td class="  control" tabindex="0" style="display: none;"></td>
+                                                        <td class="sorting_1">
+                                                            <div
+                                                                class="d-flex justify-content-start align-items-center customer-name">
+                                                                <div class="avatar rounded-3 bg-label-secondary">
+                                                                    <img src=""
+                                                                        alt="Product image" class="rounded-2">
+                                                                </div>
+                                                                <div class="d-flex flex-column"><a href="#"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#previewModal123"
+                                                                        class="text-heading">
+                                                                        <span class="fw-medium text-truncate">
+                                                                            Alamara
+                                                                        </span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="  dt-checkboxes-cell">
+                                                            Sofa
+                                                        </td>
+                                                        <td class="  dt-checkboxes-cell">
+                                                            10000
+                                                        </td>
+                                                        <td><span class="text-heading">
+                                                                <% if(true) { %>
+                                                                    LISTED
+                                                                    <% } else { %>
+                                                                        UNLISTED
+                                                                        <% } %>
+                                                            </span></td>
+                                                        <td>
+                                                            <div
+                                                                class="d-flex justify-content-start align-items-center customer-country">
+                                                                <div>
+                                                                    <span>
+                                                                        <button id="redirectButton" type="button" class="btn btn-primary edit-button" data-id="product_id"
+                                                                            data-bs-toggle="modal">  
+                                                                            EDIT
+                                                                        </button> </span>
+                                                                        
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td><span></span></td>
+                                                        <td>
+                                                            <h6 class="mb-0"></h6>
+                                                           
+                                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row mx-1 d-flex justify-content-center pt-4">
+                                        <div class="col-sm-12 col-md-6 d-flex justify-content-center">
+                                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="width: 1%;"></div>
+                                </div>
+                            </div>
+                        </div>
