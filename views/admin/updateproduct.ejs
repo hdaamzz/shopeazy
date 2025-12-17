@@ -581,8 +581,8 @@
                                                     <option value="">Select Category</option>
                                                     <% if (typeof category !== "undefined" && category.length > 0) { %>
                                                         <% for (let i = 0; i < category.length; i++) { %>
-                                                            <option value="<%= category[i]._id %>" <%= (productData.category._id.toString() === category[i]._id.toString()) ? 'selected' : '' %>>
-                                                                <%= category[i].category_name %>
+                                                            <option value="<%= category[i]?._id %>" <%= (productData.category?._id.toString() === category[i]?._id.toString()) ? 'selected' : '' %>>
+                                                                <%= category[i]?.category_name %>
                                                             </option>
                                                         <% } %>
                                                     <% } else { %>
