@@ -35,7 +35,8 @@ const getCommonHomeData = () =>
 const loadMain = async (req, res) => {
   try {
     const [category, product, offers] = await getCommonHomeData();
-    res.render('userHome', { product, category, offers });
+    const userData=null,cartItems=[];
+    res.render('userHome', {userData,cartItems, product, category, offers });
   } catch (error) {
     console.error(error.message);
     res.status(HTTP_STATUS.SERVER_ERROR).send('Server error');

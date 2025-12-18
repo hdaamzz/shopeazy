@@ -1,611 +1,498 @@
 <%- include('../layouts/header.ejs') %>
 
-    <body>
-        <div class="page-wrapper">
-            <header class="header">
-                <div class="header-top">
-                    <div class="container mb-lg-2 pt-lg-2 pb-lg-2 mb-sm-0 pt-sm-0 pb-sm-0">
-                        <div class="header-left">
-                            <a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a>
-                        </div><!-- End .header-left -->
+<style>
+  .top-nav-bar {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
 
-                        <div class="header-right">
+  .top-nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
 
-                            <ul class="top-menu">
-                                <li>
-                                    <a href="#">Links</a>
-                                    <% if(typeof userData=='undefined' ){ %>
-                                        <ul>
-                                            <li><a href="#signin-modal" data-toggle="modal">Sign in / Sign up</a></li>
-                                        </ul>
-                                        <% } else {%>
-                                            <ul>
-                                                <li><a href="/logout" ">Log out</a></li>
-                                    <li><a href="/dashboard" data-toggle="modal">
-                                                        <%= userData.user_name %>
-                                                    </a></li>
-                                            </ul>
-                                            <% } %>
-                                </li>
-                            </ul><!-- End .top-menu -->
-                        </div><!-- End .header-right -->
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
 
-                    </div><!-- End .container -->
-                </div><!-- End .header-top -->
+  .nav-logo img {
+    height: 35px;
+  }
 
-                <div class="header-middle sticky-header">
-                    <div class="container">
-                        <div class="header-left">
-                            <button class="mobile-menu-toggler">
-                                <span class="sr-only">Toggle mobile menu</span>
-                                <i class="icon-bars"></i>
-                            </button>
+  .nav-icons {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
 
-                            <a href="/" class="logo">
-                                <img src="assets/newimages/logo.png" alt="Shoeazy Logo" width="150" height="25">
-                            </a>
-                        </div><!-- End .header-left -->
+  .nav-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+  }
 
-                        <div class="header-right">
-                            <div class="header-search">
-                                <a href="#" class="search-toggle" role="button" title="Search"><i
-                                        class="icon-search"></i></a>
-                                <form action="#" method="get">
-                                    <div class="header-search-wrapper">
-                                        <label for="q" class="sr-only">Search</label>
-                                        <input type="search" class="form-control" name="q" id="q"
-                                            placeholder="Search in..." required>
-                                    </div><!-- End .header-search-wrapper -->
-                                </form>
-                            </div><!-- End .header-search -->
-                            <div class="dropdown compare-dropdown">
+  .nav-icon-item:hover {
+    color: #111827;
+    transform: translateY(-2px);
+  }
 
+  .nav-icon-wrapper {
+    position: relative;
+    font-size: 24px;
+  }
 
+  .nav-icon-label {
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
 
-                            </div><!-- End .compare-dropdown -->
+  body {
+    background: #f5f5f7;
+  }
 
-                            <div class="header-right">
-    
-    
-    
-    
-    
-                                <div class="dropdown cart-dropdown">
-                                    <a href="/cart" class=" dropdown-toggle">
-    
-                                        
-                                        <div class="icon">
-                                            <i class="icon-shopping-cart"></i>
-                                            
-                                        </div>
-                                    </a>
-    
-                                </div><!-- End .header-right -->
-                    </div><!-- End .container -->
-                </div><!-- End .header-middle -->
-            </header><!-- End .header -->
+    .page-header {
+    background: linear-gradient(135deg, #ffffff 0%, #fafafa 50%, #f5f5f5 100%);
+    border-bottom: 2px solid #e5e7eb;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 60px 20px;
+    text-align: center;
+    }
 
-            <main class="main">
-                <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-                    <div class="container">
-                        <h1 class="page-title">
-                            <%=categoryData.category_name%><span>Shop</span>
-                        </h1>
-                    </div><!-- End .container -->
-                </div><!-- End .page-header -->
-                <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
-                    <div class="container">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">
-                                    <%=categoryData.category_name%>
-                                </a></li>
+    .page-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+    color: #111827;
+    }
 
+  .breadcrumb-nav {
+    background: white;
+    padding: 15px 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
 
-                        </ol>
-                    </div><!-- End .container -->
-                </nav><!-- End .breadcrumb-nav -->
+  .products-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
 
-                <div class="page-content">
-                    <div class="container">
-                        <div class="toolbox">
-                            
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
 
-                            <div class="toolbox-center">
-                                <div class="toolbox-info">
-                                    <!-- Showing <span>12 of 56</span> Products -->
-                                </div><!-- End .toolbox-info -->
-                            </div><!-- End .toolbox-center -->
+  .product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+    position: relative;
+  }
 
-                            <div class="toolbox-right">
-                                <!-- <div class="toolbox-sort">
-        						<label for="sortby">Sort by:</label>
-        						<div class="select-custom">
-									<select name="sortby" id="sortby" class="form-control">
-										<option value="popularity" selected="selected">Most Popular</option>
-										<option value="rating">Most Rated</option>
-										<option value="date">Date</option>
-									</select>
-								</div>
-        					</div> -->
-                            </div><!-- End .toolbox-right -->
-                        </div><!-- End .toolbox -->
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
 
-                        <div class="products">
-                            <div class="row">
+  .product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding-top: 100%;
+  }
 
+  .product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
+  .discount-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #dc2626;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 12px;
+    z-index: 10;
+  }
 
-                                <% for(let i=0;i<productData.length;i++){ %>
-                                    <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                        <div class="product">
-                                            <figure class="product-media">
-                                                <% 
-                                                let bestDiscount = 0;
-                                                let hasDiscount = false;
-                                                let discountedPrice =productData[i].price;
-                                            
-                                                
-                                                offers.forEach((item) => {
-                                                    if (item.type === 'PRODUCT') {
-                                                        item.products.forEach((Product) => {
-                                                            if (String(productData[i]._id) === String(Product._id)) {
-                                                                if (item.discount > bestDiscount) {
-                                                                    bestDiscount = item.discount;
-                                                                    hasDiscount = true;
-                                                                    discountedPrice =productData[i].price * (1 - bestDiscount / 100);
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            
-                                                // Check for category offers
-                                                offers.forEach((item) => {
-                                                    if (item.type === 'CATEGORY') {
-                                                        const categoryMatch = item.category.some(category => 
-                                                            String(productData[i].category) === String(category)
-                                                        );
-                                                        
-                                                        if (categoryMatch && item.discount > bestDiscount) {
-                                                            bestDiscount = item.discount;
-                                                            hasDiscount = true;
-                                                            discountedPrice =productData[i].price * (1 - bestDiscount / 100);
-                                                        }
-                                                    }
-                                                });
-                                      
-                                                if (hasDiscount) { 
-                                              %>
-                                                <span class="product-label label-circle label-sale"><%= bestDiscount %>% OFF</span>
-                                              <% } %>
-                                                <a href="/showProduct?id=<%= productData[i]._id %>">
-                                                    <img src="/uploads/<%= productData[i].images[0]%>"
-                                                        alt="Product image" class="product-image">
-                                                </a>
+  .wishlist-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+  }
 
-                                                <div class="product-action-vertical">
-                                                    <% if(typeof userData !=='undefined' ){ %>
-                                                        <button class="btn-product-icon btn-wishlist" title="Add to wishlist" data-product-id="<%= productData?.[i]?._id %>"  data-user-id="<%= userData._id %>"></button>
-                                                    <%}%>
-                                                </div><!-- End .product-action -->
+  .wishlist-btn:hover {
+    background: #111827;
+    color: white;
+  }
 
-                                                <div class="product-action action-icon-top">
-                                                   <% if(productData[i].stock != 0){%>
-                                                    <% if(typeof userData=='undefined' ){ %>
-                                                        <span class="btn-product text-danger">NO LOGGED</span>
-                                                        <%} else {%>
-                                                            <button class="btn-add-to-cart btn-product btn-primary " data-product-id="<%= productData?.[i]?._id %>"  data-user-id="<%= userData._id %>" >Add to Cart</button>
-                                                            <%}%>
-                                                        <%} else {%>
-                                                            <span class="text-danger btn-product">Out of stock</span>
-                                                            <%}%>
+  .product-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 20px 15px 15px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
 
-                                                </div><!-- End .product-action -->
-                                            </figure><!-- End .product-media -->
+  .product-card:hover .product-actions {
+    transform: translateY(0);
+  }
 
-                                            <div class="product-body">
-                                                <div class="product-cat">
-                                                    <!-- <a href="#">Women</a> -->
-                                                </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a
-                                                        href="/showProduct?id=<%= productData[i]._id %>">
-                                                        <%= productData[i].product_name %>
-                                                    </a></h3><!-- End .product-title -->
-                                                <div class="product-price">
-                                                    <% if (hasDiscount) { %>
-                                                        <span class="new-price">₹<%= discountedPrice.toFixed(2) %></span>
-                                                        <span class="old-price text-primary" style="color:#16a8e6;"><s>₹<%= productData[i].price.toFixed(2) %></s></span>
-                                                    <% } else { %>
-                                                        ₹<%= productData[i].price.toFixed(2) %>
-                                                    <% } %>
-                                                </div><!-- End .product-price -->
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 0%;"></div>
-                                                        <!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                    <span class="ratings-text">( 0 Reviews )</span>
-                                                </div><!-- End .rating-container -->
+  .btn-add-cart {
+    width: 100%;
+    padding: 10px;
+    background: white;
+    color: #111827;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
 
-                                                <!-- <div class="product-nav product-nav-dots">
-                                            <a href="#" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" class="active" style="background: #ebebeb;"><span class="sr-only">Color name</span></a>
-                                        </div> -->
-                                            </div><!-- End .product-body -->
-                                        </div><!-- End .product -->
-                                    </div>
-                                    <%}%><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+  .btn-add-cart:hover {
+    background: #111827;
+    color: white;
+  }
 
+  .btn-add-cart.out-of-stock {
+    background: #fee2e2;
+    color: #dc2626;
+    cursor: not-allowed;
+  }
 
+  .product-info {
+    padding: 15px;
+  }
 
+  .product-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
-                            </div><!-- End .row -->
+  .product-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+  }
 
-                            <div class="load-more-container text-center">
-                                <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i
-                                        class="icon-refresh"></i></a>
-                            </div><!-- End .load-more-container -->
-                        </div><!-- End .products -->
+  .old-price {
+    font-size: 14px;
+    color: #9ca3af;
+    text-decoration: line-through;
+    margin-left: 8px;
+  }
 
-                        <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
-                       
-                    </div><!-- End .container -->
-                </div><!-- End .page-content -->
-            </main><!-- End .main -->
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+  }
 
-            <footer class="footer">
-                <div class="footer-middle">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget widget-about">
-                                    <img src="assets/newimages/logo.png" class="footer-logo" alt="Footer Logo"
-                                        width="105" height="25">
-                                    <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
-                                        vulputate magna eros eu erat. </p>
+  .empty-state i {
+    font-size: 80px;
+    color: #d1d5db;
+    margin-bottom: 20px;
+  }
 
-                                    <div class="social-icons">
-                                        <a href="#" class="social-icon" target="_blank" title="Facebook"><i
-                                                class="icon-facebook-f"></i></a>
-                                        <a href="#" class="social-icon" target="_blank" title="Twitter"><i
-                                                class="icon-twitter"></i></a>
-                                        <a href="#" class="social-icon" target="_blank" title="Instagram"><i
-                                                class="icon-instagram"></i></a>
-                                        <a href="#" class="social-icon" target="_blank" title="Youtube"><i
-                                                class="icon-youtube"></i></a>
-                                        <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
-                                                class="icon-pinterest"></i></a>
-                                    </div><!-- End .soial-icons -->
-                                </div><!-- End .widget about-widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+  .empty-state h3 {
+    font-size: 24px;
+    color: #6b7280;
+    margin-bottom: 10px;
+  }
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+  @media (max-width: 768px) {
+    .nav-logo img {
+      height: 28px;
+    }
 
-                                    <ul class="widget-list">
-                                        <li><a href="about.html">About Molla</a></li>
-                                        <li><a href="#">How to shop on Molla</a></li>
-                                        <li><a href="#">FAQ</a></li>
-                                        <li><a href="contact.html">Contact us</a></li>
-                                        <li><a href="login.html">Log in</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+    .nav-icon-label {
+      display: none;
+    }
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+    .page-title {
+      font-size: 28px;
+    }
 
-                                    <ul class="widget-list">
-                                        <li><a href="#">Payment Methods</a></li>
-                                        <li><a href="#">Money-back guarantee!</a></li>
-                                        <li><a href="#">Returns</a></li>
-                                        <li><a href="#">Shipping</a></li>
-                                        <li><a href="#">Terms and conditions</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+  }
+</style>
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+<!-- Top Navigation -->
+<nav class="top-nav-bar">
+  <div class="top-nav-container">
+    <a href="/" class="nav-logo">
+      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+    </a>
 
-                                    <ul class="widget-list">
-                                        <li><a href="#">Sign In</a></li>
-                                        <li><a href="cart.html">View Cart</a></li>
-                                        <li><a href="#">My Wishlist</a></li>
-                                        <li><a href="#">Track My Order</a></li>
-                                        <li><a href="#">Help</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .container -->
-                </div><!-- End .footer-middle -->
+    <div class="nav-icons">
+      <a href="/wallet" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <span class="nav-icon-label">Wallet</span>
+      </a>
 
-                <div class="footer-bottom">
-                    <div class="container">
-                        <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
-                        <!-- End .footer-copyright -->
-                        <figure class="footer-payments">
-                            <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
-                        </figure><!-- End .footer-payments -->
-                    </div><!-- End .container -->
-                </div><!-- End .footer-bottom -->
-            </footer><!-- End .footer -->
-        </div><!-- End .page-wrapper -->
-        <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+      <a href="/wishlist" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-heart-o"></i>
+        </div>
+        <span class="nav-icon-label">Wishlist</span>
+      </a>
 
-        <!-- Mobile Menu -->
-        <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+      <a href="/cart" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-shopping-cart"></i>
+        </div>
+        <span class="nav-icon-label">Cart</span>
+      </a>
+    </div>
+  </div>
+</nav>
 
-        <div class="mobile-menu-container">
-            <div class="mobile-menu-wrapper">
-                <span class="mobile-menu-close"><i class="icon-close"></i></span>
+<!-- Page Header -->
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title"><%= categoryData.category_name %></h1>
+  </div>
+</div>
 
-                <nav class="mobile-nav">
-                    <ul class="mobile-menu">
-                        <li class="active">
-                            <a href="#">Category</a>
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="breadcrumb-nav">
+  <div class="container">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active"><%= categoryData.category_name %></li>
+    </ol>
+  </div>
+</nav>
 
-                        </li>
-                        <li>
-                            <a href="/">Home</a>  
-                        </li>
-                        <li>
-                            <a href="/shop">Shop</a>  
-                        </li>
-                        <li>
-                            <a href="/wishlist">Wishlist</a>  
-                        </li>
-                        <li>
-                            <a href="/cart">Cart</a>  
-                        </li>
-                        <li>
-                            <a href="/dashboard">My Account</a>  
-                        </li>
-                        <li>
-                            <a href="/wallet">Wallet</a>  
-                        </li>
-                    </ul>
-                </nav>
-
-                <div class="social-icons">
-                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-                </div><!-- End .social-icons -->
-            </div><!-- End .mobile-menu-wrapper -->
-        </div><!-- End .mobile-menu-container -->
-
-        <!-- Sign in / Register Modal -->
-        <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i class="icon-close"></i></span>
-                        </button>
-
-                        <div class="form-box">
-                            <div class="form-tab">
-                                <ul class="nav nav-pills nav-fill" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin"
-                                            role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register"
-                                            role="tab" aria-controls="register" aria-selected="false">Register</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="tab-content-5">
-                                    <div class="tab-pane fade show active" id="signin" role="tabpanel"
-                                        aria-labelledby="signin-tab">
-                                        <form action="#">
-                                            <div class="form-group">
-                                                <label for="singin-email">Username or email address *</label>
-                                                <input type="text" class="form-control" id="singin-email"
-                                                    name="singin-email" required>
-                                            </div><!-- End .form-group -->
-
-                                            <div class="form-group">
-                                                <label for="singin-password">Password *</label>
-                                                <input type="password" class="form-control" id="singin-password"
-                                                    name="singin-password" required>
-                                            </div><!-- End .form-group -->
-
-                                            <div class="form-footer">
-                                                <button type="submit" class="btn btn-outline-primary-2">
-                                                    <span>LOG IN</span>
-                                                    <i class="icon-long-arrow-right"></i>
-                                                </button>
-
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="signin-remember">
-                                                    <label class="custom-control-label" for="signin-remember">Remember
-                                                        Me</label>
-                                                </div><!-- End .custom-checkbox -->
-
-                                                <a href="#" class="forgot-link">Forgot Your Password?</a>
-                                            </div><!-- End .form-footer -->
-                                        </form>
-                                        <div class="form-choice">
-                                            <p class="text-center">or sign in with</p>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <a href="#" class="btn btn-login btn-g">
-                                                        <i class="icon-google"></i>
-                                                        Login With Google
-                                                    </a>
-                                                </div><!-- End .col-6 -->
-                                                <div class="col-sm-6">
-                                                    <a href="#" class="btn btn-login btn-f">
-                                                        <i class="icon-facebook-f"></i>
-                                                        Login With Facebook
-                                                    </a>
-                                                </div><!-- End .col-6 -->
-                                            </div><!-- End .row -->
-                                        </div><!-- End .form-choice -->
-                                    </div><!-- .End .tab-pane -->
-                                    <div class="tab-pane fade" id="register" role="tabpanel"
-                                        aria-labelledby="register-tab">
-                                        <form action="#">
-                                            <div class="form-group">
-                                                <label for="register-email">Your email address *</label>
-                                                <input type="email" class="form-control" id="register-email"
-                                                    name="register-email" required>
-                                            </div><!-- End .form-group -->
-
-                                            <div class="form-group">
-                                                <label for="register-password">Password *</label>
-                                                <input type="password" class="form-control" id="register-password"
-                                                    name="register-password" required>
-                                            </div><!-- End .form-group -->
-
-                                            <div class="form-footer">
-                                                <button type="submit" class="btn btn-outline-primary-2">
-                                                    <span>SIGN UP</span>
-                                                    <i class="icon-long-arrow-right"></i>
-                                                </button>
-
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="register-policy" required>
-                                                    <label class="custom-control-label" for="register-policy">I agree to
-                                                        the <a href="#">privacy policy</a> *</label>
-                                                </div><!-- End .custom-checkbox -->
-                                            </div><!-- End .form-footer -->
-                                        </form>
-                                        <div class="form-choice">
-                                            <p class="text-center">or sign in with</p>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <a href="#" class="btn btn-login btn-g">
-                                                        <i class="icon-google"></i>
-                                                        Login With Google
-                                                    </a>
-                                                </div><!-- End .col-6 -->
-                                                <div class="col-sm-6">
-                                                    <a href="#" class="btn btn-login  btn-f">
-                                                        <i class="icon-facebook-f"></i>
-                                                        Login With Facebook
-                                                    </a>
-                                                </div><!-- End .col-6 -->
-                                            </div><!-- End .row -->
-                                        </div><!-- End .form-choice -->
-                                    </div><!-- .End .tab-pane -->
-                                </div><!-- End .tab-content -->
-                            </div><!-- End .form-tab -->
-                        </div><!-- End .form-box -->
-                    </div><!-- End .modal-body -->
-                </div><!-- End .modal-content -->
-            </div><!-- End .modal-dialog -->
-        </div><!-- End .modal -->
-
-        <script>
-            document.querySelectorAll('.btn-product-icon').forEach(button => {
-            button.addEventListener('click',async function() {
-                const productId = this.getAttribute('data-product-id');
-                const userId = this.getAttribute('data-user-id');
-                try {
-                   await fetch('/addWishlistItem', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ productId,userId}),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: "Product Added To Wishlist",
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        })
-                    } else {
-                        Swal.fire({
-                            title: 'info',
-                            text: data.message,
-                            icon: 'info',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
-                } catch (error) {
-                    console.log(error.message);
-                }
-                
+<!-- Products -->
+<div class="products-container">
+  <% if (productData && productData.length > 0) { %>
+    <div class="product-grid">
+      <% productData.forEach(product => { 
+        let bestDiscount = 0;
+        let hasDiscount = false;
+        let discountedPrice = product.price;
+        
+        // Check product offers
+        offers.forEach((item) => {
+          if (item.type === 'PRODUCT') {
+            item.products.forEach((Product) => {
+              if (String(product._id) === String(Product._id) && item.discount > bestDiscount) {
+                bestDiscount = item.discount;
+                hasDiscount = true;
+                discountedPrice = product.price * (1 - bestDiscount / 100);
+              }
             });
-            });
+          }
+        });
+        
+        // Check category offers
+        offers.forEach((item) => {
+          if (item.type === 'CATEGORY') {
+            const categoryMatch = item.category.some(category => 
+              String(product.category) === String(category)
+            );
+            if (categoryMatch && item.discount > bestDiscount) {
+              bestDiscount = item.discount;
+              hasDiscount = true;
+              discountedPrice = product.price * (1 - bestDiscount / 100);
+            }
+          }
+        });
+      %>
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <a href="/showProduct?id=<%= product._id %>">
+              <img src="/uploads/<%= product.images[0] %>" alt="<%= product.product_name %>" class="product-image">
+            </a>
+            
+            <% if (hasDiscount) { %>
+              <div class="discount-badge"><%= bestDiscount %>% OFF</div>
+            <% } %>
+            
+            <% if (typeof userData !== 'undefined') { %>
+              <button class="wishlist-btn btn-wishlist" data-product-id="<%= product._id %>" data-user-id="<%= userData._id %>">
+                <i class="icon-heart-o"></i>
+              </button>
+            <% } %>
+            
+            <div class="product-actions">
+              <% if (product.stock === 0) { %>
+                <button class="btn-add-cart out-of-stock">Out of Stock</button>
+              <% } else if (typeof userData === 'undefined') { %>
+                <a href="/login" class="btn-add-cart" style="display: block; text-align: center; text-decoration: none;">Login to Buy</a>
+              <% } else { %>
+                <button class="btn-add-cart btn-add-to-cart" data-product-id="<%= product._id %>" data-user-id="<%= userData._id %>">
+                  Add to Cart
+                </button>
+              <% } %>
+            </div>
+          </div>
 
+          <div class="product-info">
+            <h3 class="product-name">
+              <a href="/showProduct?id=<%= product._id %>" style="text-decoration: none; color: inherit;">
+                <%= product.product_name %>
+              </a>
+            </h3>
+            <div class="product-price">
+              <% if (hasDiscount) { %>
+                ₹<%= discountedPrice.toFixed(2) %>
+                <span class="old-price">₹<%= product.price.toFixed(2) %></span>
+              <% } else { %>
+                ₹<%= product.price.toFixed(2) %>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <div class="empty-state">
+      <i class="icon-shopping-bag"></i>
+      <h3>No Products Found</h3>
+      <p>There are no products in this category yet.</p>
+    </div>
+  <% } %>
+</div>
 
+<!-- Scripts -->
+<script>
+  // Add to Wishlist
+  document.querySelectorAll('.btn-wishlist').forEach(button => {
+    button.addEventListener('click', async function() {
+      const productId = this.getAttribute('data-product-id');
+      const userId = this.getAttribute('data-user-id');
 
-        </script>
+      try {
+        const response = await fetch('/addWishlistItem', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId, userId })
+        });
 
-        <script>
-            document.querySelectorAll('.btn-add-to-cart').forEach(button => {
-            button.addEventListener('click',async function() {
-                const productId = this.getAttribute('data-product-id');
-                const userId = this.getAttribute('data-user-id');
-                const quantity = 1; 
-                try {
-                   await fetch('/addCartItem', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ productId, quantity ,userId}),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: "Product Added To Cart",
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        })
-                    } else {
-                        Swal.fire({
-                            title: 'info',
-                            text: data.message,
-                            icon: 'info',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
-                } catch (error) {
-                    console.log(error.message);
-                }
-                
-            });
-            });
+        const data = await response.json();
 
+        if (data.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Added to Wishlist!',
+            text: 'Product added to your wishlist',
+            confirmButtonColor: '#111827',
+            timer: 2000
+          });
+        } else {
+          Swal.fire({
+            icon: 'info',
+            title: 'Info',
+            text: data.message,
+            confirmButtonColor: '#111827'
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to add to wishlist',
+          confirmButtonColor: '#111827'
+        });
+      }
+    });
+  });
 
+  // Add to Cart
+  document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+    button.addEventListener('click', async function() {
+      const productId = this.getAttribute('data-product-id');
+      const userId = this.getAttribute('data-user-id');
+      const quantity = 1;
 
-        </script>
-        <!-- Plugins JS File -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/jquery.hoverIntent.min.js"></script>
-        <script src="assets/js/jquery.waypoints.min.js"></script>
-        <script src="assets/js/superfish.min.js"></script>
-        <script src="assets/js/owl.carousel.min.js"></script>
-        <script src="assets/js/wNumb.js"></script>
-        <script src="assets/js/bootstrap-input-spinner.js"></script>
-        <script src="assets/js/jquery.magnific-popup.min.js"></script>
-        <script src="assets/js/nouislider.min.js"></script>
-        <!-- Main JS File -->
-        <script src="assets/js/main.js"></script>
-    </body>
+      try {
+        const response = await fetch('/addCartItem', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId, quantity, userId })
+        });
 
-    <%- include('../layouts/footer.ejs') %>
-        <!-- molla/category-boxed.html  22 Nov 2019 10:03:02 GMT -->
+        const data = await response.json();
+
+        if (data.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Added to Cart!',
+            text: 'Product added to your cart',
+            confirmButtonColor: '#111827',
+            timer: 2000
+          });
+        } else {
+          Swal.fire({
+            icon: 'info',
+            title: 'Info',
+            text: data.message,
+            confirmButtonColor: '#111827'
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to add to cart',
+          confirmButtonColor: '#111827'
+        });
+      }
+    });
+  });
+</script>
+
+<%- include('../layouts/footer.ejs') %>

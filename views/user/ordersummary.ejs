@@ -1,311 +1,489 @@
 <%- include('../layouts/header.ejs') %>
 
-    <body>
-        <div class="page-wrapper">
-            <header class="header">
-                <div class="header-top">
-                    <div class="container mb-lg-2 pt-lg-2 pb-lg-2 mb-sm-0 pt-sm-0 pb-sm-0">
-                        <div class="header-left">
-                        </div><!-- End .header-left -->
+<style>
+  .top-nav-bar {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
 
-                        <div class="header-right">
-                            <ul class="top-menu">
-                                <!-- <li>
-                            <a href="#">Links</a>
-                            <ul>
-                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
-                            </ul>
-                        </li> -->
-                            </ul><!-- End .top-menu -->
-                        </div><!-- End .header-right -->
-                    </div><!-- End .container -->
-                </div><!-- End .header-top -->
+  .top-nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
 
-                <div class="header-middle sticky-header">
-                    <div class="container">
-                        <div class="header-left">
-                            <button class="mobile-menu-toggler">
-                                <span class="sr-only">Toggle mobile menu</span>
-                                <i class="icon-bars"></i>
-                            </button>
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
 
-                            <a href="/" class="logo">
-                                <img src="assets/newimages/logo.png" alt="shopEazy Logo" width="105" height="25">
-                            </a>
+  .nav-logo img {
+    height: 35px;
+  }
 
-                            <nav class="main-nav">
-                                <ul class="menu sf-arrows">
-                                    <li class="megamenu-container active">
-                                        <a href="/" class="sf-with-ul">Home</a>
+  .nav-icons {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
 
+  .nav-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+    position: relative;
+  }
 
-                                    </li>
-                                    <li>
-                                        <a href="category.html" class="sf-with-ul">Shop</a>
+  .nav-icon-item:hover {
+    color: #111827;
+    transform: translateY(-2px);
+  }
 
-                                        
-                                    </li>
-                                </ul><!-- End .menu -->
-                            </nav><!-- End .main-nav -->
-                        </div><!-- End .header-left -->
+  .nav-icon-wrapper {
+    position: relative;
+    font-size: 24px;
+  }
 
+  .nav-icon-label {
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
 
+  body {
+    background: #f5f5f7;
+  }
 
-                        <div class="header-right">
-                            <div class="header-search">
-                                <a href="#" class="search-toggle" role="button" title="Search"><i
-                                        class="icon-search"></i></a>
-                                <form action="#" method="get">
-                                    <div class="header-search-wrapper">
-                                        <label for="q" class="sr-only">Search</label>
-                                        <input type="search" class="form-control" name="q" id="q"
-                                            placeholder="Search in..." required>
-                                    </div><!-- End .header-search-wrapper -->
-                                </form>
-                            </div><!-- End .header-search -->
+  .success-banner {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    margin-bottom: 30px;
+  }
 
+  .success-banner i {
+    font-size: 64px;
+    margin-bottom: 15px;
+    animation: scaleIn 0.5s ease-out;
+  }
 
+  @keyframes scaleIn {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 
+  .success-banner h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+  }
 
+  .success-banner p {
+    margin: 10px 0 0;
+    opacity: 0.9;
+  }
 
-                        </div><!-- End .header-right -->
-                    </div><!-- End .container -->
-                </div><!-- End .header-middle -->
-            </header><!-- End .header -->
-           
+  .order-summary-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
 
-                    <main class="main">
-                    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-                        <div class="container">
-                        <h1 class="page-title">Order Summary</h1>
-                        </div>
-                    </div>
+  .order-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+  }
 
-                    <div class="page-content">
-                        <div class="container order-summary-container">
-                            <div class="order-summary">
-                                <div class="order-details">
-                                    <div class="order-info">
-                                        <h5 class="mb-3">Order Details</h5>
-                                        <p><strong>Order ID:</strong> #<%= order?.order_id %></p>
-                                        <p><strong>Total Amount:</strong> ₹ <%= order.total_amount.toFixed(2) %></p>
-                                        <p><strong>Discount:</strong> ₹<%= order?.discount %></p>
-                                        <p><strong>Payment Status:</strong> <%= order.payment_status %></p>
-                                        <p><strong>Ordered Date:</strong> <%= 
-                                            new Date(order.created_at).toLocaleDateString("en-US", {
-                                              year: "numeric",
-                                              month: "long",
-                                              day: "numeric",
-                                              hour: "2-digit",
-                                              minute: "2-digit"
-                                            }) 
-                                          %></p>
-                                        <p><strong>Estimated Dispatch Date:</strong> 
-                                            <%= 
-                                            new Date(order.created_at.getTime() + 2*24*60*60*1000).toLocaleDateString("en-US", {
-                                              year: "numeric",
-                                              month: "long",
-                                              day: "numeric",
-                                            }) 
-                                          %>
-                                          </p>
+  .order-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f3f4f6;
+  }
 
-                                    </div>
-                                <div class="address-details">
-                                        <p><strong>Ship to:</strong> <%= order.address_id.name %></p>
-                                        <p><strong>Delivery Address:</strong><br>
-                                            <%= order.address_id.address %>, <br>
-                                            <%= order.address_id.town_city %>,<br><%= order.address_id.pin_code %> <br>
-                                             <%= order.address_id.state %> <br>
-                                             <%= order.address_id.phone_number %>
-                                        </p>
-                                    </div>
-                                </div>
-                                <h3 class="mt-4 mb-3">Products</h3>
-                                <table class="table table-striped table-bordered">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th></th>
-                                            <th>Product </th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% order.items.forEach(item => { %>
-                                            <tr>
-                                                <td class="variant-image">
-                                                    <img class="rounded mx-auto d-block" src="uploads/<%= item.product_id.images[0] %>" alt="<%= item.name %>">
-                                                </td>
-                                                <td><%= item.name %></td>
-                                                <td><%= item.quantity %></td>
-                                                <td>₹<%= item.price.toFixed(2) %></td>
-                                                <td>₹<%= item.total.toFixed(2) %></td>
-                                            </tr>
-                                        <% }); %>
-                                    </tbody>
-                                </table>
-                                <div class="order-summary-footer">
-                                    <div class="row">
-                                        <div class="col-md-12 text-right"> 
-                                            <% let subtot = order.total_amount + order?.discount  %>
-                                            <h6>Subtotal: <span>₹<%= (subtot.toFixed(2)) %></span></h6>
-                                            <h6>Discount: <span>- ₹<%= order?.discount %></span></h6>
-                                            <h6>Shipping Charge: <span>Free Delivery</span></h6>
-                                            <h5 class="mt-4">Grand Total: <span>₹<%= order.total_amount.toFixed(2) %></span></h5>
-                                        </div>
-                                    </div>
-                                </div>
-            
-                                <div class="text-center mt-4">
-                                    <a href="/shop" class="btn btn-primary btn-lg mr-2">Continue Shopping</a>
-                                    <!-- <a href="/download-invoice/<%= order._id %>" class="btn btn-secondary btn-lg">Download Invoice</a> -->
-                                </div>
-                            </div>
-                        </div>  
-                    </div>
-                    </main>
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+  }
 
-            
+  .info-item {
+    display: flex;
+    flex-direction: column;
+  }
 
+  .info-label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
 
+  .info-value {
+    font-size: 15px;
+    color: #111827;
+    font-weight: 500;
+  }
 
-            
-            <footer class="footer">
+  .status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
 
-                <div class="footer-middle">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget widget-about">
-                                    <img src="assets/newimages/logo.png" class="footer-logo" alt="Footer Logo"
-                                        width="150" height="25">
-                                    <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
-                                        vulputate magna eros eu erat. </p>
+  .status-badge.paid {
+    background: #d1fae5;
+    color: #065f46;
+  }
 
-                                    <div class="widget-call">
-                                        <i class="icon-phone"></i>
-                                        Got Question? Call us 24/7
-                                        <a href="tel:#">+0123 456 789</a>
-                                    </div><!-- End .widget-call -->
-                                </div><!-- End .widget about-widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+  .status-badge.pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+  .product-table {
+    width: 100%;
+    margin-bottom: 25px;
+  }
 
-                                    <ul class="widget-list">
-                                        <li><a href="about.html">About shopEazy</a></li>
-                                        <li><a href="#">Our Services</a></li>
-                                        <li><a href="#">How to shop on shopEazy</a></li>
-                                        <li><a href="faq.html">FAQ</a></li>
-                                        <li><a href="contact.html">Contact us</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+  .product-table thead {
+    background: #f9fafb;
+  }
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+  .product-table th {
+    padding: 12px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    border-bottom: 2px solid #e5e7eb;
+  }
 
-                                    <ul class="widget-list">
-                                        <li><a href="#">Payment Methods</a></li>
-                                        <li><a href="#">Money-back guarantee!</a></li>
-                                        <li><a href="#">Returns</a></li>
-                                        <li><a href="#">Shipping</a></li>
-                                        <li><a href="#">Terms and conditions</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
+  .product-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+  }
 
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+  .product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
 
-                                    <ul class="widget-list">
-                                        <li><a href="#">Sign In</a></li>
-                                        <li><a href="cart.html">View Cart</a></li>
-                                        <li><a href="#">My Wishlist</a></li>
-                                        <li><a href="#">Track My Order</a></li>
-                                        <li><a href="#">Help</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .container -->
-                </div><!-- End .footer-middle -->
+  .product-name {
+    font-weight: 500;
+    color: #111827;
+  }
 
-                <div class="footer-bottom">
-                    <div class="container">
-                        <p class="footer-copyright">Copyright © 2024 shopEazy Store. All Rights Reserved.</p>
-                        <!-- End .footer-copyright -->
-                        <figure class="footer-payments">
-                            <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
-                        </figure><!-- End .footer-payments -->
-                    </div><!-- End .container -->
-                </div><!-- End .footer-bottom -->
-            </footer><!-- End .footer -->
-        </div><!-- End .page-wrapper -->
-        <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    font-size: 15px;
+  }
 
-        <!-- Mobile Menu -->
-        <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+  .summary-row.total {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    padding-top: 15px;
+    border-top: 2px solid #e5e7eb;
+    margin-top: 10px;
+  }
 
-        <div class="mobile-menu-container">
-            <div class="mobile-menu-wrapper">
-                <span class="mobile-menu-close"><i class="icon-close"></i></span>
-                <nav class="mobile-nav">
-                    <ul class="mobile-menu">
-                        <li class="active">
-                            <a href="#">Order Summary</a>
+  .summary-row .label {
+    color: #6b7280;
+  }
 
-                        </li>
-                        <li>
-                            <a href="/">Home</a>  
-                        </li>
-                        <li>
-                            <a href="/shop">Shop</a>  
-                        </li>
-                        <li>
-                            <a href="/wishlist">Wishlist</a>  
-                        </li>
-                        <li>
-                            <a href="/cart">Cart</a>  
-                        </li>
-                        <li>
-                            <a href="/dashboard">My Account</a>  
-                        </li>
-                        <li>
-                            <a href="/wallet">Wallet</a>  
-                        </li>
-                    </ul>
-                </nav>
+  .summary-row .value {
+    font-weight: 600;
+    color: #111827;
+  }
 
-                <div class="social-icons">
-                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-                </div><!-- End .social-icons -->
-            </div><!-- End .mobile-menu-wrapper -->
-        </div><!-- End .mobile-menu-container -->
+  .summary-row.discount .value {
+    color: #dc2626;
+  }
 
-        <!-- Sign in / Register Modal -->
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
 
-        <!-- Plugins JS File -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/jquery.hoverIntent.min.js"></script>
-        <script src="assets/js/jquery.waypoints.min.js"></script>
-        <script src="assets/js/superfish.min.js"></script>
-        <script src="assets/js/owl.carousel.min.js"></script>
-        <script src="assets/js/bootstrap-input-spinner.js"></script>
-        <!-- Main JS File -->
-        <script src="assets/js/main.js"></script>
-    </body>
+  .btn-action {
+    padding: 12px 30px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
 
+  .btn-primary-action {
+    background: #111827;
+    color: white;
+    border: 2px solid #111827;
+  }
 
-    <%- include('../layouts/footer.ejs') %>
+  .btn-primary-action:hover {
+    background: #030712;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-secondary-action {
+    background: white;
+    color: #111827;
+    border: 2px solid #e5e7eb;
+  }
+
+  .btn-secondary-action:hover {
+    border-color: #111827;
+    color: #111827;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .nav-logo img {
+      height: 28px;
+    }
+
+    .nav-icon-label {
+      display: none;
+    }
+
+    .success-banner h2 {
+      font-size: 22px;
+    }
+
+    .success-banner i {
+      font-size: 48px;
+    }
+
+    .order-card {
+      padding: 20px;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .product-table {
+      font-size: 13px;
+    }
+
+    .product-img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+
+    .btn-action {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<!-- Top Navigation Bar -->
+<nav class="top-nav-bar">
+  <div class="top-nav-container">
+    <a href="/" class="nav-logo">
+      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+    </a>
+
+    <div class="nav-icons">
+      <a href="/wallet" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <span class="nav-icon-label">Wallet</span>
+      </a>
+
+      <a href="/wishlist" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-heart-o"></i>
+        </div>
+        <span class="nav-icon-label">Wishlist</span>
+      </a>
+
+      <a href="/cart" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-shopping-cart"></i>
+        </div>
+        <span class="nav-icon-label">Cart</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Success Banner -->
+<div class="success-banner">
+  <i class="icon-check-circle"></i>
+  <h2>Order Placed Successfully!</h2>
+  <p>Thank you for your purchase. Your order is being processed.</p>
+</div>
+
+<!-- Order Summary Content -->
+<div class="order-summary-container">
+  <!-- Order Details Card -->
+  <div class="order-card">
+    <h3>Order Details</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">Order ID</span>
+        <span class="info-value">#<%= order?.order_id %></span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Order Date</span>
+        <span class="info-value">
+          <%= new Date(order.created_at).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          }) %>
+        </span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Payment Status</span>
+        <span class="status-badge <%= order.payment_status === 'Paid' ? 'paid' : 'pending' %>">
+          <%= order.payment_status %>
+        </span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Estimated Dispatch</span>
+        <span class="info-value">
+          <%= new Date(order.created_at.getTime() + 2*24*60*60*1000).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          }) %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shipping Address Card -->
+  <div class="order-card">
+    <h3>Shipping Address</h3>
+    <div class="info-item">
+      <span class="info-label">Recipient</span>
+      <span class="info-value"><%= order.address_id.name %></span>
+    </div>
+    <div class="info-item" style="margin-top: 15px;">
+      <span class="info-label">Delivery Address</span>
+      <span class="info-value">
+        <%= order.address_id.address %><br>
+        <%= order.address_id.town_city %>, <%= order.address_id.state %> - <%= order.address_id.pin_code %><br>
+        Phone: <%= order.address_id.phone_number %>
+      </span>
+    </div>
+  </div>
+
+  <!-- Products Card -->
+  <div class="order-card">
+    <h3>Order Items</h3>
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% order.items.forEach(item => { %>
+          <tr>
+            <td>
+              <img src="/uploads/<%= item.product_id.images[0] %>" alt="<%= item.name %>" class="product-img">
+            </td>
+            <td class="product-name"><%= item.name %></td>
+            <td><%= item.quantity %></td>
+            <td>₹<%= item.price.toFixed(2) %></td>
+            <td>₹<%= item.total.toFixed(2) %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <!-- Order Summary -->
+    <div style="max-width: 400px; margin-left: auto;">
+      <% let subtotal = order.total_amount + (order?.discount || 0) %>
+      <div class="summary-row">
+        <span class="label">Subtotal</span>
+        <span class="value">₹<%= subtotal.toFixed(2) %></span>
+      </div>
+      <% if (order?.discount > 0) { %>
+        <div class="summary-row discount">
+          <span class="label">Discount</span>
+          <span class="value">- ₹<%= order.discount.toFixed(2) %></span>
+        </div>
+      <% } %>
+      <div class="summary-row">
+        <span class="label">Shipping</span>
+        <span class="value" style="color: #10b981;">Free</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total Amount</span>
+        <span>₹<%= order.total_amount.toFixed(2) %></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <a href="/shop" class="btn-action btn-primary-action">
+      <i class="icon-shopping-bag"></i>
+      Continue Shopping
+    </a>
+    <a href="/dashboard" class="btn-action btn-secondary-action">
+      <i class="icon-user"></i>
+      View My Orders
+    </a>
+  </div>
+</div>
+
+<%- include('../layouts/footer.ejs') %>

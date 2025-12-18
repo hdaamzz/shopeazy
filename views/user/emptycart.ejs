@@ -1,518 +1,328 @@
-
 <%- include('../layouts/header.ejs') %>
-<body>
-    <div class="page-wrapper">
-        <header class="header">
-            <div class="header-top">
-                <div class="container mt-lg-2 mt-sm-0">
-                    <div class="header-left">
-                    </div><!-- End .header-left -->
 
-                    <div class="header-right">
-                        <ul class="top-menu">
-                            <!-- <li>
-                            <a href="#">Links</a>
-                            <ul>
-                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
-                            </ul>
-                        </li> -->
-                        </ul><!-- End .top-menu -->
-                    </div><!-- End .header-right -->
-                </div><!-- End .container -->
-            </div><!-- End .header-top -->
+<style>
+  .top-nav-bar {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
 
-            <div class="header-middle sticky-header">
-                <div class="container">
-                    <div class="header-left">
-                        <button class="mobile-menu-toggler">
-                            <span class="sr-only">Toggle mobile menu</span>
-                            <i class="icon-bars"></i>
-                        </button>
+  .top-nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
 
-                        <a href="/" class="logo">
-                            <img src="assets/newimages/logo.png" alt="shopEazy Logo" width="105" height="25">
-                        </a>
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
 
-                        <nav class="main-nav">
-                            <ul class="menu sf-arrows">
-                                <li class="megamenu-container active">
-                                    <a href="/" class="sf-with-ul">Home</a>
+  .nav-logo img {
+    height: 35px;
+  }
 
+  .nav-icons {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
 
-                                </li>
-                                <li>
-                                    <a href="category.html" class="sf-with-ul">Shop</a>
+  .nav-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+    position: relative;
+  }
 
-                                    <div class="megamenu megamenu-md">
-                                        <div class="row no-gutters">
-                                            <div class="col-md-8">
-                                                <div class="menu-col">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="menu-title">Shop with sidebar</div>
-                                                            <!-- End .menu-title -->
-                                                            <ul>
-                                                                <li><a href="category-list.html">Shop List</a></li>
-                                                                <li><a href="category-2cols.html">Shop Grid 2
-                                                                        Columns</a></li>
-                                                                <li><a href="category.html">Shop Grid 3 Columns</a>
-                                                                </li>
-                                                                <li><a href="category-4cols.html">Shop Grid 4
-                                                                        Columns</a></li>
-                                                                <li><a href="category-market.html"><span>Shop
-                                                                            Market<span
-                                                                                class="tip tip-new">New</span></span></a>
-                                                                </li>
-                                                            </ul>
+  .nav-icon-item:hover {
+    color: #667eea;
+    transform: translateY(-2px);
+  }
 
-                                                            <div class="menu-title">Shop no sidebar</div>
-                                                            <!-- End .menu-title -->
-                                                            <ul>
-                                                                <li><a href="category-boxed.html"><span>Shop Boxed
-                                                                            No Sidebar<span
-                                                                                class="tip tip-hot">Hot</span></span></a>
-                                                                </li>
-                                                                <li><a href="category-fullwidth.html">Shop Fullwidth
-                                                                        No Sidebar</a></li>
-                                                            </ul>
-                                                        </div><!-- End .col-md-6 -->
+  .nav-icon-wrapper {
+    position: relative;
+    font-size: 24px;
+  }
 
-                                                        <div class="col-md-6">
-                                                            <div class="menu-title">Product Category</div>
-                                                            <!-- End .menu-title -->
-                                                            <ul>
-                                                                <li><a href="product-category-boxed.html">Product
-                                                                        Category Boxed</a></li>
-                                                                <li><a href="product-category-fullwidth.html"><span>Product
-                                                                            Category Fullwidth<span
-                                                                                class="tip tip-new">New</span></span></a>
-                                                                </li>
-                                                            </ul>
-                                                            <div class="menu-title">Shop Pages</div>
-                                                            <!-- End .menu-title -->
-                                                            <ul>
-                                                                <li><a href="cart.html">Cart</a></li>
-                                                                <li><a href="checkout.html">Checkout</a></li>
-                                                                <li><a href="wishlist.html">Wishlist</a></li>
-                                                                <li><a href="#">My Account</a></li>
-                                                            </ul>
-                                                        </div><!-- End .col-md-6 -->
-                                                    </div><!-- End .row -->
-                                                </div><!-- End .menu-col -->
-                                            </div><!-- End .col-md-8 -->
+  .nav-icon-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #667eea;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+  }
 
-                                            <div class="col-md-4">
-                                                <div class="banner banner-overlay">
-                                                    <a href="category.html" class="banner banner-menu">
-                                                        <!-- <img src="assets/images/menu/banner-1.jpg" alt="Banner"> -->
+  .nav-icon-label {
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
 
-                                                        <div class="banner-content banner-content-top">
-                                                            <!-- <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div> -->
-                                                        </div><!-- End .banner-content -->
-                                                    </a>
-                                                </div><!-- End .banner banner-overlay -->
-                                            </div><!-- End .col-md-4 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .megamenu megamenu-md -->
-                                </li>
-                            </ul><!-- End .menu -->
-                        </nav><!-- End .main-nav -->
-                    </div><!-- End .header-left -->
+  .empty-cart-container {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+  }
 
-                    <div class="header-right">
-                        <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i
-                                    class="icon-search"></i></a>
-                            <form action="#" method="get">
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q"
-                                        placeholder="Search in..." required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
+  .empty-cart-content {
+    text-align: center;
+    max-width: 500px;
+  }
 
-                        <!-- <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <i class="icon-shopping-cart"></i>
-                                
-                            </a>
-                        </div> -->
-                    </div><!-- End .header-right -->
-                </div><!-- End .container -->
-            </div><!-- End .header-middle -->
-        </header><!-- End .header -->
+  .empty-cart-icon {
+    font-size: 120px;
+    color: #ddd;
+    margin-bottom: 30px;
+    animation: float 3s ease-in-out infinite;
+  }
 
-        <main class="main">
-        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-        		<div class="container">
-        			<h1 class="page-title">Shopping Cart</h1>
-        		</div><!-- End .container -->
-        	</div><!-- End .page-header -->
-            <nav aria-label="breadcrumb" class="breadcrumb-nav">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <!-- <li class="breadcrumb-item"><a href="#">Shop</a></li> -->
-                        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
-                    </ol>
-                </div><!-- End .container -->
-            </nav><!-- End .breadcrumb-nav -->
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 
-            <div class="page-content">
-            	<div class="cart">
-	                <div class="container">
-	                	<div class="row">
-	                		
-	                			<table class="table table-cart table-mobile">
-                                    <thead>
-                                      <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                    
-                                     
-                                        
-                                     
-                                    </tbody>
-                                    
-                                  </table>
-	                			<div class="cart-bottom">
-			            			<!-- <div class="cart-discount">
-			            				<form action="#">
-			            					<div class="input-group">
-				        						<input type="text" class="form-control" required placeholder="coupon code">
-				        						<div class="input-group-append">
-													<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-												</div>
-			        						</div>
-			            				</form>
-			            			</div> -->
+  .empty-cart-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+  }
 
-			            			
-		            			</div><!-- End .cart-bottom -->
-	                		</div><!-- End .col-lg-9 -->
-	                		<aside class="col-lg-3">
-	                			<div class="summary summary-cart">
-	                				<h3 class="summary-title">Cart Total</h3>
+  .empty-cart-description {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
 
-	                				<table class="table table-summary">
-	                					<tbody>
-	                						<tr class="summary-subtotal">
-	                							<td>Subtotal:</td>
-                                               
-                                                <td>₹<span id="cart-subtotal">0.00</span></td>
-                                                
-	                						</tr><!-- End .summary-subtotal -->
-	                						<tr class="summary-shipping">
-	                							<td>Shipping:</td>
-	                							<td>&nbsp;</td>
-	                						</tr>
+  .empty-cart-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 
-	                						<tr class="summary-shipping-row">
-	                							<td>
-													<div class="custom-control custom-radio">
-														<input type="radio" id="free-shipping" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="free-shipping">Free Shipping</label>
-													</div><!-- End .custom-control -->
-	                							</td>
-	                							<td>₹0.00</td>
-	                						</tr><!-- End .summary-shipping-row -->
+  .empty-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
 
-	                						<!-- <tr class="summary-shipping-row">
-	                							<td>
-	                								<div class="custom-control custom-radio">
-														<input type="radio" id="standart-shipping" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="standart-shipping">Standart:</label>
-													</div>
-	                							</td>
-	                							<td>$10.00</td>
-	                						</tr> -->
+  .empty-cart-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
 
-	                						<!-- <tr class="summary-shipping-row">
-	                							<td>
-	                								<div class="custom-control custom-radio">
-														<input type="radio" id="express-shipping" name="shipping" class="custom-control-input">
-														<label class="custom-control-label" for="express-shipping">Express:</label>
-													</div>
-	                							</td>
-	                							<td>$20.00</td>
-	                						</tr> -->
+  .empty-cart-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    color: white;
+  }
 
-	                						<!-- <tr class="summary-shipping-estimate">
-	                							<td>Estimate for Your Country<br> <a href="dashboard.html">Change address</a></td>
-	                							<td>&nbsp;</td>
-	                						</tr> -->
+  .empty-cart-btn-secondary {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+  }
 
-	                						<tr class="summary-total">
-	                							<td>Total:</td>
-                                                <td>₹<span id="cart-total"></span></td>
-	                						</tr>
-	                					</tbody>
-	                				</table>
+  .empty-cart-btn-secondary:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-3px);
+  }
 
-	                				<a href="#" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
-	                			</div><!-- End .summary -->
+  .popular-categories {
+    background: #f8f9fa;
+    padding: 60px 20px;
+  }
 
-		            			<a href="/" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
-	                		</aside><!-- End .col-lg-3 -->
-	                	</div><!-- End .row -->
-	                </div><!-- End .container -->
-                </div><!-- End .cart -->
-            </div><!-- End .page-content -->
-        </main><!-- End .main -->
+  .popular-categories h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 40px;
+  }
 
-        <footer class="footer">
-           
-            <div class="footer-middle">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget widget-about">
-                                <img src="assets/newimages/logo.png" class="footer-logo" alt="Footer Logo"
-                                    width="150" height="25">
-                                <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
-                                    vulputate magna eros eu erat. </p>
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 
-                                <div class="widget-call">
-                                    <i class="icon-phone"></i>
-                                    Got Question? Call us 24/7
-                                    <a href="tel:#">+0123 456 789</a>
-                                </div><!-- End .widget-call -->
-                            </div><!-- End .widget about-widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+  .category-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    color: #667eea;
+  }
 
-                                <ul class="widget-list">
-                                    <li><a href="about.html">About shopEazy</a></li>
-                                    <li><a href="#">Our Services</a></li>
-                                    <li><a href="#">How to shop on shopEazy</a></li>
-                                    <li><a href="faq.html">FAQ</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+  .category-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+  }
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+  .category-name {
+    font-size: 16px;
+    font-weight: 600;
+  }
 
-                                <ul class="widget-list">
-                                    <li><a href="#">Payment Methods</a></li>
-                                    <li><a href="#">Money-back guarantee!</a></li>
-                                    <li><a href="#">Returns</a></li>
-                                    <li><a href="#">Shipping</a></li>
-                                    <li><a href="#">Terms and conditions</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
+  @media (max-width: 768px) {
+    .nav-icons {
+      gap: 20px;
+    }
 
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+    .nav-icon-label {
+      display: none;
+    }
 
-                                <ul class="widget-list">
-                                    <li><a href="#">Sign In</a></li>
-                                    <li><a href="cart.html">View Cart</a></li>
-                                    <li><a href="#">My Wishlist</a></li>
-                                    <li><a href="#">Track My Order</a></li>
-                                    <li><a href="#">Help</a></li>
-                                </ul><!-- End .widget-list -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-sm-6 col-lg-3 -->
-                    </div><!-- End .row -->
-                </div><!-- End .container -->
-            </div><!-- End .footer-middle -->
+    .nav-logo img {
+      height: 28px;
+    }
 
-            <div class="footer-bottom">
-                <div class="container">
-                    <p class="footer-copyright">Copyright © 2024 shopEazy Store. All Rights Reserved.</p>
-                    <!-- End .footer-copyright -->
-                    <figure class="footer-payments">
-                        <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
-                    </figure><!-- End .footer-payments -->
-                </div><!-- End .container -->
-            </div><!-- End .footer-bottom -->
-        </footer><!-- End .footer -->
-    </div><!-- End .page-wrapper -->
-    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+    .empty-cart-icon {
+      font-size: 80px;
+    }
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+    .empty-cart-title {
+      font-size: 24px;
+    }
 
-    <div class="mobile-menu-container">
-        <div class="mobile-menu-wrapper">
-            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+    .empty-cart-buttons {
+      flex-direction: column;
+    }
 
-            <nav class="mobile-nav">
-                <ul class="mobile-menu">
-                    <li class="active">
-                        <a href="#">Cart</a>
+    .empty-cart-btn {
+      width: 100%;
+      justify-content: center;
+    }
 
-                    </li>
-                    <li>
-                        <a href="/">Home</a>  
-                    </li>
-                    <li>
-                        <a href="/shop">Shop</a>  
-                    </li>
-                    <li>
-                        <a href="/wishlist">Wishlist</a>  
-                    </li>
-                    <li>
-                        <a href="/dashboard">My Account</a>  
-                    </li>
-                    <li>
-                        <a href="/wallet">Wallet</a>  
-                    </li>
-                </ul>
-            </nav>
+    .category-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
 
-            <div class="social-icons">
-                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-            </div><!-- End .social-icons -->
-        </div><!-- End .mobile-menu-wrapper -->
-    </div><!-- End .mobile-menu-container -->
+<!-- Top Navigation Bar -->
+<nav class="top-nav-bar">
+  <div class="top-nav-container">
+    <a href="/" class="nav-logo">
+      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+    </a>
 
-    <!-- Sign in / Register Modal -->
-    <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="icon-close"></i></span>
-                    </button>
+    <div class="nav-icons">
+      <a href="/wallet" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <span class="nav-icon-label">Wallet</span>
+      </a>
 
-                    <div class="form-box">
-                        <div class="form-tab">
-                            <ul class="nav nav-pills nav-fill" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="tab-content-5">
-                                <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
-                                    <form action="#">
-                                        <div class="form-group">
-                                            <label for="singin-email">Username or email address *</label>
-                                            <input type="text" class="form-control" id="singin-email" name="singin-email" required>
-                                        </div><!-- End .form-group -->
+      <a href="/wishlist" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-heart-o"></i>
+        </div>
+        <span class="nav-icon-label">Wishlist</span>
+      </a>
 
-                                        <div class="form-group">
-                                            <label for="singin-password">Password *</label>
-                                            <input type="password" class="form-control" id="singin-password" name="singin-password" required>
-                                        </div><!-- End .form-group -->
+      <a href="/cart" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-shopping-cart"></i>
+          <span class="nav-icon-badge">0</span>
+        </div>
+        <span class="nav-icon-label">Cart</span>
+      </a>
+    </div>
+  </div>
+</nav>
 
-                                        <div class="form-footer">
-                                            <button type="submit" class="btn btn-outline-primary-2">
-                                                <span>LOG IN</span>
-                                                <i class="icon-long-arrow-right"></i>
-                                            </button>
+<main class="main">
+  <!-- Page Header -->
+  <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+    <div class="container">
+      <h1 class="page-title">Shopping Cart</h1>
+    </div>
+  </div>
 
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="signin-remember">
-                                                <label class="custom-control-label" for="signin-remember">Remember Me</label>
-                                            </div><!-- End .custom-checkbox -->
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="breadcrumb-nav">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+      </ol>
+    </div>
+  </nav>
 
-                                            <a href="#" class="forgot-link">Forgot Your Password?</a>
-                                        </div><!-- End .form-footer -->
-                                    </form>
-                                    <div class="form-choice">
-                                        <p class="text-center">or sign in with</p>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <a href="#" class="btn btn-login btn-g">
-                                                    <i class="icon-google"></i>
-                                                    Login With Google
-                                                </a>
-                                            </div><!-- End .col-6 -->
-                                            <div class="col-sm-6">
-                                                <a href="#" class="btn btn-login btn-f">
-                                                    <i class="icon-facebook-f"></i>
-                                                    Login With Facebook
-                                                </a>
-                                            </div><!-- End .col-6 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .form-choice -->
-                                </div><!-- .End .tab-pane -->
-                                <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                                    <form action="#">
-                                        <div class="form-group">
-                                            <label for="register-email">Your email address *</label>
-                                            <input type="email" class="form-control" id="register-email" name="register-email" required>
-                                        </div><!-- End .form-group -->
+  <!-- Empty Cart Content -->
+  <div class="empty-cart-container">
+    <div class="empty-cart-content">
+      <div class="empty-cart-icon">
+        <i class="icon-shopping-cart"></i>
+      </div>
+      
+      <h2 class="empty-cart-title">Your Cart is Empty!</h2>
+      <p class="empty-cart-description">
+        Looks like you haven't added anything to your cart yet. 
+        Start shopping and discover amazing products waiting for you!
+      </p>
 
-                                        <div class="form-group">
-                                            <label for="register-password">Password *</label>
-                                            <input type="password" class="form-control" id="register-password" name="register-password" required>
-                                        </div><!-- End .form-group -->
-
-                                        <div class="form-footer">
-                                            <button type="submit" class="btn btn-outline-primary-2">
-                                                <span>SIGN UP</span>
-                                                <i class="icon-long-arrow-right"></i>
-                                            </button>
-
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="register-policy" required>
-                                                <label class="custom-control-label" for="register-policy">I agree to the <a href="#">privacy policy</a> *</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .form-footer -->
-                                    </form>
-                                    <div class="form-choice">
-                                        <p class="text-center">or sign in with</p>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <a href="#" class="btn btn-login btn-g">
-                                                    <i class="icon-google"></i>
-                                                    Login With Google
-                                                </a>
-                                            </div><!-- End .col-6 -->
-                                            <div class="col-sm-6">
-                                                <a href="#" class="btn btn-login  btn-f">
-                                                    <i class="icon-facebook-f"></i>
-                                                    Login With Facebook
-                                                </a>
-                                            </div><!-- End .col-6 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .form-choice -->
-                                </div><!-- .End .tab-pane -->
-                            </div><!-- End .tab-content -->
-                        </div><!-- End .form-tab -->
-                    </div><!-- End .form-box -->
-                </div><!-- End .modal-body -->
-            </div><!-- End .modal-content -->
-        </div><!-- End .modal-dialog -->
-    </div><!-- End .modal -->
-
-
-    <!-- Plugins JS File -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery.hoverIntent.min.js"></script>
-    <script src="assets/js/jquery.waypoints.min.js"></script>
-    <script src="assets/js/superfish.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
-    <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-</body>
-
+      <div class="empty-cart-buttons">
+        <a href="/shop" class="empty-cart-btn empty-cart-btn-primary">
+          <i class="icon-shopping-bag"></i>
+          Start Shopping
+        </a>
+        <a href="/wishlist" class="empty-cart-btn empty-cart-btn-secondary">
+          <i class="icon-heart-o"></i>
+          View Wishlist
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
 
 <%- include('../layouts/footer.ejs') %>

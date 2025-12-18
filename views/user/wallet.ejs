@@ -1,454 +1,375 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../layouts/header.ejs') %>
 
+<style>
+  .top-nav-bar {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>shopEazy</title>
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Bootstrap eCommerce Template">
-    <meta name="author" content="p-themes">
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/newimages/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/newimages/logo.png">
-    <link rel="manifest" href="assets/images/icons/site.html">
-    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+  .top-nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    height: 35px;
+  }
+
+  .nav-icons {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .nav-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+
+  .nav-icon-item:hover {
+    color: #111827;
+    transform: translateY(-2px);
+  }
+
+  .nav-icon-wrapper {
+    position: relative;
+    font-size: 24px;
+  }
+
+  .nav-icon-label {
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  body {
+    background: #f5f5f7;
+  }
+
+  .wallet-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+
+  .balance-card {
+    background: linear-gradient(135deg, #ffffff 0%, #9197af 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  }
+
+  .balance-label {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 10px;
+  }
+
+  .balance-amount {
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .transactions-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .transactions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f3f4f6;
+  }
+
+  .transactions-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
+
+  .search-box {
+    position: relative;
+    max-width: 300px;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .search-box input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+
+  .search-box i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+  }
+
+  .transactions-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .transactions-table thead {
+    background: #f9fafb;
+  }
+
+  .transactions-table th {
+    padding: 15px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .transactions-table td {
+    padding: 18px 15px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+  }
+
+  .transactions-table tbody tr:hover {
+    background: #f9fafb;
+  }
+
+  .transaction-id {
+    font-family: monospace;
+    font-size: 13px;
+    color: #6b7280;
+  }
+
+  .transaction-amount {
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .transaction-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .badge-credit {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .badge-debit {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .empty-state i {
+    font-size: 64px;
+    color: #d1d5db;
+    margin-bottom: 20px;
+  }
+
+  .empty-state h3 {
+    font-size: 20px;
+    color: #6b7280;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .nav-logo img {
+      height: 28px;
+    }
+
+    .nav-icon-label {
+      display: none;
+    }
+
+    .balance-card {
+      padding: 30px 20px;
+    }
+
+    .balance-amount {
+      font-size: 36px;
+    }
+
+    .transactions-card {
+      padding: 20px 15px;
+      overflow-x: auto;
+    }
+
+    .transactions-header {
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .transactions-table {
+      min-width: 600px;
+    }
+
+    .transactions-table th,
+    .transactions-table td {
+      padding: 12px 10px;
+      font-size: 13px;
+    }
+  }
+</style>
+
+<!-- Top Navigation -->
+<nav class="top-nav-bar">
+  <div class="top-nav-container">
+    <a href="/" class="nav-logo">
+      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+    </a>
+
+    <div class="nav-icons">
+      <a href="/wishlist" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-heart-o"></i>
+        </div>
+        <span class="nav-icon-label">Wishlist</span>
+      </a>
+
+      <a href="/cart" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-shopping-cart"></i>
+        </div>
+        <span class="nav-icon-label">Cart</span>
+      </a>
+
+      <a href="/dashboard" class="nav-icon-item">
+        <div class="nav-icon-wrapper">
+          <i class="icon-user"></i>
+        </div>
+        <span class="nav-icon-label">Account</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Wallet Content -->
+<div class="wallet-container">
+  <!-- Balance Card -->
+  <div class="balance-card">
+    <p class="balance-label">Current Balance</p>
+    <h2 class="balance-amount">
+      ₹<%= wallet && wallet[0]?.balance ? wallet[0].balance.toFixed(2) : '0.00' %>
+    </h2>
+  </div>
+
+  <!-- Transactions Card -->
+  <div class="transactions-card">
+    <div class="transactions-header">
+      <h2 class="transactions-title">Transaction History</h2>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search transactions...">
+        <i class="icon-search"></i>
+      </div>
+    </div>
+
+    <% if (wallet && wallet[0]?.history && wallet[0].history.length > 0) { %>
+      <div style="overflow-x: auto;">
+        <table class="transactions-table">
+          <thead>
+            <tr>
+              <th>Transaction ID</th>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody id="transactionsBody">
+            <% wallet[0].history.forEach(hist => { %>
+              <tr>
+                <td class="transaction-id">#<%= hist.transaction_id %></td>
+                <td>
+                  <%= new Date(hist.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
+                  }) %>
+                </td>
+                <td><%= hist.description %></td>
+                <td class="transaction-amount">₹<%= hist.amount.toFixed(2) %></td>
+                <td>
+                  <span class="transaction-badge <%= hist.transaction_type === 'Cancelled' ? 'badge-credit' : 'badge-debit' %>">
+                    <%= hist.transaction_type === 'Cancelled' ? 'Credit' : 'Debit' %>
+                  </span>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <i class="icon-wallet"></i>
+        <h3>No Transactions Yet</h3>
+        <p style="color: #9ca3af;">Your transaction history will appear here</p>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  // Search functionality
+  document.getElementById('searchInput')?.addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('#transactionsBody tr');
     
-    <link rel="shortcut icon" href="assets/newimages/logo.png">
-    <meta name="apple-mobile-web-app-title" content="shopEazy">
-    <meta name="application-name" content="shopEazy">
-    <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
-    <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
-    <!-- Main CSS File -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/skins/skin-demo-4.css">
-    <link rel="stylesheet" href="assets/css/demos/demo-4.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        body {
-            background-color: #f6f6f6;
-            padding: 20px;
-        }
-        .wallet-container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .balance-header {
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .transaction-type-deposit {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .transaction-type-withdrawal {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .transaction-type-pending {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-    </style>
-</head>
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+  });
+</script>
 
-    <body>
-        <div class="page-wrapper">
-            <header class="header">
-                <div class="header-top">
-                    <div class="container mb-lg-2 pt-lg-2 pb-lg-2 mb-sm-0 pt-sm-0 pb-sm-0">
-                        <div class="header-left">
-                        </div><!-- End .header-left -->
-
-                        <div class="header-right">
-                            <ul class="top-menu">
-                                <!-- <li>
-                            <a href="#">Links</a>
-                            <ul>
-                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
-                            </ul>
-                        </li> -->
-                            </ul><!-- End .top-menu -->
-                        </div><!-- End .header-right -->
-                    </div><!-- End .container -->
-                </div><!-- End .header-top -->
-
-                <div class="header-middle sticky-header">
-                    <div class="container">
-                        <div class="header-left">
-                            <button class="mobile-menu-toggler">
-                                <span class="sr-only">Toggle mobile menu</span>
-                                <i class="icon-bars"></i>
-                            </button>
-
-                            <a href="/" class="logo">
-                                <img src="assets/newimages/logo.png" alt="shopEazy Logo" width="105" height="25">
-                            </a>
-
-                            <nav class="main-nav">
-                                <ul class="menu sf-arrows">
-                                    <li class="megamenu-container active">
-                                        <a href="/" class="sf-with-ul">Home</a>
-
-
-                                    </li>
-                                    <li>
-                                        <a href="category.html" class="sf-with-ul">Shop</a>
-
-                                        <div class="megamenu megamenu-md">
-                                            <div class="row no-gutters">
-                                                <div class="col-md-8">
-                                                    <div class="menu-col">
-                                                        <div class="col-lg-9">
-                                                            <div class="address-selection">
-                                                               
-                                                                    <div class="row">
-
-                                                                        <div class="col-md-6">
-                                                                            <div class="menu-title">Shop with sidebar
-                                                                            </div>
-                                                                            <!-- End .menu-title -->
-                                                                            <ul>
-                                                                                <li><a href="category-list.html">Shop
-                                                                                        List</a></li>
-                                                                                <li><a href="category-2cols.html">Shop
-                                                                                        Grid 2
-                                                                                        Columns</a></li>
-                                                                                <li><a href="category.html">Shop Grid 3
-                                                                                        Columns</a>
-                                                                                </li>
-                                                                                <li><a href="category-4cols.html">Shop
-                                                                                        Grid 4
-                                                                                        Columns</a></li>
-                                                                                <li><a href="category-market.html"><span>Shop
-                                                                                            Market<span
-                                                                                                class="tip tip-new">New</span></span></a>
-                                                                                </li>
-                                                                            </ul>
-
-                                                                            <div class="menu-title">Shop no sidebar
-                                                                            </div>
-                                                                            <!-- End .menu-title -->
-                                                                            <ul>
-                                                                                <li><a href="category-boxed.html"><span>Shop
-                                                                                            Boxed
-                                                                                            No Sidebar<span
-                                                                                                class="tip tip-hot">Hot</span></span></a>
-                                                                                </li>
-                                                                                <li><a href="category-fullwidth.html">Shop
-                                                                                        Fullwidth
-                                                                                        No Sidebar</a></li>
-                                                                            </ul>
-                                                                        </div><!-- End .col-md-6 -->
-
-                                                                        <div class="col-md-6">
-                                                                            <div class="menu-title">Product Category
-                                                                            </div>
-                                                                            <!-- End .menu-title -->
-                                                                            <ul>
-                                                                                <li><a
-                                                                                        href="product-category-boxed.html">Product
-                                                                                        Category Boxed</a></li>
-                                                                                <li><a
-                                                                                        href="product-category-fullwidth.html"><span>Product
-                                                                                            Category Fullwidth<span
-                                                                                                class="tip tip-new">New</span></span></a>
-                                                                                </li>
-                                                                            </ul>
-                                                                            <div class="menu-title">Shop Pages</div>
-                                                                            <!-- End .menu-title -->
-                                                                            <ul>
-                                                                                <li><a href="cart.html">Cart</a></li>
-                                                                                <li><a href="checkout.html">Checkout</a>
-                                                                                </li>
-                                                                                <li><a href="wishlist.html">Wishlist</a>
-                                                                                </li>
-                                                                                <li><a href="#">My Account</a></li>
-                                                                            </ul>
-                                                                        </div><!-- End .col-md-6 -->
-                                                                    </div><!-- End .row -->
-                                                           
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- End .menu-col -->
-                                                </div><!-- End .col-md-8 -->
-
-                                                <div class="col-md-4">
-                                                    <div class="banner banner-overlay">
-                                                        <a href="category.html" class="banner banner-menu">
-                                                            <!-- <img src="assets/images/menu/banner-1.jpg" alt="Banner"> -->
-
-                                                            <div class="banner-content banner-content-top">
-                                                                <!-- <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div> -->
-                                                            </div><!-- End .banner-content -->
-                                                        </a>
-                                                    </div><!-- End .banner banner-overlay -->
-                                                </div><!-- End .col-md-4 -->
-                                            </div><!-- End .row -->
-                                        </div><!-- End .megamenu megamenu-md -->
-                                    </li>
-                                </ul><!-- End .menu -->
-                            </nav><!-- End .main-nav -->
-                        </div><!-- End .header-left -->
-
-
-
-                        <div class="header-right">
-                            <div class="header-search">
-                                <a href="#" class="search-toggle" role="button" title="Search"><i
-                                        class="icon-search"></i></a>
-                                <form action="#" method="get">
-                                    <div class="header-search-wrapper">
-                                        <label for="q" class="sr-only">Search</label>
-                                        <input type="search" class="form-control" name="q" id="q"
-                                            placeholder="Search in..." required>
-                                    </div><!-- End .header-search-wrapper -->
-                                </form>
-                            </div><!-- End .header-search -->
-
-
-
-
-
-                        </div><!-- End .header-right -->
-                    </div><!-- End .container -->
-                </div><!-- End .header-middle -->
-            </header><!-- End .header -->
-           
-
-                    <main class="main">
-                    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-                        <div class="container">
-                        <h1 class="page-title">Wallet</h1>
-                        </div>
-                    </div>
-                    <div class="container wallet-container">
-                        <div class="row balance-header">
-                            <div class="col-md-6">
-                                <h2>Wallet Balance</h2>
-                                <% if(wallet[0]?.balance){%>
-                                <h4>Current Balance: ₹ <%= wallet[0]?.balance %></h4><%}else{%><h4>Current Balance: ₹ 0</h4>
-                                    <%}%>
-                            </div>
-                            <div class="col-md-6 text-end">
-                                <!-- <button class="btn btn-primary me-2">Add Funds</button>
-                                <button class="btn btn-secondary">Withdraw</button> -->
-                            </div>
-                        </div>
-                
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <!-- <select class="form-select">
-                                    <option selected>Transaction Type: Show All</option>
-                                    <option>Deposit</option>
-                                    <option>Withdrawal</option>
-                                    <option>Purchase</option>
-                                </select> -->
-                            </div>
-                            <div class="col-md-4">
-                                <!-- <select class="form-select">
-                                    <option selected>Date Range: Show All</option>
-                                    <option>Last 7 days</option>
-                                    <option>Last 30 days</option>
-                                    <option>Last 90 days</option>
-                                </select> -->
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Search transactions">
-                            </div>
-                        </div>
-                
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>TRANSACTION ID</th>
-                                    <th>DATE</th>
-                                    <th>DESCRIPTION</th>
-                                    <th>AMOUNT</th>
-                                   
-                                    <th>TYPE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% wallet?.forEach(item=>{ %>
-                                    <% item.history.forEach(hist=>{ %>
-                                <tr>
-                                    <td><%=hist.transaction_id%></td>
-                                    <td> <%= 
-                                        new Date(hist.date.getTime() ).toLocaleDateString("en-US", {
-                                          year: "numeric",
-                                          month: "long",
-                                          day: "numeric",
-                                        }) 
-                                      %></td>
-                                    <td><%=hist.description%></td>
-                                    <td><%=hist.amount%></td>
-                                   <% if(hist.transaction_type == 'Cancelled')%>
-                                    <td><span class="badge transaction-type-withdrawal">Credit</span></td>
-                                </tr>
-                                <%})%>
-                               <%})%>
-                            </tbody>
-                        </table>
-                    </div>
-                
-                    </main>
-
-            
-
-
-
-            
-            <footer class="footer">
-
-                <div class="footer-middle">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget widget-about">
-                                    <img src="assets/newimages/logo.png" class="footer-logo" alt="Footer Logo"
-                                        width="150" height="25">
-                                    <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu
-                                        vulputate magna eros eu erat. </p>
-
-                                    <div class="widget-call">
-                                        <i class="icon-phone"></i>
-                                        Got Question? Call us 24/7
-                                        <a href="tel:#">+0123 456 789</a>
-                                    </div><!-- End .widget-call -->
-                                </div><!-- End .widget about-widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
-
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
-
-                                    <ul class="widget-list">
-                                        <li><a href="about.html">About shopEazy</a></li>
-                                        <li><a href="#">Our Services</a></li>
-                                        <li><a href="#">How to shop on shopEazy</a></li>
-                                        <li><a href="faq.html">FAQ</a></li>
-                                        <li><a href="contact.html">Contact us</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
-
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
-
-                                    <ul class="widget-list">
-                                        <li><a href="#">Payment Methods</a></li>
-                                        <li><a href="#">Money-back guarantee!</a></li>
-                                        <li><a href="#">Returns</a></li>
-                                        <li><a href="#">Shipping</a></li>
-                                        <li><a href="#">Terms and conditions</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
-
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="widget">
-                                    <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
-
-                                    <ul class="widget-list">
-                                        <li><a href="#">Sign In</a></li>
-                                        <li><a href="cart.html">View Cart</a></li>
-                                        <li><a href="#">My Wishlist</a></li>
-                                        <li><a href="#">Track My Order</a></li>
-                                        <li><a href="#">Help</a></li>
-                                    </ul><!-- End .widget-list -->
-                                </div><!-- End .widget -->
-                            </div><!-- End .col-sm-6 col-lg-3 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .container -->
-                </div><!-- End .footer-middle -->
-
-                <div class="footer-bottom">
-                    <div class="container">
-                        <p class="footer-copyright">Copyright © 2024 shopEazy Store. All Rights Reserved.</p>
-                        <!-- End .footer-copyright -->
-                        <figure class="footer-payments">
-                            <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
-                        </figure><!-- End .footer-payments -->
-                    </div><!-- End .container -->
-                </div><!-- End .footer-bottom -->
-            </footer><!-- End .footer -->
-        </div><!-- End .page-wrapper -->
-        <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
-
-        <!-- Mobile Menu -->
-        <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
-
-        <div class="mobile-menu-container">
-            <div class="mobile-menu-wrapper">
-                <span class="mobile-menu-close"><i class="icon-close"></i></span>
-
-                <nav class="mobile-nav">
-                    <ul class="mobile-menu">
-                        <li class="active">
-                            <a href="#">Wallet</a>
-
-                        </li>
-                        <li>
-                            <a href="/">Home</a>  
-                        </li>
-                        <li>
-                            <a href="/shop">Shop</a>  
-                        </li>
-                        <li>
-                            <a href="/wishlist">Wishlist</a>  
-                        </li>
-                        <li>
-                            <a href="/cart">Cart</a>  
-                        </li>
-                        <li>
-                            <a href="/dashboard">My Account</a>  
-                        </li>
-                    </ul>
-                </nav>
-
-
-                <div class="social-icons">
-                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-                </div><!-- End .social-icons -->
-            </div><!-- End .mobile-menu-wrapper -->
-        </div><!-- End .mobile-menu-container -->
-
-        <!-- Sign in / Register Modal -->
-
-        <!-- Plugins JS File -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/jquery.hoverIntent.min.js"></script>
-        <script src="assets/js/jquery.waypoints.min.js"></script>
-        <script src="assets/js/superfish.min.js"></script>
-        <script src="assets/js/owl.carousel.min.js"></script>
-        <script src="assets/js/bootstrap-input-spinner.js"></script>
-        <!-- Main JS File -->
-        <script src="assets/js/main.js"></script>
-    </body>
-
-
-    <%- include('../layouts/footer.ejs') %>
+<%- include('../layouts/footer.ejs') %>
