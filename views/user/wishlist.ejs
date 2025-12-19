@@ -685,7 +685,7 @@
         if (result.isConfirmed) {
           try {
             const response = await fetch('/remove-from-wishlist', {
-              method: 'POST',
+              method: 'DELETE',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ cartItemId })
             });

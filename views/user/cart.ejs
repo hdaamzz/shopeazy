@@ -688,7 +688,7 @@
         const row = this.closest('.cart-item');
 
         fetch('/update-cart-quantity', {
-          method: 'POST',
+          method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ cartItemId, quantity: newQuantity })
         })
@@ -754,7 +754,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             fetch('/remove-from-cart', {
-              method: 'POST',
+              method: 'DELETE',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ cartItemId })
             })

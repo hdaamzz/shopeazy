@@ -4,6 +4,6 @@ const adminReturnController = require('../../controllers/admin/adminReturnContro
 const auth = require('../../middleware/adminAuth');
 
 router.get('/returnRequests', auth.isLogin, adminReturnController.loadReturnRequests);
-router.post('/updateReturnRequest', auth.isLogin, adminReturnController.updateReturnRequest);
+router.patch('/updateReturnRequest', auth.isLogin, adminReturnController.updateReturnRequest);
 
 module.exports = router;

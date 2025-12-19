@@ -8,7 +8,7 @@ const repaymentController = require('../../controllers/user/order/repaymentContr
 const auth = require('../../middleware/userAuth');
 
 router.post('/placeOrder', auth.isLogin, orderController.placeOrder);
-router.post('/updateOrderStatus/:orderId', auth.isLogin, orderController.updateOrderStatus);
+router.patch('/updateOrderStatus/:orderId', auth.isLogin, orderController.updateOrderStatus);
 router.get('/orderSummary', auth.isLogin, orderController.loadOrderSummary);
 
 router.post('/verifyPayment', auth.isLogin, paymentController.verifyPayment);

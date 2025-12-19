@@ -588,7 +588,7 @@
                 try {
                     var formData = new FormData(updateCategoryForm);
                     const response = await fetch('/admin/updateStatus', {
-                        method: 'POST',
+                        method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json'
                         },

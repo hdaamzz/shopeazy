@@ -5,7 +5,7 @@ const auth = require('../../middleware/adminAuth');
 
 router.get('/orders', auth.isLogin, adminOrderController.loadOrderList);
 router.get('/updateStatus', auth.isLogin, adminOrderController.loadUpdateStatus);
-router.post('/updateStatus', auth.isLogin, adminOrderController.updateStatus);
-router.post('/cancelOrder', auth.isLogin, adminOrderController.cancelOrder);
+router.patch('/updateStatus', auth.isLogin, adminOrderController.updateStatus);
+router.patch('/cancelOrder', auth.isLogin, adminOrderController.cancelOrder);
 
 module.exports = router;

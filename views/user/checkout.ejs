@@ -1126,7 +1126,7 @@
 
         if (data.success) {
           await fetch(`/updateOrderStatus/${orderId}`, {
-            method: 'POST',
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: 'Completed' })
           });
@@ -1143,7 +1143,7 @@
           });
         } else {
           await fetch(`/updateOrderStatus/${orderId}`, {
-            method: 'POST',
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: 'Failed' })
           });
@@ -1282,7 +1282,7 @@
       const subtotal = parseFloat('<%= subtotal %>');
 
       fetch('/removeCoupon', {
-        method: 'POST',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subtotal })
       })

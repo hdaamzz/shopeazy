@@ -5,6 +5,6 @@ const auth = require('../../middleware/userAuth');
 
 router.get('/checkout', auth.isLogin, checkoutController.loadCheckout);
 router.post('/applyCoupon', auth.isLogin, checkoutController.applyCoupon);
-router.post('/removeCoupon', auth.isLogin, checkoutController.removeCoupon);
+router.patch('/removeCoupon', auth.isLogin, checkoutController.removeCoupon);
 
 module.exports = router;

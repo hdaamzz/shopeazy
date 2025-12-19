@@ -67,35 +67,35 @@ const addCategory = async (req, res) => {
   }
 };
 
-const toggleCategoryStatus = async (req, res) => {
-  try {
-    const { categoryId } = req.params;
+// const toggleCategoryStatus = async (req, res) => {
+//   try {
+//     const { categoryId } = req.params;
 
-    const category = await Category.findById(categoryId);
+//     const category = await Category.findById(categoryId);
 
-    if (!category) {
-      return res.status(HTTP_STATUS.NOT_FOUND).json({
-        success: false,
-        message: 'Category not found'
-      });
-    }
+//     if (!category) {
+//       return res.status(HTTP_STATUS.NOT_FOUND).json({
+//         success: false,
+//         message: 'Category not found'
+//       });
+//     }
 
-    category.status = !category.status;
-    await category.save();
+//     category.status = !category.status;
+//     await category.save();
 
-    const message = category.status
-      ? 'Category listed successfully'
-      : 'Category unlisted successfully';
+//     const message = category.status
+//       ? 'Category listed successfully'
+//       : 'Category unlisted successfully';
 
-    res.json({ success: true, message });
-  } catch (error) {
-    console.error('Error toggling category status:', error);
-    res.status(HTTP_STATUS.SERVER_ERROR).json({
-      success: false,
-      message: 'An error occurred while updating category status'
-    });
-  }
-};
+//     res.json({ success: true, message });
+//   } catch (error) {
+//     console.error('Error toggling category status:', error);
+//     res.status(HTTP_STATUS.SERVER_ERROR).json({
+//       success: false,
+//       message: 'An error occurred while updating category status'
+//     });
+//   }
+// };
 
 const loadUpdateCategory = async (req, res) => {
   try {
@@ -173,7 +173,7 @@ const updateCategory = async (req, res) => {
 module.exports = {
   loadCategory,
   addCategory,
-  toggleCategoryStatus,
+  // toggleCategoryStatus,
   updateCategory,
   loadUpdateCategory
 };

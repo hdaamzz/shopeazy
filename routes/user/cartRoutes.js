@@ -8,11 +8,11 @@ router.get('/cart', auth.isLogin, cartController.loadCart);
 router.get('/nonUserCart', auth.isLogout, cartController.loadUserCart);
 router.post('/addCartItem', auth.isLogin, cartController.addCartItem);
 router.post('/wishlistToCart', auth.isLogin, cartController.moveWishlistToCart);
-router.post('/update-cart-quantity', auth.isLogin, cartController.updateCartQuantity);
-router.post('/remove-from-cart', auth.isLogin, cartController.removeCartItem);
+router.patch('/update-cart-quantity', auth.isLogin, cartController.updateCartQuantity);
+router.delete('/remove-from-cart', auth.isLogin, cartController.removeCartItem);
 
 router.get('/wishlist', auth.isLogin, wishlistController.loadWishlist);
 router.post('/addWishlistItem', auth.isLogin, wishlistController.addWishlistItem);
-router.post('/remove-from-wishlist', auth.isLogin, wishlistController.removeWishlistItem);
+router.delete('/remove-from-wishlist', auth.isLogin, wishlistController.removeWishlistItem);
 
 module.exports = router;

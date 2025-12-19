@@ -1664,7 +1664,7 @@
 
       try {
         const response = await fetch('/updateAddress', {
-          method: 'POST',
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: editnameValue,
@@ -1728,7 +1728,7 @@
       if (result.isConfirmed) {
         try {
           const response = await fetch('/deleteAddress', {
-            method: 'POST',
+            method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: addressId })
           });
@@ -1789,7 +1789,7 @@
 
       try {
         const response = await fetch('/updateUser', {
-          method: 'POST',
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             userName,

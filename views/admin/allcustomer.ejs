@@ -389,7 +389,7 @@
         const handleBlockUnblock = async (userId, form) => {
             try {
                 const response = await fetch(`/admin/api/users/block/${userId}`, {
-                    method: 'POST',
+                    method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
                 });
 

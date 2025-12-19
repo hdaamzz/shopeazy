@@ -868,7 +868,7 @@
 
                 try {
                     const response = await fetch('/admin/updateOffer', {
-                        method: 'POST',
+                        method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             id: offerId,
@@ -929,7 +929,7 @@
                 if (result.isConfirmed) {
                     try {
                         const response = await fetch('/admin/deleteOffer', {
-                            method: 'POST',
+                            method: 'DELETE',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ id: offerId })
                         });

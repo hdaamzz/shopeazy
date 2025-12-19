@@ -886,7 +886,7 @@
 
                                 try {
                                     const response = await fetch('/admin/updateCoupon', {
-                                        method: 'POST',
+                                        method: 'PUT',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify(formData)
                                     });
@@ -937,7 +937,7 @@
                                 if (result.isConfirmed) {
                                     try {
                                         const response = await fetch('/admin/deleteCoupon', {
-                                            method: 'POST',
+                                            method: 'DELETE',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ id: couponId })
                                         });
