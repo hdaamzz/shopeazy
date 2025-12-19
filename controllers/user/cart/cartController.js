@@ -14,6 +14,7 @@ const OFFER_STATUS = {
 };
 
 const MAX_CART_QUANTITY = 5;
+const ITEMS_PER_PAGE = 5; // Number of items per page
 
 const calculateItemDiscount = (cartItem, offers) => {
   let bestDiscount = 0;
@@ -52,21 +53,39 @@ const loadCart = async (req, res) => {
     const userData = await getAuthenticatedUser(req);
     if (!userData) return res.redirect('/');
 
-    const [offers, cartItems] = await Promise.all([
+    // Pagination setup
+    const page = parseInt(req.query.page) || 1;
+    const limit = ITEMS_PER_PAGE;
+    const skip = (page - 1) * limit;
+
+    // Get total count of cart items
+    const totalCartItems = await Cart.countDocuments({ user_id: userData._id });
+    const totalPages = Math.ceil(totalCartItems / limit);
+
+    const [offers, cartItems, allCartItems] = await Promise.all([
       Offer.find({ status: OFFER_STATUS.ACTIVE })
         .populate('products')
         .populate('category'),
-      Cart.find({ user_id: userData._id }).populate('product_id')
+      Cart.find({ user_id: userData._id })
+        .populate('product_id')
+        .skip(skip)
+        .limit(limit),
+      Cart.find({ user_id: userData._id }).populate('product_id') // For total calculation
     ]);
 
-    let subtotal = 0;
+    // Calculate total subtotal from all cart items
+    let totalSubtotal = 0;
+    allCartItems.forEach((cartItem) => {
+      const { discountedPrice } = calculateItemDiscount(cartItem, offers);
+      totalSubtotal += discountedPrice * cartItem.quantity;
+    });
 
+    // Add discounts to paginated items
     const cartItemsWithDiscounts = cartItems.map((cartItem) => {
       const { bestDiscount, hasDiscount, discountedPrice } = calculateItemDiscount(
         cartItem,
         offers
       );
-      subtotal += discountedPrice * cartItem.quantity;
 
       return {
         ...cartItem.toObject(),
@@ -80,7 +99,10 @@ const loadCart = async (req, res) => {
       userData,
       cartItems: cartItemsWithDiscounts,
       offers,
-      subtotal: subtotal.toFixed(2)
+      subtotal: totalSubtotal.toFixed(2),
+      currentPage: page,
+      totalPages: totalPages,
+      totalCartItems: totalCartItems
     });
   } catch (error) {
     console.error('Error loading cart:', error);

@@ -1,707 +1,726 @@
 <%- include('../layouts/header.ejs') %>
 
-<style>
-  .top-nav-bar {
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-
-  .top-nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .nav-logo img {
-    height: 35px;
-  }
-
-  .nav-icons {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-  }
-
-  .nav-icon-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-    transition: all 0.3s ease;
-    position: relative;
-  }
-
-  .nav-icon-item:hover {
-    color: #111827;
-    transform: translateY(-2px);
-  }
-
-  .nav-icon-wrapper {
-    font-size: 24px;
-    position: relative;
-  }
-
-  .nav-icon-badge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: #667eea;
-    color: white;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-  }
-
-  .nav-icon-label {
-    font-size: 12px;
-    margin-top: 4px;
-    font-weight: 500;
-  }
-
-  /* Main Layout */
-  body {
-    background: #f5f5f7;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  }
-
-  .page-header {
-    background: linear-gradient(135deg, #ffffff 0%, #9197af 100%);
-    color: white;
-    padding: 60px 20px 40px;
-    text-align: center;
-  }
-
-  .page-title {
-    font-size: 36px;
-    font-weight: 700;
-    margin: 0;
-  }
-
-  .breadcrumb-nav {
-    background: white;
-    padding: 15px 0;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .breadcrumb {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .breadcrumb-item {
-    color: #6b7280;
-    font-size: 14px;
-  }
-
-  .breadcrumb-item + .breadcrumb-item::before {
-    content: '/';
-    padding: 0 8px;
-    color: #d1d5db;
-  }
-
-  .breadcrumb-item a {
-    color: #6b7280;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .breadcrumb-item a:hover {
-    color: #111827;
-  }
-
-  .breadcrumb-item.active {
-    color: #111827;
-    font-weight: 500;
-  }
-
-  /* Cart Container */
-  .cart-container {
-    max-width: 1400px;
-    margin: 40px auto;
-    padding: 0 20px;
-  }
-
-  .cart-grid {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 30px;
-  }
-
-  /* Cart Items */
-  .cart-items-section {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    border: 1px solid #e5e7eb;
-  }
-
-  .cart-items-header {
-    font-size: 20px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f3f4f6;
-  }
-
-  .cart-item {
-    display: grid;
-    grid-template-columns: 120px 1fr auto;
-    gap: 20px;
-    padding: 20px 0;
-    border-bottom: 1px solid #f3f4f6;
-  }
-
-  .cart-item:last-child {
-    border-bottom: none;
-  }
-
-  .product-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 8px;
-    object-fit: cover;
-    border: 1px solid #e5e7eb;
-  }
-
-  .product-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .product-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 8px;
-    text-decoration: none;
-    display: block;
-  }
-
-  .product-name:hover {
-    color: #667eea;
-  }
-
-  .product-price {
-    font-size: 18px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 8px;
-  }
-
-  .old-price {
-    font-size: 14px;
-    color: #9ca3af;
-    text-decoration: line-through;
-    margin-left: 8px;
-  }
-
-  .quantity-control {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 12px;
-  }
-
-  .quantity-label {
-    font-size: 14px;
-    color: #6b7280;
-    font-weight: 500;
-  }
-
-  .quantity-input {
-    width: 70px;
-    padding: 8px 12px;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    transition: all 0.2s ease;
-  }
-
-  .quantity-input:focus {
-    outline: none;
-    border-color: #111827;
-  }
-
-  .item-actions {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-
-  .item-total {
-    font-size: 20px;
-    font-weight: 700;
-    color: #111827;
-  }
-
-  .btn-remove {
-    background: transparent;
-    border: none;
-    color: #dc2626;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-  }
-
-  .btn-remove:hover {
-    background: #fee2e2;
-    transform: scale(1.1);
-  }
-
-  /* Cart Summary */
-  .cart-summary {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    border: 1px solid #e5e7eb;
-    height: fit-content;
-    position: sticky;
-    top: 100px;
-  }
-
-  .summary-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f3f4f6;
-  }
-
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    font-size: 15px;
-    color: #6b7280;
-  }
-
-  .summary-row.total {
-    padding-top: 20px;
-    margin-top: 15px;
-    border-top: 2px solid #f3f4f6;
-    font-size: 18px;
-    font-weight: 700;
-    color: #111827;
-  }
-
-  .summary-value {
-    font-weight: 600;
-    color: #111827;
-  }
-
-  .shipping-option {
-    display: flex;
-    align-items: center;
-    padding: 12px 0;
-    font-size: 14px;
-  }
-
-  .shipping-option input {
-    margin-right: 10px;
-  }
-
-  /* Buttons */
-  .btn {
-    padding: 14px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 15px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-  }
-
-  .btn-primary {
-    background: #111827;
-    color: white;
-    width: 100%;
-    margin-top: 20px;
-  }
-
-  .btn-primary:hover {
-    background: #030712;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .btn-outline {
-    background: white;
-    color: #111827;
-    border: 2px solid #111827;
-    width: 100%;
-    margin-top: 15px;
-  }
-
-  .btn-outline:hover {
-    background: #f9fafb;
-  }
-
-  /* Empty Cart */
-  .empty-cart {
-    background: white;
-    border-radius: 12px;
-    padding: 80px 40px;
-    text-align: center;
-    border: 1px solid #e5e7eb;
-  }
-
-  .empty-cart i {
-    font-size: 80px;
-    color: #d1d5db;
-    margin-bottom: 20px;
-  }
-
-  .empty-cart h3 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 10px;
-  }
-
-  .empty-cart p {
-    font-size: 16px;
-    color: #6b7280;
-    margin-bottom: 30px;
-  }
-
-  /* Responsive */
-  @media (max-width: 992px) {
-    .cart-grid {
-      grid-template-columns: 1fr;
+  <style>
+    .top-nav-bar {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    .cart-summary {
-      position: static;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .cart-item {
-      grid-template-columns: 100px 1fr;
-      gap: 15px;
-    }
-
-    .item-actions {
-      grid-column: 1 / -1;
-      flex-direction: row;
+    .top-nav-container {
+      display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 10px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .product-image {
-      width: 100px;
-      height: 100px;
+    .nav-logo img {
+      height: 35px;
     }
 
-    .page-title {
-      font-size: 28px;
+    .nav-icons {
+      display: flex;
+      gap: 30px;
+      align-items: center;
     }
 
-    .cart-items-section,
-    .cart-summary {
-      padding: 20px;
+    .nav-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #333;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-icon-item:hover {
+      color: #111827;
+      transform: translateY(-2px);
+    }
+
+    .pagination-container a:hover:not(.disabled) {
+      background: #030712 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .pagination-container a[style*="border: 2px"]:hover {
+      background: #f3f4f6 !important;
+      border-color: #111827 !important;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .pagination-container>div:first-child {
+        flex-direction: column;
+        gap: 15px !important;
+      }
+
+      .pagination-container>div>div {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+    .nav-icon-wrapper {
+      font-size: 24px;
+      position: relative;
+    }
+
+    .nav-icon-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #667eea;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
     }
 
     .nav-icon-label {
-      display: none;
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: 500;
     }
-  }
-</style>
 
-<!-- Top Navigation -->
-<nav class="top-nav-bar">
-  <div class="top-nav-container">
-    <a href="/" class="nav-logo">
-      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
-    </a>
+    /* Main Layout */
+    body {
+      background: #f5f5f7;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    }
 
-    <div class="nav-icons">
-      <a href="/wallet" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="fa-solid fa-wallet"></i>
-        </div>
-        <span class="nav-icon-label">Wallet</span>
+    .page-header {
+      background: linear-gradient(135deg, #ffffff 0%, #9197af 100%);
+      color: white;
+      padding: 60px 20px 40px;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .breadcrumb-nav {
+      background: white;
+      padding: 15px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .breadcrumb {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .breadcrumb-item {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .breadcrumb-item+.breadcrumb-item::before {
+      content: '/';
+      padding: 0 8px;
+      color: #d1d5db;
+    }
+
+    .breadcrumb-item a {
+      color: #6b7280;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .breadcrumb-item a:hover {
+      color: #111827;
+    }
+
+    .breadcrumb-item.active {
+      color: #111827;
+      font-weight: 500;
+    }
+
+    /* Cart Container */
+    .cart-container {
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .cart-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 30px;
+    }
+
+    /* Cart Items */
+    .cart-items-section {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .cart-items-header {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .product-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid #e5e7eb;
+    }
+
+    .product-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .product-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 8px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .product-name:hover {
+      color: #667eea;
+    }
+
+    .product-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .old-price {
+      font-size: 14px;
+      color: #9ca3af;
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .quantity-label {
+      font-size: 14px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .quantity-input {
+      width: 70px;
+      padding: 8px 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .quantity-input:focus {
+      outline: none;
+      border-color: #111827;
+    }
+
+    .item-actions {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .item-total {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .btn-remove {
+      background: transparent;
+      border: none;
+      color: #dc2626;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-remove:hover {
+      background: #fee2e2;
+      transform: scale(1.1);
+    }
+
+    /* Cart Summary */
+    .cart-summary {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #e5e7eb;
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .summary-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      font-size: 15px;
+      color: #6b7280;
+    }
+
+    .summary-row.total {
+      padding-top: 20px;
+      margin-top: 15px;
+      border-top: 2px solid #f3f4f6;
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .summary-value {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .shipping-option {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      font-size: 14px;
+    }
+
+    .shipping-option input {
+      margin-right: 10px;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: #111827;
+      color: white;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .btn-primary:hover {
+      background: #030712;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-outline {
+      background: white;
+      color: #111827;
+      border: 2px solid #111827;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .btn-outline:hover {
+      background: #f9fafb;
+    }
+
+    /* Empty Cart */
+    .empty-cart {
+      background: white;
+      border-radius: 12px;
+      padding: 80px 40px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+    }
+
+    .empty-cart i {
+      font-size: 80px;
+      color: #d1d5db;
+      margin-bottom: 20px;
+    }
+
+    .empty-cart h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 10px;
+    }
+
+    .empty-cart p {
+      font-size: 16px;
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .cart-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-summary {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .cart-item {
+        grid-template-columns: 100px 1fr;
+        gap: 15px;
+      }
+
+      .item-actions {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .product-image {
+        width: 100px;
+        height: 100px;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .cart-items-section,
+      .cart-summary {
+        padding: 20px;
+      }
+
+      .nav-icon-label {
+        display: none;
+      }
+    }
+  </style>
+
+  <!-- Top Navigation -->
+  <nav class="top-nav-bar">
+    <div class="top-nav-container">
+      <a href="/" class="nav-logo">
+        <img src="assets/newimages/logo.png" alt="shopEazy Logo">
       </a>
 
-      <a href="/wishlist" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="icon-heart-o"></i>
-        </div>
-        <span class="nav-icon-label">Wishlist</span>
-      </a>
+      <div class="nav-icons">
+        <a href="/wallet" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <span class="nav-icon-label">Wallet</span>
+        </a>
 
-      <a href="/cart" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="icon-shopping-cart"></i>
-          <% if (cartItems && cartItems.length > 0) { %>
-            <span class="nav-icon-badge"><%= cartItems.length %></span>
-          <% } %>
-        </div>
-        <span class="nav-icon-label">Cart</span>
-      </a>
+        <a href="/wishlist" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="icon-heart-o"></i>
+          </div>
+          <span class="nav-icon-label">Wishlist</span>
+        </a>
+
+        <a href="/cart" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="icon-shopping-cart"></i>
+            <% if (cartItems && cartItems.length> 0) { %>
+              <span class="nav-icon-badge">
+                <%= cartItems.length %>
+              </span>
+              <% } %>
+          </div>
+          <span class="nav-icon-label">Cart</span>
+        </a>
+      </div>
     </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Shopping Cart</h1>
   </div>
-</nav>
 
-<!-- Page Header -->
-<div class="page-header">
-  <h1 class="page-title">Shopping Cart</h1>
-</div>
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb-nav">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Shopping Cart</li>
+      </ol>
+    </div>
+  </nav>
 
-<!-- Breadcrumb -->
-<nav class="breadcrumb-nav">
-  <div class="container">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">Home</a></li>
-      <li class="breadcrumb-item active">Shopping Cart</li>
-    </ol>
-  </div>
-</nav>
+  <!-- Cart Content -->
+  <div class="cart-container">
+    <% if (cartItems && cartItems.length> 0) { %>
+      <div class="cart-grid">
+        <!-- Cart Items -->
+        <div class="cart-items-section">
+          <h2 class="cart-items-header">Cart Items (<%= cartItems.length %>)</h2>
 
-<!-- Cart Content -->
-<div class="cart-container">
-  <% if (cartItems && cartItems.length > 0) { %>
-    <div class="cart-grid">
-      <!-- Cart Items -->
-      <div class="cart-items-section">
-        <h2 class="cart-items-header">Cart Items (<%= cartItems.length %>)</h2>
-        
-        <% cartItems.forEach(item => { %>
-          <div class="cart-item">
-            <a href="/showProduct?id=<%= item.product_id._id %>">
-              <img src="/uploads/<%= item.product_id.images[0] %>" alt="<%= item.product_id.product_name %>" class="product-image">
-            </a>
-
-            <div class="product-details">
-              <a href="/showProduct?id=<%= item.product_id._id %>" class="product-name">
-                <%= item.product_id.product_name %>
+          <% cartItems.forEach(item=> { %>
+            <div class="cart-item">
+              <a href="/showProduct?id=<%= item.product_id._id %>">
+                <img src="/uploads/<%= item.product_id.images[0] %>" alt="<%= item.product_id.product_name %>"
+                  class="product-image">
               </a>
 
-              <div class="product-price">
-                <% if (item.hasDiscount) { %>
-                  ₹<%= item.discountedPrice.toFixed(2) %>
-                  <span class="old-price">₹<%= item.product_id.price.toFixed(2) %></span>
-                <% } else { %>
-                  ₹<%= item.product_id.price.toFixed(2) %>
-                <% } %>
+              <div class="product-details">
+                <a href="/showProduct?id=<%= item.product_id._id %>" class="product-name">
+                  <%= item.product_id.product_name %>
+                </a>
+
+                <div class="product-price">
+                  <% if (item.hasDiscount) { %>
+                    ₹<%= item.discountedPrice.toFixed(2) %>
+                      <span class="old-price">₹<%= item.product_id.price.toFixed(2) %></span>
+                      <% } else { %>
+                        ₹<%= item.product_id.price.toFixed(2) %>
+                          <% } %>
+                </div>
+
+                <div class="quantity-control">
+                  <span class="quantity-label">Quantity:</span>
+                  <input type="number" class="quantity-input" value="<%= item.quantity %>" min="1"
+                    max="<%= item.product_id.stock > 5 ? 5 : item.product_id.stock %>"
+                    data-cart-item-id="<%= item._id %>">
+                </div>
               </div>
 
-              <div class="quantity-control">
-                <span class="quantity-label">Quantity:</span>
-                <input type="number" 
-                  class="quantity-input" 
-                  value="<%= item.quantity %>" 
-                  min="1" 
-                  max="<%= item.product_id.stock > 5 ? 5 : item.product_id.stock %>" 
-                  data-cart-item-id="<%= item._id %>">
+              <div class="item-actions">
+                <div class="item-total">
+                  <% if (item.hasDiscount) { %>
+                    ₹<%= (item.discountedPrice * item.quantity).toFixed(2) %>
+                      <% } else { %>
+                        ₹<%= (item.product_id.price * item.quantity).toFixed(2) %>
+                          <% } %>
+                </div>
+
+                <button class="btn-remove" data-cart-item-id="<%= item._id %>" title="Remove item">
+                  <i class="icon-close"></i>
+                </button>
               </div>
             </div>
+            <% }); %>
+              <% if (totalPages> 1) { %>
+                <div class="pagination-container"
+                  style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #f3f4f6;">
+                  <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
 
-            <div class="item-actions">
-              <div class="item-total">
-                <% if (item.hasDiscount) { %>
-                  ₹<%= (item.discountedPrice * item.quantity).toFixed(2) %>
-                <% } else { %>
-                  ₹<%= (item.product_id.price * item.quantity).toFixed(2) %>
+                    <!-- Previous Button -->
+                    <% if (currentPage> 1) { %>
+                      <a href="/cart?page=<%= currentPage - 1 %>" class="pagination-btn"
+                        style="padding: 10px 15px; background: #111827; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 5px;">
+                        <i class="icon-long-arrow-left"></i> Previous
+                      </a>
+                      <% } else { %>
+                        <span class="pagination-btn disabled"
+                          style="padding: 10px 15px; background: #e5e7eb; color: #9ca3af; border-radius: 8px; font-weight: 600; cursor: not-allowed; display: inline-flex; align-items: center; gap: 5px;">
+                          <i class="icon-long-arrow-left"></i> Previous
+                        </span>
+                        <% } %>
+
+                          <!-- Page Numbers -->
+                          <div style="display: flex; gap: 5px;">
+                            <% for (let i=1; i <=totalPages; i++) { %>
+                              <% if (i===currentPage) { %>
+                                <span
+                                  style="padding: 10px 15px; background: #111827; color: white; border-radius: 8px; font-weight: 600; min-width: 45px; text-align: center;">
+                                  <%= i %>
+                                </span>
+                                <% } else { %>
+                                  <a href="/cart?page=<%= i %>"
+                                    style="padding: 10px 15px; background: white; color: #111827; border: 2px solid #e5e7eb; border-radius: 8px; text-decoration: none; font-weight: 600; min-width: 45px; text-align: center; transition: all 0.2s ease;">
+                                    <%= i %>
+                                  </a>
+                                  <% } %>
+                                    <% } %>
+                          </div>
+
+                          <!-- Next Button -->
+                          <% if (currentPage < totalPages) { %>
+                            <a href="/cart?page=<%= currentPage + 1 %>" class="pagination-btn"
+                              style="padding: 10px 15px; background: #111827; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 5px;">
+                              Next <i class="icon-long-arrow-right"></i>
+                            </a>
+                            <% } else { %>
+                              <span class="pagination-btn disabled"
+                                style="padding: 10px 15px; background: #e5e7eb; color: #9ca3af; border-radius: 8px; font-weight: 600; cursor: not-allowed; display: inline-flex; align-items: center; gap: 5px;">
+                                Next <i class="icon-long-arrow-right"></i>
+                              </span>
+                              <% } %>
+
+                  </div>
+
+                  <!-- Page Info -->
+                  <div style="text-align: center; margin-top: 15px; color: #6b7280; font-size: 14px;">
+                    Showing <%= ((currentPage - 1) * 5) + 1 %> to <%= Math.min(currentPage * 5, totalCartItems) %> of
+                        <%= totalCartItems %> items
+                  </div>
+                </div>
                 <% } %>
-              </div>
+        </div>
 
-              <button class="btn-remove" data-cart-item-id="<%= item._id %>" title="Remove item">
-                <i class="icon-close"></i>
-              </button>
-            </div>
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+          <h3 class="summary-title">Order Summary</h3>
+
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span class="summary-value" id="cart-subtotal">₹<%= subtotal || 0 %></span>
           </div>
-        <% }); %>
+
+          <div class="shipping-option">
+            <input type="radio" id="free-shipping" name="shipping" checked>
+            <label for="free-shipping">Free Shipping - ₹0.00</label>
+          </div>
+
+          <div class="summary-row total">
+            <span>Total:</span>
+            <span id="cart-total">₹<%= subtotal || 0 %></span>
+          </div>
+
+          <a href="/checkout" class="btn btn-primary">
+            PROCEED TO CHECKOUT
+          </a>
+
+          <a href="/" class="btn btn-outline">
+            CONTINUE SHOPPING
+          </a>
+        </div>
       </div>
-
-      <!-- Cart Summary -->
-      <div class="cart-summary">
-        <h3 class="summary-title">Order Summary</h3>
-
-        <div class="summary-row">
-          <span>Subtotal:</span>
-          <span class="summary-value" id="cart-subtotal">₹<%= subtotal || 0 %></span>
+      <% } else { %>
+        <!-- Empty Cart -->
+        <div class="empty-cart">
+          <i class="icon-shopping-cart"></i>
+          <h3>Your Cart is Empty!</h3>
+          <p>Add some products to get started.</p>
+          <a href="/shop" class="btn btn-primary" style="max-width: 300px; margin: 0 auto;">
+            START SHOPPING
+          </a>
         </div>
+        <% } %>
+  </div>
 
-        <div class="shipping-option">
-          <input type="radio" id="free-shipping" name="shipping" checked>
-          <label for="free-shipping">Free Shipping - ₹0.00</label>
-        </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <div class="summary-row total">
-          <span>Total:</span>
-          <span id="cart-total">₹<%= subtotal || 0 %></span>
-        </div>
-
-        <a href="/checkout" class="btn btn-primary">
-          PROCEED TO CHECKOUT
-        </a>
-
-        <a href="/" class="btn btn-outline">
-          CONTINUE SHOPPING
-        </a>
-      </div>
-    </div>
-  <% } else { %>
-    <!-- Empty Cart -->
-    <div class="empty-cart">
-      <i class="icon-shopping-cart"></i>
-      <h3>Your Cart is Empty!</h3>
-      <p>Add some products to get started.</p>
-      <a href="/shop" class="btn btn-primary" style="max-width: 300px; margin: 0 auto;">
-        START SHOPPING
-      </a>
-    </div>
-  <% } %>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-  function updateSubtotal() {
-    let subtotal = 0;
-    document.querySelectorAll('.item-total').forEach(totalEl => {
-      const totalText = totalEl.textContent.replace('₹', '').trim();
-      const totalNum = parseFloat(totalText);
-      if (!isNaN(totalNum)) {
-        subtotal += totalNum;
-      }
-    });
-
-    document.getElementById('cart-subtotal').textContent = '₹' + subtotal.toFixed(2);
-    document.getElementById('cart-total').textContent = '₹' + subtotal.toFixed(2);
-  }
-
-  // Update quantity
-  document.querySelectorAll('.quantity-input').forEach(input => {
-    input.addEventListener('change', function() {
-      const cartItemId = this.getAttribute('data-cart-item-id');
-      const newQuantity = this.value;
-      const row = this.closest('.cart-item');
-
-      fetch('/update-cart-quantity', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cartItemId, quantity: newQuantity })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          const priceEl = row.querySelector('.product-price');
-          const totalEl = row.querySelector('.item-total');
-          
-          const priceText = priceEl.textContent.match(/₹([\d.]+)/)[1];
-          const price = parseFloat(priceText);
-          
-          totalEl.textContent = '₹' + (price * newQuantity).toFixed(2);
-          updateSubtotal();
-
-          Swal.fire({
-            icon: 'success',
-            title: 'Updated!',
-            text: 'Cart quantity updated successfully',
-            showConfirmButton: false,
-            timer: 1500,
-            toast: true,
-            position: 'top-end'
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: data.message || 'Error updating quantity',
-            confirmButtonColor: '#111827'
-          }).then(() => {
-            location.reload();
-          });
+  <script>
+    function updateSubtotal() {
+      let subtotal = 0;
+      document.querySelectorAll('.item-total').forEach(totalEl => {
+        const totalText = totalEl.textContent.replace('₹', '').trim();
+        const totalNum = parseFloat(totalText);
+        if (!isNaN(totalNum)) {
+          subtotal += totalNum;
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Error updating cart',
-          confirmButtonColor: '#111827'
-        });
       });
-    });
-  });
 
-  // Remove item
-  document.querySelectorAll('.btn-remove').forEach(button => {
-    button.addEventListener('click', function() {
-      const cartItemId = this.getAttribute('data-cart-item-id');
-      const productName = this.closest('.cart-item').querySelector('.product-name').textContent.trim();
+      document.getElementById('cart-subtotal').textContent = '₹' + subtotal.toFixed(2);
+      document.getElementById('cart-total').textContent = '₹' + subtotal.toFixed(2);
+    }
 
-      Swal.fire({
-        title: 'Remove Item?',
-        text: `Are you sure you want to remove "${productName}" from your cart?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc2626',
-        cancelButtonColor: '#6b7280',
-        confirmButtonText: 'Yes, remove it!',
-        cancelButtonText: 'Cancel'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          fetch('/remove-from-cart', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cartItemId })
-          })
+    // Update quantity
+    document.querySelectorAll('.quantity-input').forEach(input => {
+      input.addEventListener('change', function () {
+        const cartItemId = this.getAttribute('data-cart-item-id');
+        const newQuantity = this.value;
+        const row = this.closest('.cart-item');
+
+        fetch('/update-cart-quantity', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cartItemId, quantity: newQuantity })
+        })
           .then(response => response.json())
           .then(data => {
             if (data.success) {
-              this.closest('.cart-item').remove();
+              const priceEl = row.querySelector('.product-price');
+              const totalEl = row.querySelector('.item-total');
+
+              const priceText = priceEl.textContent.match(/₹([\d.]+)/)[1];
+              const price = parseFloat(priceText);
+
+              totalEl.textContent = '₹' + (price * newQuantity).toFixed(2);
               updateSubtotal();
-              
+
               Swal.fire({
                 icon: 'success',
-                title: 'Removed!',
-                text: 'Item has been removed from your cart.',
+                title: 'Updated!',
+                text: 'Cart quantity updated successfully',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1500,
+                toast: true,
+                position: 'top-end'
               });
-
-              if (document.querySelectorAll('.cart-item').length === 0) {
-                setTimeout(() => {
-                  location.reload();
-                }, 1500);
-              }
             } else {
               Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: data.message || 'Error removing item',
+                text: data.message || 'Error updating quantity',
                 confirmButtonColor: '#111827'
+              }).then(() => {
+                location.reload();
               });
             }
           })
@@ -710,16 +729,72 @@
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'Error removing item from cart',
+              text: 'Error updating cart',
               confirmButtonColor: '#111827'
             });
           });
-        }
       });
     });
-  });
 
-  document.addEventListener('DOMContentLoaded', updateSubtotal);
-</script>
+    // Remove item
+    document.querySelectorAll('.btn-remove').forEach(button => {
+      button.addEventListener('click', function () {
+        const cartItemId = this.getAttribute('data-cart-item-id');
+        const productName = this.closest('.cart-item').querySelector('.product-name').textContent.trim();
 
-<%- include('../layouts/footer.ejs') %>
+        Swal.fire({
+          title: 'Remove Item?',
+          text: `Are you sure you want to remove "${productName}" from your cart?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#dc2626',
+          cancelButtonColor: '#6b7280',
+          confirmButtonText: 'Yes, remove it!',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch('/remove-from-cart', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ cartItemId })
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Removed!',
+                    text: 'Item has been removed from your cart.',
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(() => {
+                    // Reload to update pagination
+                    location.reload();
+                  });
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message || 'Error removing item',
+                    confirmButtonColor: '#111827'
+                  });
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Error removing item from cart',
+                  confirmButtonColor: '#111827'
+                });
+              });
+          }
+        });
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', updateSubtotal);
+  </script>
+
+  <%- include('../layouts/footer.ejs') %>

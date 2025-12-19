@@ -62,9 +62,10 @@ const processRefundToWallet = async (userId, amount, transactionType, descriptio
 
 const cancelOrder = async (req, res) => {
   try {
-    const { _id, cancel_reason, item_id } = req.body;
+    const { id, cancel_reason, item_id } = req.body;
+    console.log( id, cancel_reason, item_id);
 
-    const order = await Orders.findById(_id)
+    const order = await Orders.findById(id)
       .populate('payment_type')
       .populate('items.product_id');
 

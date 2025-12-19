@@ -3,11 +3,11 @@ const User = require('../../../models/user/userCredentials');
 const bcrypt = require('bcrypt');
 
 const PASSWORD_MIN_LENGTH = 8;
-const BCRYPT_SALT_ROUNDS = 10;
+const BCRYPT_LEN = 10;
 
 const hashPassword = async (password) => {
   try {
-    return await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+    return await bcrypt.hash(password, BCRYPT_LEN);
   } catch (error) {
     console.error('Error hashing password:', error);
     throw error;

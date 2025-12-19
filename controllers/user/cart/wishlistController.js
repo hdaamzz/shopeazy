@@ -3,17 +3,35 @@ const User = require('../../../models/user/userCredentials');
 const Wishlist = require('../../../models/user/userwhishlist');
 const { getAuthenticatedUser } = require('../../../helpers/userHelper');
 
+const ITEMS_PER_PAGE = 5; // Number of items per page
 
 const loadWishlist = async (req, res) => {
   try {
     const userData = await getAuthenticatedUser(req);
     if (!userData) return res.redirect('/');
 
-    const wishlistItems = await Wishlist.find({ user_id: userData._id }).populate(
-      'product_id'
-    );
+    // Pagination setup
+    const page = parseInt(req.query.page) || 1;
+    const limit = ITEMS_PER_PAGE;
+    const skip = (page - 1) * limit;
 
-    res.render('wishlist', { userData, wishlist: wishlistItems });
+    // Get total count of wishlist items
+    const totalWishlistItems = await Wishlist.countDocuments({ user_id: userData._id });
+    const totalPages = Math.ceil(totalWishlistItems / limit);
+
+    // Get paginated wishlist items
+    const wishlistItems = await Wishlist.find({ user_id: userData._id })
+      .populate('product_id')
+      .skip(skip)
+      .limit(limit);
+
+    res.render('wishlist', { 
+      userData, 
+      wishlist: wishlistItems,
+      currentPage: page,
+      totalPages: totalPages,
+      totalWishlistItems: totalWishlistItems
+    });
   } catch (error) {
     console.error('Error loading wishlist:', error);
     res.status(HTTP_STATUS.SERVER_ERROR).send('Internal Server Error');

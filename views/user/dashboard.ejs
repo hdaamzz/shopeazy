@@ -1,1562 +1,1817 @@
 <%- include('../layouts/header.ejs') %>
 
-<style>
-  .top-nav-bar {
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-
-  .top-nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .nav-logo img {
-    height: 35px;
-  }
-
-  .nav-icons {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-  }
-
-  .nav-icon-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-    transition: all 0.3s ease;
-  }
-
-  .nav-icon-item:hover {
-    color: #111827;
-    transform: translateY(-2px);
-  }
-
-  .nav-icon-wrapper {
-    font-size: 24px;
-  }
-
-  .nav-icon-label {
-    font-size: 12px;
-    margin-top: 4px;
-    font-weight: 500;
-  }
-
-  body {
-    background: #f5f5f7;
-  }
-
-  .page-header {
-    background: linear-gradient(135deg, #ffffff 0%, #9197af 100%);
-    color: white;
-    padding: 60px 20px;
-    text-align: center;
-  }
-
-  .page-title {
-    font-size: 36px;
-    font-weight: 700;
-    margin: 0;
-  }
-
-  .breadcrumb-nav {
-    background: white;
-    padding: 15px 0;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .dashboard-container {
-    max-width: 1400px;
-    margin: 30px auto;
-    padding: 0 20px;
-  }
-
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 30px;
-  }
-
-  /* Sidebar */
-  .dashboard-sidebar {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e5e7eb;
-    height: fit-content;
-    position: sticky;
-    top: 100px;
-  }
-
-  .nav-dashboard {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .nav-dashboard .nav-item {
-    margin-bottom: 5px;
-  }
-
-  .nav-dashboard .nav-link {
-    display: block;
-    padding: 12px 15px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #6b7280;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-
-  .nav-dashboard .nav-link:hover {
-    background: #f3f4f6;
-    color: #111827;
-  }
-
-  .nav-dashboard .nav-link.active {
-    background: #111827;
-    color: white;
-  }
-
-  /* Content Area */
-  .dashboard-content {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    border: 1px solid #e5e7eb;
-    min-height: 500px;
-  }
-
-  .tab-pane {
-    display: none;
-  }
-
-  .tab-pane.active {
-    display: block;
-  }
-
-  .section-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f3f4f6;
-  }
-
-  /* Dashboard Overview */
-  .user-info {
-    background: #f9fafb;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-
-  .user-info p {
-    margin-bottom: 10px;
-    color: #374151;
-  }
-
-  .user-info .label {
-    font-weight: 600;
-    color: #111827;
-  }
-
-  /* Order Cards */
-  .order-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    overflow: hidden;
-  }
-
-  .order-card .card-header {
-    background: #f9fafb;
-    padding: 20px;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .order-card .card-body {
-    padding: 20px;
-  }
-
-  .order-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 15px;
-  }
-
-  .order-detail-item strong {
-    display: block;
-    color: #6b7280;
-    font-size: 12px;
-    margin-bottom: 5px;
-  }
-
-  .btn {
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .btn-primary {
-    background: #111827;
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: #030712;
-  }
-
-  .btn-warning {
-    background: #fbbf24;
-    color: #78350f;
-  }
-
-  .btn-warning:hover {
-    background: #f59e0b;
-  }
-
-  .btn-danger {
-    background: #dc2626;
-    color: white;
-  }
-
-  .btn-danger:hover {
-    background: #b91c1c;
-  }
-
-  .btn-outline-primary {
-    background: white;
-    color: #111827;
-    border: 2px solid #111827;
-  }
-
-  .btn-outline-primary:hover {
-    background: #111827;
-    color: white;
-  }
-
-  /* Order Products Table */
-  .order-products {
-    margin-top: 20px;
-    border-top: 2px solid #f3f4f6;
-    padding-top: 20px;
-  }
-
-  .table-responsive {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  thead {
-    background: #f9fafb;
-  }
-
-  th {
-    padding: 12px;
-    text-align: left;
-    font-weight: 600;
-    color: #6b7280;
-    font-size: 12px;
-    text-transform: uppercase;
-  }
-
-  td {
-    padding: 15px 12px;
-    border-bottom: 1px solid #f3f4f6;
-  }
-
-  .product-image-cell {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .product-thumbnail {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    object-fit: cover;
-  }
-
-  .badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .badge.bg-success {
-    background: #d1fae5;
-    color: #065f46;
-  }
-
-  .badge.bg-primary {
-    background: #dbeafe;
-    color: #000000;
-  }
-
-  /* Address Cards */
-  .address-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
-
-  .address-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 20px;
-  }
-
-  .address-card p {
-    color: #374151;
-    line-height: 1.8;
-    margin-bottom: 15px;
-  }
-
-  .address-card b {
-    color: #111827;
-  }
-
-  /* Forms */
-  .form-group {
-    margin-bottom: 20px;
-  }
-
-  .form-label {
-    display: block;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 8px;
-    font-size: 14px;
-  }
-
-  .form-control {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.2s ease;
-  }
-
-  .form-control:focus {
-    outline: none;
-    border-color: #111827;
-  }
-
-  .form-control.error {
-    border-color: #dc2626;
-  }
-
-  .error-msg {
-    color: #dc2626;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-
-  /* Empty State */
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-  }
-
-  .empty-state i {
-    font-size: 64px;
-    color: #d1d5db;
-    margin-bottom: 20px;
-  }
-
-  .empty-state h3 {
-    font-size: 20px;
-    color: #6b7280;
-    margin-bottom: 10px;
-  }
-    .modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-
-  .modal-content {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
-
-  .modal-header .btn-close {
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    opacity: 0.5;
-    transition: opacity 0.2s ease;
-  }
-
-  .modal-header .btn-close:hover {
-    opacity: 1;
-  }
-
-  .btn-secondary {
-    background: #e5e7eb;
-    color: #374151;
-  }
-
-  .btn-secondary:hover {
-    background: #d1d5db;
-  }
-
-  /* Responsive */
-  @media (max-width: 992px) {
-    .dashboard-grid {
-      grid-template-columns: 1fr;
+  <style>
+    .top-nav-bar {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    .dashboard-sidebar {
-      position: static;
+    .top-nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .order-details {
-      grid-template-columns: 1fr;
-    }
-
-    .address-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 768px) {
     .nav-logo img {
-      height: 28px;
+      height: 35px;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+
+    .nav-icon-item:hover {
+      color: #111827;
+      transform: translateY(-2px);
+    }
+
+    .nav-icon-wrapper {
+      font-size: 24px;
     }
 
     .nav-icon-label {
-      display: none;
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    body {
+      background: #f5f5f7;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #ffffff 0%, #9197af 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
     }
 
     .page-title {
-      font-size: 28px;
+      font-size: 36px;
+      font-weight: 700;
+      margin: 0;
     }
 
+    .breadcrumb-nav {
+      background: white;
+      padding: 15px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 30px;
+    }
+
+    /* Sidebar */
+    .dashboard-sidebar {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .nav-dashboard {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-dashboard .nav-item {
+      margin-bottom: 5px;
+    }
+
+    .nav-dashboard .nav-link {
+      display: block;
+      padding: 12px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #6b7280;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .pagination-container .page-number:hover {
+      background: #f3f4f6;
+      border-color: #111827;
+      transform: translateY(-2px);
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+      background: #030712;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .pagination-container {
+        flex-direction: column;
+        gap: 15px !important;
+      }
+
+      .page-numbers {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+    .nav-dashboard .nav-link:hover {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .nav-dashboard .nav-link.active {
+      background: #111827;
+      color: white;
+    }
+
+    /* Content Area */
     .dashboard-content {
-      padding: 20px 15px;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #e5e7eb;
+      min-height: 500px;
     }
-  }
-</style>
 
-<!-- Top Navigation -->
-<nav class="top-nav-bar">
-  <div class="top-nav-container">
-    <a href="/" class="nav-logo">
-      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
-    </a>
+    .tab-pane {
+      display: none;
+    }
 
-    <div class="nav-icons">
-      <a href="/wallet" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="fa-solid fa-wallet"></i>
-        </div>
-        <span class="nav-icon-label">Wallet</span>
+    .tab-pane.active {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    /* Dashboard Overview */
+    .user-info {
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .user-info p {
+      margin-bottom: 10px;
+      color: #374151;
+    }
+
+    .user-info .label {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    /* Order Cards */
+    .order-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .order-card .card-header {
+      background: #f9fafb;
+      padding: 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .order-card .card-body {
+      padding: 20px;
+    }
+
+    .order-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .order-detail-item strong {
+      display: block;
+      color: #6b7280;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #111827;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #030712;
+    }
+
+    .btn-warning {
+      background: #fbbf24;
+      color: #78350f;
+    }
+
+    .btn-warning:hover {
+      background: #f59e0b;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .btn-outline-primary {
+      background: white;
+      color: #111827;
+      border: 2px solid #111827;
+    }
+
+    .btn-outline-primary:hover {
+      background: #111827;
+      color: white;
+    }
+
+    /* Order Products Table */
+    .order-products {
+      margin-top: 20px;
+      border-top: 2px solid #f3f4f6;
+      padding-top: 20px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f9fafb;
+    }
+
+    th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #6b7280;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 15px 12px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .product-image-cell {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .product-thumbnail {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge.bg-success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge.bg-primary {
+      background: #dbeafe;
+      color: #000000;
+    }
+
+    /* Address Cards */
+    .address-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .address-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .address-card p {
+      color: #374151;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .address-card b {
+      color: #111827;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #111827;
+    }
+
+    .form-control.error {
+      border-color: #dc2626;
+    }
+
+    .error-msg {
+      color: #dc2626;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-state i {
+      font-size: 64px;
+      color: #d1d5db;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 20px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .modal-backdrop {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .modal-header .btn-close {
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      opacity: 0.5;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-header .btn-close:hover {
+      opacity: 1;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-sidebar {
+        position: static;
+      }
+
+      .order-details {
+        grid-template-columns: 1fr;
+      }
+
+      .address-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-logo img {
+        height: 28px;
+      }
+
+      .nav-icon-label {
+        display: none;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .dashboard-content {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+
+  <!-- Top Navigation -->
+  <nav class="top-nav-bar">
+    <div class="top-nav-container">
+      <a href="/" class="nav-logo">
+        <img src="assets/newimages/logo.png" alt="shopEazy Logo">
       </a>
 
-      <a href="/wishlist" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="icon-heart-o"></i>
-        </div>
-        <span class="nav-icon-label">Wishlist</span>
-      </a>
+      <div class="nav-icons">
+        <a href="/wallet" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <span class="nav-icon-label">Wallet</span>
+        </a>
 
-      <a href="/cart" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="icon-shopping-cart"></i>
-        </div>
-        <span class="nav-icon-label">Cart</span>
-      </a>
-    </div>
-  </div>
-</nav>
+        <a href="/wishlist" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="icon-heart-o"></i>
+          </div>
+          <span class="nav-icon-label">Wishlist</span>
+        </a>
 
-<!-- Page Header -->
-<div class="page-header">
-  <h1 class="page-title">My Account</h1>
-</div>
-
-<!-- Breadcrumb -->
-<nav class="breadcrumb-nav">
-  <div class="container">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">Home</a></li>
-      <li class="breadcrumb-item active">My Account</li>
-    </ol>
-  </div>
-</nav>
-
-<!-- Dashboard Content -->
-<div class="dashboard-container">
-  <div class="dashboard-grid">
-    <!-- Sidebar -->
-    <aside class="dashboard-sidebar">
-      <ul class="nav-dashboard">
-        <li class="nav-item">
-          <a class="nav-link active" href="#tab-dashboard" data-tab="tab-dashboard">
-            <i class="icon-home"></i> Dashboard
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#tab-orders" data-tab="tab-orders">
-            <i class="icon-shopping-bag"></i> Orders
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#tab-address" data-tab="tab-address">
-            <i class="icon-map-marker"></i> Addresses
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#tab-addaddress" data-tab="tab-addaddress">
-            <i class="icon-plus"></i> Add Address
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#tab-account" data-tab="tab-account">
-            <i class="icon-user"></i> Account Details
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/logout">
-            <i class="icon-sign-out"></i> Sign Out
-          </a>
-        </li>
-      </ul>
-    </aside>
-
-    <!-- Main Content -->
-    <div class="dashboard-content">
-      <!-- Dashboard Tab -->
-      <div class="tab-pane active" id="tab-dashboard">
-        <h2 class="section-title">Dashboard</h2>
-        <div class="user-info">
-          <p><span class="label">Username:</span> <%= userData?.user_name %></p>
-          <p><span class="label">Email:</span> <%= userData?.email_address %></p>
-        </div>
-        <p>
-          From your account dashboard you can view your <a href="#" class="tab-trigger" data-tab="tab-orders">recent orders</a>,
-          manage your <a href="#" class="tab-trigger" data-tab="tab-address">shipping addresses</a>, and
-          <a href="#" class="tab-trigger" data-tab="tab-account">edit your password and account details</a>.
-        </p>
+        <a href="/cart" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="icon-shopping-cart"></i>
+          </div>
+          <span class="nav-icon-label">Cart</span>
+        </a>
       </div>
+    </div>
+  </nav>
 
-      <!-- Orders Tab -->
-      <div class="tab-pane" id="tab-orders">
-        <h2 class="section-title">My Orders</h2>
-        <% if (orderData && orderData.length > 0) { %>
-          <% orderData.forEach(order => { %>
-            <div class="order-card">
-              <div class="card-header">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <h6 style="margin: 0;">Order #<%= order.order_id %></h6>
-                  <small style="color: #6b7280;"><%= new Date(order.created_at).toLocaleDateString() %></small>
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">My Account</h1>
+  </div>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb-nav">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">My Account</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Dashboard Content -->
+  <div class="dashboard-container">
+    <div class="dashboard-grid">
+      <!-- Sidebar -->
+      <aside class="dashboard-sidebar">
+        <ul class="nav-dashboard">
+          <li class="nav-item">
+            <a class="nav-link active" href="#tab-dashboard" data-tab="tab-dashboard">
+              <i class="icon-home"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab-orders" data-tab="tab-orders">
+              <i class="icon-shopping-bag"></i> Orders
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab-address" data-tab="tab-address">
+              <i class="icon-map-marker"></i> Addresses
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab-addaddress" data-tab="tab-addaddress">
+              <i class="icon-plus"></i> Add Address
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab-account" data-tab="tab-account">
+              <i class="icon-user"></i> Account Details
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">
+              <i class="icon-sign-out"></i> Sign Out
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="dashboard-content">
+        <!-- Dashboard Tab -->
+        <div class="tab-pane active" id="tab-dashboard">
+          <h2 class="section-title">Dashboard</h2>
+          <div class="user-info">
+            <p><span class="label">Username:</span>
+              <%= userData?.user_name %>
+            </p>
+            <p><span class="label">Email:</span>
+              <%= userData?.email_address %>
+            </p>
+          </div>
+          <p>
+            From your account dashboard you can view your <a href="#" class="tab-trigger" data-tab="tab-orders">recent
+              orders</a>,
+            manage your <a href="#" class="tab-trigger" data-tab="tab-address">shipping addresses</a>, and
+            <a href="#" class="tab-trigger" data-tab="tab-account">edit your password and account details</a>.
+          </p>
+        </div>
+
+        <!-- Orders Tab -->
+        <div class="tab-pane" id="tab-orders">
+          <h2 class="section-title">My Orders</h2>
+          <% if (orderData && orderData.length> 0) { %>
+            <% orderData.forEach(order=> { %>
+              <div class="order-card">
+                <!-- Your existing order card content remains the same -->
+                <div class="card-header">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h6 style="margin: 0;">Order #<%= order.order_id %>
+                    </h6>
+                    <small style="color: #6b7280;">
+                      <%= new Date(order.created_at).toLocaleDateString() %>
+                    </small>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="order-details">
+                    <div class="order-detail-item">
+                      <strong>Total Amount</strong>
+                      ₹<%= order.total_amount.toFixed(2) %>
+                    </div>
+                    <div class="order-detail-item">
+                      <strong>Payment Status</strong>
+                      <span
+                        class="<%= order.payment_status === 'Completed' ? 'text-success' : order.payment_status === 'Failed' ? 'text-danger' : 'text-warning' %>">
+                        <%= order.payment_status %>
+                      </span>
+                    </div>
+                    <div class="order-detail-item">
+                      <strong>Ship To</strong>
+                      <%= order.address_id.name %>, <%= order.address_id.town_city %>
+                    </div>
+                  </div>
+
+                  <% if (['Failed', 'Pending' , 'Processing' ].includes(order.payment_status)) { %>
+                    <button class="btn btn-warning"
+                      onclick="initiateRepayment('<%= order._id %>', <%= order.total_amount %>)">
+                      Repay Order
+                    </button>
+                    <% } %>
+
+                      <button class="btn btn-outline-primary" onclick="toggleOrderDetails('<%= order._id %>')">
+                        View Details
+                      </button>
+
+                      <!-- Order Products (Hidden by default) -->
+                      <div class="order-products" id="order-products-<%= order._id %>" style="display: none;">
+                        <h6>Ordered Items</h6>
+                        <div class="table-responsive">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% order.items.forEach(item=> { %>
+                                <tr>
+                                  <td>
+                                    <div class="product-image-cell">
+                                      <img src="/uploads/<%= item.product_id?.images[0] %>" class="product-thumbnail"
+                                        alt="<%= item.name %>">
+                                      <a href="/showProduct?id=<%= item.product_id._id %>">
+                                        <%= item.name %>
+                                      </a>
+                                    </div>
+                                  </td>
+                                  <td>₹<%= item.price.toFixed(2) %>
+                                  </td>
+                                  <td>
+                                    <%= item.quantity %>
+                                  </td>
+                                  <td>₹<%= item.total.toFixed(2) %>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="badge <%= item.status === 'Delivered' ? 'bg-success' : 'bg-primary' %>">
+                                      <%= item.status %>
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <% if (item.status==='Cancelled' ) { %>
+                                      <button class="btn btn-sm" disabled>Cancelled</button>
+                                      <% } else if (item.status==='Delivered' ) { %>
+                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                          data-bs-target="#returnModal-<%= item._id %>">
+                                          Return
+                                        </button>
+                                        <a href="/downloadInvoice?itemId=<%= item._id %>&orderId=<%= order.order_id %>"
+                                          class="btn btn-primary btn-sm" target="_blank">
+                                          Invoice
+                                        </a>
+                                        <% } else if (['Pending', 'Shipped' , 'Processing' ].includes(item.status) &&
+                                          order.payment_status==='Completed' ) { %>
+                                          <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#cancelModal-<%= item._id %>">
+                                            Cancel
+                                          </button>
+                                          <% } %>
+                                  </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                 </div>
               </div>
-              <div class="card-body">
-                <div class="order-details">
-                  <div class="order-detail-item">
-                    <strong>Total Amount</strong>
-                    ₹<%= order.total_amount.toFixed(2) %>
-                  </div>
-                  <div class="order-detail-item">
-                    <strong>Payment Status</strong>
-                    <span class="<%= order.payment_status === 'Completed' ? 'text-success' : order.payment_status === 'Failed' ? 'text-danger' : 'text-warning' %>">
-                      <%= order.payment_status %>
-                    </span>
-                  </div>
-                  <div class="order-detail-item">
-                    <strong>Ship To</strong>
-                    <%= order.address_id.name %>, <%= order.address_id.town_city %>
-                  </div>
-                </div>
+              <% }); %>
+                <!-- Pagination Controls -->
+                <% if (totalPages> 1) { %>
+                  <div class="pagination-container"
+                    style="display: flex; justify-content: center; align-items: center; margin-top: 30px; gap: 10px;">
 
-                <% if (['Failed', 'Pending', 'Processing'].includes(order.payment_status)) { %>
-                  <button class="btn btn-warning" onclick="initiateRepayment('<%= order._id %>', <%= order.total_amount %>)">
-                    Repay Order
-                  </button>
-                <% } %>
+                    <!-- Previous Button -->
+                    <% if (currentPage> 1) { %>
+                      <a href="/dashboard?page=<%= currentPage - 1 %>" class="pagination-btn"
+                        style="padding: 10px 15px; background: #111827; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s ease;">
+                        <i class="fa fa-chevron-left"></i> Previous
+                      </a>
+                      <% } else { %>
+                        <span class="pagination-btn disabled"
+                          style="padding: 10px 15px; background: #e5e7eb; color: #9ca3af; border-radius: 8px; font-weight: 600; cursor: not-allowed;">
+                          <i class="fa fa-chevron-left"></i> Previous
+                        </span>
+                        <% } %>
 
-                <button class="btn btn-outline-primary" onclick="toggleOrderDetails('<%= order._id %>')">
-                  View Details
-                </button>
+                          <!-- Page Numbers -->
+                          <div class="page-numbers" style="display: flex; gap: 5px;">
+                            <% for (let i=1; i <=totalPages; i++) { %>
+                              <% if (i===currentPage) { %>
+                                <span class="page-number active"
+                                  style="padding: 10px 15px; background: #111827; color: white; border-radius: 8px; font-weight: 600; min-width: 45px; text-align: center;">
+                                  <%= i %>
+                                </span>
+                                <% } else { %>
+                                  <a href="/dashboard?page=<%= i %>" class="page-number"
+                                    style="padding: 10px 15px; background: white; color: #111827; border: 2px solid #e5e7eb; border-radius: 8px; text-decoration: none; font-weight: 600; min-width: 45px; text-align: center; transition: all 0.2s ease;">
+                                    <%= i %>
+                                  </a>
+                                  <% } %>
+                                    <% } %>
+                          </div>
 
-                <!-- Order Products (Hidden by default) -->
-                <div class="order-products" id="order-products-<%= order._id %>" style="display: none;">
-                  <h6>Ordered Items</h6>
-                  <div class="table-responsive">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Product</th>
-                          <th>Price</th>
-                          <th>Qty</th>
-                          <th>Total</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% order.items.forEach(item => { %>
-                          <tr>
-                            <td>
-                              <div class="product-image-cell">
-                                <img src="/uploads/<%= item.product_id?.images[0] %>" class="product-thumbnail" alt="<%= item.name %>">
-                                <a href="/showProduct?id=<%= item.product_id._id %>"><%= item.name %></a>
-                              </div>
-                            </td>
-                            <td>₹<%= item.price.toFixed(2) %></td>
-                            <td><%= item.quantity %></td>
-                            <td>₹<%= item.total.toFixed(2) %></td>
-                            <td>
-                              <span class="badge <%= item.status === 'Delivered' ? 'bg-success' : 'bg-primary' %>">
-                                <%= item.status %>
+                          <!-- Next Button -->
+                          <% if (currentPage < totalPages) { %>
+                            <a href="/dashboard?page=<%= currentPage + 1 %>" class="pagination-btn"
+                              style="padding: 10px 15px; background: #111827; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s ease;">
+                              Next <i class="fa fa-chevron-right"></i>
+                            </a>
+                            <% } else { %>
+                              <span class="pagination-btn disabled"
+                                style="padding: 10px 15px; background: #e5e7eb; color: #9ca3af; border-radius: 8px; font-weight: 600; cursor: not-allowed;">
+                                Next <i class="fa fa-chevron-right"></i>
                               </span>
-                            </td>
-                            <td>
-                              <% if (item.status === 'Cancelled') { %>
-                                <button class="btn btn-sm" disabled>Cancelled</button>
-                              <% } else if (item.status === 'Delivered') { %>
-                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#returnModal-<%= item._id %>">
-                                  Return
-                                </button>
-                                <a href="/downloadInvoice?itemId=<%= item._id %>&orderId=<%= order.order_id %>" class="btn btn-primary btn-sm" target="_blank">
-                                  Invoice
-                                </a>
-                              <% } else if (['Pending', 'Shipped', 'Processing'].includes(item.status) && order.payment_status === 'Completed') { %>
-                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelModal-<%= item._id %>">
-                                  Cancel
-                                </button>
                               <% } %>
-                            </td>
-                          </tr>
-                        <% }); %>
-                      </tbody>
-                    </table>
+
+                  </div>
+
+                  <!-- Page Info -->
+                  <div style="text-align: center; margin-top: 15px; color: #6b7280; font-size: 14px;">
+                    Showing <%= ((currentPage - 1) * 5) + 1 %> to <%= Math.min(currentPage * 5, totalOrders) %> of <%=
+                          totalOrders %> orders
+                  </div>
+                  <% } %>
+                    <% } else { %>
+                      <div class="empty-state">
+                        <i class="icon-shopping-bag"></i>
+                        <h3>No Orders Yet</h3>
+                        <p>You haven't placed any orders yet.</p>
+                        <a href="/shop" class="btn btn-primary">Start Shopping</a>
+                      </div>
+                      <% } %>
+
+        </div>
+        <!-- Cancel Order Modals -->
+        <% if (orderData && orderData.length> 0) { %>
+          <% orderData.forEach(order=> { %>
+            <% order.items.forEach(item=> { %>
+              <% if (['Pending', 'Shipped' , 'Processing' ].includes(item.status) && order.payment_status==='Completed'
+                ) { %>
+                <div class="modal fade" id="cancelModal-<%= item._id %>" tabindex="-1"
+                  aria-labelledby="cancelModalLabel-<%= item._id %>" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="border-radius: 12px; border: none;">
+                      <div class="modal-header" style="border-bottom: 2px solid #f3f4f6;">
+                        <h5 class="modal-title" id="cancelModalLabel-<%= item._id %>"
+                          style="font-weight: 700; color: #111827;">
+                          Cancel Order Item
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" style="padding: 30px;">
+                        <div style="margin-bottom: 20px;">
+                          <p style="color: #6b7280; margin-bottom: 10px;">
+                            <strong style="color: #111827;">Product:</strong>
+                            <%= item.name %>
+                          </p>
+                          <p style="color: #6b7280; margin-bottom: 10px;">
+                            <strong style="color: #111827;">Price:</strong> ₹<%= item.total.toFixed(2) %>
+                          </p>
+                          <p style="color: #6b7280;">
+                            <strong style="color: #111827;">Status:</strong>
+                            <%= item.status %>
+                          </p>
+                        </div>
+
+                        <form class="cancel-order-form" data-cancel-id="<%= item._id %>"
+                          data-order-id="<%= order._id %>">
+                          <div class="form-group">
+                            <label class="form-label errMsg" for="cancelReason<%= item._id %>">Reason for Cancellation
+                              *</label>
+                            <textarea class="form-control" id="cancelReason<%= item._id %>" rows="4"
+                              placeholder="Please provide a reason for canceling this order (minimum 5 characters)"
+                              required></textarea>
+                          </div>
+
+                          <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                              Close
+                            </button>
+                            <button type="submit" class="btn btn-danger">
+                              Confirm Cancellation
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          <% }); %>
-        <% } else { %>
-          <div class="empty-state">
-            <i class="icon-shopping-bag"></i>
-            <h3>No Orders Yet</h3>
-            <p>You haven't placed any orders yet.</p>
-            <a href="/shop" class="btn btn-primary">Start Shopping</a>
-          </div>
-        <% } %>
-      </div>
+                <% } %>
+                  <% }); %>
+                    <% }); %>
+                      <% } %>
 
-      <!-- Addresses Tab -->
-      <div class="tab-pane" id="tab-address">
-        <h2 class="section-title">My Addresses</h2>
-        <% if (addressData && addressData.length > 0) { %>
-          <div class="address-grid">
-            <% addressData.forEach(address => { %>
-              <div class="address-card">
-                <p>
-                  <b><%= address.name %></b><br>
-                  <%= address.address %><br>
-                  <%= address.town_city %>, <%= address.state %> - <%= address.pin_code %><br>
-                  <%= address.landmark %><br>
-                  Phone: <%= address.phone_number %>
-                </p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-<%= address._id %>">
-                  Edit Address
-                </button>
-                <button class="btn btn-danger btn-sm delete-address" data-address-id="<%= address._id %>">
-                  Delete
-                </button>
-              </div>
-            <% }); %>
-          </div>
-        <% } else { %>
-          <div class="empty-state">
-            <i class="icon-map-marker"></i>
-            <h3>No Addresses Found</h3>
-            <p>You haven't added any addresses yet.</p>
-            <a href="#" class="btn btn-primary tab-trigger" data-tab="tab-addaddress">Add Address</a>
-          </div>
-        <% } %>
-      </div>
 
-    <!-- ADD THIS SECTION HERE - Edit Address Modals -->
-    <% if (addressData && addressData.length > 0) { %>
-    <% addressData.forEach(address => { %>
-        <div class="modal fade" id="editModal-<%= address._id %>" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius: 12px; border: none;">
-            <div class="modal-header" style="border-bottom: 2px solid #f3f4f6;">
-                <h5 class="modal-title" style="font-weight: 700; color: #111827;">Edit Address</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" style="padding: 30px;">
-                <form class="edit-address-form" data-address-id="<%= address._id %>">
-                <div class="form-group">
-                    <label class="form-label errMsg">Name</label>
-                    <input type="text" class="form-control" id="edit-name-<%= address._id %>" value="<%= address.name %>">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label errMsg">Phone Number</label>
-                    <input type="tel" class="form-control" id="edit-phone-<%= address._id %>" value="<%= address.phone_number %>">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label errMsg">Address</label>
-                    <textarea class="form-control" id="edit-address-<%= address._id %>" rows="3"><%= address.address %></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label errMsg">Town/City</label>
-                    <input type="text" class="form-control" id="edit-city-<%= address._id %>" value="<%= address.town_city %>">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label errMsg">Pin Code</label>
-                    <input type="text" class="form-control" id="edit-pincode-<%= address._id %>" value="<%= address.pin_code %>">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label errMsg">Landmark (optional)</label>
-                    <input type="text" class="form-control" id="edit-landmark-<%= address._id %>" value="<%= address.landmark %>">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label errMsg">State</label>
-                    <input type="text" class="form-control" id="edit-state-<%= address._id %>" value="<%= address.state %>">
-                </div>
-                
-                <input type="hidden" id="edit-hiddenid-<%= address._id %>" value="<%= address._id %>">
-                
-                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-                </form>
-            </div>
-            </div>
-        </div>
-        </div>
-    <% }); %>
-    <% } %>
-      <!-- Add Address Tab -->
-      <div class="tab-pane" id="tab-addaddress">
-        <h2 class="section-title">Add New Address</h2>
-        <form id="addAddressForm">
-          <div class="form-group">
-            <label class="form-label errMsg">Name</label>
-            <input type="text" class="form-control" id="name">
-          </div>
-          <div class="form-group">
-            <label class="form-label errMsg">Phone Number</label>
-            <input type="tel" class="form-control" id="phone">
-          </div>
-          <div class="form-group">
-            <label class="form-label errMsg">Address</label>
-            <textarea class="form-control" id="address" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label errMsg">Town/City</label>
-            <input type="text" class="form-control" id="city">
-          </div>
-          <div class="form-group">
-            <label class="form-label errMsg">Pin Code</label>
-            <input type="number" class="form-control" id="pincode">
-          </div>
-          <div class="form-group">
-            <label class="form-label errMsg">Landmark (optional)</label>
-            <input type="text" class="form-control" id="landmark">
-          </div>
-          <div class="form-group">
-            <label class="form-label errMsg">State</label>
-            <input type="text" class="form-control" id="state">
-          </div>
-          <input type="hidden" id="hiddenid" value="<%= userData?._id %>">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
+                        <!-- Return Order Modals -->
+                        <% if (orderData && orderData.length> 0) { %>
+                          <% orderData.forEach(order=> { %>
+                            <% order.items.forEach(item=> { %>
+                              <% if (item.status==='Delivered' ) { %>
+                                <div class="modal fade" id="returnModal-<%= item._id %>" tabindex="-1"
+                                  aria-labelledby="returnModalLabel-<%= item._id %>" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" style="border-radius: 12px; border: none;">
+                                      <div class="modal-header" style="border-bottom: 2px solid #f3f4f6;">
+                                        <h5 class="modal-title" id="returnModalLabel-<%= item._id %>"
+                                          style="font-weight: 700; color: #111827;">
+                                          Return Order Item
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body" style="padding: 30px;">
+                                        <div style="margin-bottom: 20px;">
+                                          <p style="color: #6b7280; margin-bottom: 10px;">
+                                            <strong style="color: #111827;">Product:</strong>
+                                            <%= item.name %>
+                                          </p>
+                                          <p style="color: #6b7280; margin-bottom: 10px;">
+                                            <strong style="color: #111827;">Price:</strong> ₹<%= item.total.toFixed(2)
+                                              %>
+                                          </p>
+                                          <p style="color: #6b7280;">
+                                            <strong style="color: #111827;">Status:</strong>
+                                            <%= item.status %>
+                                          </p>
+                                        </div>
 
-      <!-- Account Details Tab -->
-      <div class="tab-pane" id="tab-account">
-        <h2 class="section-title">Account Details</h2>
-        <form id="updateUserForm">
-          <div class="form-group">
-            <label class="form-label">Name *</label>
-            <input type="text" class="form-control" id="userName1" value="<%= userData?.user_name %>">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Current Password *</label>
-            <input type="password" class="form-control" id="currentPassword">
-          </div>
-          <div class="form-group">
-            <label class="form-label">New Password (leave blank to keep current)</label>
-            <input type="password" class="form-control" id="newPassword">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Confirm New Password</label>
-            <input type="password" class="form-control" id="confirmPassword">
-          </div>
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
+                                        <div class="form-group">
+                                          <label class="form-label" for="return_reason_<%= item._id %>">Reason for
+                                            Return
+                                            *</label>
+                                          <textarea class="form-control" id="return_reason_<%= item._id %>" rows="4"
+                                            placeholder="Please provide a reason for returning this item (minimum 5 characters)"
+                                            required></textarea>
+                                        </div>
+
+                                        <div
+                                          style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Close
+                                          </button>
+                                          <button type="button" class="btn btn-warning"
+                                            onclick="submitReturnRequest('<%= item._id %>', '<%= order._id %>')">
+                                            Submit Return Request
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <% } %>
+                                  <% }); %>
+                                    <% }); %>
+                                      <% } %>
+
+
+                                        <!-- Addresses Tab -->
+                                        <div class="tab-pane" id="tab-address">
+                                          <h2 class="section-title">My Addresses</h2>
+                                          <% if (addressData && addressData.length> 0) { %>
+                                            <div class="address-grid">
+                                              <% addressData.forEach(address=> { %>
+                                                <div class="address-card">
+                                                  <p>
+                                                    <b>
+                                                      <%= address.name %>
+                                                    </b><br>
+                                                    <%= address.address %><br>
+                                                      <%= address.town_city %>, <%= address.state %> - <%=
+                                                            address.pin_code %><br>
+                                                            <%= address.landmark %><br>
+                                                              Phone: <%= address.phone_number %>
+                                                  </p>
+                                                  <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal-<%= address._id %>">
+                                                    Edit Address
+                                                  </button>
+                                                  <button class="btn btn-danger btn-sm delete-address"
+                                                    data-address-id="<%= address._id %>">
+                                                    Delete
+                                                  </button>
+                                                </div>
+                                                <% }); %>
+                                            </div>
+                                            <% } else { %>
+                                              <div class="empty-state">
+                                                <i class="icon-map-marker"></i>
+                                                <h3>No Addresses Found</h3>
+                                                <p>You haven't added any addresses yet.</p>
+                                                <a href="#" class="btn btn-primary tab-trigger"
+                                                  data-tab="tab-addaddress">Add Address</a>
+                                              </div>
+                                              <% } %>
+                                        </div>
+
+                                        <!-- ADD THIS SECTION HERE - Edit Address Modals -->
+                                        <% if (addressData && addressData.length> 0) { %>
+                                          <% addressData.forEach(address=> { %>
+                                            <div class="modal fade" id="editModal-<%= address._id %>" tabindex="-1"
+                                              aria-hidden="true">
+                                              <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content" style="border-radius: 12px; border: none;">
+                                                  <div class="modal-header" style="border-bottom: 2px solid #f3f4f6;">
+                                                    <h5 class="modal-title" style="font-weight: 700; color: #111827;">
+                                                      Edit
+                                                      Address</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                      aria-label="Close"></button>
+                                                  </div>
+                                                  <div class="modal-body" style="padding: 30px;">
+                                                    <form class="edit-address-form"
+                                                      data-address-id="<%= address._id %>">
+                                                      <div class="form-group">
+                                                        <label class="form-label errMsg">Name</label>
+                                                        <input type="text" class="form-control"
+                                                          id="edit-name-<%= address._id %>" value="<%= address.name %>">
+                                                      </div>
+
+                                                      <div class="form-group">
+                                                        <label class="form-label errMsg">Phone Number</label>
+                                                        <input type="tel" class="form-control"
+                                                          id="edit-phone-<%= address._id %>"
+                                                          value="<%= address.phone_number %>">
+                                                      </div>
+
+                                                      <div class="form-group">
+                                                        <label class="form-label errMsg">Address</label>
+                                                        <textarea class="form-control"
+                                                          id="edit-address-<%= address._id %>"
+                                                          rows="3"><%= address.address %></textarea>
+                                                      </div>
+
+                                                      <div class="form-group">
+                                                        <label class="form-label errMsg">Town/City</label>
+                                                        <input type="text" class="form-control"
+                                                          id="edit-city-<%= address._id %>"
+                                                          value="<%= address.town_city %>">
+                                                      </div>
+
+                                                      <div class="form-group">
+                                                        <label class="form-label errMsg">Pin Code</label>
+                                                        <input type="text" class="form-control"
+                                                          id="edit-pincode-<%= address._id %>"
+                                                          value="<%= address.pin_code %>">
+                                                      </div>
+
+                                                      <div class="form-group">
+                                                        <label class="form-label errMsg">Landmark (optional)</label>
+                                                        <input type="text" class="form-control"
+                                                          id="edit-landmark-<%= address._id %>"
+                                                          value="<%= address.landmark %>">
+                                                      </div>
+
+                                                      <div class="form-group">
+                                                        <label class="form-label errMsg">State</label>
+                                                        <input type="text" class="form-control"
+                                                          id="edit-state-<%= address._id %>"
+                                                          value="<%= address.state %>">
+                                                      </div>
+
+                                                      <input type="hidden" id="edit-hiddenid-<%= address._id %>"
+                                                        value="<%= address._id %>">
+
+                                                      <div
+                                                        style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                                                        <button type="button" class="btn btn-secondary"
+                                                          data-bs-dismiss="modal">Cancel</button>
+                                                        <button type="submit" class="btn btn-primary">Save
+                                                          Changes</button>
+                                                      </div>
+                                                    </form>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <% }); %>
+                                              <% } %>
+                                                <!-- Add Address Tab -->
+                                                <div class="tab-pane" id="tab-addaddress">
+                                                  <h2 class="section-title">Add New Address</h2>
+                                                  <form id="addAddressForm">
+                                                    <div class="form-group">
+                                                      <label class="form-label errMsg">Name</label>
+                                                      <input type="text" class="form-control" id="name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label errMsg">Phone Number</label>
+                                                      <input type="tel" class="form-control" id="phone">
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label errMsg">Address</label>
+                                                      <textarea class="form-control" id="address" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label errMsg">Town/City</label>
+                                                      <input type="text" class="form-control" id="city">
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label errMsg">Pin Code</label>
+                                                      <input type="number" class="form-control" id="pincode">
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label errMsg">Landmark (optional)</label>
+                                                      <input type="text" class="form-control" id="landmark">
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label errMsg">State</label>
+                                                      <input type="text" class="form-control" id="state">
+                                                    </div>
+                                                    <input type="hidden" id="hiddenid" value="<%= userData?._id %>">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                  </form>
+                                                </div>
+
+                                                <!-- Account Details Tab -->
+                                                <div class="tab-pane" id="tab-account">
+                                                  <h2 class="section-title">Account Details</h2>
+                                                  <form id="updateUserForm">
+                                                    <div class="form-group">
+                                                      <label class="form-label">Name *</label>
+                                                      <input type="text" class="form-control" id="userName1"
+                                                        value="<%= userData?.user_name %>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label">Current Password *</label>
+                                                      <input type="password" class="form-control" id="currentPassword">
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label">New Password (leave blank to keep
+                                                        current)</label>
+                                                      <input type="password" class="form-control" id="newPassword">
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="form-label">Confirm New Password</label>
+                                                      <input type="password" class="form-control" id="confirmPassword">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                  </form>
+                                                </div>
       </div>
     </div>
   </div>
-</div>
 
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<script>
-  // TAB NAVIGATION
-  document.querySelectorAll('[data-tab]').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = this.getAttribute('data-tab');
-      
-      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-      document.querySelectorAll('.nav-link').forEach(navLink => navLink.classList.remove('active'));
-      
-      document.getElementById(target).classList.add('active');
-      this.classList.add('active');
-    });
-  });
+  <script>
+    // TAB NAVIGATION
+    document.querySelectorAll('[data-tab]').forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = this.getAttribute('data-tab');
 
-  document.querySelectorAll('.tab-trigger').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = this.getAttribute('data-tab');
-      
-      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-      document.querySelectorAll('.nav-link').forEach(navLink => navLink.classList.remove('active'));
-      
-      document.getElementById(target).classList.add('active');
-      document.querySelector(`[data-tab="${target}"]`).classList.add('active');
-    });
-  });
+        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(navLink => navLink.classList.remove('active'));
 
-  // TOGGLE ORDER DETAILS
-  function toggleOrderDetails(orderId) {
-    const orderProducts = document.getElementById(`order-products-${orderId}`);
-    if (orderProducts.style.display === 'none' || orderProducts.style.display === '') {
-      orderProducts.style.display = 'block';
-    } else {
-      orderProducts.style.display = 'none';
-    }
-  }
-
-  // FORM VALIDATION HELPERS
-  const setError = (element, message) => {
-    const formGroup = element.parentElement;
-    const errorDisplay = formGroup.querySelector('.errMsg');
-    if (errorDisplay) {
-      errorDisplay.innerText = message;
-      element.classList.add('error');
-      errorDisplay.classList.add('error');
-      element.classList.remove('success');
-      errorDisplay.classList.remove('success');
-    }
-  };
-
-  const setSuccess = (element, message) => {
-    const formGroup = element.parentElement;
-    const errorDisplay = formGroup.querySelector('.errMsg');
-    if (errorDisplay) {
-      errorDisplay.innerText = message;
-      element.classList.add('success');
-      errorDisplay.classList.add('success');
-      element.classList.remove('error');
-      errorDisplay.classList.remove('error');
-    }
-  };
-
-  // RAZORPAY PAYMENT FUNCTIONS
-  async function initiateRepayment(orderId, amount) {
-    try {
-      const response = await fetch('/initiate-repayment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, amount })
+        document.getElementById(target).classList.add('active');
+        this.classList.add('active');
       });
+    });
 
-      const data = await response.json();
+    document.querySelectorAll('.tab-trigger').forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = this.getAttribute('data-tab');
 
-      if (data.success) {
-        const options = {
-          key: data.key,
-          amount: data.amount,
-          currency: data.currency,
-          name: 'ShopEazy',
-          description: 'Order Repayment',
-          order_id: data.razorpayOrderId,
-          handler: function(response) {
-            handlePaymentResponse(response, orderId);
-          },
-          prefill: {
-            name: '<%= userData?.user_name %>',
-            email: '<%= userData?.email_address %>',
-            contact: '<%= userData?.phone_number || "" %>'
-          },
-          theme: {
-            color: '#3399cc'
-          }
-        };
+        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(navLink => navLink.classList.remove('active'));
 
-        const rzp1 = new Razorpay(options);
-        rzp1.open();
+        document.getElementById(target).classList.add('active');
+        document.querySelector(`[data-tab="${target}"]`).classList.add('active');
+      });
+    });
 
-        rzp1.on('payment.failed', function(response) {
-          handlePaymentFailure(response, orderId);
-        });
+    // TOGGLE ORDER DETAILS
+    function toggleOrderDetails(orderId) {
+      const orderProducts = document.getElementById(`order-products-${orderId}`);
+      if (orderProducts.style.display === 'none' || orderProducts.style.display === '') {
+        orderProducts.style.display = 'block';
       } else {
+        orderProducts.style.display = 'none';
+      }
+    }
+
+    // FORM VALIDATION HELPERS
+    const setError = (element, message) => {
+      const formGroup = element.parentElement;
+      const errorDisplay = formGroup.querySelector('.errMsg');
+      if (errorDisplay) {
+        errorDisplay.innerText = message;
+        element.classList.add('error');
+        errorDisplay.classList.add('error');
+        element.classList.remove('success');
+        errorDisplay.classList.remove('success');
+      }
+    };
+
+    const setSuccess = (element, message) => {
+      const formGroup = element.parentElement;
+      const errorDisplay = formGroup.querySelector('.errMsg');
+      if (errorDisplay) {
+        errorDisplay.innerText = message;
+        element.classList.add('success');
+        errorDisplay.classList.add('success');
+        element.classList.remove('error');
+        errorDisplay.classList.remove('error');
+      }
+    };
+
+    // RAZORPAY PAYMENT FUNCTIONS
+    async function initiateRepayment(orderId, amount) {
+      try {
+        const response = await fetch('/initiate-repayment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, amount })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          const options = {
+            key: data.key,
+            amount: data.amount,
+            currency: data.currency,
+            name: 'ShopEazy',
+            description: 'Order Repayment',
+            order_id: data.razorpayOrderId,
+            handler: function (response) {
+              handlePaymentResponse(response, orderId);
+            },
+            prefill: {
+              name: '<%= userData?.user_name %>',
+              email: '<%= userData?.email_address %>',
+              contact: '<%= userData?.phone_number || "" %>'
+            },
+            theme: {
+              color: '#3399cc'
+            }
+          };
+
+          const rzp1 = new Razorpay(options);
+          rzp1.open();
+
+          rzp1.on('payment.failed', function (response) {
+            handlePaymentFailure(response, orderId);
+          });
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: data.message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
         Swal.fire({
           title: 'Error!',
-          text: data.message,
+          text: 'An error occurred while initiating repayment. Please try again.',
           icon: 'error',
           confirmButtonText: 'OK'
         });
       }
-    } catch (error) {
-      console.error('Error:', error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'An error occurred while initiating repayment. Please try again.',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-    }
-  }
-
-  async function handlePaymentResponse(response, orderId) {
-    try {
-      const result = await fetch('/verifyPayment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_order_id: response.razorpay_order_id,
-          razorpay_signature: response.razorpay_signature,
-          orderId: orderId
-        })
-      });
-
-      const data = await result.json();
-
-      if (data.success) {
-        Swal.fire({
-          title: 'Success!',
-          text: 'Your payment was successful and your order has been updated.',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = `/orderSummary?id=${orderId}`;
-          }
-        });
-      } else {
-        Swal.fire({
-          title: 'Payment Failed',
-          text: 'Your payment was not successful. Please try again or contact support.',
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'An error occurred while processing your payment. Please try again.',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-    }
-  }
-
-  async function handlePaymentFailure(response, orderId) {
-    try {
-      const result = await fetch('/payment-failed', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          razorpay_order_id: response.error.metadata.order_id,
-          orderId: orderId
-        })
-      });
-
-      const data = await result.json();
-
-      Swal.fire({
-        title: 'Payment Failed',
-        text: 'Your payment was not successful. Please try again or choose a different payment method.',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-    } catch (error) {
-      console.error('Error:', error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'An error occurred while processing your payment. Please try again.',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-    }
-  }
-
-  window.initiateRepayment = initiateRepayment;
-  window.handlePaymentResponse = handlePaymentResponse;
-  window.handlePaymentFailure = handlePaymentFailure;
-
-  // CANCEL ORDER
-  const cancelOrderForms = document.querySelectorAll('.cancel-order-form');
-  cancelOrderForms.forEach(form => {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const itemId = this.getAttribute('data-cancel-id');
-      const orderId = this.getAttribute('data-order-id');
-      const reason = document.getElementById(`cancelReason${itemId}`);
-      
-      cancelFormValidate(reason, orderId, itemId);
-    });
-  });
-
-  async function cancelFormValidate(reason, orderId, itemId) {
-    const reasonValue = reason.value.trim();
-    let isValid = true;
-
-    if (!reasonValue) {
-      setError(reason, 'Enter a reason for cancellation');
-      isValid = false;
-    } else if (reasonValue.length < 5) {
-      setError(reason, 'Enter proper reason');
-      isValid = false;
-    } else {
-      setSuccess(reason, 'Reason for Cancellation');
     }
 
-    if (!isValid) return;
-
-    const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, cancel it!'
-    });
-
-    if (result.isConfirmed) {
+    async function handlePaymentResponse(response, orderId) {
       try {
-        const response = await fetch('/cancelOrder', {
+        const result = await fetch('/verifyPayment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            id: orderId,
-            cancel_reason: reasonValue,
-            item_id: itemId
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            orderId: orderId
+          })
+        });
+
+        const data = await result.json();
+
+        if (data.success) {
+          Swal.fire({
+            title: 'Success!',
+            text: 'Your payment was successful and your order has been updated.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = `/orderSummary?id=${orderId}`;
+            }
+          });
+        } else {
+          Swal.fire({
+            title: 'Payment Failed',
+            text: 'Your payment was not successful. Please try again or contact support.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'An error occurred while processing your payment. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    }
+
+    async function handlePaymentFailure(response, orderId) {
+      try {
+        const result = await fetch('/payment-failed', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            razorpay_order_id: response.error.metadata.order_id,
+            orderId: orderId
+          })
+        });
+
+        const data = await result.json();
+
+        Swal.fire({
+          title: 'Payment Failed',
+          text: 'Your payment was not successful. Please try again or choose a different payment method.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'An error occurred while processing your payment. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    }
+
+    window.initiateRepayment = initiateRepayment;
+    window.handlePaymentResponse = handlePaymentResponse;
+    window.handlePaymentFailure = handlePaymentFailure;
+
+    // CANCEL ORDER
+    const cancelOrderForms = document.querySelectorAll('.cancel-order-form');
+    cancelOrderForms.forEach(form => {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const itemId = this.getAttribute('data-cancel-id');
+        const orderId = this.getAttribute('data-order-id');
+        const reason = document.getElementById(`cancelReason${itemId}`);
+
+        cancelFormValidate(reason, orderId, itemId);
+      });
+    });
+
+    async function cancelFormValidate(reason, orderId, itemId) {
+      const reasonValue = reason.value.trim();
+      let isValid = true;
+
+      if (!reasonValue) {
+        setError(reason, 'Enter a reason for cancellation');
+        isValid = false;
+      } else if (reasonValue.length < 5) {
+        setError(reason, 'Enter proper reason');
+        isValid = false;
+      } else {
+        setSuccess(reason, 'Reason for Cancellation');
+      }
+
+      if (!isValid) return;
+
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, cancel it!'
+      });
+
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch('/cancelOrder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: orderId,
+              cancel_reason: reasonValue,
+              item_id: itemId
+            })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            Swal.fire('Cancelled!', 'Your Order has been canceled.', 'success').then(() => {
+              location.reload();
+            });
+          } else {
+            Swal.fire('Error!', data.message, 'error');
+          }
+        } catch (error) {
+          console.error('Error during cancel order:', error);
+          Swal.fire('Error!', 'An error occurred while canceling the order.', 'error');
+        }
+      }
+    }
+
+    // RETURN ORDER
+    async function submitReturnRequest(itemId, orderId) {
+      const returnReason = document.getElementById(`return_reason_${itemId}`).value;
+
+      if (!returnReason || returnReason.trim().length < 5) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Please provide a valid return reason (minimum 5 characters)',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        return;
+      }
+
+      try {
+        const response = await fetch('/returnOrder', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order_id: orderId,
+            item_id: itemId,
+            return_reason: returnReason
           })
         });
 
         const data = await response.json();
 
         if (data.success) {
-          Swal.fire('Cancelled!', 'Your Order has been canceled.', 'success').then(() => {
-            location.reload();
+          Swal.fire({
+            title: 'Success!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.reload();
+            }
           });
         } else {
-          Swal.fire('Error!', data.message, 'error');
+          Swal.fire({
+            title: 'Error!',
+            text: data.message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
       } catch (error) {
-        console.error('Error during cancel order:', error);
-        Swal.fire('Error!', 'An error occurred while canceling the order.', 'error');
-      }
-    }
-  }
-
-  // RETURN ORDER
-  async function submitReturnRequest(itemId, orderId) {
-    const returnReason = document.getElementById(`return_reason_${itemId}`).value;
-
-    if (!returnReason || returnReason.trim().length < 5) {
-      Swal.fire({
-        title: 'Error!',
-        text: 'Please provide a valid return reason (minimum 5 characters)',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-      return;
-    }
-
-    try {
-      const response = await fetch('/returnOrder', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          order_id: orderId,
-          item_id: itemId,
-          return_reason: returnReason
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        Swal.fire({
-          title: 'Success!',
-          text: data.message,
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            location.reload();
-          }
-        });
-      } else {
+        console.error('Error:', error);
         Swal.fire({
           title: 'Error!',
-          text: data.message,
+          text: 'An error occurred while submitting the return request',
           icon: 'error',
           confirmButtonText: 'OK'
         });
       }
-    } catch (error) {
-      console.error('Error:', error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'An error occurred while submitting the return request',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
     }
-  }
 
-  window.submitReturnRequest = submitReturnRequest;
+    window.submitReturnRequest = submitReturnRequest;
 
-  // ADD ADDRESS
-  document.addEventListener('DOMContentLoaded', function() {
-    const addAddressForm = document.getElementById('addAddressForm');
-    
-    if (addAddressForm) {
+    // ADD ADDRESS
+    document.addEventListener('DOMContentLoaded', function () {
+      const addAddressForm = document.getElementById('addAddressForm');
+
+      if (addAddressForm) {
+        const name = document.getElementById('name');
+        const phone = document.getElementById('phone');
+        const address = document.getElementById('address');
+        const city = document.getElementById('city');
+        const landmark = document.getElementById('landmark');
+        const state = document.getElementById('state');
+        const pin = document.getElementById('pincode');
+        const hiddenId = document.getElementById('hiddenid');
+
+        addAddressForm.addEventListener('submit', function (event) {
+          event.preventDefault();
+
+          const nameValue = name.value.trim();
+          const phoneValue = phone.value.trim();
+          const addressValue = address.value.trim();
+          const cityValue = city.value.trim();
+          const landmarkValue = landmark.value.trim();
+          const stateValue = state.value.trim();
+          const pinValue = pin.value.trim();
+          const hiddenValue = hiddenId.value.trim();
+
+          validateAddressForm(nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue);
+        });
+      }
+    });
+
+    const validateAddressForm = async (nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue) => {
       const name = document.getElementById('name');
       const phone = document.getElementById('phone');
       const address = document.getElementById('address');
       const city = document.getElementById('city');
-      const landmark = document.getElementById('landmark');
       const state = document.getElementById('state');
       const pin = document.getElementById('pincode');
-      const hiddenId = document.getElementById('hiddenid');
 
-      addAddressForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+      let isValid = true;
+      const nameRegex = /^[a-zA-Z\s]+$/;
+      const phoneRegex = /^(\+?\d{1,4}[\s-]?)?(\(?\d{1,3}\)?[\s-]?)?[\d\s-]{1,4}[\s-]?[\d\s-]{1,9}$/;
 
-        const nameValue = name.value.trim();
-        const phoneValue = phone.value.trim();
-        const addressValue = address.value.trim();
-        const cityValue = city.value.trim();
-        const landmarkValue = landmark.value.trim();
-        const stateValue = state.value.trim();
-        const pinValue = pin.value.trim();
-        const hiddenValue = hiddenId.value.trim();
-
-        validateAddressForm(nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue);
-      });
-    }
-  });
-
-  const validateAddressForm = async (nameValue, phoneValue, addressValue, cityValue, landmarkValue, stateValue, pinValue, hiddenValue) => {
-    const name = document.getElementById('name');
-    const phone = document.getElementById('phone');
-    const address = document.getElementById('address');
-    const city = document.getElementById('city');
-    const state = document.getElementById('state');
-    const pin = document.getElementById('pincode');
-
-    let isValid = true;
-    const nameRegex = /^[a-zA-Z\s]+$/;
-    const phoneRegex = /^(\+?\d{1,4}[\s-]?)?(\(?\d{1,3}\)?[\s-]?)?[\d\s-]{1,4}[\s-]?[\d\s-]{1,9}$/;
-
-    if (!nameValue) {
-      isValid = false;
-      setError(name, 'Enter Name');
-    } else if (nameValue.length < 3) {
-      isValid = false;
-      setError(name, 'Name should be more than 2 letters');
-    } else if (!nameRegex.test(nameValue)) {
-      isValid = false;
-      setError(name, 'Name should only contain letters and spaces');
-    } else {
-      setSuccess(name, 'Name');
-    }
-
-    if (!phoneValue) {
-      isValid = false;
-      setError(phone, 'Enter Phone Number');
-    } else if (!phoneRegex.test(phoneValue)) {
-      isValid = false;
-      setError(phone, 'Enter Correct Phone Number');
-    } else {
-      setSuccess(phone, 'Phone Number');
-    }
-
-    if (!addressValue) {
-      isValid = false;
-      setError(address, 'Enter Address');
-    } else if (addressValue.length < 6) {
-      isValid = false;
-      setError(address, 'Please Provide Detailed Address');
-    } else {
-      setSuccess(address, 'Address');
-    }
-
-    if (!cityValue) {
-      isValid = false;
-      setError(city, 'Enter Town/City');
-    } else if (cityValue.length > 20) {
-      isValid = false;
-      setError(city, 'Enter Correct Town/City');
-    } else {
-      setSuccess(city, 'Town/City');
-    }
-
-    if (!stateValue) {
-      isValid = false;
-      setError(state, 'Enter State');
-    } else {
-      setSuccess(state, 'State');
-    }
-
-    if (!pinValue) {
-      isValid = false;
-      setError(pin, 'Enter Pin Code');
-    } else if (pinValue.length > 7 || pinValue.length < 5) {
-      isValid = false;
-      setError(pin, 'Invalid Pin');
-    } else {
-      setSuccess(pin, 'Pin Code');
-    }
-
-    if (!isValid) return;
-
-    try {
-      const response = await fetch('/addAddress', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: nameValue,
-          phone: phoneValue,
-          address: addressValue,
-          city: cityValue,
-          landmark: landmarkValue,
-          state: stateValue,
-          pin: pinValue,
-          id: hiddenValue
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        Swal.fire({
-          title: 'Success!',
-          text: data.message,
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = data.redirectUrl;
-          }
-        });
+      if (!nameValue) {
+        isValid = false;
+        setError(name, 'Enter Name');
+      } else if (nameValue.length < 3) {
+        isValid = false;
+        setError(name, 'Name should be more than 2 letters');
+      } else if (!nameRegex.test(nameValue)) {
+        isValid = false;
+        setError(name, 'Name should only contain letters and spaces');
       } else {
-        Swal.fire({
-          title: 'Error!',
-          text: data.message,
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
+        setSuccess(name, 'Name');
       }
-    } catch (error) {
-      console.error('Error during add address:', error);
-    }
-  };
 
-  // EDIT ADDRESS
-  document.addEventListener('DOMContentLoaded', function() {
-    const editAddressForms = document.querySelectorAll('.edit-address-form');
-    
-    editAddressForms.forEach(form => {
-      form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const addressId = this.getAttribute('data-address-id');
-        
-        const editname = document.getElementById(`edit-name-${addressId}`);
-        const editphone = document.getElementById(`edit-phone-${addressId}`);
-        const editaddress = document.getElementById(`edit-address-${addressId}`);
-        const editcity = document.getElementById(`edit-city-${addressId}`);
-        const editlandmark = document.getElementById(`edit-landmark-${addressId}`);
-        const editstate = document.getElementById(`edit-state-${addressId}`);
-        const editpin = document.getElementById(`edit-pincode-${addressId}`);
-        const edithidden = document.getElementById(`edit-hiddenid-${addressId}`);
-
-        editvalidateAddressForm(editname, editphone, editaddress, editcity, editlandmark, editstate, editpin, edithidden);
-      });
-    });
-  });
-
-  const editvalidateAddressForm = async (editname, editphone, editaddress, editcity, editlandmark, editstate, editpin, edithidden) => {
-    const editnameValue = editname.value.trim();
-    const editphoneValue = editphone.value.trim();
-    const editaddressValue = editaddress.value.trim();
-    const editcityValue = editcity.value.trim();
-    const editlandmarkValue = editlandmark.value.trim();
-    const editstateValue = editstate.value.trim();
-    const editpinValue = editpin.value.trim();
-    const edithiddenValue = edithidden.value.trim();
-
-    let isValid = true;
-    const nameRegex = /^[a-zA-Z\s]+$/;
-    const phoneRegex = /^(\+?\d{1,4}[\s-]?)?(\(?\d{1,3}\)?[\s-]?)?[\d\s-]{1,4}[\s-]?[\d\s-]{1,9}$/;
-
-    if (!editnameValue) {
-      isValid = false;
-      setError(editname, 'Enter Name');
-    } else if (editnameValue.length < 3) {
-      isValid = false;
-      setError(editname, 'Name should be more than 2 letters');
-    } else if (!nameRegex.test(editnameValue)) {
-      isValid = false;
-      setError(editname, 'Name should only contain letters and spaces');
-    } else {
-      setSuccess(editname, 'Name');
-    }
-
-    if (!editphoneValue) {
-      isValid = false;
-      setError(editphone, 'Enter Phone Number');
-    } else if (!phoneRegex.test(editphoneValue)) {
-      isValid = false;
-      setError(editphone, 'Enter Correct Phone Number');
-    } else {
-      setSuccess(editphone, 'Phone Number');
-    }
-
-    if (!editaddressValue) {
-      isValid = false;
-      setError(editaddress, 'Enter Address');
-    } else if (editaddressValue.length < 6) {
-      isValid = false;
-      setError(editaddress, 'Please Provide a Detailed Address');
-    } else {
-      setSuccess(editaddress, 'Address');
-    }
-
-    if (!editcityValue) {
-      isValid = false;
-      setError(editcity, 'Enter Town/City');
-    } else if (editcityValue.length > 20) {
-      isValid = false;
-      setError(editcity, 'Enter Correct Town/City');
-    } else {
-      setSuccess(editcity, 'Town/City');
-    }
-
-    if (!editstateValue) {
-      isValid = false;
-      setError(editstate, 'Enter State');
-    } else {
-      setSuccess(editstate, 'State');
-    }
-
-    if (!editpinValue) {
-      isValid = false;
-      setError(editpin, 'Enter Pin Code');
-    } else if (editpinValue.length !== 6) {
-      isValid = false;
-      setError(editpin, 'Invalid Pin');
-    } else {
-      setSuccess(editpin, 'Pin Code');
-    }
-
-    if (!isValid) return;
-
-    try {
-      const response = await fetch('/updateAddress', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: editnameValue,
-          phone: editphoneValue,
-          address: editaddressValue,
-          city: editcityValue,
-          landmark: editlandmarkValue,
-          state: editstateValue,
-          pin: editpinValue,
-          id: edithiddenValue
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        Swal.fire({
-          title: 'Success!',
-          text: data.message,
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = data.redirectUrl;
-          }
-        });
+      if (!phoneValue) {
+        isValid = false;
+        setError(phone, 'Enter Phone Number');
+      } else if (!phoneRegex.test(phoneValue)) {
+        isValid = false;
+        setError(phone, 'Enter Correct Phone Number');
       } else {
-        Swal.fire({
-          title: 'Error!',
-          text: data.message,
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
+        setSuccess(phone, 'Phone Number');
       }
-    } catch (error) {
-      console.error('Error during address update:', error);
-    }
-  };
 
-  // DELETE ADDRESS
-  const deleteButtons = document.querySelectorAll('.delete-address');
-  deleteButtons.forEach(button => {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-      const addressId = this.getAttribute('data-address-id');
-      deleteAddress(addressId);
-    });
-  });
+      if (!addressValue) {
+        isValid = false;
+        setError(address, 'Enter Address');
+      } else if (addressValue.length < 6) {
+        isValid = false;
+        setError(address, 'Please Provide Detailed Address');
+      } else {
+        setSuccess(address, 'Address');
+      }
 
-  async function deleteAddress(addressId) {
-    const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    });
+      if (!cityValue) {
+        isValid = false;
+        setError(city, 'Enter Town/City');
+      } else if (cityValue.length > 20) {
+        isValid = false;
+        setError(city, 'Enter Correct Town/City');
+      } else {
+        setSuccess(city, 'Town/City');
+      }
 
-    if (result.isConfirmed) {
+      if (!stateValue) {
+        isValid = false;
+        setError(state, 'Enter State');
+      } else {
+        setSuccess(state, 'State');
+      }
+
+      if (!pinValue) {
+        isValid = false;
+        setError(pin, 'Enter Pin Code');
+      } else if (pinValue.length > 7 || pinValue.length < 5) {
+        isValid = false;
+        setError(pin, 'Invalid Pin');
+      } else {
+        setSuccess(pin, 'Pin Code');
+      }
+
+      if (!isValid) return;
+
       try {
-        const response = await fetch('/deleteAddress', {
+        const response = await fetch('/addAddress', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: addressId })
+          body: JSON.stringify({
+            name: nameValue,
+            phone: phoneValue,
+            address: addressValue,
+            city: cityValue,
+            landmark: landmarkValue,
+            state: stateValue,
+            pin: pinValue,
+            id: hiddenValue
+          })
         });
 
         const data = await response.json();
 
         if (data.success) {
-          Swal.fire('Deleted!', 'Your address has been deleted.', 'success').then(() => {
+          Swal.fire({
+            title: 'Success!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = data.redirectUrl;
+            }
+          });
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: data.message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        }
+      } catch (error) {
+        console.error('Error during add address:', error);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const editAddressForms = document.querySelectorAll('.edit-address-form');
+
+      editAddressForms.forEach(form => {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const addressId = this.getAttribute('data-address-id');
+
+          const editname = document.getElementById(`edit-name-${addressId}`);
+          const editphone = document.getElementById(`edit-phone-${addressId}`);
+          const editaddress = document.getElementById(`edit-address-${addressId}`);
+          const editcity = document.getElementById(`edit-city-${addressId}`);
+          const editlandmark = document.getElementById(`edit-landmark-${addressId}`);
+          const editstate = document.getElementById(`edit-state-${addressId}`);
+          const editpin = document.getElementById(`edit-pincode-${addressId}`);
+          const edithidden = document.getElementById(`edit-hiddenid-${addressId}`);
+
+          editvalidateAddressForm(editname, editphone, editaddress, editcity, editlandmark, editstate, editpin, edithidden);
+        });
+      });
+    });
+
+    const editvalidateAddressForm = async (editname, editphone, editaddress, editcity, editlandmark, editstate, editpin, edithidden) => {
+      const editnameValue = editname.value.trim();
+      const editphoneValue = editphone.value.trim();
+      const editaddressValue = editaddress.value.trim();
+      const editcityValue = editcity.value.trim();
+      const editlandmarkValue = editlandmark.value.trim();
+      const editstateValue = editstate.value.trim();
+      const editpinValue = editpin.value.trim();
+      const edithiddenValue = edithidden.value.trim();
+
+      let isValid = true;
+      const nameRegex = /^[a-zA-Z\s]+$/;
+      const phoneRegex = /^(\+?\d{1,4}[\s-]?)?(\(?\d{1,3}\)?[\s-]?)?[\d\s-]{1,4}[\s-]?[\d\s-]{1,9}$/;
+
+      if (!editnameValue) {
+        isValid = false;
+        setError(editname, 'Enter Name');
+      } else if (editnameValue.length < 3) {
+        isValid = false;
+        setError(editname, 'Name should be more than 2 letters');
+      } else if (!nameRegex.test(editnameValue)) {
+        isValid = false;
+        setError(editname, 'Name should only contain letters and spaces');
+      } else {
+        setSuccess(editname, 'Name');
+      }
+
+      if (!editphoneValue) {
+        isValid = false;
+        setError(editphone, 'Enter Phone Number');
+      } else if (!phoneRegex.test(editphoneValue)) {
+        isValid = false;
+        setError(editphone, 'Enter Correct Phone Number');
+      } else {
+        setSuccess(editphone, 'Phone Number');
+      }
+
+      if (!editaddressValue) {
+        isValid = false;
+        setError(editaddress, 'Enter Address');
+      } else if (editaddressValue.length < 6) {
+        isValid = false;
+        setError(editaddress, 'Please Provide a Detailed Address');
+      } else {
+        setSuccess(editaddress, 'Address');
+      }
+
+      if (!editcityValue) {
+        isValid = false;
+        setError(editcity, 'Enter Town/City');
+      } else if (editcityValue.length > 20) {
+        isValid = false;
+        setError(editcity, 'Enter Correct Town/City');
+      } else {
+        setSuccess(editcity, 'Town/City');
+      }
+
+      if (!editstateValue) {
+        isValid = false;
+        setError(editstate, 'Enter State');
+      } else {
+        setSuccess(editstate, 'State');
+      }
+
+      if (!editpinValue) {
+        isValid = false;
+        setError(editpin, 'Enter Pin Code');
+      } else if (editpinValue.length !== 6) {
+        isValid = false;
+        setError(editpin, 'Invalid Pin');
+      } else {
+        setSuccess(editpin, 'Pin Code');
+      }
+
+      if (!isValid) return;
+
+      try {
+        const response = await fetch('/updateAddress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: editnameValue,
+            phone: editphoneValue,
+            address: editaddressValue,
+            city: editcityValue,
+            landmark: editlandmarkValue,
+            state: editstateValue,
+            pin: editpinValue,
+            id: edithiddenValue
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          Swal.fire({
+            title: 'Success!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = data.redirectUrl;
+            }
+          });
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: data.message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        }
+      } catch (error) {
+        console.error('Error during address update:', error);
+      }
+    };
+
+    // DELETE ADDRESS
+    const deleteButtons = document.querySelectorAll('.delete-address');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        const addressId = this.getAttribute('data-address-id');
+        deleteAddress(addressId);
+      });
+    });
+
+    async function deleteAddress(addressId) {
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      });
+
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch('/deleteAddress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: addressId })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            Swal.fire('Deleted!', 'Your address has been deleted.', 'success').then(() => {
+              location.reload();
+            });
+          } else {
+            Swal.fire('Error!', data.message, 'error');
+          }
+        } catch (error) {
+          console.error('Error during address deletion:', error);
+          Swal.fire('Error!', 'An error occurred while deleting the address.', 'error');
+        }
+      }
+    }
+
+    // UPDATE USER ACCOUNT
+    const updateUserForm = document.getElementById('updateUserForm');
+    if (updateUserForm) {
+      updateUserForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const userName = document.getElementById('userName1').value.trim();
+        const currentPassword = document.getElementById('currentPassword').value.trim();
+        const newPassword = document.getElementById('newPassword').value.trim();
+        const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+        userUpdateValidate(userName, currentPassword, newPassword, confirmPassword);
+      });
+    }
+
+    async function userUpdateValidate(userName, currentPassword, newPassword, confirmPassword) {
+      const nameRegex = /^[a-zA-Z\s]+$/;
+
+      if (!userName || !currentPassword) {
+        Swal.fire('Error', 'Name and current password are required', 'error');
+        return;
+      }
+
+      if (newPassword && newPassword !== confirmPassword) {
+        Swal.fire('Error', 'New passwords do not match', 'error');
+        return;
+      }
+
+      if (newPassword && newPassword.length < 7) {
+        Swal.fire('Error', 'New password needs minimum 8 letters', 'error');
+        return;
+      }
+
+      if (!nameRegex.test(userName)) {
+        Swal.fire('Error', 'Username should only contain letters and spaces', 'error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/updateUser', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userName,
+            currentPassword,
+            newPassword: newPassword || undefined
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          Swal.fire('Success', 'User information updated successfully', 'success').then(() => {
             location.reload();
           });
         } else {
-          Swal.fire('Error!', data.message, 'error');
+          Swal.fire('Error', data.message, 'error');
         }
       } catch (error) {
-        console.error('Error during address deletion:', error);
-        Swal.fire('Error!', 'An error occurred while deleting the address.', 'error');
+        console.error('Error updating user information:', error);
+        Swal.fire('Error', 'An error occurred while updating user information', 'error');
       }
     }
-  }
+  </script>
 
-  // UPDATE USER ACCOUNT
-  const updateUserForm = document.getElementById('updateUserForm');
-  if (updateUserForm) {
-    updateUserForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const userName = document.getElementById('userName1').value.trim();
-      const currentPassword = document.getElementById('currentPassword').value.trim();
-      const newPassword = document.getElementById('newPassword').value.trim();
-      const confirmPassword = document.getElementById('confirmPassword').value.trim();
-
-      userUpdateValidate(userName, currentPassword, newPassword, confirmPassword);
-    });
-  }
-
-  async function userUpdateValidate(userName, currentPassword, newPassword, confirmPassword) {
-    const nameRegex = /^[a-zA-Z\s]+$/;
-
-    if (!userName || !currentPassword) {
-      Swal.fire('Error', 'Name and current password are required', 'error');
-      return;
-    }
-
-    if (newPassword && newPassword !== confirmPassword) {
-      Swal.fire('Error', 'New passwords do not match', 'error');
-      return;
-    }
-
-    if (newPassword && newPassword.length < 7) {
-      Swal.fire('Error', 'New password needs minimum 8 letters', 'error');
-      return;
-    }
-
-    if (!nameRegex.test(userName)) {
-      Swal.fire('Error', 'Username should only contain letters and spaces', 'error');
-      return;
-    }
-
-    try {
-      const response = await fetch('/updateUser', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userName,
-          currentPassword,
-          newPassword: newPassword || undefined
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        Swal.fire('Success', 'User information updated successfully', 'success').then(() => {
-          location.reload();
-        });
-      } else {
-        Swal.fire('Error', data.message, 'error');
-      }
-    } catch (error) {
-      console.error('Error updating user information:', error);
-      Swal.fire('Error', 'An error occurred while updating user information', 'error');
-    }
-  }
-</script>
-
-<%- include('../layouts/footer.ejs') %>
+  <%- include('../layouts/footer.ejs') %>

@@ -287,7 +287,6 @@
     color: #111827;
     margin-bottom: 8px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -304,6 +303,113 @@
     text-decoration: line-through;
     margin-left: 8px;
   }
+  .pagination-container {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pagination-btn {
+    padding: 10px 20px;
+    background: white;
+    color: #111827;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pagination-btn:hover:not(.disabled) {
+    background: #111827;
+    color: white;
+    border-color: #111827;
+  }
+
+  .pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .pagination-numbers {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .pagination-number {
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .pagination-number:hover {
+    border-color: #111827;
+    color: #111827;
+  }
+
+  .pagination-number.active {
+    background: #111827;
+    color: white;
+    border-color: #111827;
+    font-weight: 700;
+  }
+
+  .pagination-ellipsis {
+    color: #9ca3af;
+    padding: 0 5px;
+    font-weight: 600;
+  }
+
+  .pagination-info {
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .pagination-nav {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .pagination-btn {
+      padding: 8px 15px;
+      font-size: 13px;
+    }
+    
+    .pagination-number {
+      min-width: 35px;
+      height: 35px;
+      font-size: 13px;
+    }
+  }
+
 
   @media (max-width: 992px) {
     .shop-container {
@@ -402,8 +508,8 @@
         <h3 class="filter-title">Categories</h3>
         <% categories.forEach(category => { %>
           <div class="filter-option">
-            <input type="checkbox" id="cat-<%= category._id %>" name="category" value="<%= category._id %>">
-            <label for="cat-<%= category._id %>"><%= category.category_name %></label>
+            <input type="checkbox" id="cat-<%= category?._id %>" name="category" value="<%= category?._id %>">
+            <label for="cat-<%= category._id %>"><%= category?.category_name %></label>
           </div>
         <% }); %>
       </div>
@@ -490,7 +596,7 @@
             <% } %>
             
             <% if (typeof userData !== 'undefined') { %>
-              <button class="wishlist-btn btn-wishlist" data-product-id="<%= prod._id %>" data-user-id="<%= userData._id %>">
+              <button class="wishlist-btn btn-wishlist" data-product-id="<%= prod._id %>" data-user-id="<%= userData?._id %>">
                 <i class="icon-heart-o"></i>
               </button>
             <% } %>
@@ -501,7 +607,7 @@
               <% } else if (typeof userData === 'undefined') { %>
                 <a href="/login" class="btn-add-cart" style="display: block; text-align: center; text-decoration: none;">Login to Buy</a>
               <% } else { %>
-                <button class="btn-add-cart btn-add-to-cart" data-product-id="<%= prod._id %>" data-user-id="<%= userData._id %>">
+                <button class="btn-add-cart btn-add-to-cart" data-product-id="<%= prod._id %>" data-user-id="<%= userData?._id %>">
                   Add to Cart
                 </button>
               <% } %>
@@ -528,10 +634,80 @@
     </div>
   </div>
 </div>
+ <% if (totalPages > 1) { %>
+  <div class="pagination-container">
+    <nav class="pagination-nav">
+      <!-- Previous Button -->
+      <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %><%= sort ? '&sort=' + sort : '' %><%= selectedCategories ? '&category=' + selectedCategories : '' %>" 
+           class="pagination-btn pagination-prev">
+          <i class="fa-solid fa-chevron-left"></i> Previous
+        </a>
+      <% } else { %>
+        <span class="pagination-btn pagination-prev disabled">
+          <i class="fa-solid fa-chevron-left"></i> Previous
+        </span>
+      <% } %>
 
-<!-- Scripts -->
+      <!-- Page Numbers -->
+      <div class="pagination-numbers">
+          <% 
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+            
+            if (currentPage <= 3) {
+              endPage = Math.min(5, totalPages);
+            }
+            if (currentPage >= totalPages - 2) {
+              startPage = Math.max(1, totalPages - 4);
+            }
+          %>
+
+          <% if (startPage > 1) { %>
+            <a href="?page=1<%= sort ? '&sort=' + sort : '' %><%= selectedCategories ? '&category=' + selectedCategories : '' %>" 
+              class="pagination-number">1</a>
+            <% if (startPage > 2) { %>
+              <span class="pagination-ellipsis">...</span>
+            <% } %>
+          <% } %>
+
+          <% for (let i = startPage; i <= endPage; i++) { %>
+            <a href="?page=<%= i %><%= sort ? '&sort=' + sort : '' %><%= selectedCategories ? '&category=' + selectedCategories : '' %>" 
+              class="pagination-number <%= i === currentPage ? 'active' : '' %>">
+              <%= i %>
+            </a>
+          <% } %>
+
+          <% if (endPage < totalPages) { %>
+            <% if (endPage < totalPages - 1) { %>
+              <span class="pagination-ellipsis">...</span>
+            <% } %>
+            <a href="?page=<%= totalPages %><%= sort ? '&sort=' + sort : '' %><%= selectedCategories ? '&category=' + selectedCategories : '' %>" 
+              class="pagination-number"><%= totalPages %></a>
+          <% } %>
+        </div>
+
+        <!-- Next Button -->
+        <% if (currentPage < totalPages) { %>
+          <a href="?page=<%= currentPage + 1 %><%= sort ? '&sort=' + sort : '' %><%= selectedCategories ? '&category=' + selectedCategories : '' %>" 
+            class="pagination-btn pagination-next">
+            Next <i class="fa-solid fa-chevron-right"></i>
+          </a>
+        <% } else { %>
+          <span class="pagination-btn pagination-next disabled">
+            Next <i class="fa-solid fa-chevron-right"></i>
+          </span>
+        <% } %>
+      </nav>
+
+      <div class="pagination-info">
+        Showing <%= (currentPage - 1) * 12 + 1 %>-<%= Math.min(currentPage * 12, totalProducts) %> 
+        of <%= totalProducts %> products
+      </div>
+    </div>
+  <% } %>
+
 <script>
-  // Preserve filter selections on page load
   document.addEventListener('DOMContentLoaded', function() {
     const currentSort = '<%= typeof sort !== "undefined" ? sort : "" %>';
     if (currentSort) {
@@ -548,12 +724,10 @@
     });
   });
 
-  // Clear all filters
   function clearFilters() {
     window.location.href = '/shop';
   }
 
-  // Filter form submission
   document.getElementById('filter-form').addEventListener('submit', function(e) {
     e.preventDefault();
     

@@ -9,17 +9,34 @@ const loadDashboard = async (req, res) => {
     const userData = await getAuthenticatedUser(req);
     if (!userData) return res.redirect('/');
 
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5;
+    const skip = (page - 1) * limit;
+
+    const totalOrders = await Orders.countDocuments({ user_id: userData._id });
+    const totalPages = Math.ceil(totalOrders / limit);
+
     const [orderData, cartItems, addressData] = await Promise.all([
       Orders.find({ user_id: userData._id })
         .populate('payment_type')
         .populate('items')
         .populate('items.product_id')
-        .sort({ created_at: -1 }),
+        .sort({ created_at: -1 })
+        .skip(skip)
+        .limit(limit),
       Cart.find({ user_id: userData._id }),
       Address.find({ user_id: userData._id })
     ]);
 
-    res.render('dashboard', { userData, addressData, cartItems, orderData });
+    res.render('dashboard', { 
+      userData, 
+      addressData, 
+      cartItems, 
+      orderData,
+      currentPage: page,
+      totalPages: totalPages,
+      totalOrders: totalOrders
+    });
   } catch (error) {
     console.error('Error loading dashboard:', error);
     res.status(HTTP_STATUS.SERVER_ERROR).send('Internal Server Error');

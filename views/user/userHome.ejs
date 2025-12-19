@@ -47,6 +47,69 @@
     outline: none;
     border-color: #111827;
   }
+  .auth-input:focus {
+    outline: none;
+    border-color: #111827 !important;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+  }
+
+  .auth-tab-link.active {
+    background: #111827 !important;
+    color: white !important;
+  }
+
+  .auth-tab-link:hover:not(.active) {
+    background: rgba(17, 24, 39, 0.05);
+  }
+
+  .btn-auth-submit:hover {
+    background: #030712;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-google-auth:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+  }
+
+  /* Error state for inputs */
+  .auth-input.error {
+    border-color: #dc2626 !important;
+  }
+
+  /* Success state for inputs */
+  .auth-input.success {
+    border-color: #10b981 !important;
+  }
+
+  /* Error message styling */
+  .errMsg.error,
+  .errMsgSignup.error {
+    color: #dc2626 !important;
+  }
+
+  /* Modal backdrop */
+  .modal-backdrop.show {
+    opacity: 0.5;
+  }
+
+  /* Close button hover */
+  .modal-header .close:hover {
+    opacity: 1;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 576px) {
+    .modal-dialog {
+      margin: 10px;
+    }
+    
+    .modal-body {
+      padding: 0 20px 20px !important;
+    }
+  }
 
   .search-btn {
     position: absolute;
@@ -870,97 +933,163 @@
 </footer>
 
 <!-- Auth Modal -->
-<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal">
-          <span><i class="icon-close"></i></span>
+    <div class="modal-content" style="border-radius: 16px; overflow: hidden; border: none;">
+      
+      <!-- Modal Header -->
+      <div class="modal-header" style="border: none; padding: 20px 30px 0;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 28px; opacity: 0.5;">
+          <span aria-hidden="true">&times;</span>
         </button>
+      </div>
 
-        <div class="form-box">
-          <div class="form-tab">
-            <ul class="nav nav-pills nav-fill" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab">Sign In</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab">Register</a>
-              </li>
-            </ul>
+      <!-- Modal Body -->
+      <div class="modal-body" style="padding: 0 30px 30px;">
+        
+        <!-- Tab Navigation -->
+        <div class="auth-tabs" style="margin-bottom: 30px;">
+          <ul class="nav nav-pills nav-fill" role="tablist" style="background: #f3f4f6; border-radius: 50px; padding: 4px;">
+            <li class="nav-item">
+              <a class="nav-link active auth-tab-link" id="signin-tab-link" data-toggle="tab" href="#signin-tab" role="tab" 
+                 style="border-radius: 50px; font-weight: 600; padding: 12px; transition: all 0.3s ease; color: #6b7280;">
+                Sign In
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link auth-tab-link" id="register-tab-link" data-toggle="tab" href="#register-tab" role="tab"
+                 style="border-radius: 50px; font-weight: 600; padding: 12px; transition: all 0.3s ease; color: #6b7280;">
+                Register
+              </a>
+            </li>
+          </ul>
+        </div>
 
-            <div class="tab-content">
-              <!-- Sign In Form -->
-              <div class="tab-pane fade show active" id="signin" role="tabpanel">
-                <form id="login-form">
-                  <div class="form-group">
-                    <label for="singin-email" class="errMsg">Email address *</label>
-                    <input type="text" class="form-control" id="singin-email" name="signin-email">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="singin-password" class="errMsg">Password *</label>
-                    <input type="password" class="form-control" id="singin-password" name="signin-password">
-                  </div>
-
-                  <p class="main-error text-danger"></p>
-
-                  <div class="form-footer">
-                    <button type="submit" class="btn btn-outline-primary-2">
-                      <span>LOG IN</span>
-                      <i class="icon-long-arrow-right"></i>
-                    </button>
-                    <a href="/forgotPassword" class="forgot-link">Forgot Your Password?</a>
-                  </div>
-                </form>
-
-                <div class="form-choice">
-                  <p class="text-center">or sign in with</p>
-                  <div class="row justify-content-center">
-                    <div class="col-sm-6">
-                      <a href="/auth/google" class="btn btn-login btn-g">
-                        <i class="icon-google"></i> Login With Google
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Register Form -->
-              <div class="tab-pane fade" id="register" role="tabpanel">
-                <form id="signup-form">
-                  <div class="form-group">
-                    <label class="errMsgSignup" for="register-name">User name *</label>
-                    <input type="text" class="form-control" id="register-name" name="register-name">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="errMsgSignup" for="register-email">Email address *</label>
-                    <input type="email" class="form-control" id="register-email" name="register-email">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="errMsgSignup" for="register-password0">Password *</label>
-                    <input type="password" class="form-control" id="register-password0" name="register-password0">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="errMsgSignup" for="register-password">Confirm password *</label>
-                    <input type="password" class="form-control" id="register-password" name="register-password">
-                  </div>
-
-                  <p class="main-error1 text-danger"></p>
-
-                  <div class="form-footer">
-                    <button type="submit" class="btn btn-outline-primary-2">
-                      <span>SIGN UP</span>
-                      <i class="icon-long-arrow-right"></i>
-                    </button>
-                  </div>
-                </form>
-              </div>
+        <!-- Tab Content -->
+        <div class="tab-content">
+          
+          <!-- Sign In Tab -->
+          <div class="tab-pane fade show active" id="signin-tab" role="tabpanel">
+            <div style="text-align: center; margin-bottom: 25px;">
+              <h3 style="font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 8px;">Welcome Back!</h3>
+              <p style="color: #6b7280; font-size: 14px;">Sign in to continue shopping</p>
             </div>
+
+            <form id="login-form">
+              <div class="form-group" style="margin-bottom: 20px;">
+                <label for="singin-email" class="errMsg" style="display: block; font-weight: 600; color: #111827; margin-bottom: 8px; font-size: 14px;">
+                  Email Address *
+                </label>
+                <input type="text" class="form-control auth-input" id="singin-email" name="signin-email"
+                       style="width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px; transition: all 0.2s ease;"
+                       placeholder="Enter your email">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 20px;">
+                <label for="singin-password" class="errMsg" style="display: block; font-weight: 600; color: #111827; margin-bottom: 8px; font-size: 14px;">
+                  Password *
+                </label>
+                <input type="password" class="form-control auth-input" id="singin-password" name="signin-password"
+                       style="width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px; transition: all 0.2s ease;"
+                       placeholder="Enter your password">
+              </div>
+
+              <p class="main-error text-danger" style="font-size: 14px; margin-bottom: 15px;"></p>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <a href="/forgotPassword" style="color: #111827; font-size: 13px; text-decoration: none; font-weight: 600;">
+                  Forgot Password?
+                </a>
+              </div>
+
+              <button type="submit" class="btn-auth-submit" 
+                      style="width: 100%; padding: 14px; background: #111827; color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s ease; margin-bottom: 20px;">
+                Sign In
+              </button>
+
+              <div style="position: relative; text-align: center; margin: 25px 0;">
+                <span style="background: white; padding: 0 15px; color: #9ca3af; font-size: 13px; position: relative; z-index: 1;">
+                  OR
+                </span>
+                <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #e5e7eb; z-index: 0;"></div>
+              </div>
+
+              <a href="/auth/google" class="btn-google-auth"
+                 style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: #374151; font-weight: 600; font-size: 14px; transition: all 0.2s ease;">
+                <svg style="width: 20px; height: 20px; margin-right: 10px;" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+              </a>
+            </form>
           </div>
+
+          <!-- Register Tab -->
+          <div class="tab-pane fade" id="register-tab" role="tabpanel">
+            <div style="text-align: center; margin-bottom: 25px;">
+              <h3 style="font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 8px;">Create Account</h3>
+              <p style="color: #6b7280; font-size: 14px;">Join us and start shopping</p>
+            </div>
+
+            <form id="signup-form">
+              <div class="form-group" style="margin-bottom: 20px;">
+                <label class="errMsgSignup" for="register-name" 
+                       style="display: block; font-weight: 600; color: #111827; margin-bottom: 8px; font-size: 14px;">
+                  Full Name *
+                </label>
+                <input type="text" class="form-control auth-input" id="register-name" name="register-name"
+                       style="width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px; transition: all 0.2s ease;"
+                       placeholder="Enter your full name">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 20px;">
+                <label class="errMsgSignup" for="register-email"
+                       style="display: block; font-weight: 600; color: #111827; margin-bottom: 8px; font-size: 14px;">
+                  Email Address *
+                </label>
+                <input type="email" class="form-control auth-input" id="register-email" name="register-email"
+                       style="width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px; transition: all 0.2s ease;"
+                       placeholder="Enter your email">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 20px;">
+                <label class="errMsgSignup" for="register-password0"
+                       style="display: block; font-weight: 600; color: #111827; margin-bottom: 8px; font-size: 14px;">
+                  Password *
+                </label>
+                <input type="password" class="form-control auth-input" id="register-password0" name="register-password0"
+                       style="width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px; transition: all 0.2s ease;"
+                       placeholder="Create a password (min. 8 characters)">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 20px;">
+                <label class="errMsgSignup" for="register-password"
+                       style="display: block; font-weight: 600; color: #111827; margin-bottom: 8px; font-size: 14px;">
+                  Confirm Password *
+                </label>
+                <input type="password" class="form-control auth-input" id="register-password" name="register-password"
+                       style="width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px; transition: all 0.2s ease;"
+                       placeholder="Confirm your password">
+              </div>
+
+              <p class="main-error1 text-danger" style="font-size: 14px; margin-bottom: 15px;"></p>
+
+              <button type="submit" class="btn-auth-submit"
+                      style="width: 100%; padding: 14px; background: #111827; color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s ease;">
+                Create Account
+              </button>
+
+              <p style="text-align: center; margin-top: 20px; font-size: 13px; color: #6b7280;">
+                By signing up, you agree to our 
+                <a href="#" style="color: #111827; text-decoration: none; font-weight: 600;">Terms</a> and 
+                <a href="#" style="color: #111827; text-decoration: none; font-weight: 600;">Privacy Policy</a>
+              </p>
+            </form>
+          </div>
+
         </div>
       </div>
     </div>
@@ -1028,6 +1157,8 @@
             title: 'Added to Cart!',
             confirmButtonColor: '#111827',
             timer: 2000
+          }).then(() => {
+            location.reload(); // Reload to update cart count
           });
         } else {
           Swal.fire({
@@ -1042,20 +1173,57 @@
     });
   });
 
-  // Login form validation
-  const form = document.getElementById('login-form');
-  const email = document.getElementById('singin-email');
-  const password = document.getElementById('singin-password');
+  // ========== LOGIN FORM ==========
+  const loginForm = document.getElementById('login-form');
+  const loginEmail = document.getElementById('singin-email');
+  const loginPassword = document.getElementById('singin-password');
+  const loginError = document.querySelector('.main-error');
 
-  form.addEventListener('submit', async function(event) {
+  // Clear error on input
+  [loginEmail, loginPassword].forEach(input => {
+    input.addEventListener('input', () => {
+      loginError.innerText = '';
+      input.classList.remove('error');
+    });
+  });
+
+  loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-    const emailVal = email.value.trim();
-    const passVal = password.value.trim();
+    
+    const emailVal = loginEmail.value.trim();
+    const passVal = loginPassword.value.trim();
 
-    if (!emailVal || !passVal) {
-      document.querySelector('.main-error').innerText = 'Please fill in all fields';
+    // Reset errors
+    loginError.innerText = '';
+    loginEmail.classList.remove('error');
+    loginPassword.classList.remove('error');
+
+    // Validation
+    if (!emailVal) {
+      loginEmail.classList.add('error');
+      loginError.innerText = 'Email is required';
       return;
     }
+
+    if (!passVal) {
+      loginPassword.classList.add('error');
+      loginError.innerText = 'Password is required';
+      return;
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailVal)) {
+      loginEmail.classList.add('error');
+      loginError.innerText = 'Please enter a valid email address';
+      return;
+    }
+
+    // Disable button during submission
+    const submitBtn = loginForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerText;
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Signing in...';
 
     try {
       const response = await fetch('/signin', {
@@ -1067,53 +1235,163 @@
       const message = await response.json();
 
       if (message.success) {
-        window.location.href = '/home';
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome Back!',
+          text: 'Login successful',
+          confirmButtonColor: '#111827',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = '/home';
+        });
       } else {
-        document.querySelector('.main-error').innerText = message.msg;
+        loginEmail.classList.add('error');
+        loginPassword.classList.add('error');
+        loginError.innerText = message.msg || 'Invalid email or password';
+        submitBtn.disabled = false;
+        submitBtn.innerText = originalText;
       }
     } catch (error) {
       console.error('Error:', error);
+      loginError.innerText = 'An error occurred. Please try again.';
+      submitBtn.disabled = false;
+      submitBtn.innerText = originalText;
     }
   });
 
-  // Signup form validation
-  const signupform = document.getElementById('signup-form');
-  signupform.addEventListener('submit', async function(event) {
+  // ========== SIGNUP FORM ==========
+  const signupForm = document.getElementById('signup-form');
+  const signupName = document.getElementById('register-name');
+  const signupEmail = document.getElementById('register-email');
+  const signupPass = document.getElementById('register-password0');
+  const signupConfirmPass = document.getElementById('register-password');
+  const signupError = document.querySelector('.main-error1');
+
+  // Clear error on input
+  [signupName, signupEmail, signupPass, signupConfirmPass].forEach(input => {
+    input.addEventListener('input', () => {
+      signupError.innerText = '';
+      input.classList.remove('error');
+    });
+  });
+
+  signupForm.addEventListener('submit', async function(event) {
     event.preventDefault();
     
-    const nameValue = document.getElementById('register-name').value.trim();
-    const emailValue = document.getElementById('register-email').value.trim();
-    const passValue = document.getElementById('register-password0').value.trim();
-    const confirmPassValue = document.getElementById('register-password').value.trim();
+    const nameValue = signupName.value.trim();
+    const emailValue = signupEmail.value.trim();
+    const passValue = signupPass.value.trim();
+    const confirmPassValue = signupConfirmPass.value.trim();
 
-    if (!nameValue || !emailValue || !passValue || !confirmPassValue) {
-      document.querySelector('.main-error1').innerText = 'Please fill in all fields';
+    // Reset errors
+    signupError.innerText = '';
+    [signupName, signupEmail, signupPass, signupConfirmPass].forEach(input => {
+      input.classList.remove('error');
+    });
+
+    // Validation
+    if (!nameValue) {
+      signupName.classList.add('error');
+      signupError.innerText = 'Name is required';
+      return;
+    }
+
+    if (nameValue.length < 3) {
+      signupName.classList.add('error');
+      signupError.innerText = 'Name must be at least 3 characters';
+      return;
+    }
+
+    if (!emailValue) {
+      signupEmail.classList.add('error');
+      signupError.innerText = 'Email is required';
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailValue)) {
+      signupEmail.classList.add('error');
+      signupError.innerText = 'Please enter a valid email address';
+      return;
+    }
+
+    if (!passValue) {
+      signupPass.classList.add('error');
+      signupError.innerText = 'Password is required';
+      return;
+    }
+
+    if (passValue.length < 8) {
+      signupPass.classList.add('error');
+      signupError.innerText = 'Password must be at least 8 characters';
+      return;
+    }
+
+    if (!confirmPassValue) {
+      signupConfirmPass.classList.add('error');
+      signupError.innerText = 'Please confirm your password';
       return;
     }
 
     if (passValue !== confirmPassValue) {
-      document.querySelector('.main-error1').innerText = 'Passwords do not match';
+      signupPass.classList.add('error');
+      signupConfirmPass.classList.add('error');
+      signupError.innerText = 'Passwords do not match';
       return;
     }
+
+    // Disable button during submission
+    const submitBtn = signupForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerText;
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Creating Account...';
 
     try {
       const response = await fetch('/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: emailValue, password: confirmPassValue, name: nameValue })
+        body: JSON.stringify({ 
+          email: emailValue, 
+          password: confirmPassValue, 
+          name: nameValue 
+        })
       });
 
       const message = await response.json();
 
       if (message.success) {
-        window.location.href = message.redirectUrl || '/otpValidate';
+        Swal.fire({
+          icon: 'success',
+          title: 'Account Created!',
+          text: 'Please verify your email',
+          confirmButtonColor: '#111827',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = message.redirectUrl || '/otpValidate';
+        });
       } else {
-        document.querySelector('.main-error1').innerText = message.message || 'An error occurred';
+        signupError.innerText = message.message || 'An error occurred during registration';
+        submitBtn.disabled = false;
+        submitBtn.innerText = originalText;
       }
     } catch (error) {
       console.error('Error:', error);
+      signupError.innerText = 'An error occurred. Please try again.';
+      submitBtn.disabled = false;
+      submitBtn.innerText = originalText;
     }
   });
+
+  // Reset forms when modal is closed
+  $('#signin-modal').on('hidden.bs.modal', function () {
+    loginForm.reset();
+    signupForm.reset();
+    document.querySelectorAll('.main-error, .main-error1').forEach(el => el.innerText = '');
+    document.querySelectorAll('.auth-input').forEach(input => input.classList.remove('error'));
+  });
 </script>
+
 
 <%- include('../layouts/footer.ejs') %>

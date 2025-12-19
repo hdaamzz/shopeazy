@@ -17,9 +17,11 @@ const loadLogin = async (req, res) => {
 const verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const userData = await User.findOne({ email_address: email, is_block: false });
+    const userData = await User.findOne({ email_address: email });
 
     if (!userData) {
+      return res.json({ success: false, msg: 'Email or password incorrect' });
+    }else if (userData.is_block==true){
       return res.json({ success: false, msg: 'Shopeazy blocked you' });
     }
 

@@ -30,8 +30,10 @@ const buildSortOptions = (sort) => {
 
 const loadShop = async (req, res) => {
   try {
-    const { sort, category: selectedCategories } = req.query;
+    const { sort, category: selectedCategories, page = 1 } = req.query;
     const sortOptions = buildSortOptions(sort);
+    const limit = 12; // Products per page
+    const skip = (parseInt(page) - 1) * limit;
 
     const matchStage = { is_listed: true };
     if (selectedCategories) {
@@ -41,7 +43,7 @@ const loadShop = async (req, res) => {
       matchStage.category = { $in: categoryIds };
     }
 
-    const [allProducts, categories, offers, userData] = await Promise.all([
+    const [paginatedResult, categories, offers, userData] = await Promise.all([
       Product.aggregate([
         { $match: matchStage },
         {
@@ -54,12 +56,33 @@ const loadShop = async (req, res) => {
         },
         { $unwind: '$categoryDetails' },
         { $match: { 'categoryDetails.status': true } },
-        { $sort: sortOptions }
+        {
+          $facet: {
+            products: [
+              { $sort: sortOptions },
+              { $skip: skip },
+              { $limit: limit }
+            ],
+            totalCount: [
+              { $count: 'count' }
+            ]
+          }
+        },
+        {
+          $addFields: {
+            total: { $ifNull: [{ $arrayElemAt: ['$totalCount.count', 0] }, 0] }
+          }
+        }
       ]),
       Category.find({ status: true }),
       Offer.find({ status: 'active' }).populate('products').populate('category'),
       getUserFromRequest(req)
     ]);
+
+    const allProducts = paginatedResult[0]?.products || [];
+    const totalProducts = paginatedResult[0]?.total || 0;
+    const totalPages = Math.ceil(totalProducts / limit);
+    const currentPage = parseInt(page);
 
     res.render('shop', {
       product: allProducts,
@@ -67,13 +90,17 @@ const loadShop = async (req, res) => {
       userData,
       offers,
       sort: sort || '',
-      selectedCategories: selectedCategories || ''
+      selectedCategories: selectedCategories || '',
+      currentPage,
+      totalPages,
+      totalProducts
     });
   } catch (error) {
     console.error('Error loading shop:', error);
     res.status(HTTP_STATUS.NOT_FOUND).render('404', { message: 'Failed to load shop' });
   }
 };
+
 
 const loadProductCategory = async (req, res) => {
   try {

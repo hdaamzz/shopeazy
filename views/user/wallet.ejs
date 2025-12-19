@@ -1,375 +1,936 @@
 <%- include('../layouts/header.ejs') %>
 
-<style>
-  .top-nav-bar {
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
+  <style>
+    .btn-withdraw {
+      padding: 12px 24px;
+      background: white;
+      color: #111827;
+      border: 2px solid white;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .top-nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
+    .btn-withdraw:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateY(-2px);
+    }
 
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-  }
+    .withdraw-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
 
-  .nav-logo img {
-    height: 35px;
-  }
+    .withdraw-modal.active {
+      display: flex;
+    }
 
-  .nav-icons {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-  }
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalSlideIn 0.3s ease;
+    }
 
-  .nav-icon-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-    transition: all 0.3s ease;
-  }
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
 
-  .nav-icon-item:hover {
-    color: #111827;
-    transform: translateY(-2px);
-  }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  .nav-icon-wrapper {
-    position: relative;
-    font-size: 24px;
-  }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 25px;
+      border-bottom: 2px solid #f3f4f6;
+    }
 
-  .nav-icon-label {
-    font-size: 12px;
-    margin-top: 4px;
-    font-weight: 500;
-  }
+    .modal-header h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
 
-  body {
-    background: #f5f5f7;
-  }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #6b7280;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
 
-  .wallet-container {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-  }
+    .modal-close:hover {
+      background: #f3f4f6;
+      color: #111827;
+    }
 
-  .balance-card {
-    background: linear-gradient(135deg, #ffffff 0%, #9197af 100%);
-    color: white;
-    border-radius: 16px;
-    padding: 40px;
-    margin-bottom: 30px;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-  }
+    .modal-body {
+      padding: 25px;
+    }
 
-  .balance-label {
-    font-size: 14px;
-    opacity: 0.9;
-    margin-bottom: 10px;
-  }
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-  .balance-amount {
-    font-size: 48px;
-    font-weight: 700;
-    margin: 0;
-  }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
 
-  .transactions-card {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    border: 1px solid #e5e7eb;
-  }
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
 
-  .transactions-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #f3f4f6;
-  }
+    .form-group input:focus {
+      outline: none;
+      border-color: #111827;
+      box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+    }
 
-  .transactions-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: #111827;
-    margin: 0;
-  }
+    .input-with-icon {
+      position: relative;
+    }
 
-  .search-box {
-    position: relative;
-    max-width: 300px;
-  }
+    .input-with-icon .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 600;
+      color: #6b7280;
+    }
 
-  .search-box input {
-    width: 100%;
-    padding: 10px 40px 10px 15px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 14px;
-  }
+    .input-with-icon input {
+      padding-left: 35px;
+    }
 
-  .search-box input:focus {
-    outline: none;
-    border-color: #667eea;
-  }
+    .text-muted {
+      display: block;
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 5px;
+    }
 
-  .search-box i {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #9ca3af;
-  }
+    .btn-submit-withdraw {
+      width: 100%;
+      padding: 14px;
+      background: #111827;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
 
-  .transactions-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-  }
+    .btn-submit-withdraw:hover {
+      background: #030712;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(17, 24, 39, 0.3);
+    }
 
-  .transactions-table thead {
-    background: #f9fafb;
-  }
+    .btn-submit-withdraw:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
-  .transactions-table th {
-    padding: 15px;
-    text-align: left;
-    font-size: 12px;
-    font-weight: 700;
-    color: #6b7280;
-    text-transform: uppercase;
-    border-bottom: 2px solid #e5e7eb;
-  }
+    @media (max-width: 768px) {
+      .balance-card>div {
+        flex-direction: column;
+        gap: 20px;
+      }
 
-  .transactions-table td {
-    padding: 18px 15px;
-    border-bottom: 1px solid #f3f4f6;
-    color: #374151;
-  }
+      .btn-withdraw {
+        width: 100%;
+        justify-content: center;
+      }
 
-  .transactions-table tbody tr:hover {
-    background: #f9fafb;
-  }
+      .modal-content {
+        width: 95%;
+      }
 
-  .transaction-id {
-    font-family: monospace;
-    font-size: 13px;
-    color: #6b7280;
-  }
+      .modal-body {
+        padding: 20px;
+      }
+    }
 
-  .transaction-amount {
-    font-weight: 600;
-    color: #111827;
-  }
+    .top-nav-bar {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-  .transaction-badge {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
+    .top-nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
-  .badge-credit {
-    background: #d1fae5;
-    color: #065f46;
-  }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
 
-  .badge-debit {
-    background: #fee2e2;
-    color: #991b1b;
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-  }
-
-  .empty-state i {
-    font-size: 64px;
-    color: #d1d5db;
-    margin-bottom: 20px;
-  }
-
-  .empty-state h3 {
-    font-size: 20px;
-    color: #6b7280;
-    margin-bottom: 10px;
-  }
-
-  @media (max-width: 768px) {
     .nav-logo img {
-      height: 28px;
+      height: 35px;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+
+    .nav-icon-item:hover {
+      color: #111827;
+      transform: translateY(-2px);
+    }
+
+    .nav-icon-wrapper {
+      position: relative;
+      font-size: 24px;
     }
 
     .nav-icon-label {
-      display: none;
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    body {
+      background: #f5f5f7;
+    }
+
+    .wallet-container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
     }
 
     .balance-card {
-      padding: 30px 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #9197af 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .balance-label {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 10px;
     }
 
     .balance-amount {
-      font-size: 36px;
+      font-size: 48px;
+      font-weight: 700;
+      margin: 0;
     }
 
     .transactions-card {
-      padding: 20px 15px;
-      overflow-x: auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #e5e7eb;
     }
 
     .transactions-header {
-      flex-direction: column;
-      gap: 15px;
-      align-items: flex-start;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    .transactions-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+      margin: 0;
     }
 
     .search-box {
+      position: relative;
+      max-width: 300px;
+    }
+
+    .search-box input {
       width: 100%;
-      max-width: 100%;
+      padding: 10px 40px 10px 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .search-box i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
     }
 
     .transactions-table {
-      min-width: 600px;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
     }
 
-    .transactions-table th,
+    .transactions-table thead {
+      background: #f9fafb;
+    }
+
+    .transactions-table th {
+      padding: 15px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      color: #6b7280;
+      text-transform: uppercase;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
     .transactions-table td {
-      padding: 12px 10px;
-      font-size: 13px;
+      padding: 18px 15px;
+      border-bottom: 1px solid #f3f4f6;
+      color: #374151;
     }
-  }
-</style>
 
-<!-- Top Navigation -->
-<nav class="top-nav-bar">
-  <div class="top-nav-container">
-    <a href="/" class="nav-logo">
-      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
-    </a>
+    .transactions-table tbody tr:hover {
+      background: #f9fafb;
+    }
 
-    <div class="nav-icons">
-      <a href="/wishlist" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="icon-heart-o"></i>
-        </div>
-        <span class="nav-icon-label">Wishlist</span>
+    .transaction-id {
+      font-family: monospace;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .transaction-amount {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .transaction-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge-credit {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge-debit {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-state i {
+      font-size: 64px;
+      color: #d1d5db;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 20px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-logo img {
+        height: 28px;
+      }
+
+      .nav-icon-label {
+        display: none;
+      }
+
+      .balance-card {
+        padding: 30px 20px;
+      }
+
+      .balance-amount {
+        font-size: 36px;
+      }
+
+      .transactions-card {
+        padding: 20px 15px;
+        overflow-x: auto;
+      }
+
+      .transactions-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+      }
+
+      .search-box {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .transactions-table {
+        min-width: 600px;
+      }
+
+      .transactions-table th,
+      .transactions-table td {
+        padding: 12px 10px;
+        font-size: 13px;
+      }
+    }
+
+    .pagination-container {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .pagination-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pagination-btn {
+      padding: 10px 20px;
+      background: white;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+      background: #111827;
+      color: white;
+      border-color: #111827;
+    }
+
+    .pagination-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .pagination-numbers {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .pagination-number {
+      min-width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      color: #374151;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .pagination-number:hover {
+      border-color: #111827;
+      color: #111827;
+    }
+
+    .pagination-number.active {
+      background: #111827;
+      color: white;
+      border-color: #111827;
+      font-weight: 700;
+    }
+
+    .pagination-ellipsis {
+      color: #9ca3af;
+      padding: 0 5px;
+      font-weight: 600;
+    }
+
+    .pagination-info {
+      color: #6b7280;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .pagination-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .pagination-btn {
+        padding: 8px 15px;
+        font-size: 13px;
+      }
+
+      .pagination-number {
+        min-width: 35px;
+        height: 35px;
+        font-size: 13px;
+      }
+
+      .pagination-info {
+        font-size: 13px;
+        text-align: center;
+      }
+    }
+  </style>
+
+  <!-- Top Navigation -->
+  <nav class="top-nav-bar">
+    <div class="top-nav-container">
+      <a href="/" class="nav-logo">
+        <img src="assets/newimages/logo.png" alt="shopEazy Logo">
       </a>
 
-      <a href="/cart" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="icon-shopping-cart"></i>
-        </div>
-        <span class="nav-icon-label">Cart</span>
-      </a>
+      <div class="nav-icons">
+        <a href="/wishlist" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="icon-heart-o"></i>
+          </div>
+          <span class="nav-icon-label">Wishlist</span>
+        </a>
 
-      <a href="/dashboard" class="nav-icon-item">
-        <div class="nav-icon-wrapper">
-          <i class="icon-user"></i>
-        </div>
-        <span class="nav-icon-label">Account</span>
-      </a>
+        <a href="/cart" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="icon-shopping-cart"></i>
+          </div>
+          <span class="nav-icon-label">Cart</span>
+        </a>
+
+        <a href="/dashboard" class="nav-icon-item">
+          <div class="nav-icon-wrapper">
+            <i class="icon-user"></i>
+          </div>
+          <span class="nav-icon-label">Account</span>
+        </a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- Wallet Content -->
-<div class="wallet-container">
-  <!-- Balance Card -->
-  <div class="balance-card">
-    <p class="balance-label">Current Balance</p>
-    <h2 class="balance-amount">
-      ₹<%= wallet && wallet[0]?.balance ? wallet[0].balance.toFixed(2) : '0.00' %>
-    </h2>
-  </div>
+  <!-- Wallet Content -->
+  <div class="wallet-container">
+    <!-- Balance Card -->
+    <div class="balance-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <p class="balance-label">Current Balance</p>
+          <h2 class="balance-amount">
+            ₹<%= wallet && wallet[0]?.balance ? wallet[0].balance.toFixed(2) : '0.00' %>
+          </h2>
+        </div>
+        <% if (wallet && wallet[0]?.balance> 0) { %>
+          <button class="btn-withdraw" onclick="openWithdrawModal()">
+            <i class="fa-solid fa-money-bill-transfer"></i> Withdraw
+          </button>
+          <% } %>
+      </div>
+    </div>
+    <div id="withdrawModal" class="withdraw-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Withdraw Funds</h3>
+          <button class="modal-close" onclick="closeWithdrawModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="withdrawForm">
+            <div class="form-group">
+              <label for="withdrawAmount">Withdrawal Amount</label>
+              <div class="input-with-icon">
+                <span class="input-icon">₹</span>
+                <input type="number" id="withdrawAmount" name="amount" placeholder="Enter amount" min="100"
+                  max="<%= wallet && wallet[0]?.balance ? wallet[0].balance : 0 %>" step="0.01" required>
+              </div>
+              <small class="text-muted">
+                Available Balance: ₹<%= wallet && wallet[0]?.balance ? wallet[0].balance.toFixed(2) : '0.00' %>
+              </small>
+              <small class="text-muted">Minimum withdrawal: ₹100</small>
+            </div>
 
-  <!-- Transactions Card -->
-  <div class="transactions-card">
-    <div class="transactions-header">
-      <h2 class="transactions-title">Transaction History</h2>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search transactions...">
-        <i class="icon-search"></i>
+            <div class="form-group">
+              <label for="bankAccount">Bank Account Number</label>
+              <input type="text" id="bankAccount" name="bankAccount" placeholder="Enter bank account number"
+                pattern="[0-9]{9,18}" required>
+            </div>
+
+            <div class="form-group">
+              <label for="ifscCode">IFSC Code</label>
+              <input type="text" id="ifscCode" name="ifscCode" placeholder="Enter IFSC code"
+                pattern="^[A-Z]{4}0[A-Z0-9]{6}$" maxlength="11" required>
+            </div>
+
+            <div class="form-group">
+              <label for="accountName">Account Holder Name</label>
+              <input type="text" id="accountName" name="accountName" placeholder="Enter account holder name" required>
+            </div>
+
+            <button type="submit" class="btn-submit-withdraw">
+              <i class="fa-solid fa-check"></i> Confirm Withdrawal
+            </button>
+          </form>
+        </div>
       </div>
     </div>
 
-    <% if (wallet && wallet[0]?.history && wallet[0].history.length > 0) { %>
-      <div style="overflow-x: auto;">
-        <table class="transactions-table">
-          <thead>
-            <tr>
-              <th>Transaction ID</th>
-              <th>Date</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Type</th>
-            </tr>
-          </thead>
-          <tbody id="transactionsBody">
-            <% wallet[0].history.forEach(hist => { %>
+    <!-- Transactions Card -->
+    <div class="transactions-card">
+      <div class="transactions-header">
+        <h2 class="transactions-title">Transaction History</h2>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search transactions...">
+          <i class="icon-search"></i>
+        </div>
+      </div>
+
+      <% if (wallet && wallet[0]?.history && wallet[0].history.length> 0) { %>
+        <div style="overflow-x: auto;">
+          <table class="transactions-table">
+            <thead>
               <tr>
-                <td class="transaction-id">#<%= hist.transaction_id %></td>
-                <td>
-                  <%= new Date(hist.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric"
-                  }) %>
-                </td>
-                <td><%= hist.description %></td>
-                <td class="transaction-amount">₹<%= hist.amount.toFixed(2) %></td>
-                <td>
-                  <span class="transaction-badge <%= hist.transaction_type === 'Cancelled' ? 'badge-credit' : 'badge-debit' %>">
-                    <%= hist.transaction_type === 'Cancelled' ? 'Credit' : 'Debit' %>
+                <th>Transaction ID</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsBody">
+              <% wallet[0].history.forEach(hist=> { %>
+                <tr>
+                  <td class="transaction-id">#<%= hist.transaction_id %>
+                  </td>
+                  <td>
+                    <%= new Date(hist.date).toLocaleDateString("en-US", { year: "numeric" , month: "short" ,
+                      day: "numeric" }) %>
+                  </td>
+                  <td>
+                    <%= hist.description %>
+                  </td>
+                  <td class="transaction-amount">₹<%= hist.amount.toFixed(2) %>
+                  </td>
+                  <td>
+                  <span class="transaction-badge <%= 
+                    hist.transaction_type === 'Cancelled' || hist.transaction_type === 'Refund' ? 'badge-credit' : 'badge-debit' 
+                  %>">
+                    <%= 
+                      hist.transaction_type === 'Cancelled' || hist.transaction_type === 'Refund' ? 'Credit' : 
+                      hist.transaction_type === 'Withdrawal' ? 'Debit' : 
+                      'Debit' 
+                    %>
                   </span>
                 </td>
-              </tr>
-            <% }); %>
-          </tbody>
-        </table>
-      </div>
-    <% } else { %>
-      <div class="empty-state">
-        <i class="icon-wallet"></i>
-        <h3>No Transactions Yet</h3>
-        <p style="color: #9ca3af;">Your transaction history will appear here</p>
-      </div>
-    <% } %>
+                </tr>
+                <% }); %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <% if (totalPages> 1) { %>
+          <div class="pagination-container">
+            <nav class="pagination-nav">
+              <!-- Previous Button -->
+              <% if (currentPage> 1) { %>
+                <a href="?page=<%= currentPage - 1 %>" class="pagination-btn pagination-prev">
+                  <i class="fa-solid fa-chevron-left"></i> Previous
+                </a>
+                <% } else { %>
+                  <span class="pagination-btn pagination-prev disabled">
+                    <i class="fa-solid fa-chevron-left"></i> Previous
+                  </span>
+                  <% } %>
+
+                    <!-- Page Numbers -->
+                    <div class="pagination-numbers">
+                      <% let startPage=Math.max(1, currentPage - 2); let endPage=Math.min(totalPages, currentPage + 2);
+                        if (currentPage <=3) { endPage=Math.min(5, totalPages); } if (currentPage>= totalPages - 2) {
+                        startPage = Math.max(1, totalPages - 4);
+                        }
+                        %>
+
+                        <% if (startPage> 1) { %>
+                          <a href="?page=1" class="pagination-number">1</a>
+                          <% if (startPage> 2) { %>
+                            <span class="pagination-ellipsis">...</span>
+                            <% } %>
+                              <% } %>
+
+                                <% for (let i=startPage; i <=endPage; i++) { %>
+                                  <a href="?page=<%= i %>"
+                                    class="pagination-number <%= i === currentPage ? 'active' : '' %>">
+                                    <%= i %>
+                                  </a>
+                                  <% } %>
+
+                                    <% if (endPage < totalPages) { %>
+                                      <% if (endPage < totalPages - 1) { %>
+                                        <span class="pagination-ellipsis">...</span>
+                                        <% } %>
+                                          <a href="?page=<%= totalPages %>" class="pagination-number">
+                                            <%= totalPages %>
+                                          </a>
+                                          <% } %>
+                    </div>
+
+                    <!-- Next Button -->
+                    <% if (currentPage < totalPages) { %>
+                      <a href="?page=<%= currentPage + 1 %>" class="pagination-btn pagination-next">
+                        Next <i class="fa-solid fa-chevron-right"></i>
+                      </a>
+                      <% } else { %>
+                        <span class="pagination-btn pagination-next disabled">
+                          Next <i class="fa-solid fa-chevron-right"></i>
+                        </span>
+                        <% } %>
+            </nav>
+
+            <div class="pagination-info">
+              Showing <%= (currentPage - 1) * 10 + 1 %>-<%= Math.min(currentPage * 10, totalTransactions) %>
+                  of <%= totalTransactions %> transactions
+            </div>
+          </div>
+          <% } %>
+
+            <% } else { %>
+              <div class="empty-state">
+                <i class="icon-wallet"></i>
+                <h3>No Transactions Yet</h3>
+                <p style="color: #9ca3af;">Your transaction history will appear here</p>
+              </div>
+              <% } %>
+    </div>
   </div>
-</div>
 
-<!-- Scripts -->
-<script>
-  // Search functionality
-  document.getElementById('searchInput')?.addEventListener('input', function(e) {
-    const searchTerm = e.target.value.toLowerCase();
-    const rows = document.querySelectorAll('#transactionsBody tr');
-    
-    rows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(searchTerm) ? '' : 'none';
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    // Modal functions
+    function openWithdrawModal() {
+      document.getElementById('withdrawModal').classList.add('active');
+    }
+
+    function closeWithdrawModal() {
+      document.getElementById('withdrawModal').classList.remove('active');
+      document.getElementById('withdrawForm').reset();
+    }
+
+    document.getElementById('withdrawModal')?.addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeWithdrawModal();
+      }
     });
-  });
-</script>
 
-<%- include('../layouts/footer.ejs') %>
+    document.getElementById('withdrawForm')?.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const amount = parseFloat(formData.get('amount'));
+      const availableBalance = <%= wallet && wallet[0]?.balance ? wallet[0].balance : 0 %>;
+      closeWithdrawModal();
+      // Validation
+      if (amount < 100) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Amount',
+          text: 'Minimum withdrawal amount is ₹100',
+          confirmButtonColor: '#111827'
+        });
+        return;
+      }
+
+      if (amount > availableBalance) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Insufficient Balance',
+          text: 'Withdrawal amount exceeds available balance',
+          confirmButtonColor: '#111827'
+        });
+        return;
+      }
+      
+      const result = await Swal.fire({
+        title: 'Confirm Withdrawal',
+        html: `
+        <div style="text-align: left; padding: 10px;">
+          <p><strong>Amount:</strong> ₹${amount.toFixed(2)}</p>
+          <p><strong>Account:</strong> ${formData.get('bankAccount')}</p>
+          <p><strong>IFSC:</strong> ${formData.get('ifscCode')}</p>
+          <p><strong>Name:</strong> ${formData.get('accountName')}</p>
+        </div>
+      `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#111827',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Yes, withdraw',
+        cancelButtonText: 'Cancel'
+      });
+      
+
+      if (!result.isConfirmed) return;
+
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+      try {
+        const response = await fetch('/wallet/withdraw', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            amount: amount,
+            bankAccount: formData.get('bankAccount'),
+            ifscCode: formData.get('ifscCode'),
+            accountName: formData.get('accountName')
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          await Swal.fire({
+            icon: 'success',
+            title: 'Withdrawal Successful!',
+            text: `₹${amount.toFixed(2)} has been debited from your wallet`,
+            confirmButtonColor: '#111827'
+          });
+          window.location.reload();
+        } else {
+          throw new Error(data.message || 'Withdrawal failed');
+        }
+      } catch (error) {
+        console.error('Withdrawal error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Withdrawal Failed',
+          text: error.message || 'Something went wrong. Please try again.',
+          confirmButtonColor: '#111827'
+        });
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Confirm Withdrawal';
+      }
+    });
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', function (e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll('#transactionsBody tr');
+
+        rows.forEach(row => {
+          const text = row.textContent.toLowerCase();
+          row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+
+        const paginationInfo = document.querySelector('.pagination-info');
+        if (searchTerm && paginationInfo) {
+          const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none').length;
+          paginationInfo.innerHTML = `Showing ${visibleRows} result(s) on this page`;
+        }
+      });
+    }
+  </script>
+
+  <%- include('../layouts/footer.ejs') %>
