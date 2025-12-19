@@ -1,203 +1,164 @@
 <!DOCTYPE html>
-
-
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
     data-theme="theme-default" data-assets-path="/dashboard-assets/" data-template="vertical-menu-template"
     data-style="light">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>shopEazy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Product Offers - shopEazy</title>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
-    <meta name="keywords"
-        content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
-
     <link rel="icon" type="image/x-icon" href="/assets/newimages/logo.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icons -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/remixicon/remixicon.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/flag-icons.css" />
-
-    <!-- Menu waves for no-customizer fix -->
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/node-waves/node-waves.css" />
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css"
-        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="/dashboard-assets/css/demo.css" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/typeahead-js/typeahead.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/apex-charts/apex-charts.css" />
-
-    <!-- Page CSS -->
-    <link rel="stylesheet" href="/dashboard-assets/vendor/css/pages/app-ecommerce-dashboard.css" />
-
-    <!-- Helpers -->
-    <script src="/dashboard-assets/vendor/js/helpers.js"></script>
-
-    <script src="/dashboard-assets/js/config.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/select2/select2.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/%40form-validation/form-validation.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/bs-stepper/bs-stepper.css" />
-
-
 
     <style>
-        input.error {
-            border-color: red;
+        /* Error Styles */
+        .is-invalid {
+            border-color: #dc3545 !important;
         }
 
-        label.error {
-            color: red;
+        .is-valid {
+            border-color: #28a745 !important;
         }
 
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        /* Select2 Styles */
         .select2-container--default .select2-selection--multiple {
-            border: none;
-            padding: 0.4375rem 0.875rem;
+            border: 1px solid #d9dee3;
+            border-radius: 0.375rem;
+            padding: 0.3rem 0.5rem;
+            min-height: 38px;
         }
 
-        .form-floating-select2 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
-            padding: 0;
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #696cff;
+        }
+
+        .select2-container--default .select2-selection--multiple.is-invalid {
+            border-color: #dc3545 !important;
         }
 
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #e9ecef;
-            border: 1px solid #ced4da;
+            background-color: #696cff;
+            border: none;
+            color: white;
             border-radius: 0.25rem;
-            padding: 2px 6px;
-            margin-right: 5px;
-            margin-top: 2px;
+            padding: 3px 8px;
+            margin: 2px;
         }
 
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
+            margin-right: 5px;
+        }
+
+        /* Offer Card Styles */
         .offer-card {
             transition: all 0.3s ease;
             border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: 100%;
         }
 
         .offer-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .offer-card .card-body {
-            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
 
         .offer-card .card-title {
             color: #333;
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.25rem;
+            font-weight: 600;
             margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
             border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 0.5rem;
-        }
-
-        .offer-card .card-text p {
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .offer-card .card-text strong {
-            color: #555;
         }
 
         .offer-card .discount {
-            font-size: 1.1rem;
-            color: #e74c3c;
+            font-size: 1.5rem;
+            color: #696cff;
             font-weight: 700;
         }
 
-        .offer-card .status-badge {
-            padding: 0.25rem 0.5rem;
+        .status-badge {
+            padding: 0.35rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
         }
 
-        .offer-card .status-badge.active {
-            background-color: #2ecc71;
+        .status-badge.active {
+            background-color: #28a745;
             color: white;
         }
 
-        .offer-card .status-badge.inactive {
-            background-color: #e74c3c;
+        .status-badge.inactive {
+            background-color: #dc3545;
             color: white;
         }
 
-        .offer-card .publish-date {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            margin-top: 1rem;
+        /* Modal Styles */
+        .modal-header {
+            border-bottom: 1px solid #e9ecef;
+            padding: 1.5rem;
         }
 
-        .offer-card .offer-type {
-            color: #3498db;
-            font-weight: 600;
+        .modal-body {
+            padding: 1.5rem !important;
         }
 
-        @media (max-width: 768px) {
-            .row-cols-md-3 {
-                row-gap: 1rem;
-            }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #566a7f;
+        }
+
+        /* Ensure Select2 is visible */
+        .select2-container {
+            z-index: 9999;
+        }
+
+        .select2-dropdown {
+            z-index: 10000;
         }
     </style>
-
 </head>
 
 <body>
-
-
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
-            style="display: none; visibility: hidden"></iframe></noscript>
-
-    <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar  ">
+    <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
 
-
-
-
-
-
-
             <!-- Menu -->
-
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-
-
-                <div class="app-brand demo ">
+                <div class="app-brand demo">
                     <a href="/admin/adminHome" class="app-brand-link">
-                        <span class="app-brand-logo demo me-1">
-                            <span style="color:var(--bs-primary);">
-
-                            </span>
-                        </span>
                         <img src="/assets/newimages/logo.png" width="150px" height="40px">
-                        <!-- <span class="app-brand-text demo menu-text fw-semibold ms-2">shopEazy</span> -->
                     </a>
-
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
                         <i class="menu-toggle-icon d-xl-block align-middle"></i>
                     </a>
@@ -205,36 +166,24 @@
 
                 <div class="menu-inner-shadow"></div>
 
-
-
                 <ul class="menu-inner py-1">
-                    <!-- Dashboards -->
-
-
-                    <!-- Layouts -->
-
-                    <!-- Front Pages -->
-
-
-
-                    <!-- e-commerce-app menu start -->
                     <li class="menu-item active open">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
                             <div data-i18n="shopEazy">shopEazy</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="/admin/adminHome" class="menu-link">
                                     <div data-i18n="Dashboard">Dashboard</div>
                                 </a>
                             </li>
-                            <li class="menu-item ">
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <li class="menu-item">
+                                <a href="/admin/products" class="menu-link menu-toggle">
                                     <div data-i18n="Products">Products</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/products" class="menu-link">
                                             <div data-i18n="Product List">Product List</div>
                                         </a>
@@ -246,36 +195,36 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <li class="menu-item">
+                                <a href="/admin/category" class="menu-link menu-toggle">
                                     <div data-i18n="Category">Category</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/category" class="menu-link">
                                             <div data-i18n="List all category">List all category</div>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <li class="menu-item">
+                                <a href="/admin/orders" class="menu-link menu-toggle">
                                     <div data-i18n="Order">Order</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item ">
-                                        <a href="app-ecommerce-order-list.html" class="menu-link">
+                                    <li class="menu-item">
+                                        <a href="/admin/orders" class="menu-link">
                                             <div data-i18n="Order List">Order List</div>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <li class="menu-item">
+                                <a href="/admin/allCustomers" class="menu-link menu-toggle">
                                     <div data-i18n="Customer">Customer</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/allCustomers" class="menu-link">
                                             <div data-i18n="All Customers">All Customers</div>
                                         </a>
@@ -287,7 +236,6 @@
                                     <div data-i18n="Offers">Offers</div>
                                 </a>
                                 <ul class="menu-sub">
-
                                     <li class="menu-item active">
                                         <a href="/admin/offers" class="menu-link">
                                             <div data-i18n="Product Offers">Product Offers</div>
@@ -300,13 +248,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <li class="menu-item">
+                                <a href="/admin/coupons" class="menu-link menu-toggle">
                                     <div data-i18n="Coupons Management">Coupons Management</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/coupons" class="menu-link">
                                             <div data-i18n="Coupen">Coupen</div>
                                         </a>
@@ -314,11 +261,10 @@
                                 </ul>
                             </li>
                             <li class="menu-item">
-                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <a href="/admin/salesreport" class="menu-link menu-toggle">
                                     <div data-i18n="Sales Report">Sales Report</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
                                     <li class="menu-item">
                                         <a href="/admin/salesreport" class="menu-link">
                                             <div data-i18n="Report">Report</div>
@@ -326,42 +272,35 @@
                                     </li>
                                 </ul>
                             </li>
-                           
                         </ul>
                     </li>
                 </ul>
             </aside>
             <!-- / Menu -->
-            <!-- Navbar -->
+
+            <!-- Layout page -->
             <div class="layout-page">
-                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-                    id="layout-navbar">
+                <!-- Navbar -->
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-
-                            <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
-                                    data-bs-toggle="dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="/dashboard-assets/img/avatars/1.png" alt
-                                            class="w-px-40 h-auto rounded-circle">
+                                        <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                                     <li>
-                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                        <a class="dropdown-item" href="#">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0 me-2">
                                                     <div class="avatar avatar-online">
-                                                        <img src="/dashboard-assets/img/avatars/1.png" alt
-                                                            class="w-px-40 h-auto rounded-circle">
+                                                        <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <!-- <h6 class="mb-0 small">John Doe</h6> -->
                                                     <small class="text-muted">Admin</small>
-
                                                 </div>
                                             </div>
                                         </a>
@@ -370,14 +309,8 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="pages-profile-user.html">
-                                            <i class="ri-user-3-line ri-22px me-2"></i>
-                                            <span class="align-middle">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <div class="d-grid px-4 pt-2 pb-1">
-                                            <a class="btn btn-danger d-flex" href="/admin/logout" target="_blank">
+                                            <a class="btn btn-danger d-flex" href="/admin/logout">
                                                 <small class="align-middle">Logout</small>
                                                 <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
                                             </a>
@@ -385,701 +318,651 @@
                                     </li>
                                 </ul>
                             </li>
-                            <!--/ User -->
                         </ul>
                     </div>
                 </nav>
                 <!-- / Navbar -->
+
                 <!-- Content wrapper -->
                 <div class="container-xxl flex-grow-1 container-p-y">
 
+                    <!-- Header Card -->
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Product Offers Management</h5>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOfferModal">
+                                <i class="ri-add-line me-1"></i>Add Offer
+                            </button>
+                        </div>
 
-                    <!-- Product List Widget -->
-
-
-                    <!-- Product List Table -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">PRODUCT OFFERS</h5>
-                            <div class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0">
-                                <div class="col-md-4 product_status"></div>
-                                <div class="col-md-4 product_category"></div>
-                                <div class="col-md-4 product_stock"></div>
+                        <!-- Search and Sort Controls -->
+                        <div class="card-body border-top">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Search</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ri-search-line"></i></span>
+                                        <input type="text" class="form-control" id="searchInput" placeholder="Search offers..." value="<%= search %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Sort By</label>
+                                    <select class="form-select" id="sortBy">
+                                        <option value="createdAt" <%= sortBy === 'createdAt' ? 'selected' : '' %>>Date Created</option>
+                                        <option value="title" <%= sortBy === 'title' ? 'selected' : '' %>>Title</option>
+                                        <option value="discount" <%= sortBy === 'discount' ? 'selected' : '' %>>Discount</option>
+                                        <option value="status" <%= sortBy === 'status' ? 'selected' : '' %>>Status</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Order</label>
+                                    <select class="form-select" id="sortOrder">
+                                        <option value="desc" <%= sortOrder === 'desc' ? 'selected' : '' %>>Descending</option>
+                                        <option value="asc" <%= sortOrder === 'asc' ? 'selected' : '' %>>Ascending</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-datatable table-responsive">
-                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                <div class="card-header d-flex border-top rounded-0 flex-wrap py-0 pb-5 pb-md-0">
-                                    <div class="me-5 ms-n2">
-                                    </div>
-                                    <div
-                                        class="d-flex justify-content-start justify-content-md-end align-items-baseline">
-                                        <div
-                                            class="dt-action-buttons d-flex align-items-start align-items-md-center justify-content-sm-center gap-4 pt-0">
-                                            <div class="dt-buttons btn-group flex-wrap d-flex pt-4 pb-4">
-                                                <button type="button" class="btn btn-primary waves-effect waves-light"
-                                                    data-bs-toggle="modal" data-bs-target="#addOffer">
-                                                    <span>
-                                                        <i class="ri-add-line ri-16px me-0 me-sm-1_5"></i>
-                                                        <span class="d-none d-sm-inline-block">Add Offer</span>
-                                                    </span>
+                    </div>
+
+                    <!-- Offers Grid -->
+                    <% if (offer.length === 0) { %>
+                        <div class="card">
+                            <div class="card-body text-center py-5">
+                                <i class="ri-gift-line" style="font-size: 64px; color: #d3d3d3;"></i>
+                                <h5 class="mt-3">No Offers Found</h5>
+                                <p class="text-muted">Create your first product offer to get started</p>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+                            <% offer.forEach((off) => { %>
+                                <div class="col">
+                                    <div class="offer-card card">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= off.title %></h5>
+                                            <p class="text-muted mb-3"><%= off.description %></p>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <div>
+                                                    <small class="text-muted d-block">Discount</small>
+                                                    <span class="discount"><%= off.discount %>%</span>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Status</small>
+                                                    <span class="status-badge <%= off.status %>"><%= off.status %></span>
+                                                </div>
+                                            </div>
+
+                                            <small class="text-muted d-block mb-3">
+                                                <i class="ri-calendar-line me-1"></i>
+                                                Created: <%= new Date(off.createdAt).toLocaleDateString("en-US", {year: "numeric", month: "short", day: "numeric"}) %>
+                                            </small>
+
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-primary flex-fill" data-bs-toggle="modal" data-bs-target="#editOfferModal<%= off._id %>">
+                                                    <i class="ri-edit-line"></i> Edit
+                                                </button>
+                                                <button class="btn btn-sm btn-danger delete-offer" data-offer-id="<%= off._id %>">
+                                                    <i class="ri-delete-bin-line"></i> Delete
                                                 </button>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
-
-                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-6">
-                                    <% offer.forEach(off=> { %>
-                                        <div class="col">
-                                            <div class="offer-card card h-100">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">
-                                                        <%= off.title %>
-                                                    </h5>
-                                                    <div class="card-text">
-                                                        <p class="description"><strong>Description:</strong>
-                                                            <%= off.description %>
-                                                        </p>
-                                                        <p class="discount"><strong>Discount:</strong>
-                                                            <%= off.discount %>%
-                                                        </p>
-                                                        <p class="status"><strong>Status:</strong> <span
-                                                                class="status-badge <%= off.status %>">
-                                                                <%= off.status %>
-                                                            </span></p>
-                                                        <p class="publish-date"><strong>Publish Date:</strong>
-                                                            <%= new
-                                                                Date(off.createdAt.getTime()).toLocaleDateString("en-US",
-                                                                {year: "numeric" , month: "long" , day: "numeric" }) %>
-                                                        </p>
-                                                    </div>
-                                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                                                        data-bs-target="#editOffer<%= off._id%>">
-                                                        Edit
-                                                        <i class="icon-edit"></i>
-                                                    </a>
-                                                    <button class="btn btn-danger delete-address"
-                                                        data-offer-id="<%= off._id%>">
-                                                        Delete
-                                                        <i class="icon-trash"></i>
-                                                    </button>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <% }) %>
-                                </div>
-                            </div>
+                            <% }) %>
                         </div>
-                    </div>
 
-                    <div class="modal fade" id="addOffer" tabindex="-1" aria-labelledby="addOfferLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-simple modal-add-new-cc">
-                            <div class="modal-content">
-                                <div class="modal-body p-0">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                    <div class="text-center mb-6">
-                                        <p>Add new offer details</p>
-                                    </div>
+                        <!-- Pagination -->
+                        <% if (totalPages > 1) { %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center mb-0">
+                                            <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                                <a class="page-link" href="#" data-page="<%= currentPage - 1 %>">
+                                                    <i class="ri-arrow-left-s-line"></i> Previous
+                                                </a>
+                                            </li>
 
+                                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                                <% if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) { %>
+                                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                                        <a class="page-link" href="#" data-page="<%= i %>"><%= i %></a>
+                                                    </li>
+                                                <% } else if (i === currentPage - 3 || i === currentPage + 3) { %>
+                                                    <li class="page-item disabled">
+                                                        <span class="page-link">...</span>
+                                                    </li>
+                                                <% } %>
+                                            <% } %>
 
-
-                                    <form id="addNewOfferForm" class="row g-5">
-                                        <div class="col-12">
-                                            <div class="input-group input-group-merge">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input id="offerTitle" name="offerTitle" class="form-control"
-                                                        type="text" placeholder="Offer Name">
-                                                    <label class="errMsg" for="offerTitle">Offer Title</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-floating form-floating-outline">
-                                                <input type="text" id="offerDetails" name="offerDetails"
-                                                    class="form-control" placeholder="Offer Details">
-                                                <label class="errMsg" for="offerDetails">Description</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-floating form-floating-outline">
-                                                <input type="number" id="offerDiscount" name="offerDiscount"
-                                                    class="form-control" placeholder="Offer Discount">
-                                                <label class="errMsg" for="offerDiscount">Discount</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12" data-select2-id="productSelectContainer">
-                                            <div class="form-floating form-floating-outline form-floating-select2">
-                                                <div class="position-relative">
-                                                    <select id="productSelect" name="products[]"
-                                                        class="select2 form-select" multiple>
-                                                        <option value="">Select</option>
-                                                        <% products.forEach(item=>{ %>
-                                                            <option value="<%= item._id%>">
-                                                                <%= item.product_name%>
-                                                            </option>
-                                                            <%})%>
-
-                                                    </select>
-                                                </div>
-                                                <label class="errMsg" for="productSelect">Products</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12" data-select2-id="productSelectContainer">
-                                            <div class="form-floating form-floating-outline ">
-                                                <div class="position-relative">
-                                                    <select id="offerStatus" name="offerStatus"
-                                                        class="form-select select2" aria-label="Offer Status">
-                                                        <option value="">Select</option>
-                                                        <option value="active">Active</option>
-                                                        <option value="inactive">Inactive</option>
-                                                    </select>
-                                                </div>
-                                                <label class="errMsg" for="offerStatus">Status</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 text-center">
-                                            <button type="submit"
-                                                class="btn btn-primary me-3 waves-effect waves-light">Submit</button>
-                                            <button type="reset"
-                                                class="btn btn-outline-secondary btn-reset waves-effect"
-                                                data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <% offer.forEach(off=> { %>
-                        <div class="modal fade editmodel" id="editOffer<%= off._id%>" tabindex="-1"
-                            aria-labelledby="addOfferLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-simple modal-add-new-cc">
-                                <div class="modal-content">
-                                    <div class="modal-body p-0">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                        <div class="text-center mb-6">
-                                            <p>Edit offer details</p>
-                                        </div>
-
-
-
-                                        <form id="addNewOfferForm<%= off._id%>" class="row g-5 edit-offer-form"
-                                            data-offer-id="<%= off._id %>">
-                                            <div class="col-12">
-                                                <div class="input-group input-group-merge">
-                                                    <div class="form-floating form-floating-outline formGroup1">
-                                                        <input id="offerTitle<%= off._id%>" name="offerTitle"
-                                                            class="form-control" type="text" placeholder="Offer Name"
-                                                            value="<%= off.title %>">
-                                                        <label class="errMsg" for="offerTitle<%= off._id%>">Offer
-                                                            Title</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="offerDetails<%= off._id%>"
-                                                        name="offerDetails" class="form-control"
-                                                        placeholder="Offer Details" value=" <%= off.description %>">
-                                                    <label class="errMsg"
-                                                        for="offerDetails<%= off._id%>">Description</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="number" id="offerDiscount<%= off._id%>"
-                                                        name="offerDiscount" class="form-control"
-                                                        placeholder="Offer Discount" value="<%= off.discount %>">
-                                                    <label class="errMsg"
-                                                        for="offerDiscount<%= off._id%>">Discount</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12" data-select2-id="productSelectContainer">
-                                                <div
-                                                    class="form-floating form-floating-outline form-floating-select2 formgroup1">
-                                                    <div class="position-relative ">
-                                                        <select id="productSelect<%= off._id %>" name="products[]"
-                                                            class="select2 form-select" multiple>
-                                                            <option class="errMsg" value="">Select</option>
-                                                            <% products.forEach(item=> { %>
-                                                                <option value="<%= item._id %>"
-                                                                    <%=off.products.includes(item._id) ? 'selected' : ''
-                                                                    %>><%= item.product_name %>
-                                                                </option>
-                                                                <% }) %>
-                                                        </select>
-                                                    </div>
-                                                    <label class="errMsg"
-                                                        for="productSelect<%= off._id %>">Products</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12" data-select2-id="productSelectContainer">
-                                                <div class="form-floating form-floating-outline ">
-                                                    <div class="position-relative">
-                                                        <select id="offerStatus<%= off._id %>" name="offerStatus"
-                                                            class="form-select select2" aria-label="Offer Status">
-                                                            <option value="">Select</option>
-                                                            <option value="active" <%=off.status==='active' ? 'selected'
-                                                                : '' %>>Active</option>
-                                                            <option value="inactive" <%=off.status==='inactive'
-                                                                ? 'selected' : '' %>>Inactive</option>
-                                                        </select>
-                                                    </div>
-                                                    <label class="errMsg" for="offerStatus<%= off._id %>">Status</label>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" value="<%= off._id %>"
-                                                id="edit-hiddenid<%= off._id %>">
-                                            <div class="col-12 text-center">
-                                                <button type="submit"
-                                                    class="btn btn-primary me-3 waves-effect waves-light">Submit</button>
-                                                <button type="reset"
-                                                    class="btn btn-outline-secondary btn-reset waves-effect"
-                                                    data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                            </div>
-                                        </form>
+                                            <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                                <a class="page-link" href="#" data-page="<%= currentPage + 1 %>">
+                                                    Next <i class="ri-arrow-right-s-line"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <div class="text-center text-muted mt-3">
+                                        <small>Showing <%= offer.length %> of <%= totalOffers %> offers (Page <%= currentPage %> of <%= totalPages %>)</small>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <% }) %>
-
-
-
-
-
-
-
-                            <div class="drag-target"></div>
+                        <% } %>
+                    <% } %>
 
                 </div>
-                <!-- / Layout wrapper -->
+                <!-- / Content wrapper -->
+            </div>
+            <!-- / Layout page -->
 
+        </div>
+    </div>
 
+    <!-- Add Offer Modal -->
+    <div class="modal fade" id="addOfferModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Product Offer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="addOfferForm" novalidate>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="addOfferTitle" class="form-label">Offer Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="addOfferTitle" placeholder="Enter offer title">
+                            <div class="error-message" id="addOfferTitleError"></div>
+                        </div>
 
-                <!-- Core JS -->
-                <!-- build:js assets/vendor/js/core.js -->
-                <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
-                <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
-                <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
-                <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
-                <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-                <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
-                <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
-                <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
-                <script src="/dashboard-assets/vendor/js/menu.js"></script>
+                        <div class="mb-3">
+                            <label for="addOfferDescription" class="form-label">Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="addOfferDescription" rows="3" placeholder="Enter offer description"></textarea>
+                            <div class="error-message" id="addOfferDescriptionError"></div>
+                        </div>
 
-                <!-- endbuild -->
-                <script src="/dashboard-assets/vendor/libs/select2/select2.js"></script>
+                        <div class="mb-3">
+                            <label for="addOfferDiscount" class="form-label">Discount (%) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="addOfferDiscount" placeholder="Enter discount percentage" min="0" max="90">
+                            <div class="error-message" id="addOfferDiscountError"></div>
+                        </div>
 
-                <script src="/dashboard-assets/js/modal-add-new-address.js"></script>
-                <!-- Vendors JS -->
-                <script src="/dashboard-assets/vendor/libs/apex-charts/apexcharts.js"></script>
+                        <div class="mb-3">
+                            <label for="addProductSelect" class="form-label">Products <span class="text-danger">*</span></label>
+                            <select class="form-select" id="addProductSelect" multiple>
+                                <% products.forEach(item => { %>
+                                    <option value="<%= item._id %>"><%= item.product_name %></option>
+                                <% }) %>
+                            </select>
+                            <div class="error-message" id="addProductSelectError"></div>
+                        </div>
 
-                <!-- Main JS -->
-                <script src="/dashboard-assets/js/main.js"></script>
+                        <div class="mb-3">
+                            <label for="addOfferStatus" class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" id="addOfferStatus">
+                                <option value="">Select status</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                            <div class="error-message" id="addOfferStatusError"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="addOfferBtn">
+                            <i class="ri-add-line me-1"></i>Add Offer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
+    <!-- Edit Offer Modals -->
+    <% offer.forEach(off => { %>
+        <div class="modal fade" id="editOfferModal<%= off._id %>" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Offer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="edit-offer-form" data-offer-id="<%= off._id %>" novalidate>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="editOfferTitle<%= off._id %>" class="form-label">Offer Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editOfferTitle<%= off._id %>" value="<%= off.title %>" placeholder="Enter offer title">
+                                <div class="error-message" id="editOfferTitleError<%= off._id %>"></div>
+                            </div>
 
-                <!-- Page JS -->
-                <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
+                            <div class="mb-3">
+                                <label for="editOfferDescription<%= off._id %>" class="form-label">Description <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="editOfferDescription<%= off._id %>" rows="3" placeholder="Enter offer description"><%= off.description %></textarea>
+                                <div class="error-message" id="editOfferDescriptionError<%= off._id %>"></div>
+                            </div>
 
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        $('#productSelect').select2({
-                            placeholder: "Select products",
-                            allowClear: true
+                            <div class="mb-3">
+                                <label for="editOfferDiscount<%= off._id %>" class="form-label">Discount (%) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="editOfferDiscount<%= off._id %>" value="<%= off.discount %>" min="0" max="90" placeholder="Enter discount percentage">
+                                <div class="error-message" id="editOfferDiscountError<%= off._id %>"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editProductSelect<%= off._id %>" class="form-label">Products <span class="text-danger">*</span></label>
+                                <select class="form-select" id="editProductSelect<%= off._id %>" multiple>
+                                    <% products.forEach(item => {
+                                        const isSelected = off.products && off.products.some(prodId => prodId.toString() === item._id.toString());
+                                    %>
+                                        <option value="<%= item._id %>" <%= isSelected ? 'selected' : '' %>>
+                                            <%= item.product_name %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                                <div class="error-message" id="editProductSelectError<%= off._id %>"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editOfferStatus<%= off._id %>" class="form-label">Status <span class="text-danger">*</span></label>
+                                <select class="form-select" id="editOfferStatus<%= off._id %>">
+                                    <option value="">Select status</option>
+                                    <option value="active" <%= off.status === 'active' ? 'selected' : '' %>>Active</option>
+                                    <option value="inactive" <%= off.status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+                                </select>
+                                <div class="error-message" id="editOfferStatusError<%= off._id %>"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="ri-save-line me-1"></i>Update Offer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+
+    <!-- Core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
+    <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
+    <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="/dashboard-assets/vendor/js/menu.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/dashboard-assets/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            'use strict';
+
+            
+            function showError(fieldId, message) {
+                $(`#${fieldId}`).addClass('is-invalid').removeClass('is-valid');
+                $(`#${fieldId}Error`).text(message).show();
+            }
+
+            function showSuccess(fieldId) {
+                $(`#${fieldId}`).addClass('is-valid').removeClass('is-invalid');
+                $(`#${fieldId}Error`).text('').hide();
+            }
+
+            function clearErrors(formId) {
+                $(`#${formId} .form-control, #${formId} .form-select`).removeClass('is-invalid is-valid');
+                $(`#${formId} .error-message`).text('').hide();
+                $(`#${formId} .select2-selection--multiple`).removeClass('is-invalid is-valid');
+            }
+
+            function validateField(value, fieldId, rules) {
+                if (!value || value.trim() === '') {
+                    showError(fieldId, rules.required);
+                    return false;
+                }
+
+                if (rules.minLength && value.trim().length < rules.minLength) {
+                    showError(fieldId, rules.minLengthMsg);
+                    return false;
+                }
+
+                if (rules.pattern && !rules.pattern.test(value)) {
+                    showError(fieldId, rules.patternMsg);
+                    return false;
+                }
+
+                if (rules.min !== undefined && parseFloat(value) < rules.min) {
+                    showError(fieldId, rules.minMsg);
+                    return false;
+                }
+
+                if (rules.max !== undefined && parseFloat(value) > rules.max) {
+                    showError(fieldId, rules.maxMsg);
+                    return false;
+                }
+
+                showSuccess(fieldId);
+                return true;
+            }
+
+            function validateSelectField(value, fieldId, errorMsg) {
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    $(`#${fieldId}`).next('.select2-container').find('.select2-selection').addClass('is-invalid');
+                    showError(fieldId, errorMsg);
+                    return false;
+                }
+                $(`#${fieldId}`).next('.select2-container').find('.select2-selection').removeClass('is-invalid').addClass('is-valid');
+                showSuccess(fieldId);
+                return true;
+            }
+
+            
+            function initSelect2() {
+                $('#addProductSelect').select2({
+                    placeholder: 'Select products',
+                    allowClear: true,
+                    dropdownParent: $('#addOfferModal'),
+                    width: '100%'
+                });
+
+                $('#addOfferStatus').select2({
+                    placeholder: 'Select status',
+                    minimumResultsForSearch: Infinity,
+                    dropdownParent: $('#addOfferModal'),
+                    width: '100%'
+                });
+
+                $('.edit-offer-form').each(function() {
+                    const offerId = $(this).data('offer-id');
+                    $(`#editProductSelect${offerId}`).select2({
+                        placeholder: 'Select products',
+                        allowClear: true,
+                        dropdownParent: $(`#editOfferModal${offerId}`),
+                        width: '100%'
+                    });
+
+                    $(`#editOfferStatus${offerId}`).select2({
+                        placeholder: 'Select status',
+                        minimumResultsForSearch: Infinity,
+                        dropdownParent: $(`#editOfferModal${offerId}`),
+                        width: '100%'
+                    });
+                });
+            }
+
+            initSelect2();
+
+            
+            let searchTimeout;
+            
+            $('#searchInput').on('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    updateUrlParams();
+                }, 500);
+            });
+
+            $('#sortBy, #sortOrder').on('change', function() {
+                updateUrlParams();
+            });
+
+            function updateUrlParams() {
+                const params = new URLSearchParams(window.location.search);
+                params.set('search', $('#searchInput').val());
+                params.set('sortBy', $('#sortBy').val());
+                params.set('sortOrder', $('#sortOrder').val());
+                params.set('page', '1');
+                window.location.search = params.toString();
+            }
+
+            $('.pagination .page-link').on('click', function(e) {
+                e.preventDefault();
+                if ($(this).parent().hasClass('disabled')) return;
+                
+                const page = $(this).data('page');
+                const params = new URLSearchParams(window.location.search);
+                params.set('page', page);
+                window.location.search = params.toString();
+            });
+
+            
+            $('#addOfferForm').on('submit', async function(e) {
+                e.preventDefault();
+                clearErrors('addOfferForm');
+
+                const title = $('#addOfferTitle').val().trim();
+                const description = $('#addOfferDescription').val().trim();
+                const discount = $('#addOfferDiscount').val().trim();
+                const products = $('#addProductSelect').val();
+                const status = $('#addOfferStatus').val();
+
+                let isValid = true;
+
+                isValid = validateField(title, 'addOfferTitle', {
+                    required: 'Offer title is required',
+                    minLength: 3,
+                    minLengthMsg: 'Title must be at least 3 characters',
+                    pattern: /^[a-zA-Z0-9\s]+$/,
+                    patternMsg: 'Title can only contain letters, numbers and spaces'
+                }) && isValid;
+
+                isValid = validateField(description, 'addOfferDescription', {
+                    required: 'Description is required',
+                    minLength: 10,
+                    minLengthMsg: 'Description must be at least 10 characters'
+                }) && isValid;
+
+                isValid = validateField(discount, 'addOfferDiscount', {
+                    required: 'Discount is required',
+                    min: 0,
+                    minMsg: 'Discount cannot be negative',
+                    max: 90,
+                    maxMsg: 'Discount cannot exceed 90%'
+                }) && isValid;
+
+                isValid = validateSelectField(products, 'addProductSelect', 'Please select at least one product') && isValid;
+
+                isValid = validateSelectField(status, 'addOfferStatus', 'Please select a status') && isValid;
+
+                if (!isValid) return;
+
+                const $btn = $('#addOfferBtn');
+                const originalText = $btn.html();
+                $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Adding...');
+
+                try {
+                    const response = await fetch('/admin/offers/addOffers', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            title,
+                            description,
+                            discount,
+                            products,
+                            status,
+                            type: 'PRODUCT'
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: data.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: data.message
+                        });
+                        $btn.prop('disabled', false).html(originalText);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'An error occurred while adding the offer'
+                    });
+                    $btn.prop('disabled', false).html(originalText);
+                }
+            });
+
+            $('#addOfferModal').on('hidden.bs.modal', function() {
+                $('#addOfferForm')[0].reset();
+                $('#addProductSelect, #addOfferStatus').val(null).trigger('change');
+                clearErrors('addOfferForm');
+            });
+
+            
+            $('.edit-offer-form').on('submit', async function(e) {
+                e.preventDefault();
+                const offerId = $(this).data('offer-id');
+                clearErrors(`editOfferForm${offerId}`);
+
+                const title = $(`#editOfferTitle${offerId}`).val().trim();
+                const description = $(`#editOfferDescription${offerId}`).val().trim();
+                const discount = $(`#editOfferDiscount${offerId}`).val().trim();
+                const products = $(`#editProductSelect${offerId}`).val();
+                const status = $(`#editOfferStatus${offerId}`).val();
+
+                let isValid = true;
+
+                isValid = validateField(title, `editOfferTitle${offerId}`, {
+                    required: 'Offer title is required',
+                    minLength: 3,
+                    minLengthMsg: 'Title must be at least 3 characters',
+                    pattern: /^[a-zA-Z0-9\s]+$/,
+                    patternMsg: 'Title can only contain letters, numbers and spaces'
+                }) && isValid;
+
+                isValid = validateField(description, `editOfferDescription${offerId}`, {
+                    required: 'Description is required',
+                    minLength: 10,
+                    minLengthMsg: 'Description must be at least 10 characters'
+                }) && isValid;
+
+                isValid = validateField(discount, `editOfferDiscount${offerId}`, {
+                    required: 'Discount is required',
+                    min: 0,
+                    minMsg: 'Discount cannot be negative',
+                    max: 90,
+                    maxMsg: 'Discount cannot exceed 90%'
+                }) && isValid;
+
+                isValid = validateSelectField(products, `editProductSelect${offerId}`, 'Please select at least one product') && isValid;
+                isValid = validateSelectField(status, `editOfferStatus${offerId}`, 'Please select a status') && isValid;
+
+                if (!isValid) return;
+
+                const $btn = $(this).find('button[type="submit"]');
+                const originalText = $btn.html();
+                $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Updating...');
+
+                try {
+                    const response = await fetch('/admin/updateOffer', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            id: offerId,
+                            title,
+                            description,
+                            discount,
+                            products,
+                            status,
+                            type: 'PRODUCT'
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: data.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                        window.location.reload();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: data.message
+                        });
+                        $btn.prop('disabled', false).html(originalText);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'An error occurred while updating the offer'
+                    });
+                    $btn.prop('disabled', false).html(originalText);
+                }
+            });
+
+            
+            $('.delete-offer').on('click', async function() {
+                const offerId = $(this).data('offer-id');
+
+                const result = await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#696cff',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                });
+
+                if (result.isConfirmed) {
+                    try {
+                        const response = await fetch('/admin/deleteOffer', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: offerId })
                         });
 
+                        const data = await response.json();
 
-                        $('#offerStatus').select2({
-                            placeholder: "Select status",
-                            minimumResultsForSearch: Infinity
-                        });
-
-
-                        document.getElementById('addNewOfferForm').addEventListener('submit', async function (e) {
-                            e.preventDefault();
-
-                            const title = document.getElementById('offerTitle').value.trim();
-                            const description = document.getElementById('offerDetails').value.trim();
-                            const discount = document.getElementById('offerDiscount').value.trim();
-                            const products = document.getElementById('productSelect').value.trim();
-
-                            addForm(title, description, discount, products);
-                        });
-                        const deleteButtons = document.querySelectorAll('.delete-address');
-                        deleteButtons.forEach(button => {
-                            button.addEventListener('click', function (event) {
-                                event.preventDefault();
-                                const offerId = this.getAttribute('data-offer-id');
-                                deleteOffer(offerId);
+                        if (data.success) {
+                            await Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Offer has been deleted successfully',
+                                timer: 1500,
+                                showConfirmButton: false
                             });
-                        });
-                        const setError = (element, message) => {
-                            const formGroup1 = element.parentElement;
-                            const errorDisplay = formGroup1.querySelector('.errMsg');
-                            if (errorDisplay) {
-                                errorDisplay.innerText = message;
-                                element.classList.add('error');
-                                errorDisplay.classList.add('error');
-                                element.classList.remove('success');
-                                errorDisplay.classList.remove('success');
-                            }
-                        }
-
-                        const setSuccess = (element, message) => {
-                            const formGroup1 = element.parentElement;
-                            const errorDisplay = formGroup1.querySelector('.errMsg');
-                            if (errorDisplay) {
-                                errorDisplay.innerText = message;
-                                element.classList.add('success');
-                                errorDisplay.classList.add('success');
-                                element.classList.remove('error');
-                                errorDisplay.classList.remove('error');
-                            }
-                        }
-
-
-
-                        const addForm = async (title, description, discount, products) => {
-
-                            let isValid = true;
-                            const nameRegex = /[a-zA-Z0-9]+$/;
-                    
-
-                            if (title === '') {
-                                isValid = false;
-                                setError(document.getElementById('offerTitle'), 'Enter Title');
-                            }else if (!nameRegex.test(title)) {
-                                setError(document.getElementById('offerTitle'), 'Offer Name should only contain letters and numbers');
-                                 isValid = false;
-                            } else if (title.length < 3) {
-                                isValid = false;
-                                setError(document.getElementById('offerTitle'), 'Title should be more than 2 letters');
-                            } else {
-                                setSuccess(document.getElementById('offerTitle'), 'Name');
-                            }
-                            if (description === '') {
-                                isValid = false;
-                                setError(document.getElementById('offerDetails'), 'Enter Description');
-                            } else if (description.length < 3) {
-                                isValid = false;
-                                setError(document.getElementById('offerDetails'), 'Description should be more than 2 letters');
-                            } else {
-                                setSuccess(document.getElementById('offerDetails'), 'Description');
-                            }
-                            if (discount === '') {
-                                isValid = false;
-                                setError(document.getElementById('offerDiscount'), 'Enter Discount Amount');
-                            } else if (discount < 0) {
-                                isValid = false;
-                                setError(document.getElementById('offerDiscount'), 'Discount shuold be more than 0 ');
-                            } else if (discount > 90) {
-                                isValid = false;
-                                setError(document.getElementById('offerDiscount'), 'Discount shuold be less than 90 ');
-                            } else {
-                                setSuccess(document.getElementById('offerDiscount'), 'Discount');
-                            }
-                            if (products.length === 0) {
-                                isValid = false;
-                                setError(document.getElementById('productSelect'), 'Please select at least one product');
-                            } else {
-                                setSuccess(document.getElementById('productSelect'), 'Products');
-                            }
-                            if (!isValid) {
-                                return;
-                            }
-
-
-                            const formData = {
-                                title: document.getElementById('offerTitle').value,
-                                description: document.getElementById('offerDetails').value,
-                                discount: document.getElementById('offerDiscount').value,
-                                products: Array.from(document.getElementById('productSelect').selectedOptions).map(option => option.value),
-                                status: document.getElementById('offerStatus').value,
-                                type: 'PRODUCT'
-                            };
-                            try {
-                                const response = await fetch('/admin/offers/addOffers', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify(formData)
-                                })
-                                const data = await response.json();
-                                if (data.success) {
-                                    Swal.fire({
-                                        title: 'Success!',
-                                        text: data.message,
-                                        icon: 'success',
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            window.location.href = data.redirectUrl;
-                                        }
-                                    });
-                                    $('#addOffer').modal('hide');
-                                } else {
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: data.message,
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
-                                    });
-                                }
-                            } catch (error) {
-                                Swal.fire({
-                                    title: 'Error!',
-                                    text: error.message,
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                });
-                            }
-                        }
-
-
-
-
-
-                        const editOfferForms = document.querySelectorAll('.edit-offer-form');
-
-                        editOfferForms.forEach(form => {
-                            form.addEventListener('submit', function (event) {
-                                event.preventDefault();
-                                const offerId = this.getAttribute('data-offer-id');
-
-                                const offerTitle = document.getElementById(`offerTitle${offerId}`);
-                                const offerDetails = document.getElementById(`offerDetails${offerId}`);
-                                const offerDiscount = document.getElementById(`offerDiscount${offerId}`);
-                                const productSelect = document.getElementById(`productSelect${offerId}`);
-                                const offerStatus = document.getElementById(`offerStatus${offerId}`);
-                                const edit_hidden = document.getElementById(`edit-hiddenid${offerId}`);
-
-
-
-                                editOfferForm(
-                                    offerTitle, offerDetails, offerDiscount,
-                                    productSelect, offerStatus, edit_hidden
-                                );
+                            window.location.reload();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: data.message
                             });
-                        });
-
-
-                        const editOfferForm = async (
-                            offerTitle, offerDetails, offerDiscount,
-                            productSelect, offerStatus, edit_hidden
-                        ) => {
-
-                            const edit_titleValue = offerTitle.value.trim();
-                            const edit_detailsValue = offerDetails.value.trim();
-                            const edit_discountValue = offerDiscount.value.trim();
-                            const edit_selectValue = productSelect.value.trim();
-                            const edit_statusValue = offerStatus.value;
-                            const edit_hiddenValue = edit_hidden.value.trim();
-
-
-
-                            let isValid = true;
-                            const nameRegex = /[a-zA-Z0-9]+$/;
-
-                            
-                            if (edit_titleValue === '') {
-                                isValid = false;
-                                setError(offerTitle, 'Enter Title');
-                            }else if (!nameRegex.test(edit_titleValue)) {
-                                setError(offerTitle, 'Offer Name should only contain letters and numbers');
-                                 isValid = false;
-                            } else if (edit_titleValue.length < 3) {
-                                isValid = false;
-                                setError(offerTitle, 'Title should be more than 2 letters');
-                            } else {
-                                setSuccess(offerTitle, 'Name');
-                            }
-                            if (edit_detailsValue === '') {
-                                isValid = false;
-                                setError(offerDetails, 'Enter Description');
-                            } else if (edit_detailsValue.length < 3) {
-                                isValid = false;
-                                setError(offerDetails, 'Description should be more than 2 letters');
-                            } else {
-                                setSuccess(offerDetails, 'Description');
-                            }
-                            if (edit_discountValue === '') {
-                                isValid = false;
-                                setError(offerDiscount, 'Enter Discount Amount');
-                            } else if (edit_discountValue < 0) {
-                                isValid = false;
-                                setError(offerDiscount, 'Discount shuold be more than 0 ');
-                            } else if (edit_discountValue > 90) {
-                                isValid = false;
-                                setError(offerDiscount, 'Discount shuold be less than 90 ');
-                            } else {
-                                setSuccess(offerDiscount, 'Discount');
-                            }
-                            if (edit_selectValue.length === 0) {
-                                isValid = false;
-                                setError(productSelect, 'Please select at least one product');
-                            } else {
-                                setSuccess(productSelect, 'Products');
-                            }
-                            if (!edit_statusValue) {
-                                isValid = false;
-                                setError(offerStatus, 'Select Status');
-                            } else {
-                                setSuccess(offerStatus, 'Status');
-                            }
-                            if (!isValid) {
-                                return;
-                            } try {
-                                const response = await fetch('/admin/updateOffer', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({
-                                        title: edit_titleValue,
-                                        description: edit_detailsValue,
-                                        discount: edit_discountValue,
-                                        products: Array.from(productSelect.selectedOptions).map(option => option.value),
-                                        status: edit_statusValue,
-                                        type: 'PRODUCT',
-                                        id: edit_hiddenValue
-                                    })
-                                });
-                                const data = await response.json();
-                                if (data.success) {
-                                    Swal.fire({
-                                        title: 'Success!',
-                                        text: data.message,
-                                        icon: 'success',
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            window.location.href = data.redirectUrl;
-                                        }
-                                    });
-                                    $('.editmodel').modal('hide');
-                                } else {
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: data.message,
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
-                                    });
-                                }
-                            } catch (error) {
-                                console.error('Error during address update:', error);
-                            }
                         }
-
-
-                        async function deleteOffer(offerId) {
-
-                            const result = await Swal.fire({
-                                title: 'Are you sure?',
-                                text: "You won't be able to revert this!",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Yes, delete it!'
-                            });
-
-                            if (result.isConfirmed) {
-                                try {
-                                    const response = await fetch('/admin/deleteOffer', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({ id: offerId })
-                                    });
-
-                                    const data = await response.json();
-
-                                    if (data.success) {
-                                        Swal.fire(
-                                            'Deleted!',
-                                            'Your Offer has been deleted.',
-                                            'success'
-                                        ).then(() => {
-
-                                            location.reload();
-                                        });
-                                    } else {
-                                        Swal.fire(
-                                            'Error!',
-                                            data.message,
-                                            'error'
-                                        );
-                                    }
-                                } catch (error) {
-                                    console.error('Error during Offer deletion:', error);
-                                    Swal.fire(
-                                        'Error!',
-                                        'An error occurred while deleting the Offer.',
-                                        'error'
-                                    );
-                                }
-                            }
-                        }
-
-                    });
-
-                </script>
-
-
-
-
-
-
-
-
-                <script>
-                    $(document).ready(function () {
-                        $('#addOffer').modal({
-                            show: false
+                    } catch (error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'An error occurred while deleting the offer'
                         });
-                    });
-                </script>
-                <script>
-                    $(document).ready(function () {
-                        $('#product').select2({
-                            placeholder: "Select products",
-                            allowClear: true,
-                            tags: true
-                        });
-                    });
-
-                    // If you're using a form submit event, you can get the selected products like this:
-                    $('#addNewOfferForm').on('submit', function (e) {
-                        e.preventDefault();
-                        var selectedProducts = $('#product').val();
-                        console.log(selectedProducts); // This will log an array of selected product values
-
-                        // Here you can add your code to send the form data to the server
-                    });
-                </script>
-
-
-
-
-
-
-
+                    }
+                }
+            });
+        });
+    </script>
 </body>
-
 </html>

@@ -1,142 +1,66 @@
 <!DOCTYPE html>
-
-
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
-    data-theme="theme-default" data-assets-path="/dashboard-assets/" data-template="vertical-menu-template"
-    data-style="light">
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="/dashboard-assets/" data-template="vertical-menu-template">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>shopEazy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>shopEazy - Sales Report</title>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
-    <meta name="keywords"
-        content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
-
-
-    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <!-- <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    '../../../../www.googletagmanager.com/gtm5445.html?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script> -->
-    <!-- End Google Tag Manager -->
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/assets/newimages/logo.png" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
-        rel="stylesheet">
-
-    <!-- Icons -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/remixicon/remixicon.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/flag-icons.css" />
-
-    <!-- Menu waves for no-customizer fix -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/libs/node-waves/node-waves.css" />
-
-    <!-- Core CSS -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css"
-        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="/dashboard-assets/css/demo.css" />
-
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/typeahead-js/typeahead.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/apex-charts/apex-charts.css" />
 
-    <!-- Page CSS -->
-    <link rel="stylesheet" href="/dashboard-assets/vendor/css/pages/app-ecommerce-dashboard.css" />
-
-    <!-- Helpers -->
     <script src="/dashboard-assets/vendor/js/helpers.js"></script>
-
     <script src="/dashboard-assets/js/config.js"></script>
+
     <style>
-        .button1 {
-            color: #ffffff;
-            padding: 11px 32px;
-            font-size: 14px;
-            border-radius: 0.5em;
-            background: #8c57ff;
-            cursor: pointer;
-            border: 1px solid #e8e8e8;
-            transition: all 0.3s;
-            box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+        .summary-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
-
-        .button1:active {
-            color: #666;
-            box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
         }
-
-        .button2 {
-            color: #ffffff;
-            padding: 11px 32px;
-            font-size: 14px;
-            border-radius: 0.5em;
-            background: #8c57ff;
-            cursor: pointer;
-            border: 1px solid #e8e8e8;
-            transition: all 0.3s;
-            box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+        .summary-item:last-child {
+            border-bottom: none;
         }
-
-        .button2:active {
-            color: #666;
-            box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+        .summary-label {
+            font-weight: 600;
+            color: #566a7f;
+        }
+        .summary-value {
+            font-weight: 700;
+            color: #435971;
         }
     </style>
-
 </head>
 
 <body>
-
-
-    <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
-            style="display: none; visibility: hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar  ">
+    <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
 
-
-
-
-
-
-
-            <!-- Menu -->
-
+            <!-- Sidebar Menu -->
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-
-
-                <div class="app-brand demo ">
-                    <a href="index.html" class="app-brand-link">
-                        <span class="app-brand-logo demo me-1">
-                            <span style="color:var(--bs-primary);">
-
-                            </span>
-                        </span>
-                        <img src="/assets/newimages/logo.png" width="150px" height="40px">
-                        <!-- <span class="app-brand-text demo menu-text fw-semibold ms-2">shopEazy</span> -->
+                <div class="app-brand demo">
+                    <a href="/admin/adminHome" class="app-brand-link">
+                        <img src="/assets/newimages/logo.png" width="150px" height="40px" alt="shopEazy">
                     </a>
-
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
                         <i class="menu-toggle-icon d-xl-block align-middle"></i>
                     </a>
@@ -144,36 +68,24 @@
 
                 <div class="menu-inner-shadow"></div>
 
-
-
                 <ul class="menu-inner py-1">
-                    <!-- Dashboards -->
-
-
-                    <!-- Layouts -->
-
-                    <!-- Front Pages -->
-
-
-
-                    <!-- e-commerce-app menu start -->
                     <li class="menu-item active open">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
                             <div data-i18n="shopEazy">shopEazy</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="/admin/adminHome" class="menu-link">
                                     <div data-i18n="Dashboard">Dashboard</div>
                                 </a>
                             </li>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Products">Products</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/products" class="menu-link">
                                             <div data-i18n="Product List">Product List</div>
                                         </a>
@@ -185,12 +97,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Category">Category</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/category" class="menu-link">
                                             <div data-i18n="List all category">List all category</div>
                                         </a>
@@ -207,28 +119,26 @@
                                             <div data-i18n="Order List">Order List</div>
                                         </a>
                                     </li>
-
                                 </ul>
                             </li>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Customer">Customer</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/allCustomers" class="menu-link">
                                             <div data-i18n="All Customers">All Customers</div>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Offers">Offers</div>
                                 </a>
                                 <ul class="menu-sub">
-
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/offers" class="menu-link">
                                             <div data-i18n="Product Offers">Product Offers</div>
                                         </a>
@@ -240,25 +150,23 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Coupons Management">Coupons Management</div>
                                 </a>
                                 <ul class="menu-sub">
-
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/coupons" class="menu-link">
                                             <div data-i18n="Coupen">Coupen</div>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item  active open">
+                            <li class="menu-item active open">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Sales Report">Sales Report</div>
                                 </a>
                                 <ul class="menu-sub">
-
                                     <li class="menu-item active">
                                         <a href="/admin/salesreport" class="menu-link">
                                             <div data-i18n="Report">Report</div>
@@ -266,42 +174,34 @@
                                     </li>
                                 </ul>
                             </li>
-                            
                         </ul>
                     </li>
                 </ul>
             </aside>
-            <!-- / Menu -->
-            <!-- Navbar -->
+
+            <!-- Main Content -->
             <div class="layout-page">
-                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-                    id="layout-navbar">
+                <!-- Navbar -->
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme">
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-
-                            <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
-                                    data-bs-toggle="dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="/dashboard-assets/img/avatars/1.png" alt
-                                            class="w-px-40 h-auto rounded-circle">
+                                        <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                                     <li>
-                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                        <a class="dropdown-item" href="#">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0 me-2">
                                                     <div class="avatar avatar-online">
-                                                        <img src="/dashboard-assets/img/avatars/1.png" alt
-                                                            class="w-px-40 h-auto rounded-circle">
+                                                        <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <!-- <h6 class="mb-0 small">John Doe</h6> -->
                                                     <small class="text-muted">Admin</small>
-
                                                 </div>
                                             </div>
                                         </a>
@@ -310,14 +210,8 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="pages-profile-user.html">
-                                            <i class="ri-user-3-line ri-22px me-2"></i>
-                                            <span class="align-middle">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <div class="d-grid px-4 pt-2 pb-1">
-                                            <a class="btn btn-danger d-flex" href="/admin/logout" target="_blank">
+                                            <a class="btn btn-danger d-flex" href="/admin/logout">
                                                 <small class="align-middle">Logout</small>
                                                 <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
                                             </a>
@@ -325,263 +219,252 @@
                                     </li>
                                 </ul>
                             </li>
-                            <!--/ User -->
                         </ul>
                     </div>
                 </nav>
-                <!-- / Navbar -->
-                <!-- Content wrapper -->
-                <div class="content-wrapper">
 
-                    <!-- Content -->
-                    
-                        
+                <!-- Content -->
+                <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
                             <div class="card-header">
-                                <form id="salesReportForm" method="GET" action="/admin/salesreport">
-                                   
                                 <h5 class="card-title mb-4">SALES REPORT</h5>
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-md-3">
-                                        <div class="form-floating form-floating-outline">
-                                            <select id="reportType" class="form-select">
-                                                <option value="daily">Daily</option>
-                                                <option value="weekly">Weekly</option>
-                                                <option value="monthly">Monthly</option>
-                                                <option value="yearly">Yearly</option>
-                                                <option value="custom">Custom Date Range</option>
-                                            </select>
-                                            <label for="reportType">Report Type</label>
+                                
+                                <form id="salesReportForm" method="GET" action="/admin/salesreport">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-3">
+                                            <div class="form-floating form-floating-outline">
+                                                <select id="reportType" name="reportType" class="form-select">
+                                                    <option value="daily" <%= reportType === 'daily' ? 'selected' : '' %>>Daily</option>
+                                                    <option value="weekly" <%= reportType === 'weekly' ? 'selected' : '' %>>Weekly</option>
+                                                    <option value="monthly" <%= reportType === 'monthly' ? 'selected' : '' %>>Monthly</option>
+                                                    <option value="yearly" <%= reportType === 'yearly' ? 'selected' : '' %>>Yearly</option>
+                                                    <option value="custom" <%= reportType === 'custom' ? 'selected' : '' %>>Custom Date Range</option>
+                                                </select>
+                                                <label for="reportType">Report Type</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-floating form-floating-outline">
+                                                <input type="date" id="startDate" name="startDate" class="form-control" 
+                                                    value="<%= startDate %>" <%= reportType !== 'custom' ? 'disabled' : '' %>>
+                                                <label for="startDate">Start Date</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-floating form-floating-outline">
+                                                <input type="date" id="endDate" name="endDate" class="form-control" 
+                                                    value="<%= endDate %>" <%= reportType !== 'custom' ? 'disabled' : '' %>>
+                                                <label for="endDate">End Date</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" class="btn btn-primary w-100">Generate Report</button>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-floating form-floating-outline">
-                                            <input type="date" id="startDate" name="startDate" class="form-control">
-                                            <label for="startDate">Start Date</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-floating form-floating-outline">
-                                            <input type="date" id="endDate" name="endDate" class="form-control">
-                                            <label for="endDate">End Date</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button id="generateReport" class="btn btn-primary w-100">Generate Report</button>
-                                    </div>
-                                </div>
-                                <div class="mt-3 d-flex justify-content-end">
-                                    <button id="downloadPdf" class="btn btn-warning me-2">Download PDF</button>
-                                    <button id="downloadExcel" class="btn btn-success">Download Excel</button>
-                                </div>
-                                <input type="hidden" name="reportType" id="hiddenReportType">
-                                <input type="hidden" name="startDate" id="hiddenStartDate">
-                                <input type="hidden" name="endDate" id="hiddenEndDate">
                                 </form>
-                            </div>
-                            <div class="card-body">
-                                <table id="salesReport" class="table">
-                                    <thead>
-                                        <tr> 
-                                            <th>Order ID</th>
-                                            <th>Date</th>
-                                            <th>Items</th>
-                                            <th>Price</th>
-                                            <th>Total Amount</th>
-                                            <th>Coupon</th>
-                                            <th>Discount</th>
-                                        </tr>
-                                    </thead>
-                                    <% orders?.forEach( items=> { %>
-                                    <tbody>
-                                        <td><%= items.order_id %></td>
-                                        <td><%= new
-                                            Date(items.created_at.getTime()).toLocaleDateString("en-US",
-                                            {year: "numeric" , month: "long" ,day: "numeric" })%></td>
-                                            
-                                            
-                                        <td><%= items.items.length %><br></td>
-                                        <% let tot_price =0; items.items.forEach(x=> { tot_price += x.total; %>
-                                       
-                                        <%})%> <td><%= tot_price%><br></td>
-                                        <td><%= items.total_amount%><br></td>
-                                        <td><% if(items.discount > 0){%>Applied<%}else{%>Not Applied<%}%></td>
-                                        <td><% if(items.discount > 0){%><%= items.discount%><%}else{%>0.00<%}%></td>
-                                    </tbody>
-                                    <%})%>
-                                </table>
-                            </div>
-                            <div class="card-footer">
-                                <div id="summary">
-                                    <p>Overall Sales Count: <span id="overallCount"></span></p>
-                                    <p>Overall Order Amount: <span id="overallAmount"></span></p>
-                                    <p>Overall Discount: <span id="overallDiscount"></span></p>
+
+                                <div class="mt-3 d-flex justify-content-end gap-2">
+                                    <button id="downloadPdf" class="btn btn-warning">
+                                        <i class="ri-file-pdf-line me-1"></i> Download PDF
+                                    </button>
+                                    <button id="downloadExcel" class="btn btn-success">
+                                        <i class="ri-file-excel-line me-1"></i> Download Excel
+                                    </button>
                                 </div>
                             </div>
+
+                            <div class="card-body">
+                                <!-- Summary Section -->
+                                <% if (summary) { %>
+                                    <div class="summary-card">
+                                        <div class="summary-item">
+                                            <span class="summary-label">Total Orders:</span>
+                                            <span class="summary-value"><%= summary.count %></span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span class="summary-label">Total Sales Amount:</span>
+                                            <span class="summary-value">₹<%= summary.amount %></span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span class="summary-label">Total Discount Given:</span>
+                                            <span class="summary-value">₹<%= summary.discount %></span>
+                                        </div>
+                                    </div>
+                                <% } %>
+
+                                <!-- Table -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Date</th>
+                                                <th>Items</th>
+                                                <th>Items Price</th>
+                                                <th>Total Amount</th>
+                                                <th>Coupon</th>
+                                                <th>Discount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (orders && orders.length > 0) { %>
+                                                <% orders.forEach(order => { %>
+                                                    <% const itemsPrice = order.items.reduce((sum, item) => sum + item.total, 0); %>
+                                                    <tr>
+                                                        <td><%= order.order_id %></td>
+                                                        <td><%= new Date(order.created_at).toLocaleDateString('en-US', { 
+                                                            year: 'numeric', month: 'long', day: 'numeric' 
+                                                        }) %></td>
+                                                        <td><%= order.items.length %></td>
+                                                        <td>₹<%= itemsPrice.toFixed(2) %></td>
+                                                        <td>₹<%= order.total_amount.toFixed(2) %></td>
+                                                        <td>
+                                                            <span class="badge bg-<%= order.discount > 0 ? 'success' : 'secondary' %>">
+                                                                <%= order.discount > 0 ? 'Applied' : 'Not Applied' %>
+                                                            </span>
+                                                        </td>
+                                                        <td>₹<%= order.discount > 0 ? order.discount.toFixed(2) : '0.00' %></td>
+                                                    </tr>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="7" class="text-center">No orders found for the selected criteria</td>
+                                                </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Pagination -->
+                                <% if (totalPages > 1) { %>
+                                    <div class="row mx-1 d-flex justify-content-center pt-4">
+                                        <div class="col-sm-12 col-md-6 d-flex justify-content-center">
+                                            <ul class="pagination">
+                                                <!-- Previous Button -->
+                                                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                                    <a class="page-link" href="<%= currentPage === 1 ? '#' : buildPaginationUrl(currentPage - 1, reportType, startDate, endDate) %>">
+                                                        <i class="ri-arrow-left-s-line"></i>
+                                                    </a>
+                                                </li>
+
+                                                <!-- Page Numbers -->
+                                                <% 
+                                                    let startPage = Math.max(1, currentPage - 2);
+                                                    let endPage = Math.min(totalPages, currentPage + 2);
+                                                    
+                                                    if (currentPage <= 3) {
+                                                        endPage = Math.min(5, totalPages);
+                                                    }
+                                                    if (currentPage > totalPages - 3) {
+                                                        startPage = Math.max(1, totalPages - 4);
+                                                    }
+                                                %>
+
+                                                <% if (startPage > 1) { %>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="<%= buildPaginationUrl(1, reportType, startDate, endDate) %>">1</a>
+                                                    </li>
+                                                    <% if (startPage > 2) { %>
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    <% } %>
+                                                <% } %>
+
+                                                <% for(let i = startPage; i <= endPage; i++) { %>
+                                                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                        <a class="page-link" href="<%= buildPaginationUrl(i, reportType, startDate, endDate) %>"><%= i %></a>
+                                                    </li>
+                                                <% } %>
+
+                                                <% if (endPage < totalPages) { %>
+                                                    <% if (endPage < totalPages - 1) { %>
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    <% } %>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="<%= buildPaginationUrl(totalPages, reportType, startDate, endDate) %>"><%= totalPages %></a>
+                                                    </li>
+                                                <% } %>
+
+                                                <!-- Next Button -->
+                                                <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                                    <a class="page-link" href="<%= currentPage === totalPages ? '#' : buildPaginationUrl(currentPage + 1, reportType, startDate, endDate) %>">
+                                                        <i class="ri-arrow-right-s-line"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
                         </div>
-
-
-
-
-                        <!-- Modal -->
-                        <!-- Preview Modal -->
-
-
-                        <!-- //edit button modaal -->
-                        <!-- Edit Product Modal -->
-
-
-
-                        <div class="row gy-6">
-                            <!-- Footer -->
-                            <footer class="content-footer footer bg-footer-theme">
-                            </footer>
-                            <!-- / Footer -->
-
-
-                            <div class="content-backdrop fade"></div>
-                        </div>
-                        <!-- Content wrapper -->
                     </div>
-                    <!-- / Layout page -->
+
+                    <footer class="content-footer footer bg-footer-theme"></footer>
                 </div>
-
-                <!-- Overlay -->
-                <div class="layout-overlay layout-menu-toggle"></div>
-
-
-                <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-                <div class="drag-target"></div>
-
             </div>
-            <!-- / Layout wrapper -->
+        </div>
+    </div>
 
+    <!-- Scripts -->
+    <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
+    <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
+    <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/dashboard-assets/vendor/js/menu.js"></script>
+    <script src="/dashboard-assets/js/main.js"></script>
 
+    <script>
+        // Helper function for pagination URLs
+        <% 
+        function buildPaginationUrl(page, type, start, end) {
+            let url = `?page=${page}`;
+            if (type) url += `&reportType=${type}`;
+            if (start && type === 'custom') url += `&startDate=${start}`;
+            if (end && type === 'custom') url += `&endDate=${end}`;
+            return url;
+        }
+        %>
 
-            <!-- Core JS -->
-            <!-- build:js assets/vendor/js/core.js -->
-            <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
-            <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
-            <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
-            <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
-            <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-            <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
-            <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
-            <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
-            <script src="/dashboard-assets/vendor/js/menu.js"></script>
+        // Report Type Change Handler
+        document.getElementById('reportType').addEventListener('change', function() {
+            const isCustom = this.value === 'custom';
+            document.getElementById('startDate').disabled = !isCustom;
+            document.getElementById('endDate').disabled = !isCustom;
+        });
 
-            <!-- endbuild -->
+        // Form Validation
+        document.getElementById('salesReportForm').addEventListener('submit', function(e) {
+            const reportType = document.getElementById('reportType').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
 
-            <!-- Vendors JS -->
-            <script src="/dashboard-assets/vendor/libs/apex-charts/apexcharts.js"></script>
-
-            <!-- Main JS -->
-            <script src="/dashboard-assets/js/main.js"></script>
-
-
-            <!-- Page JS -->
-            <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                const reportType = document.getElementById('reportType');
-                const startDate = document.getElementById('startDate');
-                const endDate = document.getElementById('endDate');
-
-                function toggleDateInputs() {
-                    const isCustom = reportType.value === 'custom';
-                    startDate.disabled = !isCustom;
-                    endDate.disabled = !isCustom;
-                }
-
-                reportType.addEventListener('change', toggleDateInputs);
-                toggleDateInputs();
-            });
-            </script>
-            <script>
-            generateReportBtn.addEventListener('click', function() {
-                const type = reportType.value;
-                document.getElementById('hiddenReportType').value = type;
-                if (type === 'custom') {
-                    document.getElementById('hiddenStartDate').value = startDate.value;
-                    document.getElementById('hiddenEndDate').value = endDate.value;
-                }
-                document.getElementById('salesReportForm').submit();
-            });
-            </script>
-            <script>
-
-            document.addEventListener('DOMContentLoaded', function() {
-                const reportType = document.getElementById('reportType');
-                const startDate = document.getElementById('startDate');
-                const endDate = document.getElementById('endDate');
-                const generateReportBtn = document.getElementById('generateReport');
-                const downloadPdfBtn = document.getElementById('downloadPdf');
-                const downloadExcelBtn = document.getElementById('downloadExcel');
-                const salesReportForm = document.getElementById('salesReportForm');
-
-                function toggleDateInputs() {
-                    const isCustom = reportType.value === 'custom';
-                    startDate.disabled = !isCustom;
-                    endDate.disabled = !isCustom;
-                }
-
-                reportType.addEventListener('change', toggleDateInputs);
-                toggleDateInputs();
-
-                generateReportBtn.addEventListener('click', function(e) {
-                e.preventDefault(); 
-                
-                const type = reportType.value;
-                document.getElementById('hiddenReportType').value = type;
-                
-                if (type === 'custom') {
-                    if (!startDate.value || !endDate.value) {
-                        alert('Please select both start and end dates for custom range');
-                        return;
-                    }
-                    document.getElementById('hiddenStartDate').value = startDate.value;
-                    document.getElementById('hiddenEndDate').value = endDate.value;
-                } else {
-                   
-                    document.getElementById('hiddenStartDate').value = '';
-                    document.getElementById('hiddenEndDate').value = '';
-                }
-                
-                salesReportForm.submit();
-            });
-
-                function calculateSummary() {
-                    const rows = document.querySelectorAll('#salesReport tbody tr');
-                    let totalCount = rows.length;
-                    let totalAmount = 0;
-                    let totalDiscount = 0;
-
-                    rows.forEach(row => {
-                        totalAmount += parseFloat(row.querySelector('td:nth-child(5)').textContent);
-                        totalDiscount += parseFloat(row.querySelector('td:nth-child(7)').textContent);
-                    });
-
-                    document.getElementById('overallCount').textContent = totalCount;
-                    document.getElementById('overallAmount').textContent = totalAmount.toFixed(2);
-                    document.getElementById('overallDiscount').textContent = totalDiscount.toFixed(2);
-                }
-
-                calculateSummary();
-
-                downloadPdfBtn.addEventListener('click', function(e) {
+            if (reportType === 'custom' && (!startDate || !endDate)) {
                 e.preventDefault();
-                window.location.href = '/admin/salesreport/pdf' + window.location.search;
-            });
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Dates',
+                    text: 'Please select both start and end dates for custom range',
+                    confirmButtonColor: '#8c57ff'
+                });
+            }
+        });
 
-                downloadExcelBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.location.href = '/admin/salesreport/excel' + window.location.search;
-            });
-            });
-            </script>
+        // PDF Download
+        document.getElementById('downloadPdf').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/admin/salesreport/pdf' + window.location.search;
+        });
 
-
+        // Excel Download
+        document.getElementById('downloadExcel').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/admin/salesreport/excel' + window.location.search;
+        });
+    </script>
 </body>
-
 </html>

@@ -3,7 +3,6 @@ const Excel = require('exceljs');
 const PdfPrinter = require('pdfmake');
 const { HTTP_STATUS } = require('../../utils/constants');
 
-// Constants
 const REPORT_TYPES = {
     DAILY: 'daily',
     WEEKLY: 'weekly',
@@ -23,15 +22,43 @@ const PDF_FONTS = {
 
 const loadSales = async (req, res) => {
     try {
-        let { reportType, startDate, endDate } = req.query;
+        let { reportType, startDate, endDate, page } = req.query;
 
+        // Handle array values
         startDate = Array.isArray(startDate) ? startDate[0] : startDate;
         endDate = Array.isArray(endDate) ? endDate[0] : endDate;
+        
+        // Pagination setup
+        const currentPage = parseInt(page) || 1;
+        const limit = 10;
+        const skip = (currentPage - 1) * limit;
 
+        // Build query
         const query = buildDateQuery(reportType, startDate, endDate);
-        const orders = await Order.find(query);
+        
+        // Get total count and paginated orders
+        const totalOrders = await Order.countDocuments(query);
+        const totalPages = Math.ceil(totalOrders / limit);
+        
+        const orders = await Order.find(query)
+            .sort({ created_at: -1 })
+            .skip(skip)
+            .limit(limit);
 
-        res.render('salesreport', { orders });
+        // Calculate summary for all orders (not just current page)
+        const allOrders = await Order.find(query);
+        const summary = calculateSummary(allOrders);
+
+        res.render('salesreport', { 
+            orders,
+            currentPage,
+            totalPages,
+            totalOrders,
+            reportType: reportType || '',
+            startDate: startDate || '',
+            endDate: endDate || '',
+            summary
+        });
     } catch (error) {
         console.error('Error loading sales report:', error);
         res.status(HTTP_STATUS.SERVER_ERROR).send('An error occurred while loading sales data');
@@ -46,7 +73,7 @@ const downloadPDF = async (req, res) => {
         endDate = Array.isArray(endDate) ? endDate[0] : endDate;
 
         const query = buildDateQuery(reportType, startDate, endDate);
-        const orders = await Order.find(query);
+        const orders = await Order.find(query).sort({ created_at: -1 });
 
         const { orderRows, grandTotal, grandDiscount } = processOrderData(orders);
 
@@ -73,7 +100,6 @@ const downloadPDF = async (req, res) => {
     }
 };
 
-
 const downloadExcel = async (req, res) => {
     try {
         let { reportType, startDate, endDate } = req.query;
@@ -82,7 +108,7 @@ const downloadExcel = async (req, res) => {
         endDate = Array.isArray(endDate) ? endDate[0] : endDate;
 
         const query = buildDateQuery(reportType, startDate, endDate);
-        const orders = await Order.find(query);
+        const orders = await Order.find(query).sort({ created_at: -1 });
 
         const workbook = createExcelWorkbook(reportType, startDate, endDate, orders);
 
@@ -97,7 +123,7 @@ const downloadExcel = async (req, res) => {
     }
 };
 
-
+// Helper Functions
 function buildDateQuery(reportType, startDate, endDate) {
     if (reportType === REPORT_TYPES.CUSTOM && startDate && endDate) {
         return buildCustomDateQuery(startDate, endDate);
@@ -149,19 +175,36 @@ function buildPredefinedDateQuery(reportType) {
     return { created_at: { $gte: startDate } };
 }
 
+function calculateSummary(orders) {
+    let totalCount = orders.length;
+    let totalAmount = 0;
+    let totalDiscount = 0;
+
+    orders.forEach(order => {
+        totalAmount += order.total_amount;
+        totalDiscount += order.discount || 0;
+    });
+
+    return {
+        count: totalCount,
+        amount: totalAmount.toFixed(2),
+        discount: totalDiscount.toFixed(2)
+    };
+}
+
 function processOrderData(orders) {
     let grandTotal = 0;
     let grandDiscount = 0;
 
     const orderRows = orders.map(order => {
         grandTotal += order.total_amount;
-        grandDiscount += order.discount;
+        grandDiscount += order.discount || 0;
 
         return [
             order.order_id,
             new Date(order.created_at).toLocaleDateString(),
-            order.items.map(item => item.quantity).join(', '),
-            order.items.map(item => item.price).join(', '),
+            order.items.length,
+            order.items.reduce((sum, item) => sum + item.total, 0).toFixed(2),
             order.total_amount.toFixed(2),
             order.discount > 0 ? 'Applied' : 'Not Applied',
             order.discount > 0 ? order.discount.toFixed(2) : '0.00'
@@ -170,7 +213,6 @@ function processOrderData(orders) {
 
     return { orderRows, grandTotal, grandDiscount };
 }
-
 
 function createPdfDocDefinition(reportType, startDate, endDate, orderRows, grandTotal, grandDiscount) {
     const content = [
@@ -195,7 +237,7 @@ function createPdfDocDefinition(reportType, startDate, endDate, orderRows, grand
             headerRows: 1,
             widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
             body: [
-                ['Order ID', 'Date', 'Items', 'Price', 'Total Amount', 'Coupon Deduction', 'Discount'],
+                ['Order ID', 'Date', 'Items', 'Price', 'Total Amount', 'Coupon', 'Discount'],
                 ...orderRows,
                 grandTotalRow
             ]
@@ -222,7 +264,6 @@ function createPdfDocDefinition(reportType, startDate, endDate, orderRows, grand
     };
 }
 
-
 function createExcelWorkbook(reportType, startDate, endDate, orders) {
     const workbook = new Excel.Workbook();
     const worksheet = workbook.addWorksheet('Sales Report');
@@ -234,23 +275,24 @@ function createExcelWorkbook(reportType, startDate, endDate, orders) {
     }
     worksheet.addRow([]);
 
-    worksheet.addRow(['Order ID', 'Date', 'Items', 'Price', 'Total Amount', 'Coupon Deduction', 'Discount']);
+    worksheet.addRow(['Order ID', 'Date', 'Items', 'Price', 'Total Amount', 'Coupon', 'Discount']);
 
     let grandTotal = 0;
     let grandDiscount = 0;
 
     orders.forEach(order => {
+        const itemsPrice = order.items.reduce((sum, item) => sum + item.total, 0);
         worksheet.addRow([
             order.order_id,
             new Date(order.created_at).toLocaleDateString(),
-            order.items.map(item => item.quantity).join(', '),
-            order.items.map(item => item.price).join(', '),
-            order.total_amount,
+            order.items.length,
+            itemsPrice.toFixed(2),
+            order.total_amount.toFixed(2),
             order.discount > 0 ? 'Applied' : 'Not Applied',
-            order.discount > 0 ? order.discount : '0.00'
+            order.discount > 0 ? order.discount.toFixed(2) : '0.00'
         ]);
         grandTotal += order.total_amount;
-        grandDiscount += order.discount;
+        grandDiscount += order.discount || 0;
     });
 
     worksheet.addRow([

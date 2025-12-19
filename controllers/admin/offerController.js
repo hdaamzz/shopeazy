@@ -3,8 +3,6 @@ const Products = require('../../models/admin/products');
 const Offer = require('../../models/admin/offers');
 const { HTTP_STATUS } = require('../../utils/constants');
 
-
-
 const OFFER_TYPES = {
   PRODUCT: 'PRODUCT',
   CATEGORY: 'CATEGORY'
@@ -12,12 +10,49 @@ const OFFER_TYPES = {
 
 const loadProductOffers = async (req, res) => {
   try {
-    const [offers, products] = await Promise.all([
-      Offer.find({ type: OFFER_TYPES.PRODUCT }),
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const search = req.query.search || '';
+    const sortBy = req.query.sortBy || 'createdAt';
+    const sortOrder = req.query.sortOrder === 'asc' ? 1 : -1;
+    
+    const skip = (page - 1) * limit;
+
+    const searchQuery = {
+      type: OFFER_TYPES.PRODUCT,
+      ...(search && {
+        $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } }
+        ]
+      })
+    };
+
+    const sortObject = { [sortBy]: sortOrder };
+
+    // Fetch offers with pagination - DON'T populate here
+    const [offers, totalOffers, products] = await Promise.all([
+      Offer.find(searchQuery)
+        .sort(sortObject)
+        .skip(skip)
+        .limit(limit),
+      Offer.countDocuments(searchQuery),
       Products.find({ is_listed: true })
     ]);
 
-    res.render('offers', { products, offer: offers });
+    const totalPages = Math.ceil(totalOffers / limit);
+
+    res.render('offers', {
+      products,
+      offer: offers,
+      currentPage: page,
+      totalPages,
+      totalOffers,
+      limit,
+      search,
+      sortBy,
+      sortOrder: req.query.sortOrder || 'desc'
+    });
   } catch (error) {
     console.error('Error loading product offers:', error);
     res.status(HTTP_STATUS.SERVER_ERROR).json({
@@ -29,12 +64,49 @@ const loadProductOffers = async (req, res) => {
 
 const loadCategoryOffers = async (req, res) => {
   try {
-    const [offers, categories] = await Promise.all([
-      Offer.find({ type: OFFER_TYPES.CATEGORY }),
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const search = req.query.search || '';
+    const sortBy = req.query.sortBy || 'createdAt';
+    const sortOrder = req.query.sortOrder === 'asc' ? 1 : -1;
+    
+    const skip = (page - 1) * limit;
+
+    const searchQuery = {
+      type: OFFER_TYPES.CATEGORY,
+      ...(search && {
+        $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } }
+        ]
+      })
+    };
+
+    const sortObject = { [sortBy]: sortOrder };
+
+    // Fetch offers with pagination - DON'T populate here
+    const [offers, totalOffers, categories] = await Promise.all([
+      Offer.find(searchQuery)
+        .sort(sortObject)
+        .skip(skip)
+        .limit(limit),
+      Offer.countDocuments(searchQuery),
       Category.find({ status: true })
     ]);
 
-    res.render('cateoffers', { category: categories, offer: offers });
+    const totalPages = Math.ceil(totalOffers / limit);
+
+    res.render('cateoffers', {
+      category: categories,
+      offer: offers,
+      currentPage: page,
+      totalPages,
+      totalOffers,
+      limit,
+      search,
+      sortBy,
+      sortOrder: req.query.sortOrder || 'desc'
+    });
   } catch (error) {
     console.error('Error loading category offers:', error);
     res.status(HTTP_STATUS.SERVER_ERROR).json({
@@ -47,6 +119,14 @@ const loadCategoryOffers = async (req, res) => {
 const addOffer = async (req, res) => {
   try {
     const { title, description, discount, products, status, type } = req.body;
+
+    const existingOffer = await Offer.findOne({ title, type });
+    if (existingOffer) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        success: false,
+        message: 'An offer with this title already exists'
+      });
+    }
 
     const offerData = {
       title,
@@ -65,10 +145,14 @@ const addOffer = async (req, res) => {
     const newOffer = new Offer(offerData);
     await newOffer.save();
 
+    const redirectUrl = type === OFFER_TYPES.PRODUCT 
+      ? '/admin/offers' 
+      : '/admin/offers/category';
+
     res.status(HTTP_STATUS.CREATED).json({
       success: true,
       message: 'Offer added successfully',
-      redirectUrl: '/admin/offers'
+      redirectUrl
     });
   } catch (error) {
     console.error('Error adding offer:', error);
@@ -79,23 +163,39 @@ const addOffer = async (req, res) => {
   }
 };
 
-
 const updateOffer = async (req, res) => {
   try {
     const { id, title, description, discount, products, status, type } = req.body;
 
+    const existingOffer = await Offer.findOne({ 
+      title, 
+      type,
+      _id: { $ne: id } 
+    });
+    
+    if (existingOffer) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        success: false,
+        message: 'An offer with this title already exists'
+      });
+    }
+
+    const updateData = {
+      title,
+      description,
+      discount,
+      status
+    };
+
+    if (type === OFFER_TYPES.PRODUCT) {
+      updateData.products = products;
+    } else if (type === OFFER_TYPES.CATEGORY) {
+      updateData.category = products;
+    }
+
     const updatedOffer = await Offer.findByIdAndUpdate(
       id,
-      {
-        $set: {
-          title,
-          description,
-          discount,
-          type,
-          products,
-          status
-        }
-      },
+      { $set: updateData },
       { new: true }
     );
 
@@ -106,10 +206,14 @@ const updateOffer = async (req, res) => {
       });
     }
 
+    const redirectUrl = type === OFFER_TYPES.PRODUCT 
+      ? '/admin/offers' 
+      : '/admin/offers/category';
+
     res.status(HTTP_STATUS.OK).json({
       success: true,
       message: 'Offer updated successfully',
-      redirectUrl: '/admin/offers'
+      redirectUrl
     });
   } catch (error) {
     console.error('Error updating offer:', error);

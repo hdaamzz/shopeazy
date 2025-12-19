@@ -1,141 +1,68 @@
 <!DOCTYPE html>
-
-
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
-    data-theme="theme-default" data-assets-path="/dashboard-assets/" data-template="vertical-menu-template"
-    data-style="light">
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="/dashboard-assets/" data-template="vertical-menu-template">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>shopEazy</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>shopEazy - All Customers</title>
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
-    <meta name="keywords" content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
-
-
-    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <!-- <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    '../../../../www.googletagmanager.com/gtm5445.html?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script> -->
-    <!-- End Google Tag Manager -->
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/assets/newimages/logo.png" />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
-        rel="stylesheet">
-
-    <!-- Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/remixicon/remixicon.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/flag-icons.css" />
-
-    <!-- Menu waves for no-customizer fix -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/libs/node-waves/node-waves.css" />
-
-    <!-- Core CSS -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css"
-        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="/dashboard-assets/css/demo.css" />
-
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/typeahead-js/typeahead.css" />
-    <link rel="stylesheet" href="/dashboard-assets/vendor/libs/apex-charts/apex-charts.css" />
-
-    <!-- Page CSS -->
-    <link rel="stylesheet" href="/dashboard-assets/vendor/css/pages/app-ecommerce-dashboard.css" />
-
-    <!-- Helpers -->
+    
     <script src="/dashboard-assets/vendor/js/helpers.js"></script>
-
     <script src="/dashboard-assets/js/config.js"></script>
+    
     <style>
-        .button1 {
+        .btn-block {
             color: #ffffff;
-            padding: 5px 8px;
-            font-size: 14px;
-            border-radius: 0.5em;
-            background: #873737;
+            padding: 5px 12px;
+            font-size: 13px;
+            border-radius: 0.375rem;
+            background: #dc3545;
             cursor: pointer;
-            border: 1px solid #e8e8e8;
+            border: none;
             transition: all 0.3s;
-            box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
         }
-
-        .button1:active {
-            color: #666;
-            box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+        .btn-block:hover {
+            background: #bb2d3b;
         }
-
-        .button2 {
-            color: #000000;
-            padding: 5px 8px;
-            font-size: 14px;
-            border-radius: 0.5em;
-            background: #3f8737;
+        .btn-unblock {
+            color: #ffffff;
+            padding: 5px 12px;
+            font-size: 13px;
+            border-radius: 0.375rem;
+            background: #28a745;
             cursor: pointer;
-            border: 1px solid #e8e8e8;
+            border: none;
             transition: all 0.3s;
-            box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
         }
-
-        .button2:active {
-            color: #666;
-            box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+        .btn-unblock:hover {
+            background: #218838;
         }
     </style>
-
 </head>
 
 <body>
-
-
-    <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
-            style="display: none; visibility: hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar  ">
+    <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-
-
-
-
-
-
-
-            <!-- Menu -->
-
+            
+            <!-- Sidebar Menu -->
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-
-
-                <div class="app-brand demo ">
-                    <a href="index.html" class="app-brand-link">
-                        <span class="app-brand-logo demo me-1">
-                            <span style="color:var(--bs-primary);">
-
-                            </span>
-                        </span>
-                        <img src="/assets/newimages/logo.png" width="150px" height="40px">
-                        <!-- <span class="app-brand-text demo menu-text fw-semibold ms-2">shopEazy</span> -->
+                <div class="app-brand demo">
+                    <a href="/admin/adminHome" class="app-brand-link">
+                        <img src="/assets/newimages/logo.png" width="150px" height="40px" alt="shopEazy">
                     </a>
-
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
                         <i class="menu-toggle-icon d-xl-block align-middle"></i>
                     </a>
@@ -143,26 +70,14 @@
 
                 <div class="menu-inner-shadow"></div>
 
-
-
                 <ul class="menu-inner py-1">
-                    <!-- Dashboards -->
-
-
-                    <!-- Layouts -->
-
-                    <!-- Front Pages -->
-
-
-
-                    <!-- e-commerce-app menu start -->
                     <li class="menu-item active open">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
                             <div data-i18n="shopEazy">shopEazy</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="/admin/adminHome" class="menu-link">
                                     <div data-i18n="Dashboard">Dashboard</div>
                                 </a>
@@ -186,16 +101,16 @@
                             </li>
                             <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                  <div data-i18n="Category">Category</div>
+                                    <div data-i18n="Category">Category</div>
                                 </a>
                                 <ul class="menu-sub">
-                                  <li class="menu-item">
-                                    <a href="/admin/category" class="menu-link">
-                                      <div data-i18n="List all category">List all category</div>
-                                    </a>
-                                  </li>
+                                    <li class="menu-item">
+                                        <a href="/admin/category" class="menu-link">
+                                            <div data-i18n="List all category">List all category</div>
+                                        </a>
+                                    </li>
                                 </ul>
-                              </li>
+                            </li>
                             <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Order">Order</div>
@@ -206,7 +121,6 @@
                                             <div data-i18n="Order List">Order List</div>
                                         </a>
                                     </li>
-                                    
                                 </ul>
                             </li>
                             <li class="menu-item active open">
@@ -221,13 +135,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Offers">Offers</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/offers" class="menu-link">
                                             <div data-i18n="Product Offers">Product Offers</div>
                                         </a>
@@ -239,13 +152,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item ">
+                            <li class="menu-item">
                                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                                     <div data-i18n="Coupons Management">Coupons Management</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
-                                    <li class="menu-item ">
+                                    <li class="menu-item">
                                         <a href="/admin/coupons" class="menu-link">
                                             <div data-i18n="Coupen">Coupen</div>
                                         </a>
@@ -257,7 +169,6 @@
                                     <div data-i18n="Sales Report">Sales Report</div>
                                 </a>
                                 <ul class="menu-sub">
-                                   
                                     <li class="menu-item">
                                         <a href="/admin/salesreport" class="menu-link">
                                             <div data-i18n="Report">Report</div>
@@ -265,42 +176,34 @@
                                     </li>
                                 </ul>
                             </li>
-                            
                         </ul>
                     </li>
                 </ul>
             </aside>
-            <!-- / Menu -->
-            <!-- Navbar -->
+
+            <!-- Main Content -->
             <div class="layout-page">
-                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-                    id="layout-navbar">
+                <!-- Navbar -->
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme">
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-
-                            <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
-                                    data-bs-toggle="dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="/dashboard-assets/img/avatars/1.png" alt
-                                            class="w-px-40 h-auto rounded-circle">
+                                        <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                                     <li>
-                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                        <a class="dropdown-item" href="#">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0 me-2">
                                                     <div class="avatar avatar-online">
-                                                        <img src="/dashboard-assets/img/avatars/1.png" alt
-                                                            class="w-px-40 h-auto rounded-circle">
+                                                        <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <!-- <h6 class="mb-0 small">John Doe</h6> -->
                                                     <small class="text-muted">Admin</small>
-
                                                 </div>
                                             </div>
                                         </a>
@@ -309,15 +212,8 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="pages-profile-user.html">
-                                            <i class="ri-user-3-line ri-22px me-2"></i>
-                                            <span class="align-middle">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <div class="d-grid px-4 pt-2 pb-1">
-                                            <a class="btn btn-danger d-flex" href="/admin/logout"
-                                                target="_blank">
+                                            <a class="btn btn-danger d-flex" href="/admin/logout">
                                                 <small class="align-middle">Logout</small>
                                                 <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
                                             </a>
@@ -325,304 +221,223 @@
                                     </li>
                                 </ul>
                             </li>
-                            <!--/ User -->
                         </ul>
                     </div>
                 </nav>
-                <!-- / Navbar -->
-                <!-- Content wrapper -->
+
+                <!-- Content -->
                 <div class="content-wrapper">
-
-                    <!-- Content -->
-
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
-
                             <div class="card-datatable table-responsive">
-                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                    <div class="card-header d-flex rounded-0 flex-wrap pb-md-5 pt-5">
-                                        <div class="me-5 pe-5">
-                                            <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input
-                                                        id="search" type="search"
-                                                        class="form-control form-control-sm ms-0"
-                                                        placeholder="Search customer"
-                                                        aria-controls="DataTables_Table_0"></label></div>
-                                        </div>
-                                        <div
-                                            class="d-flex justify-content-start justify-content-md-end align-items-baseline">
-                                            <div
-                                                class="dt-action-buttons d-flex align-items-start align-items-md-center justify-content-sm-center gap-4 pt-0">
-                                            </div>
-                                        </div>
+                                <!-- Search Bar -->
+                                <div class="card-header d-flex rounded-0 flex-wrap pb-md-3 pt-4">
+                                    <div class="me-5 pe-5">
+                                        <input id="search" type="search" class="form-control form-control-sm ms-0"
+                                            placeholder="Search customer by name or email">
                                     </div>
-                                    <table class="datatables-customers table dataTable no-footer dtr-column"
-                                        id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info"
-                                        style="width: 1043px;">
-                                        <thead>
-                                            <tr>
-
-                                                <th class="sorting sorting_desc" tabindex="0"
-                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    aria-label="Customer: activate to sort column ascending"
-                                                    aria-sort="descending">Customer Name</th>
-                                                <th class="text-nowrap sorting" tabindex="0"
-                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    aria-label="Customer Id: activate to sort column ascending">Customer
-                                                    Email</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Country: activate to sort column ascending">
-                                                </th>
-
-
-                                                <th class="text-nowrap sorting" tabindex="0"
-                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    aria-label="Total Spent: activate to sort column ascending">Action
-                                                </th>
-                                                <th class="text-nowrap sorting" tabindex="0"
-                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    aria-label="Total Spent: activate to sort column ascending">
-                                                </th>
-                                                <th class="text-nowrap sorting" tabindex="0"
-                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    aria-label="Total Spent: activate to sort column ascending">
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% if(users.length> 0){%>
-                                                <% for(let i=0;i<users.length;i++){ %>
-                                                    <tr class="odd">
-                                                        <td class="  control" tabindex="0" style="display: none;"></td>
-                                                        <td class="  dt-checkboxes-cell">
-                                                            <%= users[i].user_name %>
-                                                        </td>
-                                                        <td class="sorting_1">
-
-                                                            <div
-                                                                class="d-flex justify-content-start align-items-center customer-name">
-
-                                                                <div class="d-flex flex-column"><a
-                                                                        href="app-ecommerce-customer-details-overview.html"
-                                                                        class="text-heading"><span
-                                                                            class="fw-medium text-truncate">
-                                                                            <%= users[i].email_address %>
-                                                                        </span></a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td><span class="text-heading"></span></td>
-                                                        <td>
-                                                            <div
-                                                                class="d-flex justify-content-start align-items-center customer-country">
-                                                                <div>
-                                                                    <span>
-                                                                        <form class="blockForm"
-                                                                            data-user-id="<%= users[i]._id %>">
-                                                                            <% if(users[i].is_block) { %>
-                                                                                <button type="submit"
-                                                                                    class="button1">UNBLOCK</button>
-                                                                                <% } else { %>
-                                                                                    <button type="submit"
-                                                                                        class="button2">BLOCK</button>
-                                                                                    <% } %>
-                                                                        </form>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td><span></span></td>
-                                                        <td>
-                                                            <h6 class="mb-0"></h6>
-                                                        </td>
-                                                        <% } }else{ %>
-                                                    <tr scope="row">
-                                                        Users Not Found!!!
-                                                    </tr>
-                                                    <% } %>
-                                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="row mx-1 d-flex justify-content-center pt-4">
-                                        <!-- <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
-                                                aria-live="polite">Showing 1 to 10 of 100 entries</div>
-                                        </div> -->
-                                        <div class="col-sm-12 col-md-6 d-flex justify-content-center">
-                                            <div class="dataTables_paginate paging_simple_numbers"
-                                                id="DataTables_Table_0_paginate">
-                                                <ul class="pagination">
-                                                    <li class="paginate_button page-item previous disabled"
-                                                        id="DataTables_Table_0_previous"><a
-                                                            aria-controls="DataTables_Table_0" aria-disabled="true"
-                                                            role="link" data-dt-idx="previous" tabindex="-1"
-                                                            class="page-link"><i class="ri-arrow-left-s-line"></i></a>
-                                                    </li>
-                                                    <li class="paginate_button page-item active"><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            aria-current="page" data-dt-idx="0" tabindex="0"
-                                                            class="page-link">1</a></li>
-                                                    <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="1" tabindex="0" class="page-link">2</a></li>
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="2" tabindex="0" class="page-link">3</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="3" tabindex="0" class="page-link">4</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="4" tabindex="0" class="page-link">5</a></li> -->
-                                                    <!-- <li class="paginate_button page-item disabled"
-                                                        id="DataTables_Table_0_ellipsis"><a
-                                                            aria-controls="DataTables_Table_0" aria-disabled="true"
-                                                            role="link" data-dt-idx="ellipsis" tabindex="-1"
-                                                            class="page-link">…</a></li> -->
-                                                    <!-- <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="9" tabindex="0" class="page-link">10</a></li> -->
-                                                    <li class="paginate_button page-item next"
-                                                        id="DataTables_Table_0_next"><a href="#"
-                                                            aria-controls="DataTables_Table_0" role="link"
-                                                            data-dt-idx="next" tabindex="0" class="page-link"><i
-                                                                class="ri-arrow-right-s-line"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                    <div class="ms-auto">
+                                        <span class="text-muted">Showing <%= users.length %> of <%= totalCustomers %> customers</span>
                                     </div>
-                                    <div style="width: 1%;"></div>
                                 </div>
+
+                                <!-- Customer Table -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer Name</th>
+                                            <th>Customer Email</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="customerTableBody">
+                                        <% if(users.length > 0) { %>
+                                            <% users.forEach(user => { %>
+                                                <tr>
+                                                    <td><%= user.user_name %></td>
+                                                    <td><%= user.email_address %></td>
+                                                    <td>
+                                                        <span class="badge bg-<%= user.is_block ? 'danger' : 'success' %>">
+                                                            <%= user.is_block ? 'Blocked' : 'Active' %>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <form class="blockForm" data-user-id="<%= user._id %>">
+                                                            <button type="submit" class="<%= user.is_block ? 'btn-unblock' : 'btn-block' %>">
+                                                                <%= user.is_block ? 'UNBLOCK' : 'BLOCK' %>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="4" class="text-center">No customers found</td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+
+                                <!-- Pagination -->
+                                <% if(totalPages > 1) { %>
+                                    <div class="row mx-1 d-flex justify-content-center pt-4 pb-4">
+                                        <div class="col-sm-12 col-md-6 d-flex justify-content-center">
+                                            <ul class="pagination">
+                                                <!-- Previous Button -->
+                                                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                                    <a class="page-link" href="<%= currentPage === 1 ? '#' : '?page=' + (currentPage - 1) %>">
+                                                        <i class="ri-arrow-left-s-line"></i>
+                                                    </a>
+                                                </li>
+
+                                                <!-- Page Numbers -->
+                                                <% 
+                                                    let startPage = Math.max(1, currentPage - 2);
+                                                    let endPage = Math.min(totalPages, currentPage + 2);
+                                                    
+                                                    if (currentPage <= 3) {
+                                                        endPage = Math.min(5, totalPages);
+                                                    }
+                                                    if (currentPage > totalPages - 3) {
+                                                        startPage = Math.max(1, totalPages - 4);
+                                                    }
+                                                %>
+
+                                                <% if (startPage > 1) { %>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page=1">1</a>
+                                                    </li>
+                                                    <% if (startPage > 2) { %>
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    <% } %>
+                                                <% } %>
+
+                                                <% for(let i = startPage; i <= endPage; i++) { %>
+                                                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                                    </li>
+                                                <% } %>
+
+                                                <% if (endPage < totalPages) { %>
+                                                    <% if (endPage < totalPages - 1) { %>
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    <% } %>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page=<%= totalPages %>"><%= totalPages %></a>
+                                                    </li>
+                                                <% } %>
+
+                                                <!-- Next Button -->
+                                                <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                                    <a class="page-link" href="<%= currentPage === totalPages ? '#' : '?page=' + (currentPage + 1) %>">
+                                                        <i class="ri-arrow-right-s-line"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                <% } %>
                             </div>
-                            <!-- Offcanvas to add new customer -->
                         </div>
-
-
-                        <div class="row gy-6">
-                            <!-- Footer -->
-                            <footer class="content-footer footer bg-footer-theme">
-                            </footer>
-                            <!-- / Footer -->
-
-
-                            <div class="content-backdrop fade"></div>
-                        </div>
-                        <!-- Content wrapper -->
                     </div>
-                    <!-- / Layout page -->
+
+                    <footer class="content-footer footer bg-footer-theme"></footer>
                 </div>
-
-                <!-- Overlay -->
-                <div class="layout-overlay layout-menu-toggle"></div>
-
-
-                <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-                <div class="drag-target"></div>
-
             </div>
-            <!-- / Layout wrapper -->
+        </div>
+    </div>
 
-            <!-- Core JS -->
-            <!-- build:js assets/vendor/js/core.js -->
-            <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
-            <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
-            <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
-            <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
-            <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-            <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
-            <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
-            <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
-            <script src="/dashboard-assets/vendor/js/menu.js"></script>
+    <!-- Scripts -->
+    <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
+    <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
+    <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/dashboard-assets/vendor/js/menu.js"></script>
+    <script src="/dashboard-assets/js/main.js"></script>
 
-            <!-- endbuild -->
+    <script>
+        // Search functionality (client-side for current page)
+        document.getElementById("search").addEventListener('keyup', function () {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#customerTableBody tr');
 
-            <!-- Vendors JS -->
-            <script src="/dashboard-assets/vendor/libs/apex-charts/apexcharts.js"></script>
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
 
-            <!-- Main JS -->
-            <script src="/dashboard-assets/js/main.js"></script>
+        // Block/Unblock functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const blockForms = document.querySelectorAll('.blockForm');
 
+            blockForms.forEach(form => {
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    const userId = form.getAttribute('data-user-id');
+                    await handleBlockUnblock(userId, form);
+                });
+            });
+        });
 
-            <!-- Page JS -->
-            <script src="/dashboard-assets/js/app-ecommerce-dashboard.js"></script>
-            <script>
-                //search field
-                document.getElementById("search").addEventListener('keyup', function () {
-                    var filter = this.value.toLowerCase();
-                    var rows = document.querySelectorAll('table tr');
-
-                    rows.forEach(function (row) {
-                        var text = row.textContent.toLowerCase();
-                        row.style.display = text.includes(filter) ? '' : 'none';
-                    });
+        const handleBlockUnblock = async (userId, form) => {
+            try {
+                const response = await fetch(`/admin/api/users/block/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
-
-                //block and unblock
-                document.addEventListener('DOMContentLoaded', () => {
-                    const blockForms = document.querySelectorAll('.blockForm');
-
-                    blockForms.forEach(form => {
-                        form.addEventListener('submit', async (event) => {
-                            event.preventDefault();
-                            const userId = form.getAttribute('data-user-id');
-                            await handleBlockUnblock(userId, form);
-                        });
+                const data = await response.json();
+                
+                if (data.success) {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: data.message,
+                        confirmButtonColor: '#3085d6',
+                        timer: 2000
                     });
-                });
 
-                const handleBlockUnblock = async (userId, form) => {
-                    try {
-                        const response = await fetch(`/admin/api/users/block/${userId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            }
-                        });
-
-                        const blockData = await response.json();
-                        if (blockData.success) {
-                            
-                            await Swal.fire({
-                                icon: 'success',
-                                title: 'Success!',
-                                text: blockData.message,
-                                confirmButtonColor: '#3085d6',
-                            });
-
-                           
-                            const button = form.querySelector('button');
-                            if (button.textContent === 'BLOCK') {
-                                button.textContent = 'UNBLOCK';
-                                button.className = 'button1';
-                            } else {
-                                button.textContent = 'BLOCK';
-                                button.className = 'button2';
-                            }
-                        } else {
-                            
-                            await Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: blockData.message,
-                                confirmButtonColor: '#d33',
-                            });
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        
-                        await Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'An error occurred while processing your request',
-                            confirmButtonColor: '#d33',
-                        });
+                    // Update button and badge
+                    const button = form.querySelector('button');
+                    const row = form.closest('tr');
+                    const badge = row.querySelector('.badge');
+                    
+                    if (data.isBlocked) {
+                        button.textContent = 'UNBLOCK';
+                        button.className = 'btn-unblock';
+                        badge.textContent = 'Blocked';
+                        badge.className = 'badge bg-danger';
+                    } else {
+                        button.textContent = 'BLOCK';
+                        button.className = 'btn-block';
+                        badge.textContent = 'Active';
+                        badge.className = 'badge bg-success';
                     }
+                } else {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message,
+                        confirmButtonColor: '#d33'
+                    });
                 }
-            </script>
-
+            } catch (error) {
+                console.error('Error:', error);
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while processing your request',
+                    confirmButtonColor: '#d33'
+                });
+            }
+        };
+    </script>
 </body>
-
 </html>
-
-<!-- beautify ignore:end -->
