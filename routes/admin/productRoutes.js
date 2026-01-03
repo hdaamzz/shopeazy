@@ -5,9 +5,9 @@ const auth = require('../../middleware/adminAuth');
 const multer = require('../../middleware/multer');
 
 router.get('/products', auth.isLogin, productController.loadProducts);
-router.get('/addProduct', auth.isLogin, productController.loadAddProduct);
-router.post('/addProduct', auth.isLogin, multer.upload.array('productImage', 3), productController.addProduct);
-router.get('/updateProduct', auth.isLogin, productController.loadUpdateProduct);
-router.put('/updateProduct', auth.isLogin, multer.updateImage, productController.updateProduct);
+router.get('/products/add', auth.isLogin, productController.loadAddProduct);
+router.post('/products/add', auth.isLogin, multer.upload.array('productImage', 3), productController.addProduct);
+router.get('/products/update', auth.isLogin, productController.loadUpdateProduct);
+router.put('/products/update', auth.isLogin, multer.updateImage, productController.updateProduct);
 
 module.exports = router;

@@ -189,7 +189,7 @@
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="/admin/addProduct" class="menu-link">
+                                        <a href="/admin/products/add" class="menu-link">
                                             <div data-i18n="Add Product">Add Product</div>
                                         </a>
                                     </li>
@@ -220,12 +220,12 @@
                                 </ul>
                             </li>
                             <li class="menu-item">
-                                <a href="/admin/allCustomers" class="menu-link menu-toggle">
+                                <a href="/admin/customers" class="menu-link menu-toggle">
                                     <div data-i18n="Customer">Customer</div>
                                 </a>
                                 <ul class="menu-sub">
                                     <li class="menu-item">
-                                        <a href="/admin/allCustomers" class="menu-link">
+                                        <a href="/admin/customers" class="menu-link">
                                             <div data-i18n="All Customers">All Customers</div>
                                         </a>
                                     </li>
@@ -310,7 +310,7 @@
                                     </li>
                                     <li>
                                         <div class="d-grid px-4 pt-2 pb-1">
-                                            <a class="btn btn-danger d-flex" href="/admin/logout">
+                                            <a class="btn btn-danger d-flex" href="/admin/auth/logout">
                                                 <small class="align-middle">Logout</small>
                                                 <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
                                             </a>
@@ -785,7 +785,7 @@
                 $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Adding...');
 
                 try {
-                    const response = await fetch('/admin/offers/addOffers', {
+                    const response = await fetch('/admin/offers/add', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -884,7 +884,7 @@
                 $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Updating...');
 
                 try {
-                    const response = await fetch('/admin/updateOffer', {
+                    const response = await fetch('/admin/offers/update', {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -946,7 +946,7 @@
 
                 if (result.isConfirmed) {
                     try {
-                        const response = await fetch('/admin/deleteOffer', {
+                        const response = await fetch('/admin/offers/delete', {
                             method: 'DELETE',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ id: offerId })

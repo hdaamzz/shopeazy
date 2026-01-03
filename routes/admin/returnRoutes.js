@@ -3,7 +3,7 @@ const router = express.Router();
 const adminReturnController = require('../../controllers/admin/adminReturnController');
 const auth = require('../../middleware/adminAuth');
 
-router.get('/returnRequests', auth.isLogin, adminReturnController.loadReturnRequests);
-router.patch('/updateReturnRequest', auth.isLogin, adminReturnController.updateReturnRequest);
+router.get('/order/return/request', auth.isLogin, adminReturnController.loadReturnRequests);
+router.patch('/order/return/request/update', auth.isLogin, adminReturnController.updateReturnRequest);
 
 module.exports = router;

@@ -17,7 +17,7 @@
                                                 class="dt-action-buttons d-flex align-items-start align-items-md-center justify-content-sm-center gap-4 pt-0">
                                                 <div class="dt-buttons btn-group flex-wrap">
 
-                                                    <a href="/admin/addProduct"><button
+                                                    <a href="/admin/products/add"><button
                                                             class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light"
                                                             tabindex="0" aria-controls="DataTables_Table_0"
                                                             type="button" data-bs-toggle="offcanvas"

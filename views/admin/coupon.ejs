@@ -62,12 +62,23 @@
 
 
     <style>
-        input.error {
-            border-color: red;
+        label.errMsg.error {
+            color: #ff3e1d !important;
+            font-size: 0.875rem;
         }
 
-        label.error {
-            color: red;
+        input.error,
+        textarea.error {
+            border-color: #ff3e1d !important;
+        }
+
+        label.errMsg.success {
+            color: inherit;
+        }
+
+        input.success,
+        textarea.success {
+            border-color: #28a745;
         }
 
         .select2-container--default .select2-selection--multiple {
@@ -240,7 +251,7 @@
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="/admin/addProduct" class="menu-link">
+                                        <a href="/admin/products/add" class="menu-link">
                                             <div data-i18n="Add Product">Add Product</div>
                                         </a>
                                     </li>
@@ -264,7 +275,7 @@
                                 </a>
                                 <ul class="menu-sub">
                                     <li class="menu-item ">
-                                        <a href="app-ecommerce-order-list.html" class="menu-link">
+                                        <a href="/admin/orders" class="menu-link">
                                             <div data-i18n="Order List">Order List</div>
                                         </a>
                                     </li>
@@ -276,7 +287,7 @@
                                 </a>
                                 <ul class="menu-sub">
                                     <li class="menu-item ">
-                                        <a href="/admin/allCustomers" class="menu-link">
+                                        <a href="/admin/customers" class="menu-link">
                                             <div data-i18n="All Customers">All Customers</div>
                                         </a>
                                     </li>
@@ -377,7 +388,7 @@
                                     </li>
                                     <li>
                                         <div class="d-grid px-4 pt-2 pb-1">
-                                            <a class="btn btn-danger d-flex" href="/admin/logout" target="_blank">
+                                            <a class="btn btn-danger d-flex" href="/admin/auth/logout" target="_blank">
                                                 <small class="align-middle">Logout</small>
                                                 <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
                                             </a>
@@ -591,8 +602,8 @@
                                             <div class="col-12">
                                                 <div class="form-floating form-floating-outline">
                                                     <input type="number" id="max_amount" name="max_amount"
-                                                        class="form-control" placeholder="Maximum Amount">
-                                                    <label class="errMsg" for="max_amount">Maximum Amount</label>
+                                                        class="form-control" placeholder="Maximum Purchase Amount">
+                                                    <label class="errMsg" for="max_amount">Maximum Purchase Amount</label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -684,7 +695,7 @@
                                                     <div class="form-floating form-floating-outline">
                                                         <input type="number" id="max_amount<%=coupon._id%>"
                                                             name="max_amount" class="form-control"
-                                                            placeholder="Maximum Amount" value="<%=coupon.max_amount%>">
+                                                            placeholder="Maximum Purchase Amount" value="<%=coupon.max_amount%>">
                                                         <label class="errMsg" for="max_amount<%=coupon._id%>">Maximum
                                                             Amount</label>
                                                     </div>
@@ -785,6 +796,30 @@
                             });
                         });
 
+                        document.querySelectorAll('.modal').forEach(modal => {
+                        modal.addEventListener('hidden.bs.modal', function () {
+                            const form = this.querySelector('form');
+                            if (form) {
+                                form.reset();
+                                // Clear all error/success states
+                                form.querySelectorAll('.error').forEach(el => {
+                                    el.classList.remove('error');
+                                });
+                                form.querySelectorAll('.success').forEach(el => {
+                                    el.classList.remove('success');
+                                });
+                                // Reset labels to default text
+                                form.querySelectorAll('label.errMsg').forEach(label => {
+                                    const forAttr = label.getAttribute('for');
+                                    if (forAttr) {
+                                        const originalText = label.textContent.split(':')[0].trim();
+                                        label.textContent = originalText || label.textContent;
+                                    }
+                                });
+                            }
+                        });
+                    });
+
                         // Form validation helpers
                         const setError = (element, message) => {
                             const formGroup = element.parentElement;
@@ -827,7 +862,7 @@
                             if (!validateCouponForm(formData, 'add')) return;
 
                             try {
-                                const response = await fetch('/admin/coupons/addCoupon', {
+                                const response = await fetch('/admin/coupon/add', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -841,6 +876,8 @@
                                 const data = await response.json();
 
                                 if (data.success) {
+                                    const addModal = bootstrap.Modal.getInstance(document.getElementById('addCoupon'));
+                                        if (addModal) addModal.hide();
                                     Swal.fire({
                                         title: 'Success!',
                                         text: data.message,
@@ -885,7 +922,7 @@
                                 if (!validateCouponForm(formData, 'edit', couponID)) return;
 
                                 try {
-                                    const response = await fetch('/admin/updateCoupon', {
+                                    const response = await fetch('/admin/coupon/update', {
                                         method: 'PUT',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify(formData)
@@ -894,6 +931,8 @@
                                     const data = await response.json();
 
                                     if (data.success) {
+                                            const editModal = bootstrap.Modal.getInstance(document.getElementById(`editCoupon${couponID}`));
+                                                if (editModal) editModal.hide();
                                         Swal.fire({
                                             title: 'Success!',
                                             text: data.message,
@@ -936,7 +975,7 @@
 
                                 if (result.isConfirmed) {
                                     try {
-                                        const response = await fetch('/admin/deleteCoupon', {
+                                        const response = await fetch('/admin/coupon/delete', {
                                             method: 'DELETE',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ id: couponId })
@@ -1035,16 +1074,16 @@
                             const maxAmountField = document.getElementById(`max_amount${suffix}`);
                             if (data.max_amount) {
                                 if (data.max_amount < 0) {
-                                    setError(maxAmountField, 'Maximum Amount should be 0 or more');
+                                    setError(maxAmountField, 'Maximum Purchase Amount should be 0 or more');
                                     isValid = false;
                                 } else if (parseFloat(data.max_amount) <= parseFloat(data.min_purchase_amount)) {
-                                    setError(maxAmountField, 'Maximum Amount should be greater than Minimum Purchase Amount');
+                                    setError(maxAmountField, 'Maximum Purchase Amount should be greater than Minimum');
                                     isValid = false;
                                 } else {
-                                    setSuccess(maxAmountField, 'Maximum Amount');
+                                    setSuccess(maxAmountField, 'Maximum Purchase Amount');
                                 }
                             } else {
-                                setSuccess(maxAmountField, 'Maximum Amount');
+                                setSuccess(maxAmountField, 'Maximum Purchase Amount');
                             }
 
                             return isValid;
