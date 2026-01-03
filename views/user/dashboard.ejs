@@ -493,7 +493,7 @@
   <nav class="top-nav-bar">
     <div class="top-nav-container">
       <a href="/" class="nav-logo">
-        <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+        <img src="/assets/newimages/logo.png" alt="shopEazy Logo">
       </a>
 
       <div class="nav-icons">
@@ -568,7 +568,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/logout">
+            <a class="nav-link" href="/auth/logout">
               <i class="icon-sign-out"></i> Sign Out
             </a>
           </li>
@@ -664,7 +664,7 @@
                                     <div class="product-image-cell">
                                       <img src="/uploads/<%= item.product_id?.images[0] %>" class="product-thumbnail"
                                         alt="<%= item.name %>">
-                                      <a href="/showProduct?id=<%= item.product_id._id %>">
+                                      <a href="/shop/product?id=<%= item.product_id._id %>">
                                         <%= item.name %>
                                       </a>
                                     </div>
@@ -690,7 +690,7 @@
                                           data-bs-target="#returnModal-<%= item._id %>">
                                           Return
                                         </button>
-                                        <a href="/downloadInvoice?itemId=<%= item._id %>&orderId=<%= order.order_id %>"
+                                        <a href="/order/invoice?itemId=<%= item._id %>&orderId=<%= order.order_id %>"
                                           class="btn btn-primary btn-sm" target="_blank">
                                           Invoice
                                         </a>
@@ -1087,9 +1087,9 @@
     </div>
   </div>
 
-  <script src="assets/js/jquery.min.js"></script>
-  <script src="assets/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="/assets/js/jquery.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/main.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <script>
@@ -1158,7 +1158,7 @@
     // RAZORPAY PAYMENT FUNCTIONS
     async function initiateRepayment(orderId, amount) {
       try {
-        const response = await fetch('/initiate-repayment', {
+        const response = await fetch('/order/payment/repay', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ orderId, amount })
@@ -1214,7 +1214,7 @@
 
     async function handlePaymentResponse(response, orderId) {
       try {
-        const result = await fetch('/verifyPayment', {
+        const result = await fetch('/order/payment/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1235,7 +1235,7 @@
             confirmButtonText: 'OK'
           }).then((result) => {
             if (result.isConfirmed) {
-              window.location.href = `/orderSummary?id=${orderId}`;
+              window.location.href = `/order/summary?id=${orderId}`;
             }
           });
         } else {
@@ -1259,7 +1259,7 @@
 
     async function handlePaymentFailure(response, orderId) {
       try {
-        const result = await fetch('/payment-failed', {
+        const result = await fetch('/order/payment/failed', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1332,7 +1332,7 @@
 
       if (result.isConfirmed) {
         try {
-          const response = await fetch('/cancelOrder', {
+          const response = await fetch('/order/cancel', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1373,7 +1373,7 @@
       }
 
       try {
-        const response = await fetch('/returnOrder', {
+        const response = await fetch('/order/return', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1523,7 +1523,7 @@
       if (!isValid) return;
 
       try {
-        const response = await fetch('/addAddress', {
+        const response = await fetch('/dashboard/address/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1663,7 +1663,7 @@
       if (!isValid) return;
 
       try {
-        const response = await fetch('/updateAddress', {
+        const response = await fetch('/dashboard/address/update', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1727,7 +1727,7 @@
 
       if (result.isConfirmed) {
         try {
-          const response = await fetch('/deleteAddress', {
+          const response = await fetch('/dashboard/address/delete', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: addressId })
@@ -1788,7 +1788,7 @@
       }
 
       try {
-        const response = await fetch('/updateUser', {
+        const response = await fetch('/dashboard/user/update', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

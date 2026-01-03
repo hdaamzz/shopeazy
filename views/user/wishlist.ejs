@@ -429,7 +429,7 @@
   <nav class="top-nav-bar">
     <div class="top-nav-container">
       <a href="/" class="nav-logo">
-        <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+        <img src="/assets/newimages/logo.png" alt="shopEazy Logo">
       </a>
 
       <div class="nav-icons">
@@ -498,12 +498,12 @@
                 <!-- Product Column -->
                 <td>
                   <div class="product-cell">
-                    <a href="/showProduct?id=<%= item.product_id._id %>">
+                    <a href="/shop/product?id=<%= item.product_id._id %>">
                       <img src="/uploads/<%= item.product_id.images[0] %>" alt="<%= item.product_id.product_name %>"
                         class="product-image">
                     </a>
                     <div class="product-info">
-                      <a href="/showProduct?id=<%= item.product_id._id %>" class="product-name">
+                      <a href="/shop/product?id=<%= item.product_id._id %>" class="product-name">
                         <%= item.product_id.product_name %>
                       </a>
                     </div>
@@ -628,7 +628,7 @@
         const userId = this.getAttribute('data-user-id');
 
         try {
-          const response = await fetch('/wishlistToCart', {
+          const response = await fetch('/cart/wishlist/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ productId, quantity: 1, userId })
@@ -684,7 +684,7 @@
 
         if (result.isConfirmed) {
           try {
-            const response = await fetch('/remove-from-wishlist', {
+            const response = await fetch('/wishlist/remove', {
               method: 'DELETE',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ cartItemId })

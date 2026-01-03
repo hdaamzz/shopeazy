@@ -7,18 +7,18 @@ const invoiceController = require('../../controllers/user/order/invoiceControlle
 const repaymentController = require('../../controllers/user/order/repaymentController');
 const auth = require('../../middleware/userAuth');
 
-router.post('/placeOrder', auth.isLogin, orderController.placeOrder);
-router.patch('/updateOrderStatus/:orderId', auth.isLogin, orderController.updateOrderStatus);
-router.get('/orderSummary', auth.isLogin, orderController.loadOrderSummary);
+router.post('/order/place', auth.isLogin, orderController.placeOrder);
+router.patch('/order/status/update/:oderId', auth.isLogin, orderController.updateOrderStatus);
+router.get('/order/summary', auth.isLogin, orderController.loadOrderSummary);
 
-router.post('/verifyPayment', auth.isLogin, paymentController.verifyPayment);
-router.post('/payment-failed', auth.isLogin, paymentController.handlePaymentFailure);
+router.post('/order/payment/verify', auth.isLogin, paymentController.verifyPayment);
+router.post('/order/payment/failed', auth.isLogin, paymentController.handlePaymentFailure);
 
-router.post('/cancelOrder', auth.isLogin, orderManagementController.cancelOrder);
-router.post('/returnOrder', auth.isLogin, orderManagementController.returnOrder);
+router.post('/order/cancel', auth.isLogin, orderManagementController.cancelOrder);
+router.post('/order/return', auth.isLogin, orderManagementController.returnOrder);
 
-router.get('/downloadInvoice', auth.isLogin, invoiceController.downloadInvoice);
+router.get('/order/invoice', auth.isLogin, invoiceController.downloadInvoice);
 
-router.post('/initiate-repayment', auth.isLogin, repaymentController.initiateRepayment);
+router.post('/order/payment/repay', auth.isLogin, repaymentController.initiateRepayment);
 
 module.exports = router;

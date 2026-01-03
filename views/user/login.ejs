@@ -281,7 +281,7 @@
 <nav class="top-nav-bar">
   <div class="top-nav-container">
     <a href="/" class="nav-logo">
-      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+      <img src="/assets/newimages/logo.png" alt="shopEazy Logo">
     </a>
   </div>
 </nav>
@@ -320,7 +320,7 @@
           <i class="icon-long-arrow-right"></i>
         </button>
 
-        <a href="/forgot-password" class="forgot-link">Forgot Your Password?</a>
+        <a href="/auth/password/forgot" class="forgot-link">Forgot Your Password?</a>
       </form>
 
       <div class="divider">
@@ -517,7 +517,7 @@
     if (!isValid) return;
 
     try {
-      const response = await fetch('/signin', {
+      const response = await fetch('/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailVal, password: passVal })
@@ -606,7 +606,7 @@
     }
 
     try {
-      const response = await fetch('/signup', {
+      const response = await fetch('/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameVal, email: emailVal, password: confirmPassVal })
@@ -615,7 +615,7 @@
       const data = await response.json();
 
       if (data.success) {
-        window.location.href = data.redirectUrl || '/otpvalidate';
+        window.location.href = data.redirectUrl || '/auth/register/otp';
       } else {
         document.querySelector('.main-error1').textContent = data.message || 'An error occurred during signup';
         registerEmail.classList.add('error');

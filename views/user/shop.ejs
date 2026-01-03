@@ -453,7 +453,7 @@
 <nav class="top-nav-bar">
   <div class="top-nav-container">
     <a href="/" class="nav-logo">
-      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+      <img src="/assets/newimages/logo.png" alt="shopEazy Logo">
     </a>
 
     <div class="nav-icons">
@@ -587,7 +587,7 @@
       %>
         <div class="product-card">
           <div class="product-image-wrapper">
-            <a href="/showProduct?id=<%= prod._id %>">
+            <a href="/shop/product?id=<%= prod._id %>">
               <img src="/uploads/<%= prod.images[0] %>" alt="<%= prod.product_name %>" class="product-image">
             </a>
             
@@ -605,7 +605,7 @@
               <% if (prod.stock === 0) { %>
                 <button class="btn-add-cart out-of-stock">Out of Stock</button>
               <% } else if (typeof userData === 'undefined') { %>
-                <a href="/login" class="btn-add-cart" style="display: block; text-align: center; text-decoration: none;">Login to Buy</a>
+                <a href="/auth/login" class="btn-add-cart" style="display: block; text-align: center; text-decoration: none;">Login to Buy</a>
               <% } else { %>
                 <button class="btn-add-cart btn-add-to-cart" data-product-id="<%= prod._id %>" data-user-id="<%= userData?._id %>">
                   Add to Cart
@@ -616,7 +616,7 @@
 
           <div class="product-info">
             <h3 class="product-name">
-              <a href="/showProduct?id=<%= prod._id %>" style="text-decoration: none; color: inherit;">
+              <a href="/shop/product?id=<%= prod._id %>" style="text-decoration: none; color: inherit;">
                 <%= prod.product_name %>
               </a>
             </h3>
@@ -754,7 +754,7 @@
       const userId = this.getAttribute('data-user-id');
 
       try {
-        const response = await fetch('/addWishlistItem', {
+        const response = await fetch('/wishlist/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ productId, userId })
@@ -789,7 +789,7 @@
       const userId = this.getAttribute('data-user-id');
 
       try {
-        const response = await fetch('/addCartItem', {
+        const response = await fetch('/cart/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ productId, quantity: 1, userId })

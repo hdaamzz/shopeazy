@@ -5,14 +5,14 @@ const wishlistController = require('../../controllers/user/cart/wishlistControll
 const auth = require('../../middleware/userAuth');
 
 router.get('/cart', auth.isLogin, cartController.loadCart);
-router.get('/nonUserCart', auth.isLogout, cartController.loadUserCart);
-router.post('/addCartItem', auth.isLogin, cartController.addCartItem);
-router.post('/wishlistToCart', auth.isLogin, cartController.moveWishlistToCart);
-router.patch('/update-cart-quantity', auth.isLogin, cartController.updateCartQuantity);
-router.delete('/remove-from-cart', auth.isLogin, cartController.removeCartItem);
+router.get('/cart/empty', auth.isLogout, cartController.loadUserCart);
+router.post('/cart/add', auth.isLogin, cartController.addCartItem);
+router.post('/cart/wishlist/add', auth.isLogin, cartController.moveWishlistToCart);
+router.patch('/cart/update', auth.isLogin, cartController.updateCartQuantity);
+router.delete('/cart/remove', auth.isLogin, cartController.removeCartItem);
 
 router.get('/wishlist', auth.isLogin, wishlistController.loadWishlist);
-router.post('/addWishlistItem', auth.isLogin, wishlistController.addWishlistItem);
-router.delete('/remove-from-wishlist', auth.isLogin, wishlistController.removeWishlistItem);
+router.post('/wishlist/add', auth.isLogin, wishlistController.addWishlistItem);
+router.delete('/wishlist/remove', auth.isLogin, wishlistController.removeWishlistItem);
 
 module.exports = router;

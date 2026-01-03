@@ -4,7 +4,7 @@ const checkoutController = require('../../controllers/user/checkout/checkoutCont
 const auth = require('../../middleware/userAuth');
 
 router.get('/checkout', auth.isLogin, checkoutController.loadCheckout);
-router.post('/applyCoupon', auth.isLogin, checkoutController.applyCoupon);
-router.patch('/removeCoupon', auth.isLogin, checkoutController.removeCoupon);
+router.post('/checkout/coupon/apply', auth.isLogin, checkoutController.applyCoupon);
+router.patch('/checkout/coupon/remove', auth.isLogin, checkoutController.removeCoupon);
 
 module.exports = router;
