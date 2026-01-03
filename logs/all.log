@@ -497,3 +497,69 @@
 2026-01-03 12:51:38:5138 [35mhttp[39m: [35m::1 GET /admin/adminHome 200 38643 - 26.369 ms[39m
 2026-01-03 12:51:38:5138 [33mwarn[39m: [33m404 - Page not found: GET /www.googletagmanager.com/gtm5445.html?id=GTM-5DDHKGP[39m
 2026-01-03 12:51:38:5138 [35mhttp[39m: [35m::1 GET /www.googletagmanager.com/gtm5445.html?id=GTM-5DDHKGP 404 10436 - 11.193 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /admin/auth/logout 302 120 - 1.669 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /admin?logout=Logout%20Successfully... 200 8106 - 2.468 ms[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /www.googletagmanager.com/gtm5445.html?id=GTM-5DDHKGP[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /www.googletagmanager.com/gtm5445.html?id=GTM-5DDHKGP 404 10436 - 21.119 ms[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/light.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/dark.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/system.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/default.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/border.svg[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/system.svg 404 10436 - 68.935 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/dark.svg 404 10436 - 47.119 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/light.svg 404 10436 - 24.320 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/border.svg 404 10436 - 23.739 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/default.svg 404 10436 - 80.588 ms[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/semi-dark.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/ltr.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/rtl.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/static.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/sticky.svg[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/rtl.svg 404 10436 - 19.925 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/ltr.svg 404 10436 - 16.241 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/semi-dark.svg 404 10436 - 16.433 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/sticky.svg 404 10436 - 12.390 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/static.svg 404 10436 - 9.624 ms[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/hidden.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/collapsed.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/expanded.svg[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/expanded.svg 404 10436 - 18.373 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/collapsed.svg 404 10436 - 15.000 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/hidden.svg 404 10436 - 8.922 ms[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/horizontal-fixed.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/horizontal-static.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/compact.svg[39m
+2026-01-03 13:01:30:130 [33mwarn[39m: [33m404 - Page not found: GET /dashboard-assets/img/customizer/wide.svg[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/wide.svg 404 10436 - 15.843 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/compact.svg 404 10436 - 11.732 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/horizontal-static.svg 404 10436 - 9.608 ms[39m
+2026-01-03 13:01:30:130 [35mhttp[39m: [35m::1 GET /dashboard-assets/img/customizer/horizontal-fixed.svg 404 10436 - 5.812 ms[39m
+2026-01-03 13:01:42:142 [35mhttp[39m: [35m::1 GET /auth/login 200 22192 - 9.391 ms[39m
+2026-01-03 13:01:50:150 [35mhttp[39m: [35m::1 POST /auth/login 200 16 - 88.963 ms[39m
+2026-01-03 13:01:50:150 [35mhttp[39m: [35m::1 GET /home 200 57997 - 69.291 ms[39m
+2026-01-03 13:01:53:153 [35mhttp[39m: [35m::1 GET /cart 200 24107 - 36.338 ms[39m
+2026-01-03 13:01:56:156 [35mhttp[39m: [35m::1 GET /checkout 200 57598 - 48.084 ms[39m
+2026-01-03 13:02:03:23 [35mhttp[39m: [35m::1 POST /order/place 200 200 - 1069.684 ms[39m
+2026-01-03 13:02:30:230 [35mhttp[39m: [35m::1 POST /order/payment/verify 200 747 - 42.607 ms[39m
+2026-01-03 13:02:30:230 [33mwarn[39m: [33m404 - Page not found: PATCH /updateOrderStatus/6958c5f21a1f4941f5f1fa7c[39m
+2026-01-03 13:02:30:230 [35mhttp[39m: [35m::1 PATCH /updateOrderStatus/6958c5f21a1f4941f5f1fa7c 404 10436 - 2.002 ms[39m
+2026-01-03 13:02:32:232 [35mhttp[39m: [35m::1 GET /order/summary?id=6958c5f21a1f4941f5f1fa7c 200 17737 - 62.713 ms[39m
+2026-01-03 13:02:50:250 [35mhttp[39m: [35m::1 GET /shop 200 39256 - 32.392 ms[39m
+2026-01-03 13:02:53:253 [35mhttp[39m: [35m::1 GET /shop/product?id=66a545c91bd7369a46cafbcc 200 16665 - 27.932 ms[39m
+2026-01-03 13:02:57:257 [35mhttp[39m: [35m::1 GET / 302 54 - 4.263 ms[39m
+2026-01-03 13:02:57:257 [35mhttp[39m: [35m::1 GET /home 200 57815 - 39.403 ms[39m
+2026-01-03 13:02:59:259 [35mhttp[39m: [35m::1 GET /dashboard 200 95569 - 41.850 ms[39m
+2026-01-03 13:03:10:310 [35mhttp[39m: [35m::1 GET / 302 54 - 3.836 ms[39m
+2026-01-03 13:03:10:310 [35mhttp[39m: [35m::1 GET /home 200 57815 - 35.368 ms[39m
+2026-01-03 13:03:12:312 [35mhttp[39m: [35m::1 GET /shop 200 39256 - 25.493 ms[39m
+2026-01-03 13:03:15:315 [35mhttp[39m: [35m::1 POST /cart/add 200 63 - 7.877 ms[39m
+2026-01-03 13:03:17:317 [35mhttp[39m: [35m::1 GET /shop/product?id=66b3466964d09fed99e8cbf0 200 17392 - 28.710 ms[39m
+2026-01-03 13:03:20:320 [35mhttp[39m: [35m::1 GET /cart 200 24181 - 35.977 ms[39m
+2026-01-03 13:03:22:322 [35mhttp[39m: [35m::1 GET /checkout 200 57666 - 38.462 ms[39m
+2026-01-03 13:03:29:329 [35mhttp[39m: [35m::1 POST /order/place 200 199 - 673.569 ms[39m
+2026-01-03 13:03:42:342 [35mhttp[39m: [35m::1 POST /order/payment/failed 200 778 - 7.885 ms[39m
+2026-01-03 13:03:53:353 [35mhttp[39m: [35m::1 GET /order/summary?id=6958c6481a1f4941f5f1fae8 200 18453 - 25.931 ms[39m
+2026-01-03 13:04:19:419 [35mhttp[39m: [35m::1 GET /dashboard 200 95681 - 39.342 ms[39m
+2026-01-03 13:04:34:434 [35mhttp[39m: [35m::1 GET /auth/logout 302 46 - 7.846 ms[39m
+2026-01-03 13:04:34:434 [35mhttp[39m: [35m::1 GET / 200 54421 - 31.820 ms[39m
