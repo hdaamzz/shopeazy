@@ -60,7 +60,7 @@ const registerUser = async (req, res) => {
 
       res
         .status(HTTP_STATUS.OK)
-        .json({ success: true, redirectUrl: `/otpValidate?id=${email}` });
+        .json({ success: true, redirectUrl: `/otpvalidate?id=${email}` });
     });
   } catch (error) {
     console.error(error.message);

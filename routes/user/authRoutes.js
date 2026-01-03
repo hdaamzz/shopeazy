@@ -5,22 +5,16 @@ const loginController = require('../../controllers/user/auth/loginController');
 const logoutController = require('../../controllers/user/auth/logoutController');
 const auth = require('../../middleware/userAuth');
 
-router.post('/signup', signupController.registerUser);
-router.post('/loginsignup', signupController.registerUser);
-router.get('/otpValidate', auth.isLogout, signupController.loadOtp);
-router.post('/otpValidate', signupController.verifyOtp);
-router.post('/resendOtp', signupController.resendOtp);
-router.get('/auth/google', auth.isLogout, signupController.googleAuth);
-router.get('/auth/google/callback', auth.isLogout, signupController.googleAuthCallback);
-
-router.get('/login', loginController.loadLogin);
-router.post('/loginsignin', loginController.verifyLogin);
-router.post('/signin', loginController.verifyLogin);
-router.get('/forgotPassword', loginController.loadForgotPassword);
-router.post('/forgotPassword', loginController.forgotPassword);
-router.get('/reset-password', loginController.loadResetPassword);
-router.post('/reset-password', loginController.resetPassword);
-
+router.get('/login',auth.isLogout, loginController.loadLogin);
+router.get('/otpvalidate', auth.isLogout, signupController.loadOtp);
+router.post('/signup',auth.isLogout, signupController.registerUser);
+router.post('/signin',auth.isLogout, loginController.verifyLogin);
+router.post('/otpvalidate', auth.isLogout,signupController.verifyOtp);
+router.post('/resendotp', auth.isLogout,signupController.resendOtp);
+router.get('/forgot-password', auth.isLogout,loginController.loadForgotPassword);
+router.post('/forgot-password',auth.isLogout, loginController.forgotPassword);
+router.get('/reset-password', auth.isLogout,loginController.loadResetPassword);
+router.post('/reset-password', auth.isLogout,loginController.resetPassword);
 router.get('/logout', auth.isLogin, logoutController.userLogout);
 
 module.exports = router;

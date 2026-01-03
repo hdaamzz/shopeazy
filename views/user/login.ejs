@@ -320,7 +320,7 @@
           <i class="icon-long-arrow-right"></i>
         </button>
 
-        <a href="/forgotPassword" class="forgot-link">Forgot Your Password?</a>
+        <a href="/forgot-password" class="forgot-link">Forgot Your Password?</a>
       </form>
 
       <div class="divider">
@@ -346,13 +346,10 @@
           <input type="email" id="register-email" placeholder="you@example.com">
         </div>
 
-        <div class="form-group">
-          <label for="register-password0" class="errMsgSignup">Password *</label>
-          <div class="password-wrapper">
-            <input type="password" id="register-password0" placeholder="At least 8 characters">
-            <button type="button" class="toggle-password" onclick="togglePassword('register-password0', this)">
-              <i class="icon-eye"></i>
-            </button>
+        <div class="form-group">  
+          <label class="errMsgSignup">Password *</label>
+          <div class="password-wrapper"> 
+            <input id="register-password0"> 
           </div>
         </div>
 
@@ -388,7 +385,6 @@
 
 <!-- Scripts -->
 <script>
-  // Toggle Password Visibility
   function togglePassword(inputId, button) {
     const input = document.getElementById(inputId);
     const icon = button.querySelector('i');
@@ -420,6 +416,72 @@
       registerContent.classList.add('active');
       signinContent.classList.remove('active');
     }
+  }
+
+  // Helper Functions
+  function isValidEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+
+  function getFormGroup(element) {
+    let formGroup = element.parentElement;
+    if (formGroup.classList.contains('password-wrapper')) {
+      formGroup = formGroup.parentElement;
+    }
+    return formGroup;
+  }
+
+  function setError(element, message) {
+    const formGroup = getFormGroup(element);
+    const label = formGroup.querySelector('.errMsg');
+    
+    if (label) {
+      label.textContent = message;
+      label.classList.add('error');
+    }
+    
+    element.classList.add('error');
+    element.classList.remove('success');
+  }
+
+  function setSuccess(element, message) {
+    const formGroup = getFormGroup(element);
+    const label = formGroup.querySelector('.errMsg');
+    
+    if (label) {
+      label.textContent = message;
+      label.classList.remove('error');
+    }
+    
+    element.classList.add('success');
+    element.classList.remove('error');
+  }
+
+  function setError1(element, message) {
+    const formGroup = getFormGroup(element);
+    const label = formGroup.querySelector('.errMsgSignup');
+    
+    if (label) {
+      label.textContent = message;
+      label.classList.add('error');
+    }
+    
+    element.classList.add('error');
+    element.classList.remove('success');
+  }
+
+  function setSuccess1(element, message) {
+    const formGroup = getFormGroup(element);
+    const label = formGroup.querySelector('.errMsgSignup');
+    
+    if (label) {
+      label.textContent = message;
+      label.classList.remove('error');
+    }
+    
+    element.classList.add('success');
+    element.classList.remove('error');
   }
 
   // Login Form Validation
@@ -455,7 +517,7 @@
     if (!isValid) return;
 
     try {
-      const response = await fetch('/loginsignin', {
+      const response = await fetch('/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailVal, password: passVal })
@@ -485,6 +547,7 @@
 
   signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
     
     const nameVal = registerName.value.trim();
     const emailVal = registerEmail.value.trim();
@@ -537,10 +600,13 @@
       setSuccess1(registerPassword, 'Confirm Password *');
     }
 
-    if (!isValid) return;
+    if (!isValid) {
+      console.log('Validation failed');
+      return;
+    }
 
     try {
-      const response = await fetch('/loginsignup', {
+      const response = await fetch('/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameVal, email: emailVal, password: confirmPassVal })
@@ -549,7 +615,7 @@
       const data = await response.json();
 
       if (data.success) {
-        window.location.href = data.redirectUrl || '/otpValidate';
+        window.location.href = data.redirectUrl || '/otpvalidate';
       } else {
         document.querySelector('.main-error1').textContent = data.message || 'An error occurred during signup';
         registerEmail.classList.add('error');
@@ -559,48 +625,7 @@
       document.querySelector('.main-error1').textContent = 'Something went wrong. Please try again.';
     }
   });
-
-  // Helper Functions
-  function isValidEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  }
-
-  function setError(element, message) {
-    const formGroup = element.parentElement.parentElement;
-    const label = formGroup.querySelector('.errMsg');
-    label.textContent = message;
-    label.classList.add('error');
-    element.classList.add('error');
-    element.classList.remove('success');
-  }
-
-  function setSuccess(element, message) {
-    const formGroup = element.parentElement.parentElement;
-    const label = formGroup.querySelector('.errMsg');
-    label.textContent = message;
-    label.classList.remove('error');
-    element.classList.add('success');
-    element.classList.remove('error');
-  }
-
-  function setError1(element, message) {
-    const formGroup = element.parentElement;
-    const label = formGroup.querySelector('.errMsgSignup');
-    label.textContent = message;
-    label.classList.add('error');
-    element.classList.add('error');
-    element.classList.remove('success');
-  }
-
-  function setSuccess1(element, message) {
-    const formGroup = element.parentElement;
-    const label = formGroup.querySelector('.errMsgSignup');
-    label.textContent = message;
-    label.classList.remove('error');
-    element.classList.add('success');
-    element.classList.remove('error');
-  }
 </script>
+
 
 <%- include('../layouts/footer.ejs') %>

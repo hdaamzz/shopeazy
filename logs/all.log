@@ -1,0 +1,255 @@
+2026-01-03 09:31:48:3148 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:31:57:3157 [35mhttp[39m: [35m::1 GET / 200 54358 - 85.503 ms[39m
+2026-01-03 09:32:30:3230 [35mhttp[39m: [35m::1 GET /login 200 22022 - 10.136 ms[39m
+2026-01-03 09:32:48:3248 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:33:02:332 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:33:05:335 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:33:11:3311 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:33:26:3326 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:33:29:3329 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:33:35:3335 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:33:38:3338 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:33:57:3357 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:34:03:343 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:37:26:3726 [35mhttp[39m: [35m::1 GET /login 200 22017 - 15.557 ms[39m
+2026-01-03 09:39:13:3913 [33mwarn[39m: [33m404 - Page not found: GET /.well-known/appspecific/com.chrome.devtools.json[39m
+2026-01-03 09:39:13:3913 [35mhttp[39m: [35m::1 GET /.well-known/appspecific/com.chrome.devtools.json 404 10429 - 23.216 ms[39m
+2026-01-03 09:39:13:3913 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/skins/skin-demo-4.css.map[39m
+2026-01-03 09:39:13:3913 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/owl-carousel/owl.carousel.css.map[39m
+2026-01-03 09:39:13:3913 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/jquery.countdown.css.map[39m
+2026-01-03 09:39:13:3913 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/style.css.map[39m
+2026-01-03 09:39:13:3913 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/magnific-popup/magnific-popup.css.map[39m
+2026-01-03 09:39:13:3913 [35mhttp[39m: [35m::1 GET /assets/css/skins/skin-demo-4.css.map 404 10429 - 6.723 ms[39m
+2026-01-03 09:39:13:3913 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/bootstrap.min.css.map[39m
+2026-01-03 09:39:13:3913 [35mhttp[39m: [35m::1 GET /assets/css/plugins/magnific-popup/magnific-popup.css.map 404 10429 - 152.008 ms[39m
+2026-01-03 09:39:13:3913 [35mhttp[39m: [35m::1 GET /assets/css/style.css.map 404 10429 - 140.298 ms[39m
+2026-01-03 09:39:13:3913 [35mhttp[39m: [35m::1 GET /assets/css/plugins/jquery.countdown.css.map 404 10429 - 110.888 ms[39m
+2026-01-03 09:39:13:3913 [35mhttp[39m: [35m::1 GET /assets/css/plugins/owl-carousel/owl.carousel.css.map 404 10429 - 29.644 ms[39m
+2026-01-03 09:39:13:3913 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/demos/demo-4.css.map[39m
+2026-01-03 09:39:13:3913 [35mhttp[39m: [35m::1 GET /assets/css/bootstrap.min.css.map 404 10429 - 51.008 ms[39m
+2026-01-03 09:39:13:3913 [35mhttp[39m: [35m::1 GET /assets/css/demos/demo-4.css.map 404 10429 - 22.288 ms[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /login 200 22192 - 10.877 ms[39m
+2026-01-03 09:39:20:3920 [33mwarn[39m: [33m404 - Page not found: GET /.well-known/appspecific/com.chrome.devtools.json[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /.well-known/appspecific/com.chrome.devtools.json 404 10429 - 13.587 ms[39m
+2026-01-03 09:39:20:3920 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/owl-carousel/owl.carousel.css.map[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /assets/css/plugins/owl-carousel/owl.carousel.css.map 404 10429 - 9.354 ms[39m
+2026-01-03 09:39:20:3920 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/bootstrap.min.css.map[39m
+2026-01-03 09:39:20:3920 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/style.css.map[39m
+2026-01-03 09:39:20:3920 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/demos/demo-4.css.map[39m
+2026-01-03 09:39:20:3920 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/jquery.countdown.css.map[39m
+2026-01-03 09:39:20:3920 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/skins/skin-demo-4.css.map[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /assets/css/bootstrap.min.css.map 404 10429 - 8.535 ms[39m
+2026-01-03 09:39:20:3920 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/magnific-popup/magnific-popup.css.map[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /assets/css/skins/skin-demo-4.css.map 404 10429 - 19.725 ms[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /assets/css/plugins/jquery.countdown.css.map 404 10429 - 15.375 ms[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /assets/css/demos/demo-4.css.map 404 10429 - 10.906 ms[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /assets/css/style.css.map 404 10429 - 7.099 ms[39m
+2026-01-03 09:39:20:3920 [35mhttp[39m: [35m::1 GET /assets/css/plugins/magnific-popup/magnific-popup.css.map 404 10429 - 10.690 ms[39m
+2026-01-03 09:44:36:4436 [35mhttp[39m: [35m::1 GET /login 200 22441 - 5.661 ms[39m
+2026-01-03 09:44:36:4436 [33mwarn[39m: [33m404 - Page not found: GET /.well-known/appspecific/com.chrome.devtools.json[39m
+2026-01-03 09:44:36:4436 [35mhttp[39m: [35m::1 GET /.well-known/appspecific/com.chrome.devtools.json 404 10429 - 4.391 ms[39m
+2026-01-03 09:44:36:4436 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/jquery.countdown.css.map[39m
+2026-01-03 09:44:36:4436 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/bootstrap.min.css.map[39m
+2026-01-03 09:44:36:4436 [35mhttp[39m: [35m::1 GET /assets/css/plugins/jquery.countdown.css.map 404 10429 - 7.202 ms[39m
+2026-01-03 09:44:36:4436 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/demos/demo-4.css.map[39m
+2026-01-03 09:44:37:4437 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/magnific-popup/magnific-popup.css.map[39m
+2026-01-03 09:44:37:4437 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/owl-carousel/owl.carousel.css.map[39m
+2026-01-03 09:44:37:4437 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/skins/skin-demo-4.css.map[39m
+2026-01-03 09:44:37:4437 [35mhttp[39m: [35m::1 GET /assets/css/bootstrap.min.css.map 404 10429 - 22.470 ms[39m
+2026-01-03 09:44:37:4437 [35mhttp[39m: [35m::1 GET /assets/css/skins/skin-demo-4.css.map 404 10429 - 37.760 ms[39m
+2026-01-03 09:44:37:4437 [35mhttp[39m: [35m::1 GET /assets/css/plugins/owl-carousel/owl.carousel.css.map 404 10429 - 29.509 ms[39m
+2026-01-03 09:44:37:4437 [35mhttp[39m: [35m::1 GET /assets/css/plugins/magnific-popup/magnific-popup.css.map 404 10429 - 27.192 ms[39m
+2026-01-03 09:44:37:4437 [35mhttp[39m: [35m::1 GET /assets/css/demos/demo-4.css.map 404 10429 - 14.201 ms[39m
+2026-01-03 09:44:37:4437 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/style.css.map[39m
+2026-01-03 09:44:37:4437 [35mhttp[39m: [35m::1 GET /assets/css/style.css.map 404 10429 - 11.095 ms[39m
+2026-01-03 09:45:00:450 [35mhttp[39m: [35m::1 POST /loginsignup 400 49 - 16.513 ms[39m
+2026-01-03 09:45:14:4514 [35mhttp[39m: [35m::1 GET /login 200 22436 - 6.478 ms[39m
+2026-01-03 09:45:14:4514 [33mwarn[39m: [33m404 - Page not found: GET /.well-known/appspecific/com.chrome.devtools.json[39m
+2026-01-03 09:45:14:4514 [35mhttp[39m: [35m::1 GET /.well-known/appspecific/com.chrome.devtools.json 404 10429 - 15.210 ms[39m
+2026-01-03 09:45:15:4515 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/magnific-popup/magnific-popup.css.map[39m
+2026-01-03 09:45:15:4515 [35mhttp[39m: [35m::1 GET /assets/css/plugins/magnific-popup/magnific-popup.css.map 404 10429 - 15.953 ms[39m
+2026-01-03 09:45:15:4515 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/demos/demo-4.css.map[39m
+2026-01-03 09:45:15:4515 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/owl-carousel/owl.carousel.css.map[39m
+2026-01-03 09:45:15:4515 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/style.css.map[39m
+2026-01-03 09:45:15:4515 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/jquery.countdown.css.map[39m
+2026-01-03 09:45:15:4515 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/bootstrap.min.css.map[39m
+2026-01-03 09:45:15:4515 [35mhttp[39m: [35m::1 GET /assets/css/plugins/jquery.countdown.css.map 404 10429 - 117.826 ms[39m
+2026-01-03 09:45:15:4515 [35mhttp[39m: [35m::1 GET /assets/css/style.css.map 404 10429 - 116.419 ms[39m
+2026-01-03 09:45:15:4515 [35mhttp[39m: [35m::1 GET /assets/css/plugins/owl-carousel/owl.carousel.css.map 404 10429 - 99.799 ms[39m
+2026-01-03 09:45:15:4515 [35mhttp[39m: [35m::1 GET /assets/css/demos/demo-4.css.map 404 10429 - 37.890 ms[39m
+2026-01-03 09:45:15:4515 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/skins/skin-demo-4.css.map[39m
+2026-01-03 09:45:15:4515 [35mhttp[39m: [35m::1 GET /assets/css/bootstrap.min.css.map 404 10429 - 14.528 ms[39m
+2026-01-03 09:45:15:4515 [35mhttp[39m: [35m::1 GET /assets/css/skins/skin-demo-4.css.map 404 10429 - 17.424 ms[39m
+2026-01-03 09:45:33:4533 [35mhttp[39m: [35m::1 POST /signup 200 64 - 3361.191 ms[39m
+2026-01-03 09:45:33:4533 [35mhttp[39m: [35m::1 GET /otpvalidate?id=jaban@gmail.com 200 15313 - 31.724 ms[39m
+2026-01-03 09:45:33:4533 [33mwarn[39m: [33m404 - Page not found: GET /.well-known/appspecific/com.chrome.devtools.json[39m
+2026-01-03 09:45:33:4533 [35mhttp[39m: [35m::1 GET /.well-known/appspecific/com.chrome.devtools.json 404 10429 - 7.991 ms[39m
+2026-01-03 09:45:34:4534 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/skins/skin-demo-4.css.map[39m
+2026-01-03 09:45:34:4534 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/jquery.countdown.css.map[39m
+2026-01-03 09:45:34:4534 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/owl-carousel/owl.carousel.css.map[39m
+2026-01-03 09:45:34:4534 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/plugins/magnific-popup/magnific-popup.css.map[39m
+2026-01-03 09:45:34:4534 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/bootstrap.min.css.map[39m
+2026-01-03 09:45:34:4534 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/style.css.map[39m
+2026-01-03 09:45:34:4534 [35mhttp[39m: [35m::1 GET /assets/css/plugins/magnific-popup/magnific-popup.css.map 404 10429 - 29.769 ms[39m
+2026-01-03 09:45:34:4534 [35mhttp[39m: [35m::1 GET /assets/css/plugins/owl-carousel/owl.carousel.css.map 404 10429 - 18.917 ms[39m
+2026-01-03 09:45:34:4534 [35mhttp[39m: [35m::1 GET /assets/css/plugins/jquery.countdown.css.map 404 10429 - 10.879 ms[39m
+2026-01-03 09:45:34:4534 [35mhttp[39m: [35m::1 GET /assets/css/skins/skin-demo-4.css.map 404 10429 - 8.580 ms[39m
+2026-01-03 09:45:34:4534 [35mhttp[39m: [35m::1 GET /assets/css/style.css.map 404 10429 - 17.144 ms[39m
+2026-01-03 09:45:34:4534 [35mhttp[39m: [35m::1 GET /assets/css/bootstrap.min.css.map 404 10429 - 8.908 ms[39m
+2026-01-03 09:45:34:4534 [33mwarn[39m: [33m404 - Page not found: GET /assets/css/demos/demo-4.css.map[39m
+2026-01-03 09:45:34:4534 [35mhttp[39m: [35m::1 GET /assets/css/demos/demo-4.css.map 404 10429 - 45.100 ms[39m
+2026-01-03 09:45:47:4547 [35mhttp[39m: [35m::1 POST /otpvalidate 200 15397 - 13.036 ms[39m
+2026-01-03 09:46:50:4650 [35mhttp[39m: [35m::1 GET / 200 54358 - 59.559 ms[39m
+2026-01-03 09:47:34:4734 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:47:45:4745 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:47:49:4749 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:48:02:482 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:48:06:486 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:48:14:4814 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:48:22:4822 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:48:27:4827 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:48:33:4833 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:49:04:494 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:49:14:4914 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:49:27:4927 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:49:55:4955 [35mhttp[39m: [35m::1 GET /login 200 22154 - 18.502 ms[39m
+2026-01-03 09:50:13:5013 [35mhttp[39m: [35m::1 POST /signup 400 49 - 16.656 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 POST /signup 200 70 - 3042.944 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /otpvalidate?id=diluhd9900@gmail.com 200 15324 - 12.242 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 POST /signup - - - - ms[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/bootstrap.min.css[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/plugins/owl-carousel/owl.carousel.css[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/plugins/magnific-popup/magnific-popup.css[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/plugins/jquery.countdown.css[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/style.css[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css 404 10429 - 17.318 ms[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/skins/skin-demo-4.css[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/css/style.css 404 10429 - 32.014 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/css/plugins/jquery.countdown.css 404 10429 - 30.184 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/css/plugins/magnific-popup/magnific-popup.css 404 10429 - 25.652 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/css/plugins/owl-carousel/owl.carousel.css 404 10429 - 19.624 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/css/bootstrap.min.css 404 10429 - 16.422 ms[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/demos/demo-4.css[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/newimages/logo.png[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/css/skins/skin-demo-4.css 404 10429 - 13.465 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/newimages/logo.png 404 10429 - 18.066 ms[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/css/demos/demo-4.css 404 10429 - 14.198 ms[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/images/icons/site.html[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/images/icons/site.html 404 10429 - 5.392 ms[39m
+2026-01-03 09:50:22:5022 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/newimages/logo.png[39m
+2026-01-03 09:50:22:5022 [35mhttp[39m: [35m::1 GET /register/assets/newimages/logo.png 404 10429 - 6.092 ms[39m
+2026-01-03 09:51:50:5150 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 09:51:57:5157 [33mwarn[39m: [33m404 - Page not found: GET /register/otpvalidate=diluhd9900@gmail.com[39m
+2026-01-03 09:51:57:5157 [35mhttp[39m: [35m::1 GET /register/otpvalidate=diluhd9900@gmail.com 404 10429 - 22.348 ms[39m
+2026-01-03 09:51:57:5157 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/bootstrap.min.css[39m
+2026-01-03 09:51:57:5157 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/newimages/logo.png[39m
+2026-01-03 09:51:57:5157 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/js/jquery.min.js[39m
+2026-01-03 09:51:57:5157 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/js/bootstrap.bundle.min.js[39m
+2026-01-03 09:51:57:5157 [35mhttp[39m: [35m::1 GET /register/assets/newimages/logo.png 404 10429 - 16.295 ms[39m
+2026-01-03 09:51:57:5157 [35mhttp[39m: [35m::1 GET /register/assets/js/jquery.min.js 404 10429 - 24.855 ms[39m
+2026-01-03 09:51:57:5157 [35mhttp[39m: [35m::1 GET /register/assets/js/bootstrap.bundle.min.js 404 10429 - 29.579 ms[39m
+2026-01-03 09:51:57:5157 [35mhttp[39m: [35m::1 GET /register/assets/css/bootstrap.min.css 404 10429 - 11.960 ms[39m
+2026-01-03 09:52:09:529 [33mwarn[39m: [33m404 - Page not found: GET /otpvalidate=diluhd9900@gmail.com[39m
+2026-01-03 09:52:09:529 [35mhttp[39m: [35m::1 GET /otpvalidate=diluhd9900@gmail.com 404 10429 - 5.627 ms[39m
+2026-01-03 09:52:12:5212 [33mwarn[39m: [33m404 - Page not found: GET /otpvalidate=diluhd9900@gmail.com[39m
+2026-01-03 09:52:12:5212 [35mhttp[39m: [35m::1 GET /otpvalidate=diluhd9900@gmail.com 404 10429 - 2.771 ms[39m
+2026-01-03 09:52:15:5215 [33mwarn[39m: [33m404 - Page not found: GET /register/otpvalidate=diluhd9900@gmail.com[39m
+2026-01-03 09:52:15:5215 [35mhttp[39m: [35m::1 GET /register/otpvalidate=diluhd9900@gmail.com 404 10429 - 2.702 ms[39m
+2026-01-03 09:52:15:5215 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/bootstrap.min.css[39m
+2026-01-03 09:52:15:5215 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/newimages/logo.png[39m
+2026-01-03 09:52:15:5215 [35mhttp[39m: [35m::1 GET /register/assets/css/bootstrap.min.css 404 10429 - 8.784 ms[39m
+2026-01-03 09:52:15:5215 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/js/jquery.min.js[39m
+2026-01-03 09:52:15:5215 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/js/bootstrap.bundle.min.js[39m
+2026-01-03 09:52:15:5215 [35mhttp[39m: [35m::1 GET /register/assets/newimages/logo.png 404 10429 - 12.479 ms[39m
+2026-01-03 09:52:15:5215 [35mhttp[39m: [35m::1 GET /register/assets/js/jquery.min.js 404 10429 - 19.493 ms[39m
+2026-01-03 09:52:15:5215 [35mhttp[39m: [35m::1 GET /register/assets/js/bootstrap.bundle.min.js 404 10429 - 17.315 ms[39m
+2026-01-03 09:52:16:5216 [33mwarn[39m: [33m404 - Page not found: GET /register/otp?id=diluhd9900@gmail.com[39m
+2026-01-03 09:52:16:5216 [35mhttp[39m: [35m::1 GET /register/otp?id=diluhd9900@gmail.com 404 10429 - 2.328 ms[39m
+2026-01-03 09:52:16:5216 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/css/bootstrap.min.css[39m
+2026-01-03 09:52:16:5216 [35mhttp[39m: [35m::1 GET /register/assets/css/bootstrap.min.css 404 10429 - 6.103 ms[39m
+2026-01-03 09:52:16:5216 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/newimages/logo.png[39m
+2026-01-03 09:52:16:5216 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/js/jquery.min.js[39m
+2026-01-03 09:52:16:5216 [33mwarn[39m: [33m404 - Page not found: GET /register/assets/js/bootstrap.bundle.min.js[39m
+2026-01-03 09:52:16:5216 [35mhttp[39m: [35m::1 GET /register/assets/newimages/logo.png 404 10429 - 15.289 ms[39m
+2026-01-03 09:52:16:5216 [35mhttp[39m: [35m::1 GET /register/assets/js/jquery.min.js 404 10429 - 8.029 ms[39m
+2026-01-03 09:52:16:5216 [35mhttp[39m: [35m::1 GET /register/assets/js/bootstrap.bundle.min.js 404 10429 - 14.429 ms[39m
+2026-01-03 09:52:17:5217 [35mhttp[39m: [35m::1 GET /login 200 22153 - 7.698 ms[39m
+2026-01-03 09:52:32:5232 [35mhttp[39m: [35m::1 POST /signup 200 69 - 5070.772 ms[39m
+2026-01-03 09:52:32:5232 [35mhttp[39m: [35m::1 GET /otpvalidate?id=diluhd9900@gmail.com 200 15323 - 28.007 ms[39m
+2026-01-03 10:03:45:345 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:04:24:424 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:04:36:436 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:04:43:443 [35mhttp[39m: [35m::1 GET /otpValidate?id=diluhd9900@gmail.com 200 15323 - 17.481 ms[39m
+2026-01-03 10:04:52:452 [35mhttp[39m: [35m::1 GET / 200 54358 - 70.875 ms[39m
+2026-01-03 10:04:55:455 [35mhttp[39m: [35m::1 GET /login 200 22153 - 8.701 ms[39m
+2026-01-03 10:05:20:520 [35mhttp[39m: [35m::1 POST /signup 200 62 - 3407.731 ms[39m
+2026-01-03 10:05:20:520 [35mhttp[39m: [35m::1 GET /otpvalidate?id=asa@gmail.com 200 15309 - 24.366 ms[39m
+2026-01-03 10:06:44:644 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:06:52:652 [35mhttp[39m: [35m::1 GET / 200 54358 - 64.115 ms[39m
+2026-01-03 10:06:55:655 [35mhttp[39m: [35m::1 GET /login 200 22153 - 8.230 ms[39m
+2026-01-03 10:07:12:712 [35mhttp[39m: [35m::1 POST /signup 200 62 - 3091.686 ms[39m
+2026-01-03 10:07:12:712 [35mhttp[39m: [35m::1 GET /otpvalidate?id=asa@gmail.com 200 15310 - 14.225 ms[39m
+2026-01-03 10:08:51:851 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 POST /resendotp 200 15404 - 2851.825 ms[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/css/bootstrap.min.css[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css 404 10429 - 12.646 ms[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/css/plugins/owl-carousel/owl.carousel.css[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/css/plugins/magnific-popup/magnific-popup.css[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/css/plugins/jquery.countdown.css[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/css/style.css[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/css/skins/skin-demo-4.css[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/css/bootstrap.min.css 404 10429 - 22.360 ms[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/css/demos/demo-4.css[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/css/skins/skin-demo-4.css 404 10429 - 28.886 ms[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/css/style.css 404 10429 - 25.607 ms[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/css/plugins/jquery.countdown.css 404 10429 - 19.928 ms[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/css/plugins/magnific-popup/magnific-popup.css 404 10429 - 17.596 ms[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/css/plugins/owl-carousel/owl.carousel.css 404 10429 - 13.695 ms[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/newimages/logo.png[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/css/demos/demo-4.css 404 10429 - 10.508 ms[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/newimages/logo.png 404 10429 - 8.154 ms[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/newimages/logo.png[39m
+2026-01-03 10:08:58:858 [33mwarn[39m: [33m404 - Page not found: GET /otp/assets/images/icons/site.html[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/newimages/logo.png 404 10429 - 3.225 ms[39m
+2026-01-03 10:08:58:858 [35mhttp[39m: [35m::1 GET /otp/assets/images/icons/site.html 404 10429 - 7.664 ms[39m
+2026-01-03 10:11:19:1119 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:12:01:121 [35mhttp[39m: [35m::1 GET /otpvalidate?id=asa@gmail.com 200 15309 - 16.781 ms[39m
+2026-01-03 10:15:31:1531 [35mhttp[39m: [35m::1 POST /resendotp 200 15403 - 3486.637 ms[39m
+2026-01-03 10:15:47:1547 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:16:15:1615 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:16:22:1622 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:16:28:1628 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:16:35:1635 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:17:22:1722 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:17:32:1732 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:17:37:1737 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:17:48:1748 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:17:58:1758 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:18:07:187 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:19:45:1945 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:19:54:1954 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:20:11:2011 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:20:23:2023 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:20:43:2043 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:20:52:2052 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:21:05:215 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:21:22:2122 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:21:29:2129 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:21:33:2133 [35mhttp[39m: [35m::1 GET / 200 54359 - 69.769 ms[39m
+2026-01-03 10:21:40:2140 [35mhttp[39m: [35m::1 POST /signin 200 16 - 87.258 ms[39m
+2026-01-03 10:21:41:2141 [35mhttp[39m: [35m::1 GET /home 200 57896 - 48.874 ms[39m
+2026-01-03 10:21:45:2145 [35mhttp[39m: [35m::1 GET /login 200 22154 - 8.615 ms[39m
+2026-01-03 10:21:59:2159 [32minfo[39m: [32mServer started successfully on port 3000[39m
+2026-01-03 10:22:01:221 [35mhttp[39m: [35m::1 GET /login 200 22154 - 19.484 ms[39m
+2026-01-03 10:22:05:225 [35mhttp[39m: [35m::1 GET /home 302 56 - 17.495 ms[39m
+2026-01-03 10:22:05:225 [35mhttp[39m: [35m::1 GET /login 200 22154 - 3.795 ms[39m
+2026-01-03 10:22:06:226 [35mhttp[39m: [35m::1 GET / 200 54359 - 59.119 ms[39m
+2026-01-03 10:22:15:2215 [35mhttp[39m: [35m::1 POST /signin 200 16 - 88.993 ms[39m
+2026-01-03 10:22:16:2216 [35mhttp[39m: [35m::1 GET /home 200 57896 - 51.402 ms[39m
+2026-01-03 10:22:20:2220 [35mhttp[39m: [35m::1 GET /login 302 54 - 9.412 ms[39m
+2026-01-03 10:22:20:2220 [35mhttp[39m: [35m::1 GET /home 200 57896 - 38.156 ms[39m
+2026-01-03 10:22:32:2232 [35mhttp[39m: [35m::1 GET /login 302 54 - 3.324 ms[39m
+2026-01-03 10:22:32:2232 [35mhttp[39m: [35m::1 GET /home 200 57896 - 38.150 ms[39m
+2026-01-03 10:33:16:3316 [35mhttp[39m: [35m::1 GET /home 200 57911 - 36.327 ms[39m

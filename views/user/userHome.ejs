@@ -997,7 +997,7 @@
               <p class="main-error text-danger" style="font-size: 14px; margin-bottom: 15px;"></p>
 
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <a href="/forgotPassword" style="color: #111827; font-size: 13px; text-decoration: none; font-weight: 600;">
+                <a href="/forgot-password" style="color: #111827; font-size: 13px; text-decoration: none; font-weight: 600;">
                   Forgot Password?
                 </a>
               </div>
@@ -1369,7 +1369,7 @@
           timer: 1500,
           showConfirmButton: false
         }).then(() => {
-          window.location.href = message.redirectUrl || '/otpValidate';
+          window.location.href = message.redirectUrl || '/otpvalidate';
         });
       } else {
         signupError.innerText = message.message || 'An error occurred during registration';

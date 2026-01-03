@@ -236,7 +236,7 @@
       Enter the 6-digit verification code sent to your email address.
     </p>
 
-    <form id="otp-form" action="/otpValidate" method="POST">
+    <form id="otp-form" action="/otpvalidate" method="POST">
       <label class="otp-label">Enter 6-digit code</label>
       
       <div class="otp-inputs">
@@ -263,7 +263,7 @@
     <div class="resend-section">
       <p class="resend-text">Didn't receive the code?</p>
       <div class="timer-display" id="timerDisplay">Resend OTP in 60s</div>
-      <form action="/resendOtp" method="POST" style="display: inline;">
+      <form action="/resendotp" method="POST" style="display: inline;">
         <input type="hidden" name="email" value="<%= email %>">
         <button type="submit" id="resendBtn" class="btn-resend" disabled>
           Resend OTP
