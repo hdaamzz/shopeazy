@@ -254,7 +254,7 @@
 <nav class="top-nav-bar">
   <div class="top-nav-container">
     <a href="/" class="nav-logo">
-      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+      <img src="/assets/newimages/logo.png" alt="shopEazy Logo">
     </a>
 
     <div class="nav-icons">
@@ -390,7 +390,7 @@
                 <i class="icon-heart-o"></i>
               </button>
             <% } else { %>
-              <a href="/login" class="btn-add-cart" style="text-decoration: none; text-align: center;">
+              <a href="/auth/login" class="btn-add-cart" style="text-decoration: none; text-align: center;">
                 Login to Purchase
               </a>
             <% } %>
@@ -398,7 +398,7 @@
         <% } %>
 
         <div class="product-meta">
-          <p><strong>Category:</strong> <a href="/productCategories?id=<%= productData.category._id %>"><%= productData.category.category_name %></a></p>
+          <p><strong>Category:</strong> <a href="/shop/product/categories?id=<%= productData.category._id %>"><%= productData.category.category_name %></a></p>
         </div>
       </div>
     </div>
@@ -422,7 +422,7 @@
       const quantity = document.getElementById('qty').value;
 
       try {
-        const response = await fetch('/addCartItem', {
+        const response = await fetch('/cart/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ productId, quantity, userId })
@@ -464,7 +464,7 @@
       const userId = this.getAttribute('data-user-id');
 
       try {
-        const response = await fetch('/addWishlistItem', {
+        const response = await fetch('/wishlist/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ productId, userId })

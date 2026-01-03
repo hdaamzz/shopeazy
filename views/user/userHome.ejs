@@ -668,11 +668,11 @@
 <nav class="top-nav-bar">
   <div class="top-nav-container">
     <a href="/" class="nav-logo">
-      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+      <img src="/assets/newimages/logo.png" alt="shopEazy Logo">
     </a>
 
     <div class="nav-center">
-      <form action="/search-results" method="GET" class="search-form">
+      <form action="/shop/product/search" method="GET" class="search-form">
         <input type="text" name="q" class="search-input" placeholder="Search products..." required>
         <button type="submit" class="search-btn">
           <i class="icon-search"></i>
@@ -695,7 +695,7 @@
         <span class="nav-icon-label">Wishlist</span>
       </a>
 
-      <a href="<%= cartItems ? '/cart' : '/nonUserCart' %>" class="nav-icon-item">
+      <a href="<%= cartItems ? '/cart' : '/cart/empty' %>" class="nav-icon-item">
         <div class="nav-icon-wrapper">
           <i class="icon-shopping-cart"></i>
           <% if (cartItems && cartItems.length > 0) { %>
@@ -737,7 +737,7 @@
   <h2 class="section-title">Shop by Category</h2>
   <div class="categories-grid">
     <% (category || []).forEach(c => { %>
-      <a href="/productCategories?id=<%= c._id %>" class="category-card">
+      <a href="/shop/product/categories?id=<%= c._id %>" class="category-card">
         <i class="icon-tag"></i>
         <div class="category-name"><%= c.category_name %></div>
       </a>
@@ -785,7 +785,7 @@
     %>
       <div class="product-card">
         <div class="product-image-wrapper">
-          <a href="/showProduct?id=<%= p._id %>">
+          <a href="/shop/product?id=<%= p._id %>">
             <img src="/uploads/<%= p.images[0] %>" alt="<%= p.product_name %>" class="product-image">
           </a>
 
@@ -814,7 +814,7 @@
 
         <div class="product-info">
           <h3 class="product-name">
-            <a href="/showProduct?id=<%= p._id %>"><%= p.product_name %></a>
+            <a href="/shop/product?id=<%= p._id %>"><%= p.product_name %></a>
           </h3>
           <div class="product-price">
             <% if (hasDiscount) { %>
@@ -997,7 +997,7 @@
               <p class="main-error text-danger" style="font-size: 14px; margin-bottom: 15px;"></p>
 
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <a href="/forgot-password" style="color: #111827; font-size: 13px; text-decoration: none; font-weight: 600;">
+                <a href="/auth/password/forgot" style="color: #111827; font-size: 13px; text-decoration: none; font-weight: 600;">
                   Forgot Password?
                 </a>
               </div>
@@ -1097,10 +1097,10 @@
 </div>
 
 <!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/owl.carousel.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/owl.carousel.min.js"></script>
+<script src="/assets/js/main.js"></script>
 
 <script>
   // Wishlist functionality
@@ -1110,7 +1110,7 @@
       const userId = this.getAttribute('data-user-id');
 
       try {
-        const res = await fetch('/addWishlistItem', {
+        const res = await fetch('/wishlist/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ productId, userId })
@@ -1144,7 +1144,7 @@
       const userId = this.getAttribute('data-user-id');
 
       try {
-        const res = await fetch('/addCartItem', {
+        const res = await fetch('/cart/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ productId, quantity: 1, userId })
@@ -1226,7 +1226,7 @@
     submitBtn.innerText = 'Signing in...';
 
     try {
-      const response = await fetch('/signin', {
+      const response = await fetch('/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailVal, password: passVal })
@@ -1348,7 +1348,7 @@
     submitBtn.innerText = 'Creating Account...';
 
     try {
-      const response = await fetch('/signup', {
+      const response = await fetch('/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -1369,7 +1369,7 @@
           timer: 1500,
           showConfirmButton: false
         }).then(() => {
-          window.location.href = message.redirectUrl || '/otpvalidate';
+          window.location.href = message.redirectUrl || '/auth/register/otp';
         });
       } else {
         signupError.innerText = message.message || 'An error occurred during registration';

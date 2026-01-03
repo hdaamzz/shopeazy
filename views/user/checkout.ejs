@@ -662,7 +662,7 @@
 <nav class="top-nav-bar">
   <div class="top-nav-container">
     <a href="/" class="nav-logo">
-      <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+      <img src="/assets/newimages/logo.png" alt="shopEazy Logo">
     </a>
 
     <div class="nav-icons">
@@ -780,7 +780,7 @@
             <% cartData.forEach(item => { %>
               <div class="summary-product">
                 <div class="product-info">
-                  <a href="/showProduct?id=<%= item.product_id._id %>" class="product-link">
+                  <a href="/shop/product?id=<%= item.product_id._id %>" class="product-link">
                     <%= item.product_id.product_name %>
                   </a>
                   <span class="product-quantity">Qty: <%= item.quantity %></span>
@@ -1038,7 +1038,7 @@
       const total_amount = totalAmount;
 
       try {
-        const response = await fetch('/placeOrder', {
+        const response = await fetch('/order/place', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1084,7 +1084,7 @@
               confirmButtonColor: '#111827'
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location.href = `/orderSummary?id=${data.orderId}`;
+                window.location.href = `/order/summary?id=${data.orderId}`;
               }
             });
           }
@@ -1111,7 +1111,7 @@
 
     async function handlePaymentResponse(response, orderId) {
       try {
-        const result = await fetch('/verifyPayment', {
+        const result = await fetch('/order/payment/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1138,7 +1138,7 @@
             confirmButtonColor: '#111827'
           }).then((result) => {
             if (result.isConfirmed) {
-              window.location.href = `/orderSummary?id=${orderId}`;
+              window.location.href = `/order/summary?id=${orderId}`;
             }
           });
         } else {
@@ -1155,7 +1155,7 @@
             confirmButtonColor: '#111827'
           }).then((result) => {
             if (result.isConfirmed) {
-              window.location.href = `/orderSummary?id=${orderId}`;
+              window.location.href = `/order/summary?id=${orderId}`;
             }
           });
         }
@@ -1173,7 +1173,7 @@
 
     async function handlePaymentFailure(response, orderId) {
       try {
-        const result = await fetch('/payment-failed', {
+        const result = await fetch('/order/payment/failed', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1192,7 +1192,7 @@
           confirmButtonColor: '#111827'
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = `/orderSummary?id=${orderId}`;
+            window.location.href = `/order/summary?id=${orderId}`;
           }
         });
       } catch (error) {
@@ -1249,7 +1249,7 @@
 
       const subtotal = parseFloat('<%= subtotal %>');
 
-      fetch('/applyCoupon', {
+      fetch('/checkout/coupon/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ couponCode, subtotal })
@@ -1281,7 +1281,7 @@
       
       const subtotal = parseFloat('<%= subtotal %>');
 
-      fetch('/removeCoupon', {
+      fetch('/checkout/coupon/remove', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subtotal })
@@ -1422,7 +1422,7 @@
       if (!isValid) return;
 
       try {
-        const response = await fetch('/addAddress', {
+        const response = await fetch('/dashboard/address/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1595,7 +1595,7 @@
       if (!isValid) return;
 
       try {
-        const response = await fetch('/updateAddress', {
+        const response = await fetch('/dashboard/address/update', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1638,8 +1638,8 @@
   });
 </script>
 
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/main.js"></script>
 
 <%- include('../layouts/footer.ejs') %>

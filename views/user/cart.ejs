@@ -463,7 +463,7 @@
   <nav class="top-nav-bar">
     <div class="top-nav-container">
       <a href="/" class="nav-logo">
-        <img src="assets/newimages/logo.png" alt="shopEazy Logo">
+        <img src="/assets/newimages/logo.png" alt="shopEazy Logo">
       </a>
 
       <div class="nav-icons">
@@ -521,13 +521,13 @@
 
           <% cartItems.forEach(item=> { %>
             <div class="cart-item">
-              <a href="/showProduct?id=<%= item.product_id._id %>">
+              <a href="/shop/product?id=<%= item.product_id._id %>">
                 <img src="/uploads/<%= item.product_id.images[0] %>" alt="<%= item.product_id.product_name %>"
                   class="product-image">
               </a>
 
               <div class="product-details">
-                <a href="/showProduct?id=<%= item.product_id._id %>" class="product-name">
+                <a href="/shop/product?id=<%= item.product_id._id %>" class="product-name">
                   <%= item.product_id.product_name %>
                 </a>
 
@@ -687,7 +687,7 @@
         const newQuantity = this.value;
         const row = this.closest('.cart-item');
 
-        fetch('/update-cart-quantity', {
+        fetch('/cart/update', {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ cartItemId, quantity: newQuantity })
@@ -753,7 +753,7 @@
           cancelButtonText: 'Cancel'
         }).then((result) => {
           if (result.isConfirmed) {
-            fetch('/remove-from-cart', {
+            fetch('/cart/remove', {
               method: 'DELETE',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ cartItemId })

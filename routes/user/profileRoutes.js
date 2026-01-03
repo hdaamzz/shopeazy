@@ -8,11 +8,11 @@ const auth = require('../../middleware/userAuth');
 
 router.get('/dashboard', auth.isLogin, dashboardController.loadDashboard);
 
-router.post('/addAddress', auth.isLogin, addressController.addUserAddress);
-router.put('/updateAddress', auth.isLogin, addressController.updateUserAddress);
-router.delete('/deleteAddress', auth.isLogin, addressController.deleteAddress);
+router.post('/dashboard/address/add', auth.isLogin, addressController.addUserAddress);
+router.put('/dashboard/address/update', auth.isLogin, addressController.updateUserAddress);
+router.delete('/dashboard/address/delete', auth.isLogin, addressController.deleteAddress);
 
-router.put('/updateUser', auth.isLogin, profileController.updateUserData);
+router.put('/dashboard/user/update', auth.isLogin, profileController.updateUserData);
 
 router.get('/wallet', auth.isLogin, walletController.loadWallet);
 router.post('/wallet/withdraw', auth.isLogin, walletController.withdrawFunds);

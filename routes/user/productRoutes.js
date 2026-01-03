@@ -4,10 +4,10 @@ const productController = require('../../controllers/user/product/productControl
 const searchFilterController = require('../../controllers/user/product/searchFilterController');
 
 router.get('/shop', productController.loadShop);
-router.get('/productCategories', productController.loadProductCategory);
-router.get('/showProduct', productController.loadShowProduct);
+router.get('/shop/product/categories', productController.loadProductCategory);
+router.get('/shop/product', productController.loadShowProduct);
 
-router.get('/search-results', searchFilterController.searchResults);
-router.get('/serch', searchFilterController.shopFilter);
+router.get('/shop/product/search', searchFilterController.searchResults);
+router.get('/shop/search', searchFilterController.shopFilter);
 
 module.exports = router;
