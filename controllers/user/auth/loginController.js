@@ -74,21 +74,27 @@ const forgotPassword = async (req, res) => {
     });
 
     const mailOptions = {
-      to: user.email_address,
       from: process.env.SUPER_EMAIL,
+      to: email,
       subject: 'Password Reset',
       text:
         `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
         `Please click on the following link, or paste this into your browser to complete the process:\n\n` +
-        `http://${req.headers.host}/auth/password/reset?token=${resetToken}\n\n` +
+        `https://${req.headers.host}/auth/password/reset?token=${resetToken}\n\n` +
         `If you did not request this, please ignore this email and your password will remain unchanged.\n`
     };
 
-    await transporter.sendMail(mailOptions);
-
-    res
+    transporter.sendMail(mailOptions,(error)=>{
+      if (error) {
+        console.error('Error details:', error);
+        return res
+          .status(HTTP_STATUS.SERVER_ERROR)
+          .json({ success: false, message: 'Error sending email', error: error.message });
+      }
+      res
       .status(HTTP_STATUS.OK)
       .json({ success: true, msg: 'Reset password link sent to your email' });
+    });
   } catch (error) {
     console.error('Error in forgot password', error.message);
     res
