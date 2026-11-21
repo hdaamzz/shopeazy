@@ -5,6 +5,6 @@ const auth = require('../../middleware/userAuth');
 
 
 router.get('/auth/google', auth.isLogout, signupController.googleAuth);
-router.get('/auth/google/callback', auth.isLogout, signupController.googleAuthCallback);
+router.get('/auth/google/callback', signupController.googleAuthCallback);
 
 module.exports = router;
