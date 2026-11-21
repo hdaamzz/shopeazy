@@ -563,3 +563,46 @@
 2026-01-03 13:04:19:419 [35mhttp[39m: [35m::1 GET /dashboard 200 95681 - 39.342 ms[39m
 2026-01-03 13:04:34:434 [35mhttp[39m: [35m::1 GET /auth/logout 302 46 - 7.846 ms[39m
 2026-01-03 13:04:34:434 [35mhttp[39m: [35m::1 GET / 200 54421 - 31.820 ms[39m
+2026-11-21 10:00:36:036 [33mwarn[39m: [33m404 - Page not found: GET /robots.txt[39m
+2026-11-21 10:00:54:054 [33mwarn[39m: [33m404 - Page not found: GET /favicon.ico[39m
+2026-11-21 10:17:43:1743 [33mwarn[39m: [33m404 - Page not found: GET /products.json?limit=1[39m
+2026-11-21 10:17:50:1750 [33mwarn[39m: [33m404 - Page not found: GET /console/[39m
+2026-11-21 10:17:51:1751 [33mwarn[39m: [33m404 - Page not found: GET /server[39m
+2026-11-21 10:17:52:1752 [33mwarn[39m: [33m404 - Page not found: GET /server-status[39m
+2026-11-21 10:17:54:1754 [33mwarn[39m: [33m404 - Page not found: GET /about[39m
+2026-11-21 10:17:55:1755 [33mwarn[39m: [33m404 - Page not found: GET /login.action[39m
+2026-11-21 10:17:56:1756 [33mwarn[39m: [33m404 - Page not found: GET /___proxy_subdomain_whm/login[39m
+2026-11-21 10:17:57:1757 [33mwarn[39m: [33m404 - Page not found: GET /___proxy_subdomain_cpanel[39m
+2026-11-21 10:17:57:1757 [33mwarn[39m: [33m404 - Page not found: GET /v2/_catalog[39m
+2026-11-21 10:17:58:1758 [33mwarn[39m: [33m404 - Page not found: GET /.DS_Store[39m
+2026-11-21 10:17:59:1759 [33mwarn[39m: [33m404 - Page not found: GET /.env[39m
+2026-11-21 10:18:01:181 [33mwarn[39m: [33m404 - Page not found: GET /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application[39m
+2026-11-21 10:18:03:183 [33mwarn[39m: [33m404 - Page not found: GET /.git/config[39m
+2026-11-21 10:18:04:184 [33mwarn[39m: [33m404 - Page not found: POST /graphql[39m
+2026-11-21 10:18:05:185 [33mwarn[39m: [33m404 - Page not found: POST /api[39m
+2026-11-21 10:18:05:185 [33mwarn[39m: [33m404 - Page not found: POST /api/graphql[39m
+2026-11-21 10:18:06:186 [33mwarn[39m: [33m404 - Page not found: POST /graphql/api[39m
+2026-11-21 10:18:06:186 [33mwarn[39m: [33m404 - Page not found: POST /api/gql[39m
+2026-11-21 10:18:06:186 [33mwarn[39m: [33m404 - Page not found: GET /s/5313e2835313e20363e28313/_/;/META-INF/maven/com.atlassian.jira/jira-webapp-dist/pom.properties[39m
+2026-11-21 10:18:07:187 [33mwarn[39m: [33m404 - Page not found: GET /config.json[39m
+2026-11-21 10:18:09:189 [33mwarn[39m: [33m404 - Page not found: GET /telescope/requests[39m
+2026-11-21 10:18:10:1810 [33mwarn[39m: [33m404 - Page not found: POST /php-cgi/php-cgi.exe?%ADd+cgi.force_redirect%3D0+%ADd+disable_functions%3D""+%ADd+allow_url_include%3D1+%ADd+auto_prepend_file%3Dphp://input[39m
+2026-11-21 10:18:11:1811 [33mwarn[39m: [33m404 - Page not found: GET /info.php[39m
+2026-11-21 10:18:12:1812 [33mwarn[39m: [33m404 - Page not found: GET /.well-known/security.txt[39m
+2026-11-21 10:18:13:1813 [33mwarn[39m: [33m404 - Page not found: GET /actuator/env[39m
+2026-11-21 10:18:14:1814 [33mwarn[39m: [33m404 - Page not found: GET /trace.axd[39m
+2026-11-21 10:18:15:1815 [33mwarn[39m: [33m404 - Page not found: GET /@vite/env[39m
+2026-11-21 10:18:16:1816 [33mwarn[39m: [33m404 - Page not found: GET /.vscode/sftp.json[39m
+2026-11-21 10:18:19:1819 [33mwarn[39m: [33m404 - Page not found: GET /debug/default/view?panel=config[39m
+2026-11-21 10:18:50:1850 [33mwarn[39m: [33m404 - Page not found: GET /.env[39m
+2026-11-21 10:18:50:1850 [33mwarn[39m: [33m404 - Page not found: GET /.env.local[39m
+2026-11-21 10:18:50:1850 [33mwarn[39m: [33m404 - Page not found: GET /.git/config[39m
+2026-11-21 10:18:52:1852 [33mwarn[39m: [33m404 - Page not found: GET /@vite/env[39m
+2026-11-21 10:18:52:1852 [33mwarn[39m: [33m404 - Page not found: GET /.vscode/sftp.json[39m
+2026-11-21 10:18:53:1853 [33mwarn[39m: [33m404 - Page not found: GET /.env[39m
+2026-11-21 10:18:53:1853 [33mwarn[39m: [33m404 - Page not found: GET /.git/config[39m
+2026-11-21 10:19:33:1933 [33mwarn[39m: [33m404 - Page not found: GET /robots.txt[39m
+2026-11-21 10:20:25:2025 [33mwarn[39m: [33m404 - Page not found: GET /.env[39m
+2026-11-21 10:20:26:2026 [33mwarn[39m: [33m404 - Page not found: GET /.env.local[39m
+2026-11-21 10:20:26:2026 [33mwarn[39m: [33m404 - Page not found: GET /.git/config[39m
+2026-11-21 10:20:58:2058 [33mwarn[39m: [33m404 - Page not found: GET /robots.txt[39m
